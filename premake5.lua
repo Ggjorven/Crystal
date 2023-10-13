@@ -19,8 +19,10 @@ workspace "Crystal"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 group "Additional Dependencies"
+	include "vendor/GLEW"
 	include "vendor/GLFW"
 	include "vendor/ImGui"
+	include "vendor/spdlog"
 group ""
 
 group "Crystal"

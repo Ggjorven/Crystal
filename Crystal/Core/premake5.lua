@@ -8,26 +8,31 @@ project "Core"
 	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
 	pchheader "crpch.h"
-	pchsource "src/crpch.cpp"
+	pchsource "src/Crystal/crpch.cpp"
 
 	files
 	{
 		"src/**.h",
 		"src/**.hpp",
 		"src/**.cpp",
+		"%{wks.location}/vendor/stb_image/src/stb_image.cpp"
 	}
 
 	defines
 	{
 		"_CRT_SECURE_NO_WARNINGS",
-		"GLFW_INCLUDE_NONE"
+		"GLFW_INCLUDE_NONE",
+		"GLEW_STATIC"
 	}
 
 	includedirs
 	{
 		"src",
+		"src/Crystal",
+		"%{IncludeDir.GLEW}",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.VulkanSDK}"
@@ -36,8 +41,11 @@ project "Core"
 	links
 	{
 		"opengl32.lib",
+		"%{Library.Vulkan}",
+		"GLEW",
 		"GLFW",
-		"ImGui"
+		"ImGui",
+		"spdlog"
 	}
 
 	filter "system:windows"
@@ -45,6 +53,8 @@ project "Core"
 
 		defines
 		{
+			"CR_PLATFORM_WINDOWS",
+			"GLEW_STATIC"
 		}
 
 	filter "configurations:Debug"

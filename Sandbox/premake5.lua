@@ -19,8 +19,10 @@ project "Sandbox"
 		"%{wks.location}/Crystal/Core/src",
 		"%{wks.location}vendor",
 
+		"%{IncludeDir.GLEW}",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.VulkanSDK}"
@@ -33,6 +35,13 @@ project "Sandbox"
 
 	filter "system:windows"
 		systemversion "latest"
+
+		defines
+		{
+			"CR_PLATFORM_WINDOWS",
+			"GLFW_INCLUDE_NONE",
+			"GLEW_STATIC"
+		}
 
 	filter "configurations:Debug"
 		defines "CR_DEBUG"

@@ -24,6 +24,7 @@ namespace Crystal
 		virtual void OnEvent(Event& e) {}
 
 		inline const std::string& GetName() { return m_DebugName; }
+
 	protected:
 		std::string m_DebugName;
 	};

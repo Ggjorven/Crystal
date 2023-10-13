@@ -132,9 +132,6 @@
     <ClInclude Include="src\Crystal\Renderer\OrthoGraphicCamera.hpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Crystal\Renderer\OrthoGraphicCameraController.hpp">
-      <Filter>src\Crystal\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="src\Crystal\Renderer\Renderer.hpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClInclude>
@@ -159,6 +156,7 @@
     <ClInclude Include="src\Crystal\crpch.h">
       <Filter>src\Crystal</Filter>
     </ClInclude>
+    <ClInclude Include="src\Crystal\Examples\Camera2D.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\vendor\stb_image\src\stb_image.cpp">
@@ -221,9 +219,6 @@
     <ClCompile Include="src\Crystal\Renderer\OrthoGraphicCamera.cpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Crystal\Renderer\OrthoGraphicCameraController.cpp">
-      <Filter>src\Crystal\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="src\Crystal\Renderer\Renderer.cpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClCompile>
@@ -248,5 +243,6 @@
     <ClCompile Include="src\Crystal\crpch.cpp">
       <Filter>src\Crystal</Filter>
     </ClCompile>
+    <ClCompile Include="src\Crystal\Examples\Camera2D.cpp" />
   </ItemGroup>
 </Project>

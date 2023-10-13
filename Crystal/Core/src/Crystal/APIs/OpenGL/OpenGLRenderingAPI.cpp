@@ -6,8 +6,7 @@ namespace Crystal
 
 	static void APIENTRY ErrorCallBack(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 	{
-		CR_CORE_ERROR("[OpenGL]: type: {0}, id: {1}, severity: {2}, message: {3}", type, id, severity, message); //TODO, might need to change this up a bit, but works for now
-		CR_CORE_ASSERT(false, "^OPENGL ERROR^");
+		CR_CORE_ASSERT(false, "[OpenGL]: type: {0}, id: {1}, severity: {2}, message: {3}", type, id, severity, message);
 	}
 
 	void OpenGLRenderingAPI::Init()

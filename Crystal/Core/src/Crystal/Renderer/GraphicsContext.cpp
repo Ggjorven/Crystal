@@ -13,10 +13,11 @@ namespace Crystal
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RenderingAPI::API::None: CR_CORE_CRITICAL("Rendering API: None is not allowed {0} {1}", __FILE__, __LINE__);
+		case RenderingAPI::API::None: CR_CORE_ASSERT(false, "RenderingAPI::None is currently not supported!"); return nullptr;
 		case RenderingAPI::API::OpenGL: return CreateScope<OpenGLContext>(static_cast<GLFWwindow*>(window));
 		}
 
+		CR_CORE_ASSERT(false, "Unknown RenderingAPI!");
 		return nullptr;
 	}
 }

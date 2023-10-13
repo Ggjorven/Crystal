@@ -32,6 +32,7 @@ namespace Crystal
 		GLuint Compile(GLenum type, const std::string& data);
 
 		GLint GetUniformLocation(const std::string& name);
+
 	private:
 		uint32_t m_RendererID;
 		std::string m_Name;
@@ -47,8 +48,6 @@ namespace Crystal
 		virtual ~OpenGLShaderLib() = default;
 
 		ShaderSource GetShaderSourceImplementation(ShaderLib::Type type) override;
-
-	private:
 	};
 
 }

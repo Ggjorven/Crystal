@@ -12,7 +12,7 @@
 #include <GLFW/glfw3.h>
 #include <GL/glew.h>
 
-#include <vulkan/vulkan.hpp> //Has to be used still
+#include <vulkan/vulkan.hpp> //TODO to be used
 
 namespace Crystal
 {
@@ -21,7 +21,7 @@ namespace Crystal
 
 
 	BaseImGuiLayer::BaseImGuiLayer()
-		//: Layer("BaseImGuiLayer")
+		: Layer("BaseImGuiLayer")
 	{
 	}
 

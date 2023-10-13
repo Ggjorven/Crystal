@@ -10,13 +10,11 @@ namespace Crystal
 		: m_Name(name), m_RendererID(0)
 	{
 		m_RendererID = Create(vertexSource, fragmentSource);
-		//EX_CORE_WARN("OpenGLShader m_RendererID: {0}", m_RendererID);
 	}
 
 	void OpenGLShader::Bind() const
 	{
 		glUseProgram(m_RendererID);
-		//EX_CORE_WARN("OpenGLShader bound.");
 	}
 
 	void OpenGLShader::UnBind() const
@@ -26,8 +24,6 @@ namespace Crystal
 
 	void OpenGLShader::SetUniformInt1(const std::string& name, int value)
 	{
-		//TODO uniform setting
-
 		GLint location = GetUniformLocation(name);
 		glUniform1i(location, value);
 	}
@@ -38,16 +34,13 @@ namespace Crystal
 
 	void OpenGLShader::SetUniformFloat4(const std::string& name, const glm::vec4& value)
 	{
-		//Bind();
-
 		GLint location = GetUniformLocation(name);
-		glUniform4f(location, value.r, value.g, value.b, value.a); //GL_INVALID_OPERATION without Bind()?
+		glUniform4f(location, value.r, value.g, value.b, value.a);
 	}
 
 	void OpenGLShader::SetUniformMat4(const std::string& name, const glm::mat4& value)
 	{
 		GLint location = GetUniformLocation(name);
-		//glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 	}
 

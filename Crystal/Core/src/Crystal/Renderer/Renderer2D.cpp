@@ -11,6 +11,8 @@
 
 namespace Crystal
 {
+	glm::vec2 Renderer2D::s_Origin = glm::vec2(0.0f, 0.0f);
+
 	struct Renderer2DStorage
 	{
 	public:
@@ -74,10 +76,6 @@ namespace Crystal
 		delete s_QuadData;
 	}
 
-	void Renderer2D::EndScene()
-	{
-	}
-
 	//================
 	//Coloured Quads
 	//================
@@ -88,11 +86,8 @@ namespace Crystal
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<OrthoGraphicCamera>& camera, const glm::vec4& color)
 	{
-		//TODO make it proper pixel space
-		float aspectRatio = (float)Application::Get().GetWindow().GetWidth() / (float)Application::Get().GetWindow().GetHeight();
-
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x / aspectRatio / 400.0f, position.y / aspectRatio / 400.0f, position.z  })
-			* glm::scale(glm::mat4(1.0f), { size.x / aspectRatio / 400.0f, size.y / aspectRatio / 400.0f, 1.0f });
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x + s_Origin.x, position.y + s_Origin.y, position.z  })
+			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
 		s_QuadData->TextureShader->SetUniformMat4("u_Transform", transform);
 
@@ -115,11 +110,9 @@ namespace Crystal
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<OrthoGraphicCamera>& camera, const glm::vec4& color)
 	{
 		//TODO make it proper pixel space
-		float aspectRatio = (float)Application::Get().GetWindow().GetWidth() / (float)Application::Get().GetWindow().GetHeight();
-
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x / aspectRatio / 400.0f, position.y / aspectRatio / 400.0f, position.z })
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x + s_Origin.x, position.y + s_Origin.y, position.z })
 			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
-			* glm::scale(glm::mat4(1.0f), { size.x / aspectRatio / 400.0f, size.y / aspectRatio / 400.0f, 1.0f });
+			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
 		s_QuadData->TextureShader->SetUniformMat4("u_Transform", transform);
 
@@ -128,8 +121,8 @@ namespace Crystal
 
 		s_QuadData->TextureShader->SetUniformFloat4("u_Colour", color);
 
-		s_QuadData->WhiteTexture->Bind();
 
+		s_QuadData->WhiteTexture->Bind();
 		RendererCommand::DrawIndexed(s_QuadData->QuadVertexArray, s_QuadData->TextureShader);
 	}
 
@@ -143,11 +136,8 @@ namespace Crystal
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, const Ref<OrthoGraphicCamera>& camera)
 	{
-		//TODO make it proper pixel space
-		float aspectRatio = (float)Application::Get().GetWindow().GetWidth() / (float)Application::Get().GetWindow().GetHeight();
-
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x / aspectRatio / 400.0f, position.y / aspectRatio / 400.0f, position.z })
-			* glm::scale(glm::mat4(1.0f), { size.x / aspectRatio / 400.0f, size.y / aspectRatio / 400.0f, 1.0f });
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x + s_Origin.x, position.y + s_Origin.y, position.z })
+			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
 		s_QuadData->TextureShader->SetUniformMat4("u_Transform", transform);
 
@@ -156,8 +146,8 @@ namespace Crystal
 
 		s_QuadData->TextureShader->SetUniformFloat4("u_Colour", glm::vec4(1.0f));
 
-		texture->Bind();
 
+		texture->Bind();
 		RendererCommand::DrawIndexed(s_QuadData->QuadVertexArray, s_QuadData->TextureShader);
 	}
 
@@ -169,12 +159,9 @@ namespace Crystal
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, const Ref<OrthoGraphicCamera>& camera, const glm::vec4& color)
 	{
-		//TODO make it proper pixel space
-		float aspectRatio = (float)Application::Get().GetWindow().GetWidth() / (float)Application::Get().GetWindow().GetHeight();
-
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x / aspectRatio / 400.0f, position.y / aspectRatio / 400.0f, position.z})
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x + s_Origin.x, position.y + s_Origin.y, position.z})
 			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
-			* glm::scale(glm::mat4(1.0f), { size.x / aspectRatio / 400.0f, size.y / aspectRatio / 400.0f, 1.0f}); //Size into pixel space TODO
+			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f});
 
 		s_QuadData->TextureShader->SetUniformMat4("u_Transform", transform);
 
@@ -183,8 +170,8 @@ namespace Crystal
 
 		s_QuadData->TextureShader->SetUniformFloat4("u_Colour", color);
 
-		texture->Bind();
 
+		texture->Bind();
 		RendererCommand::DrawIndexed(s_QuadData->QuadVertexArray, s_QuadData->TextureShader);
 	}
 

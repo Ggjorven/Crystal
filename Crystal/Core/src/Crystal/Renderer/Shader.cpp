@@ -56,11 +56,11 @@ namespace Crystal
 		CR_CORE_ASSERT(false, "This overload of the Shader::Create function is not supported at the moment")
 		switch (Renderer::GetAPI())
 		{
-		case RenderingAPI::API::None: CR_CORE_ASSERT(false, "RenderingAPI::API::None not supported."); break;
+		case RenderingAPI::API::None: CR_CORE_ASSERT(false, "RenderingAPI::None is currently not supported!"); return nullptr;
 		//case RenderingAPI::API::OpenGL: CreateScope<OpenGLShader>(filepath);
 		}
 
-		CR_CORE_ASSERT(false, "Not a valid API");
+		CR_CORE_ASSERT(false, "Unknown RenderingAPI!");
 		return nullptr;
 	}
 
@@ -68,11 +68,11 @@ namespace Crystal
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RenderingAPI::API::None: CR_CORE_ASSERT(false, "RenderingAPI::API::None not supported."); break;
+		case RenderingAPI::API::None: CR_CORE_ASSERT(false, "RenderingAPI::None is currently not supported!"); return nullptr;
 		case RenderingAPI::API::OpenGL: return CreateScope<OpenGLShader>(name, vertexSource, fragmentSource);
 		}
 
-		CR_CORE_ASSERT(false, "Not a valid API");
+		CR_CORE_ASSERT(false, "Unknown RenderingAPI!");
 		return nullptr;
 	}
 
@@ -80,11 +80,11 @@ namespace Crystal
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RenderingAPI::API::None: CR_CORE_ASSERT(false, "RenderingAPI::API::None not supported."); break;
+		case RenderingAPI::API::None: CR_CORE_ASSERT(false, "RenderingAPI::None is currently not supported!"); return nullptr;
 		case RenderingAPI::API::OpenGL: return CreateScope<OpenGLShaderLib>();
 		}
 
-		CR_CORE_ASSERT(false, "Not a valid API");
+		CR_CORE_ASSERT(false, "Unknown RenderingAPI!");
 		return nullptr;
 	}
 

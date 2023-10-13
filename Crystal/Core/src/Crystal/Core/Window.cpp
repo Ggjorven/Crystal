@@ -12,7 +12,7 @@ namespace Crystal
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RenderingAPI::API::None: CR_CORE_CRITICAL("No proper rendering API selected!");
+		case RenderingAPI::API::None: CR_CORE_ASSERT(false, "RenderingAPI::None is currently not supported!"); return nullptr;
 		case RenderingAPI::API::OpenGL: return CreateScope<WindowsWindow>(properties);
 		}
 

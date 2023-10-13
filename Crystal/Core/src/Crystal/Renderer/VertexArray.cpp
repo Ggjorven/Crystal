@@ -3,7 +3,6 @@
 
 #include "Crystal/Renderer/Renderer.hpp"
 #include "APIs/OpenGL/OpenGLVertexArray.hpp"
-//TODO add vertex arrays
 
 namespace Crystal
 {
@@ -12,11 +11,11 @@ namespace Crystal
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RenderingAPI::API::None: CR_CORE_ASSERT(false, "RendereringAPI none not supported."); break;
+		case RenderingAPI::API::None: CR_CORE_ASSERT(false, "RenderingAPI::None is currently not supported!"); return nullptr;
 		case RenderingAPI::API::OpenGL: return CreateRef<OpenGLVertexArray>();
 		}
 
-		CR_CORE_ASSERT(false, "No proper RenderingAPI selected.");
+		CR_CORE_ASSERT(false, "Unknown RenderingAPI!");
 		return nullptr;
 	}
 

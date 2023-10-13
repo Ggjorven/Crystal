@@ -50,6 +50,7 @@ project "Core"
 
 	filter "system:windows"
 		systemversion "latest"
+		staticruntime "on"
 
 		defines
 		{

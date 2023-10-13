@@ -13,11 +13,11 @@ namespace Crystal
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RenderingAPI::API::None: CR_CORE_ASSERT(false, "RenderingAPI::API::None not supported.");
+		case RenderingAPI::API::None: CR_CORE_ASSERT(false, "RenderingAPI::None is currently not supported!"); return nullptr;
 		case RenderingAPI::API::OpenGL: return CreateRef<OpenGLTexture2D>(width, height);
 		}
 
-		CR_CORE_ASSERT(false, "No valid API selected.");
+		CR_CORE_ASSERT(false, "Unknown RenderingAPI!");
 		return nullptr;
 	}
 
@@ -25,11 +25,11 @@ namespace Crystal
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RenderingAPI::API::None: CR_CORE_ASSERT(false, "RenderingAPI::API::None not supported.");
+		case RenderingAPI::API::None: CR_CORE_ASSERT(false, "RenderingAPI::None is currently not supported!"); return nullptr;
 		case RenderingAPI::API::OpenGL: return CreateRef<OpenGLTexture2D>(path);
 		}
 
-		CR_CORE_ASSERT(false, "No valid API selected.");
+		CR_CORE_ASSERT(false, "Unknown RenderingAPI!");
 		return nullptr;
 	}
 }

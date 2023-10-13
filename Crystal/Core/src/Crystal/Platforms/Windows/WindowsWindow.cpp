@@ -18,15 +18,13 @@ namespace Crystal
 	{
 		if (!Init(properties))
 		{
-			CR_CORE_CRITICAL("Failed to create a (windows)window.");
+			CR_CORE_ASSERT(false, "Failed to create a (windows)window.");
 			return;
 		}
-		//EX_CORE_INFO("WindowsWindow created!");
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
-		//EX_CORE_INFO("WindowsWindow destroyed...");
 	}
 
 	void WindowsWindow::OnUpdate()
@@ -43,7 +41,6 @@ namespace Crystal
 	{
 		glfwSwapInterval(enabled);
 		m_Data.Vsync = enabled;
-		//EX_INFO("VSync: {0}", enabled);
 	}
 
 
@@ -72,7 +69,7 @@ namespace Crystal
 		//Graphics context init 
 		m_Context = GraphicsContext::Create(m_Window);
 		m_Context->Init();
-		//SetVSync(true);
+		//SetVSync(properties.VSync);
 
 		//Event system
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)

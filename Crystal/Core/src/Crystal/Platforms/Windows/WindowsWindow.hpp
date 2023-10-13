@@ -33,6 +33,7 @@ namespace Crystal
 		void Shutdown();
 
 		static void ErrorCallBack(int errorCode, const char* description);
+
 	private:
 		static bool s_GLFWinitialized;
 		static uint32_t s_Instances;

@@ -11,7 +11,6 @@ namespace Crystal
 		: m_RendererID(0), m_VertexBufferIndex(0)
 	{
 		glCreateVertexArrays(1, &m_RendererID);
-		//EX_CORE_WARN("(OpenGLVertexArray) m_RendererID: {0}", m_RendererID);
 	}
 
 	OpenGLVertexArray::~OpenGLVertexArray()
@@ -21,8 +20,6 @@ namespace Crystal
 
 	void OpenGLVertexArray::Bind() const
 	{
-		//m_IndexBuffer->Bind(); //? //TODO remove?
-
 		glBindVertexArray(m_RendererID);
 	}
 

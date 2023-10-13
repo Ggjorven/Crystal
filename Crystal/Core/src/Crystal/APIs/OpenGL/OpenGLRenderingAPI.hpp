@@ -20,6 +20,7 @@ namespace Crystal
 
 		void DrawIndexed(const Ref<VertexArray>& vertexArray) override;
 		void DrawIndexed(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader) override;
+
 	private:
 		GLuint m_UnusedIds = 0;
 	};

@@ -108,7 +108,7 @@ namespace Crystal
 
 		m_Minimized = false;
 
-		//Renderer::OnWindowResize(e.GetWidth(), e.GetHeight()); //So the vertices say the same
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight()); //So the vertices say the same
 
 		return false;
 	}

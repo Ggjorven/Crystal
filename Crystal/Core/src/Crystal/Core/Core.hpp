@@ -97,6 +97,6 @@ namespace Crystal
 
 	//Assert
 	#define CR_CORE_ASSERT(x, ...) if(!(x)) {\
-										CR_CORE_CRITICAL("Assertion failed: {0} ", __VA_ARGS__);\
+										CR_CORE_CRITICAL(__VA_ARGS__);\
 										__debugbreak(); }
 }

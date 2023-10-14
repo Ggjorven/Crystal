@@ -28,6 +28,9 @@
     <Filter Include="src\Crystal\Events\Input">
       <UniqueIdentifier>{41C2D5BC-2DE7-243D-5632-0ACD42B6235B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Crystal\Examples">
+      <UniqueIdentifier>{ECBDF430-D84C-7EFA-816B-92F56DD98EA0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Crystal\ImGui">
       <UniqueIdentifier>{48AEEF89-B4C4-ED1F-FD3B-79416991BEA7}</UniqueIdentifier>
     </Filter>
@@ -114,6 +117,9 @@
     <ClInclude Include="src\Crystal\Events\MouseEvent.hpp">
       <Filter>src\Crystal\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Crystal\Examples\Camera2D.hpp">
+      <Filter>src\Crystal\Examples</Filter>
+    </ClInclude>
     <ClInclude Include="src\Crystal\ImGui\BaseImGuiLayer.hpp">
       <Filter>src\Crystal\ImGui</Filter>
     </ClInclude>
@@ -156,7 +162,6 @@
     <ClInclude Include="src\Crystal\crpch.h">
       <Filter>src\Crystal</Filter>
     </ClInclude>
-    <ClInclude Include="src\Crystal\Examples\Camera2D.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\vendor\stb_image\src\stb_image.cpp">
@@ -197,6 +202,9 @@
     </ClCompile>
     <ClCompile Include="src\Crystal\Core\Window.cpp">
       <Filter>src\Crystal\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Crystal\Examples\Camera2D.cpp">
+      <Filter>src\Crystal\Examples</Filter>
     </ClCompile>
     <ClCompile Include="src\Crystal\ImGui\BaseImGuiLayer.cpp">
       <Filter>src\Crystal\ImGui</Filter>
@@ -243,6 +251,5 @@
     <ClCompile Include="src\Crystal\crpch.cpp">
       <Filter>src\Crystal</Filter>
     </ClCompile>
-    <ClCompile Include="src\Crystal\Examples\Camera2D.cpp" />
   </ItemGroup>
 </Project>

@@ -23,8 +23,8 @@ namespace Crystal
 		//static void BeginScene(const OrthographicCamera& camera); //TODO
 		//static void EndScene();
 
-		static void SetOrigin(glm::vec2 origin) { s_Origin = origin; }
-		static glm::vec2 GetOrigin() { return s_Origin; }
+		static void SetQuadOrigin(glm::vec2 origin) { s_Origin = origin; }
+		static glm::vec2 GetQuadOrigin() { return s_Origin; }
 		// Drawing functions
 		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<OrthoGraphicCamera>& camera = nullptr, const glm::vec4& color = { 1.0f, 1.0f, 1.0f, 1.0f });
 		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<OrthoGraphicCamera>& camera = nullptr, const glm::vec4& color = { 1.0f, 1.0f, 1.0f, 1.0f });

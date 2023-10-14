@@ -5,6 +5,7 @@
 #include "Crystal/Renderer/GraphicsContext.hpp"
 
 #include <GLFW/glfw3.h>
+#include <vulkan/vulkan.hpp>
 
 namespace Crystal
 {
@@ -14,4 +15,5 @@ namespace Crystal
 	public:
 	private:
 	};
+
 }

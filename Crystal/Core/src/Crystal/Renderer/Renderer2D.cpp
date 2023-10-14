@@ -86,7 +86,7 @@ namespace Crystal
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<OrthoGraphicCamera>& camera, const glm::vec4& color)
 	{
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x + s_Origin.x, position.y + s_Origin.y, position.z  })
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x - s_Origin.x, position.y - s_Origin.y, position.z  })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
 		s_QuadData->TextureShader->SetUniformMat4("u_Transform", transform);
@@ -109,8 +109,7 @@ namespace Crystal
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<OrthoGraphicCamera>& camera, const glm::vec4& color)
 	{
-		//TODO make it proper pixel space
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x + s_Origin.x, position.y + s_Origin.y, position.z })
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x - s_Origin.x, position.y - s_Origin.y, position.z })
 			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
@@ -136,7 +135,7 @@ namespace Crystal
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, const Ref<OrthoGraphicCamera>& camera)
 	{
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x + s_Origin.x, position.y + s_Origin.y, position.z })
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x - s_Origin.x, position.y - s_Origin.y, position.z })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
 		s_QuadData->TextureShader->SetUniformMat4("u_Transform", transform);
@@ -159,7 +158,7 @@ namespace Crystal
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, const Ref<OrthoGraphicCamera>& camera, const glm::vec4& color)
 	{
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x + s_Origin.x, position.y + s_Origin.y, position.z})
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x - s_Origin.x, position.y - s_Origin.y, position.z})
 			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f});
 

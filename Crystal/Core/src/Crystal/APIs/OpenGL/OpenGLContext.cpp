@@ -12,14 +12,14 @@ namespace Crystal
 	OpenGLContext::OpenGLContext(GLFWwindow* window)
 		: m_windowHandle(window)
 	{
-		if (window == nullptr) CR_CORE_CRITICAL("Window handle passed in is NULL!");
+		if (window == nullptr) CR_CORE_ASSERT(false, "Window handle passed in is NULL!");
 	}
 
 	void OpenGLContext::Init()
 	{
 		glfwMakeContextCurrent(m_windowHandle);
 		
-		if (glewInit() != GLEW_OK) CR_CORE_CRITICAL("Failed to initialize glew!");
+		if (glewInit() != GLEW_OK) CR_CORE_ASSERT(false, "Failed to initialize glew!");
 
 		CR_CORE_INFO("OpenGL Info:");
 		CR_CORE_INFO("  Vendor: {0}", reinterpret_cast<const char*>(glGetString(GL_VENDOR)));

@@ -60,7 +60,7 @@ namespace Crystal
 			m_Camera->SetRotation(m_CameraRotation);
 		}
 
-		m_Camera->SetPosition(m_CameraPosition);
+		m_Camera->SetPosition({ m_CameraPosition.x - m_Origin.x, m_CameraPosition.y - m_Origin.y, m_CameraPosition.z });
 	}
 
 	void Camera2D::OnEvent(Event& e)
@@ -92,5 +92,10 @@ namespace Crystal
 		m_Camera->SetProjection(-width * m_ZoomLevel, width * m_ZoomLevel, -height * m_ZoomLevel, height * m_ZoomLevel);
 
 		return false;
+	}
+
+	void Camera2D::UpdateView()
+	{
+		m_Camera->SetPosition({ m_CameraPosition.x - m_Origin.x, m_CameraPosition.y - m_Origin.y, m_CameraPosition.z });
 	}
 }

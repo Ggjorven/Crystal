@@ -32,6 +32,7 @@ namespace Crystal
 		virtual void UnBind() const = 0;
 
 		virtual void SetUniformInt1(const std::string& name, int value) = 0;
+		virtual void SetUniformFloat2(const std::string& name, const glm::vec2& value) = 0;
 		virtual void SetUniformFloat3(const std::string& name, const glm::vec3& value) = 0;
 		virtual void SetUniformFloat4(const std::string& name, const glm::vec4& value) = 0;
 		virtual void SetUniformMat4(const std::string& name, const glm::mat4& value) = 0;
@@ -52,11 +53,11 @@ namespace Crystal
 	public:
 		enum class Type
 		{
-			None = 0, 
+			None = 0,
 
 			Coloured, Textured, Textured_Coloured,
 			Coloured_Transform, Textured_Transform, Textured_Coloured_Transform,
-			Coloured_Transform_ViewProj, Textured_Transform_ViewProj, Textured_Coloured_Transform_ViewProj
+			Coloured_Transform_ViewProj, Textured_Transform_ViewProj, Textured_Coloured_Transform_ViewProj, Textured_Coloured_Transform_ViewProj_TexCoord
 		};
 
 	public:

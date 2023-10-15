@@ -28,8 +28,16 @@ namespace Crystal
 		glUniform1i(location, value);
 	}
 
+	void OpenGLShader::SetUniformFloat2(const std::string& name, const glm::vec2& value)
+	{
+		GLint location = GetUniformLocation(name);
+		glUniform2f(location, value.x, value.y);
+	}
+
 	void OpenGLShader::SetUniformFloat3(const std::string& name, const glm::vec3& value)
 	{
+		GLint location = GetUniformLocation(name);
+		glUniform3f(location, value.x, value.y, value.z);
 	}
 
 	void OpenGLShader::SetUniformFloat4(const std::string& name, const glm::vec4& value)
@@ -378,6 +386,7 @@ namespace Crystal
 		}
 	)"
 	};
+
 	static ShaderSource TextureColourTVP = {
 		R"(
 		#version 330 core
@@ -413,6 +422,45 @@ namespace Crystal
 	)"
 	};
 
+	static ShaderSource TextureColourTVPT = {
+		R"(
+		#version 330 core
+
+		layout(location = 0) in vec3 a_Position;
+		layout(location = 1) in vec2 a_TexCoord;
+
+		uniform mat4 u_Transform;
+		uniform mat4 u_ViewProj;
+
+		out vec2 v_TexCoord;
+
+		void main()
+		{
+			v_TexCoord = a_TexCoord;
+			gl_Position = u_ViewProj * u_Transform * vec4(a_Position, 1.0);
+		}
+	)",
+		R"(
+		#version 330 core
+
+		layout(location = 0) out vec4 colour;
+
+		in vec2 v_TexCoord;
+
+		uniform vec2 u_TexOffset;
+		uniform vec2 u_TexScale; 
+
+		uniform vec4 u_Colour;
+		uniform sampler2D u_Texture;
+
+		void main()
+		{
+			vec2 texCoords = v_TexCoord * u_TexScale + u_TexOffset;
+			colour = texture(u_Texture, texCoords) * u_Colour ;
+		}
+	)"
+	};
+
 	/*
 		--Things might want to add to the shaders--
 
@@ -440,6 +488,7 @@ namespace Crystal
 		case ShaderLib::Type::Coloured_Transform_ViewProj: return ColourTVP;
 		case ShaderLib::Type::Textured_Transform_ViewProj: return TextureTVP;
 		case ShaderLib::Type::Textured_Coloured_Transform_ViewProj: return TextureColourTVP;
+		case ShaderLib::Type::Textured_Coloured_Transform_ViewProj_TexCoord: return TextureColourTVPT;
 		}
 
 		CR_CORE_ASSERT(false, "Not a proper shader selected.");

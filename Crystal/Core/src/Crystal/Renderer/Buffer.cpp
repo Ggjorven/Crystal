@@ -3,7 +3,6 @@
 
 #include "Crystal/Renderer/Renderer.hpp"
 #include "APIs/OpenGL/OpenGLBuffer.hpp" //vertex & index
-//TODO add buffer
 
 namespace Crystal
 {

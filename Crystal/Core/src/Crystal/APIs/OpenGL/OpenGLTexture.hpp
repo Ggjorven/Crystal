@@ -18,8 +18,10 @@ namespace Crystal
 
 		virtual uint32_t GetWidth() const override { return m_Width; }
 		virtual uint32_t GetHeight() const override { return m_Height; }
+		virtual unsigned char* GetData() const override { return m_Data; }
 
 		virtual void SetData(void* data, uint32_t size) override;
+		virtual void UpdateSubTexture(int x, int y, int width, int height) override;
 
 		virtual void Bind(uint32_t slot = 0) const override;
 
@@ -29,6 +31,7 @@ namespace Crystal
 		uint32_t m_RendererID;
 
 		GLenum m_InternalFormat, m_DataFormat;
+		unsigned char* m_Data;
 	};
 
 }

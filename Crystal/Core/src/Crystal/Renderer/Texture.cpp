@@ -4,7 +4,6 @@
 #include "Crystal/Renderer/Renderer.hpp"
 
 #include "APIs/OpenGL/OpenGLTexture.hpp"
-//TODO add textures
 
 namespace Crystal
 {

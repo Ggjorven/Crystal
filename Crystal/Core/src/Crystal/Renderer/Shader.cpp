@@ -4,7 +4,6 @@
 #include "Crystal/Renderer/Renderer.hpp"
 
 #include "APIs/OpenGL/OpenGLShader.hpp"
-//TODO add shaders
 
 namespace Crystal
 {

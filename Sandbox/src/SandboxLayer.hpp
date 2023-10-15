@@ -30,19 +30,13 @@ public:
 
 		m_Position = { 0.0f, 0.0f };
 		m_Size = { 100.0f, 100.0f };
-		m_Origin = { -(m_Size.x / 2.0f), m_Size.y / 2.0f };
+		m_Origin = { m_Size.x / 2.0f, -(m_Size.y / 2.0f) };
+		//m_Origin = { 0.0f, 0.0f };
 
-		m_Texture = Crystal::Texture2D::Create("assets/textures/test.png");
+		m_Texture = Crystal::Texture2D::Create("assets/textures/Mario.png");
+		m_TexCoords = Crystal::TexCoords(0, 0, m_Texture->GetWidth(), m_Texture->GetHeight());
 
-		/*
-		float value = 360.0f;
-		float radians = glm::radians<float>(value);
-		float cosinus = glm::cos(radians);
-
-		CR_WARN("Value: \t\t{0}", value);
-		CR_WARN("Radians: \t\t{0}", radians);
-		CR_WARN("Co-sinus: \t{0}", cosinus);
-		*/
+		Crystal::RendererCommand::SetClearColour(glm::vec4(0.1f, 0.2f, 0.2f, 1.0f));
 	}
 
 	void OnDetach() override
@@ -53,16 +47,16 @@ public:
 	void OnUpdate(Crystal::Timestep& ts) override
 	{
 		m_Camera2D->OnUpdate(ts);
-
 		m_Camera2D->SetOrigin(m_CameraOrigin);
 
-		m_Origin = { -(m_Size.x / 2.0f), m_Size.y / 2.0f };
-		Crystal::Renderer2D::SetQuadOrigin(m_Origin);
+		m_Origin = { m_Size.x / 2.0f, -(m_Size.y / 2.0f) };
+		//Crystal::Renderer2D::SetQuadOrigin(m_Origin);
 	}
 
 	void OnRender() override
 	{
-		Crystal::Renderer2D::DrawQuad(m_Position, m_Size, m_Texture, m_Camera2D->GetCamera());
+		//Crystal::Renderer2D::DrawQuad(m_Position, m_Size, m_Texture, m_Camera2D->GetCamera());
+		Crystal::Renderer2D::DrawQuad(m_Position, m_Size, m_Origin, m_Texture, m_TexCoords, m_Camera2D->GetCamera());
 	}
 
 	void OnImGuiRender() override
@@ -70,6 +64,12 @@ public:
 		ImGui::Begin("Test");
 		
 		//ImGui::DragFloat2("camera origin", glm::value_ptr(m_CameraOrigin), 0.5f);
+
+		//Texture coords
+		ImGui::DragInt("Tex: X", (int*) &m_TexCoords.X, 0.5f);
+		ImGui::DragInt("Tex: Y", (int*) &m_TexCoords.Y, 0.5f);
+		ImGui::DragInt("Tex: Width", (int*) &m_TexCoords.Width, 0.5f);
+		ImGui::DragInt("Tex: Height", (int*) &m_TexCoords.Height, 0.5f);
 
 		//ImGui::DragFloat2("origin", glm::value_ptr(m_Origin), 0.5f);
 		ImGui::DragFloat2("position", glm::value_ptr(m_Position), 0.5f);
@@ -92,4 +92,5 @@ private:
 	glm::vec2 m_Origin;
 
 	Crystal::Ref<Crystal::Texture2D> m_Texture;
+	Crystal::TexCoords m_TexCoords;
 };

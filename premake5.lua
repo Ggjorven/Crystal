@@ -2,7 +2,7 @@ include "Dependencies.lua"
 
 workspace "Crystal"
 	architecture "x86_64"
-	startproject "Sandbox"
+	startproject "Mario"
 
 	configurations
 	{
@@ -30,5 +30,5 @@ group "Crystal"
 group ""
 
 group "Misc"
-	include "Sandbox"
+	include "Mario"
 group ""

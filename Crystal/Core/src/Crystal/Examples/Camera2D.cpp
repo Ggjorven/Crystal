@@ -90,6 +90,7 @@ namespace Crystal
 		float height = static_cast<float>(e.GetHeight()) / 2.0f;
 
 		m_Camera->SetProjection(-width * m_ZoomLevel, width * m_ZoomLevel, -height * m_ZoomLevel, height * m_ZoomLevel);
+		//m_CameraPosition = { m_CameraPosition.x, m_CameraPosition.y, m_CameraPosition.z };
 
 		return false;
 	}

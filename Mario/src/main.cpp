@@ -1,18 +1,20 @@
 #include <Crystal/Crystal.hpp>
 #include <Crystal/Core/AppEntrypoint.hpp>
 
-#include "SandboxLayer.hpp"
+#include "Game/Settings.hpp"
 
-class Sandbox : public Crystal::Application
+#include "GameLayer.hpp"
+
+class Game : public Crystal::Application
 {
 public:
-	Sandbox(Crystal::ApplicationInfo appInfo)
+	Game(Crystal::ApplicationInfo appInfo)
 		: Application(appInfo)
 	{
-		AddLayer(new SandboxLayer());
+		AddLayer(new GameLayer());
 	}
 
-	virtual ~Sandbox() {}
+	virtual ~Game() {}
 };
 
 
@@ -23,10 +25,10 @@ public:
 Crystal::Application* Crystal::CreateApplication(int argc, char* argv[])
 {
 	Crystal::ApplicationInfo appInfo;
-	appInfo.WindowProperties.Name = "Window name";
-	appInfo.WindowProperties.Width = 1280;
-	appInfo.WindowProperties.Height = 720;
+	appInfo.WindowProperties.Name = s_WindowTitle;
+	appInfo.WindowProperties.Width = s_WindowWidth;
+	appInfo.WindowProperties.Height = s_WindowHeight;
 
-	return new Sandbox(appInfo);
+	return new Game(appInfo);
 }
 //=========================================

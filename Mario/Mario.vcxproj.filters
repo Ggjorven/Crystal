@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Game">
+      <UniqueIdentifier>{7FA9857C-6BE0-860D-14CD-6C1000E3020F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Entities">
+      <UniqueIdentifier>{13E19297-7FA1-0ECE-48DC-574BB45B53AA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Levels">
+      <UniqueIdentifier>{7977B519-E52C-2E0F-6E21-28E6DAD52413}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Tiles">
+      <UniqueIdentifier>{4F7952E2-3B31-942F-A438-6D8B900F2F20}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Game\Entities\Entity.hpp">
+      <Filter>Game\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Entities\Goomba.hpp">
+      <Filter>Game\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Entities\Mario.hpp">
+      <Filter>Game\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Levels\LevelManager.hpp">
+      <Filter>Game\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Managers.hpp">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Settings.hpp">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Tiles\Tile.hpp">
+      <Filter>Game\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameLayer.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Game\Entities\Entity.cpp">
+      <Filter>Game\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Entities\Goomba.cpp">
+      <Filter>Game\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Entities\Mario.cpp">
+      <Filter>Game\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Levels\LevelManager.cpp">
+      <Filter>Game\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Managers.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Tiles\Tile.cpp">
+      <Filter>Game\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameLayer.cpp" />
+    <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
+</Project>

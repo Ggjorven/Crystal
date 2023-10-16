@@ -1,4 +1,4 @@
-project "Sandbox"
+project "Mario"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
@@ -16,6 +16,8 @@ project "Sandbox"
 
 	includedirs
 	{
+		"src",
+
 		"%{wks.location}/Crystal/Core/src",
 		"%{wks.location}vendor",
 

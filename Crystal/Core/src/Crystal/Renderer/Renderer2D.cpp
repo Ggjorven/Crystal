@@ -77,14 +77,14 @@ namespace Crystal
 	//Rendering
 	//
 	//Coloured
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& colour, const Ref<OrthoGraphicCamera>& camera)
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& colour, bool reversed, const Ref<OrthoGraphicCamera>& camera)
 	{
-		DrawQuad(position, size, { 0.0f, 0.0f }, colour, camera);
+		DrawQuad(position, size, { 0.0f, 0.0f }, colour, reversed, camera);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec2& origin, const glm::vec4& colour, const Ref<OrthoGraphicCamera>& camera)
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec2& origin, const glm::vec4& colour, bool reversed, const Ref<OrthoGraphicCamera>& camera)
 	{
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x + origin.x, position.y + origin.y, 0.0f }) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x + origin.x, position.y + origin.y, 0.0f }) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f }) * glm::scale(glm::mat4(1.0f), glm::vec3((reversed ? -1.0f : 1.0f), 1.0f, 1.0f));
 
 		s_QuadData->TextureShader->SetUniformFloat4("u_Colour", colour);
 
@@ -103,24 +103,24 @@ namespace Crystal
 	}
 
 	//Textured
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, const Ref<OrthoGraphicCamera>& camera)
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, bool reversed, const Ref<OrthoGraphicCamera>& camera)
 	{
-		DrawQuad(position, size, { 0.0f, 0.0f }, texture, TexCoords(0u, 0u, texture->GetWidth(), texture->GetWidth()), camera);
+		DrawQuad(position, size, { 0.0f, 0.0f }, texture, TexCoords(0u, 0u, texture->GetWidth(), texture->GetWidth()), reversed, camera);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, const TexCoords& coords, const Ref<OrthoGraphicCamera>& camera)
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, const TexCoords& coords, bool reversed, const Ref<OrthoGraphicCamera>& camera)
 	{
-		DrawQuad(position, size, { 0.0f, 0.0f }, texture, coords, camera);
+		DrawQuad(position, size, { 0.0f, 0.0f }, texture, coords, reversed, camera);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec2& origin, const Ref<Texture2D>& texture, const Ref<OrthoGraphicCamera>& camera)
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec2& origin, const Ref<Texture2D>& texture, bool reversed, const Ref<OrthoGraphicCamera>& camera)
 	{
-		DrawQuad(position, size, origin, texture, TexCoords(0u, 0u, texture->GetWidth(), texture->GetWidth()), camera);
+		DrawQuad(position, size, origin, texture, TexCoords(0u, 0u, texture->GetWidth(), texture->GetWidth()), reversed, camera);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec2& origin, const Ref<Texture2D>& texture, const TexCoords& coords, const Ref<OrthoGraphicCamera>& camera)
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec2& origin, const Ref<Texture2D>& texture, const TexCoords& coords, bool reversed, const Ref<OrthoGraphicCamera>& camera)
 	{
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x + origin.x, position.y + origin.y, 0.0f }) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x + origin.x, position.y + origin.y, 0.0f }) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f }) * glm::scale(glm::mat4(1.0f), glm::vec3((reversed ? -1.0f : 1.0f), 1.0f, 1.0f));
 
 		s_QuadData->TextureShader->SetUniformFloat4("u_Colour", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 

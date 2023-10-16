@@ -50,7 +50,7 @@ namespace Crystal
 
 		//Also need to update the view
 		void SetPosition(glm::vec2 position) { m_CameraPosition = { position.x, position.y, 0.0f }; UpdateView(); }
-		glm::vec2 GetPosition() { return { m_CameraPosition.x, m_CameraPosition.y };}
+		glm::vec3& GetPosition() { return m_CameraPosition;}
 
 		void Move(glm::vec2 position) { m_CameraPosition.x += position.x; m_CameraPosition.y += position.y; UpdateView(); }
 

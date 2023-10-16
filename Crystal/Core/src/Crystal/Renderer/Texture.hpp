@@ -27,6 +27,9 @@ namespace Crystal
 		static Ref<Texture2D> Create(const std::string& path);
 	};
 
+	/*
+	* In pixel space
+	*/
 	struct TexCoords
 	{
 	public:

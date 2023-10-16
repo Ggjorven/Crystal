@@ -30,11 +30,11 @@ namespace Crystal
 	struct TexCoords
 	{
 	public:
-		uint32_t X, Y;
-		uint32_t Width, Height;
+		int32_t X, Y;
+		int32_t Width, Height;
 
 	public:
-		TexCoords(uint32_t x = 0u, uint32_t y = 0u, uint32_t width = 0u, uint32_t height = 0u)
+		TexCoords(int32_t x = 0, int32_t y = 0, int32_t width = 0, int32_t height = 0)
 			: X(x), Y(y), Width(width), Height(height)
 		{
 		}

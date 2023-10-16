@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>CR_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;GLEW_STATIC;CR_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Crystal\Core\src;..\..\Crystalvendor;..\vendor\GLEW\include;..\vendor\GLFW\include;..\vendor\ImGui;..\vendor\spdlog\include;..\vendor\glm;..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Crystal\Core\src;..\..\Crystalvendor;..\vendor\GLEW\include;..\vendor\GLFW\include;..\vendor\ImGui;..\vendor\spdlog\include;..\vendor\glm;..\vendor\stb_image\include;C:\VulkanSDK\1.3.250.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -97,7 +97,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>CR_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;GLEW_STATIC;CR_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Crystal\Core\src;..\..\Crystalvendor;..\vendor\GLEW\include;..\vendor\GLFW\include;..\vendor\ImGui;..\vendor\spdlog\include;..\vendor\glm;..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Crystal\Core\src;..\..\Crystalvendor;..\vendor\GLEW\include;..\vendor\GLFW\include;..\vendor\ImGui;..\vendor\spdlog\include;..\vendor\glm;..\vendor\stb_image\include;C:\VulkanSDK\1.3.250.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -118,7 +118,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>CR_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;GLEW_STATIC;CR_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Crystal\Core\src;..\..\Crystalvendor;..\vendor\GLEW\include;..\vendor\GLFW\include;..\vendor\ImGui;..\vendor\spdlog\include;..\vendor\glm;..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Crystal\Core\src;..\..\Crystalvendor;..\vendor\GLEW\include;..\vendor\GLFW\include;..\vendor\ImGui;..\vendor\spdlog\include;..\vendor\glm;..\vendor\stb_image\include;C:\VulkanSDK\1.3.250.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>

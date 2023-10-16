@@ -127,7 +127,7 @@ namespace Crystal
 		uint32_t textureWidth = texture->GetWidth();
 		uint32_t textureHeight = texture->GetHeight();
 
-		s_QuadData->TextureShader->SetUniformFloat2("u_TexOffset", { (float)coords.X / (float)textureWidth, (float)coords.Y / (float)textureHeight });
+		s_QuadData->TextureShader->SetUniformFloat2("u_TexOffset", { (float)coords.X / (float)textureWidth, ( (float)textureHeight - (float)coords.Y - coords.Height) / (float)textureHeight });
 		s_QuadData->TextureShader->SetUniformFloat2("u_TexScale", { (float)coords.Width / (float)textureWidth, (float)coords.Height / (float)textureHeight });
 		
 		s_QuadData->TextureShader->SetUniformMat4("u_Transform", transform);

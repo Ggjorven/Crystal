@@ -77,7 +77,7 @@
       <PrecompiledHeaderFile>crpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;CR_PLATFORM_WINDOWS;GLEW_STATIC;CR_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\Crystal;..\..\vendor\GLEW\include;..\..\vendor\GLFW\include;..\..\vendor\ImGui;..\..\vendor\spdlog\include;..\..\vendor\glm;..\..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\Crystal;..\Physics\src;..\..\vendor\GLEW\include;..\..\vendor\GLFW\include;..\..\vendor\ImGui;..\..\vendor\spdlog\include;..\..\vendor\glm;..\..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -99,7 +99,7 @@
       <PrecompiledHeaderFile>crpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;CR_PLATFORM_WINDOWS;GLEW_STATIC;CR_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\Crystal;..\..\vendor\GLEW\include;..\..\vendor\GLFW\include;..\..\vendor\ImGui;..\..\vendor\spdlog\include;..\..\vendor\glm;..\..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\Crystal;..\Physics\src;..\..\vendor\GLEW\include;..\..\vendor\GLFW\include;..\..\vendor\ImGui;..\..\vendor\spdlog\include;..\..\vendor\glm;..\..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -124,7 +124,7 @@
       <PrecompiledHeaderFile>crpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;CR_PLATFORM_WINDOWS;GLEW_STATIC;CR_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\Crystal;..\..\vendor\GLEW\include;..\..\vendor\GLFW\include;..\..\vendor\ImGui;..\..\vendor\spdlog\include;..\..\vendor\glm;..\..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\Crystal;..\Physics\src;..\..\vendor\GLEW\include;..\..\vendor\GLFW\include;..\..\vendor\ImGui;..\..\vendor\spdlog\include;..\..\vendor\glm;..\..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -154,26 +154,29 @@
     <ClInclude Include="src\Crystal\Core\AppEntrypoint.hpp" />
     <ClInclude Include="src\Crystal\Core\Application.hpp" />
     <ClInclude Include="src\Crystal\Core\Core.hpp" />
+    <ClInclude Include="src\Crystal\Core\Events\Events.hpp" />
     <ClInclude Include="src\Crystal\Core\Layer.hpp" />
     <ClInclude Include="src\Crystal\Core\LayerStack.hpp" />
+    <ClInclude Include="src\Crystal\Core\UUID.hpp" />
     <ClInclude Include="src\Crystal\Core\Window.hpp" />
     <ClInclude Include="src\Crystal\Crystal.hpp" />
-    <ClInclude Include="src\Crystal\Events\ApplicationEvent.hpp" />
-    <ClInclude Include="src\Crystal\Events\Codes\KeyCodes.hpp" />
-    <ClInclude Include="src\Crystal\Events\Codes\MouseCodes.hpp" />
-    <ClInclude Include="src\Crystal\Events\Event.hpp" />
-    <ClInclude Include="src\Crystal\Events\Input\Input.hpp" />
-    <ClInclude Include="src\Crystal\Events\KeyEvent.hpp" />
-    <ClInclude Include="src\Crystal\Events\MouseEvent.hpp" />
+    <ClInclude Include="src\Crystal\Core\Events\ApplicationEvent.hpp" />
+    <ClInclude Include="src\Crystal\Core\Events\Codes\KeyCodes.hpp" />
+    <ClInclude Include="src\Crystal\Core\Events\Codes\MouseCodes.hpp" />
+    <ClInclude Include="src\Crystal\Core\Events\Event.hpp" />
+    <ClInclude Include="src\Crystal\Core\Events\Input\Input.hpp" />
+    <ClInclude Include="src\Crystal\Core\Events\KeyEvent.hpp" />
+    <ClInclude Include="src\Crystal\Core\Events\MouseEvent.hpp" />
     <ClInclude Include="src\Crystal\Examples\Camera2D.hpp" />
     <ClInclude Include="src\Crystal\ImGui\BaseImGuiLayer.hpp" />
     <ClInclude Include="src\Crystal\Platforms\Windows\WindowsInput.hpp" />
     <ClInclude Include="src\Crystal\Platforms\Windows\WindowsWindow.hpp" />
+    <ClInclude Include="src\Crystal\Renderer\3D\PerspectiveCamera.hpp" />
     <ClInclude Include="src\Crystal\Renderer\Buffer.hpp" />
     <ClInclude Include="src\Crystal\Renderer\GraphicsContext.hpp" />
-    <ClInclude Include="src\Crystal\Renderer\OrthoGraphicCamera.hpp" />
+    <ClInclude Include="src\Crystal\Renderer\2D\OrthoGraphicCamera.hpp" />
     <ClInclude Include="src\Crystal\Renderer\Renderer.hpp" />
-    <ClInclude Include="src\Crystal\Renderer\Renderer2D.hpp" />
+    <ClInclude Include="src\Crystal\Renderer\2D\Renderer2D.hpp" />
     <ClInclude Include="src\Crystal\Renderer\RendererCommand.hpp" />
     <ClInclude Include="src\Crystal\Renderer\RenderingAPI.hpp" />
     <ClInclude Include="src\Crystal\Renderer\Shader.hpp" />
@@ -200,11 +203,12 @@
     <ClCompile Include="src\Crystal\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Crystal\Platforms\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Crystal\Platforms\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\Crystal\Renderer\3D\PerspectiveCamera.cpp" />
     <ClCompile Include="src\Crystal\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Crystal\Renderer\GraphicsContext.cpp" />
-    <ClCompile Include="src\Crystal\Renderer\OrthoGraphicCamera.cpp" />
+    <ClCompile Include="src\Crystal\Renderer\2D\OrthoGraphicCamera.cpp" />
     <ClCompile Include="src\Crystal\Renderer\Renderer.cpp" />
-    <ClCompile Include="src\Crystal\Renderer\Renderer2D.cpp" />
+    <ClCompile Include="src\Crystal\Renderer\2D\Renderer2D.cpp" />
     <ClCompile Include="src\Crystal\Renderer\RendererCommand.cpp" />
     <ClCompile Include="src\Crystal\Renderer\RenderingAPI.cpp" />
     <ClCompile Include="src\Crystal\Renderer\Shader.cpp" />
@@ -215,6 +219,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Physics\Physics.vcxproj">
+      <Project>{888B590D-F46A-D8A8-FD82-637F69E13E0A}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\vendor\GLEW\GLEW.vcxproj">
       <Project>{F44A857C-E081-860D-896E-6C107584020F}</Project>
     </ProjectReference>

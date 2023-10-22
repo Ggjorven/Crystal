@@ -2,7 +2,7 @@ include "Dependencies.lua"
 
 workspace "Crystal"
 	architecture "x86_64"
-	startproject "Mario"
+	startproject "Project-2D"
 
 	configurations
 	{
@@ -26,9 +26,14 @@ group "Additional Dependencies"
 group ""
 
 group "Crystal"
-	include "Crystal/Core"
+	group "Crystal/Engine"
+		include "Crystal/Core"
+		include "Crystal/Physics"
+	group "Crystal"
+	include "Crystalizer"
 group ""
 
 group "Misc"
-	include "Mario"
+	include "Project-2D"
+	include "Project-3D"
 group ""

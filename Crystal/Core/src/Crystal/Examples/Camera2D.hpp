@@ -4,11 +4,11 @@
 
 #include <glm/glm.hpp>
 
-#include "Crystal/Events/ApplicationEvent.hpp"
-#include "Crystal/Events/Event.hpp"
-#include "Crystal/Events/MouseEvent.hpp"
+#include "Crystal/Core/Events/ApplicationEvent.hpp"
+#include "Crystal/Core/Events/Event.hpp"
+#include "Crystal/Core/Events/MouseEvent.hpp"
 
-#include "Crystal/Renderer/OrthoGraphicCamera.hpp"
+#include "Crystal/Renderer/2D/OrthoGraphicCamera.hpp"
 
 namespace Crystal
 {

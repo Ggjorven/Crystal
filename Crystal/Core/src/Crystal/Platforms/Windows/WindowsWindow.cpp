@@ -3,10 +3,7 @@
 
 #include "Crystal/Core/Core.hpp"
 
-#include "Crystal/Events/Event.hpp"
-#include "Crystal/Events/ApplicationEvent.hpp"
-#include "Crystal/Events/KeyEvent.hpp"
-#include "Crystal/Events/MouseEvent.hpp"
+#include "Crystal/Core/Events/Events.hpp"
 
 namespace Crystal
 {

@@ -376,11 +376,31 @@ Crystal.sln
 Crystal/Core/Core.vcxproj
 Crystal/Core/Core.vcxproj.filters
 Crystal/Core/Core.vcxproj.user
+#Physics
+Crystal/Physics/Physics.vcxproj
+Crystal/Physics/Physics.vcxproj.filters
+Crystal/Physics/Physics.vcxproj.user
 
-#Sandbox
-Sandbox/Sandbox.vcxproj
-Sandbox/Sandbox.vcxproj.filters
-Sandbox/Sandbox.vcxproj.user
+
+
+#Crystalizer
+Crystalizer/Crystalizer.vcxproj
+Crystalizer/Crystalizer.vcxproj.filters
+Crystalizer/Crystalizer.vcxproj.user
+
+
+
+#Project-2D
+Project-2D/Project-2D.vcxproj
+Project-2D/Project-2D.vcxproj.filters
+Project-2D/Project-2D.vcxproj.user
+
+#Project-3D
+Project-3D/Project-3D.vcxproj
+Project-3D/Project-3D.vcxproj.filters
+Project-3D/Project-3D.vcxproj.user
+
+
 
 #vendor
 vendor/GLEW/GLEW.vcxproj

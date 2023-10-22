@@ -2,10 +2,10 @@
 
 #include "Crystal/Core/Core.hpp"
 
-#include "Crystal/Events/Event.hpp"
-#include "Crystal/Events/ApplicationEvent.hpp"
-#include "Crystal/Events/KeyEvent.hpp"
-#include "Crystal/Events/MouseEvent.hpp"
+#include "Crystal/Core/Events/Event.hpp"
+#include "Crystal/Core/Events/ApplicationEvent.hpp"
+#include "Crystal/Core/Events/KeyEvent.hpp"
+#include "Crystal/Core/Events/MouseEvent.hpp"
 
 #include "Crystal/Core/Window.hpp"
 

@@ -90,31 +90,34 @@
     <ClInclude Include="src\Crystal\Core\LayerStack.hpp">
       <Filter>src\Crystal\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Crystal\Core\UUID.hpp">
+      <Filter>src\Crystal\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Crystal\Core\Window.hpp">
       <Filter>src\Crystal\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Crystal\Crystal.hpp">
       <Filter>src\Crystal</Filter>
     </ClInclude>
-    <ClInclude Include="src\Crystal\Events\ApplicationEvent.hpp">
+    <ClInclude Include="src\Crystal\Core\Events\ApplicationEvent.hpp">
       <Filter>src\Crystal\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Crystal\Events\Codes\KeyCodes.hpp">
+    <ClInclude Include="src\Crystal\Core\Events\Codes\KeyCodes.hpp">
       <Filter>src\Crystal\Events\Codes</Filter>
     </ClInclude>
-    <ClInclude Include="src\Crystal\Events\Codes\MouseCodes.hpp">
+    <ClInclude Include="src\Crystal\Core\Events\Codes\MouseCodes.hpp">
       <Filter>src\Crystal\Events\Codes</Filter>
     </ClInclude>
-    <ClInclude Include="src\Crystal\Events\Event.hpp">
+    <ClInclude Include="src\Crystal\Core\Events\Event.hpp">
       <Filter>src\Crystal\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Crystal\Events\Input\Input.hpp">
+    <ClInclude Include="src\Crystal\Core\Events\Input\Input.hpp">
       <Filter>src\Crystal\Events\Input</Filter>
     </ClInclude>
-    <ClInclude Include="src\Crystal\Events\KeyEvent.hpp">
+    <ClInclude Include="src\Crystal\Core\Events\KeyEvent.hpp">
       <Filter>src\Crystal\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Crystal\Events\MouseEvent.hpp">
+    <ClInclude Include="src\Crystal\Core\Events\MouseEvent.hpp">
       <Filter>src\Crystal\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Crystal\Examples\Camera2D.hpp">
@@ -135,13 +138,13 @@
     <ClInclude Include="src\Crystal\Renderer\GraphicsContext.hpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Crystal\Renderer\OrthoGraphicCamera.hpp">
+    <ClInclude Include="src\Crystal\Renderer\2D\OrthoGraphicCamera.hpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Crystal\Renderer\Renderer.hpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Crystal\Renderer\Renderer2D.hpp">
+    <ClInclude Include="src\Crystal\Renderer\2D\Renderer2D.hpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Crystal\Renderer\RendererCommand.hpp">
@@ -162,6 +165,8 @@
     <ClInclude Include="src\Crystal\crpch.h">
       <Filter>src\Crystal</Filter>
     </ClInclude>
+    <ClInclude Include="src\Crystal\Renderer\3D\PerspectiveCamera.hpp" />
+    <ClInclude Include="src\Crystal\Core\Events\Events.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\vendor\stb_image\src\stb_image.cpp">
@@ -224,13 +229,13 @@
     <ClCompile Include="src\Crystal\Renderer\GraphicsContext.cpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Crystal\Renderer\OrthoGraphicCamera.cpp">
+    <ClCompile Include="src\Crystal\Renderer\2D\OrthoGraphicCamera.cpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Crystal\Renderer\Renderer.cpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Crystal\Renderer\Renderer2D.cpp">
+    <ClCompile Include="src\Crystal\Renderer\2D\Renderer2D.cpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Crystal\Renderer\RendererCommand.cpp">
@@ -251,5 +256,6 @@
     <ClCompile Include="src\Crystal\crpch.cpp">
       <Filter>src\Crystal</Filter>
     </ClCompile>
+    <ClCompile Include="src\Crystal\Renderer\3D\PerspectiveCamera.cpp" />
   </ItemGroup>
 </Project>

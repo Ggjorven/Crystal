@@ -3,7 +3,7 @@
 
 #include "Crystal/Core/Core.hpp"
 
-#include "Crystal/Events/Input/Input.hpp"
+#include "Crystal/Core/Events/Input/Input.hpp"
 
 namespace Crystal
 {

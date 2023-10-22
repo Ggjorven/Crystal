@@ -3,8 +3,8 @@
 
 #include "Crystal/Core/Application.hpp"
 
-#include "Crystal/Events/Input/Input.hpp"
-#include "Crystal/Events/Codes/KeyCodes.hpp"
+#include "Crystal/Core/Events/Input/Input.hpp"
+#include "Crystal/Core/Events/Codes/KeyCodes.hpp"
 
 namespace Crystal
 {

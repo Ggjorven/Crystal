@@ -1,5 +1,8 @@
 #pragma once
 
+//===================
+//-------Core--------
+//===================
 //API folder
 	//OpenGL
 	#include "Crystal/APIs/OpenGL/OpenGLBuffer.hpp"
@@ -18,19 +21,18 @@
 #include "Crystal/Core/Layer.hpp"
 #include "Crystal/Core/LayerStack.hpp"
 #include "Crystal/Core/Window.hpp"
+	//Event folder
+	#include "Crystal/Core/Events/ApplicationEvent.hpp"
+	#include "Crystal/Core/Events/Event.hpp"
+	#include "Crystal/Core/Events/KeyEvent.hpp"
+	#include "Crystal/Core/Events/MouseEvent.hpp"
 
-//Event folder
 	//Codes
-	#include "Crystal/Events/Codes/KeyCodes.hpp"
-	#include "Crystal/Events/Codes/MouseCodes.hpp"
+		#include "Crystal/Core/Events/Codes/KeyCodes.hpp"
+		#include "Crystal/Core/Events/Codes/MouseCodes.hpp"
 
 	//Input
-	#include "Crystal/Events/Input/Input.hpp"
-
-#include "Crystal/Events/ApplicationEvent.hpp"
-#include "Crystal/Events/Event.hpp"
-#include "Crystal/Events/KeyEvent.hpp"
-#include "Crystal/Events/MouseEvent.hpp"
+		#include "Crystal/Core/Events/Input/Input.hpp"
 
 //ImGui folder
 #include "Crystal/ImGui/BaseImGuiLayer.hpp"
@@ -43,11 +45,24 @@
 //Renderer folder
 #include "Crystal/Renderer/Buffer.hpp"
 #include "Crystal/Renderer/GraphicsContext.hpp"
-#include "Crystal/Renderer/OrthoGraphicCamera.hpp"
 #include "Crystal/Renderer/Renderer.hpp"
-#include "Crystal/Renderer/Renderer2D.hpp"
 #include "Crystal/Renderer/RendererCommand.hpp"
 #include "Crystal/Renderer/RenderingAPI.hpp"
 #include "Crystal/Renderer/Shader.hpp"
 #include "Crystal/Renderer/Texture.hpp"
 #include "Crystal/Renderer/VertexArray.hpp"
+	//2D
+	#include "Crystal/Renderer/2D/OrthoGraphicCamera.hpp"
+	#include "Crystal/Renderer/2D/Renderer2D.hpp"
+
+	//3D
+
+
+
+//===================
+//------Physics------
+//===================
+//ECS
+#include "Crystal/ECS/Component.hpp"
+#include "Crystal/ECS/Storage.hpp"
+#include "Crystal/ECS/Entity.hpp"

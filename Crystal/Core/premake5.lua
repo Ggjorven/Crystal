@@ -29,6 +29,9 @@ project "Core"
 	{
 		"src",
 		"src/Crystal",
+
+		"%{wks.location}/Crystal/Physics/src",
+
 		"%{IncludeDir.GLEW}",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.ImGui}",
@@ -40,6 +43,8 @@ project "Core"
 
 	links
 	{
+		"Physics",
+
 		"opengl32.lib",
 		"%{Library.Vulkan}",
 		"GLEW",

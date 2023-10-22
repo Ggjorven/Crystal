@@ -4,7 +4,7 @@
 
 #include "Crystal/Core/Core.hpp"
 
-#include "Crystal/Events/Event.hpp"
+#include "Crystal/Core/Events/Event.hpp"
 
 namespace Crystal
 {

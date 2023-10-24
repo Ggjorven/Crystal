@@ -32,8 +32,15 @@ namespace Crystal
 		handler.Handle<WindowCloseEvent>(CR_BIND_EVENT_FN(Application::OnWindowClose));
 		handler.Handle<WindowResizeEvent>(CR_BIND_EVENT_FN(Application::OnWindowResize));
 
-		for (Layer* layer : m_LayerStack)
-			layer->OnEvent(e);
+		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
+		{
+			if (e.Handled)
+			{
+				//CR_CORE_TRACE("Event handled");
+				break;
+			}
+			(*it)->OnEvent(e);
+		}
 	}
 
 	void Application::Run()

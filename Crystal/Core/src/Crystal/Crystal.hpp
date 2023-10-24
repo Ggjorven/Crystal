@@ -7,6 +7,7 @@
 	//OpenGL
 	#include "Crystal/APIs/OpenGL/OpenGLBuffer.hpp"
 	#include "Crystal/APIs/OpenGL/OpenGLContext.hpp"
+	#include "Crystal/APIs/OpenGL/OpenGLFrameBuffer.hpp"
 	#include "Crystal/APIs/OpenGL/OpenGLRenderingAPI.hpp"
 	#include "Crystal/APIs/OpenGL/OpenGLShader.hpp"
 	#include "Crystal/APIs/OpenGL/OpenGLTexture.hpp"
@@ -44,6 +45,7 @@
 
 //Renderer folder
 #include "Crystal/Renderer/Buffer.hpp"
+#include "Crystal/Renderer/FrameBuffer.hpp"
 #include "Crystal/Renderer/GraphicsContext.hpp"
 #include "Crystal/Renderer/Renderer.hpp"
 #include "Crystal/Renderer/RendererCommand.hpp"
@@ -56,6 +58,8 @@
 	#include "Crystal/Renderer/2D/Renderer2D.hpp"
 
 	//3D
+	#include "Crystal/Renderer/3D/PerspectiveCamera.hpp"
+	#include "Crystal/Renderer/3D/Renderer3D.hpp"
 
 
 

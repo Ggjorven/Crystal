@@ -77,6 +77,7 @@ namespace Crystal
 
 	void OpenGLTexture2D::UpdateSubTexture(int x, int y, int width, int height)
 	{
+		// TODO: maybe?
 	}
 
 	void OpenGLTexture2D::Bind(uint32_t slot) const

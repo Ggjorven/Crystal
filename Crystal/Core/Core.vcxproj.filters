@@ -19,14 +19,14 @@
     <Filter Include="src\Crystal\Core">
       <UniqueIdentifier>{B6B1AE13-A2AA-CD65-CBDC-B2EAB734AD71}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Crystal\Events">
-      <UniqueIdentifier>{C20844BF-AEEC-0415-174D-FF670350EF96}</UniqueIdentifier>
+    <Filter Include="src\Crystal\Core\Events">
+      <UniqueIdentifier>{DA9460AA-46CC-A841-4FD6-0C65BB8CCF3A}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Crystal\Events\Codes">
-      <UniqueIdentifier>{7F8669BC-6BAB-B83C-94F6-9DCC807AB75A}</UniqueIdentifier>
+    <Filter Include="src\Crystal\Core\Events\Codes">
+      <UniqueIdentifier>{97C4349D-03DD-1BC7-CC89-AB603861B060}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Crystal\Events\Input">
-      <UniqueIdentifier>{41C2D5BC-2DE7-243D-5632-0ACD42B6235B}</UniqueIdentifier>
+    <Filter Include="src\Crystal\Core\Events\Input">
+      <UniqueIdentifier>{5900A19D-C518-88C7-8EC5-1761FA9C1C61}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Crystal\Examples">
       <UniqueIdentifier>{ECBDF430-D84C-7EFA-816B-92F56DD98EA0}</UniqueIdentifier>
@@ -43,6 +43,12 @@
     <Filter Include="src\Crystal\Renderer">
       <UniqueIdentifier>{04506497-F0DE-ED60-99FD-015C856BFE06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Crystal\Renderer\2D">
+      <UniqueIdentifier>{2950C538-9587-0DD0-9E91-71F30A4834C9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Crystal\Renderer\3D">
+      <UniqueIdentifier>{4A50C538-B687-0DD0-BF91-71F32B4834C9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
     </Filter>
@@ -58,6 +64,9 @@
       <Filter>src\Crystal\APIs\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Crystal\APIs\OpenGL\OpenGLContext.hpp">
+      <Filter>src\Crystal\APIs\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Crystal\APIs\OpenGL\OpenGLFrameBuffer.hpp">
       <Filter>src\Crystal\APIs\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Crystal\APIs\OpenGL\OpenGLRenderingAPI.hpp">
@@ -84,6 +93,30 @@
     <ClInclude Include="src\Crystal\Core\Core.hpp">
       <Filter>src\Crystal\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Crystal\Core\Events\ApplicationEvent.hpp">
+      <Filter>src\Crystal\Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Crystal\Core\Events\Codes\KeyCodes.hpp">
+      <Filter>src\Crystal\Core\Events\Codes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Crystal\Core\Events\Codes\MouseCodes.hpp">
+      <Filter>src\Crystal\Core\Events\Codes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Crystal\Core\Events\Event.hpp">
+      <Filter>src\Crystal\Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Crystal\Core\Events\Events.hpp">
+      <Filter>src\Crystal\Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Crystal\Core\Events\Input\Input.hpp">
+      <Filter>src\Crystal\Core\Events\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Crystal\Core\Events\KeyEvent.hpp">
+      <Filter>src\Crystal\Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Crystal\Core\Events\MouseEvent.hpp">
+      <Filter>src\Crystal\Core\Events</Filter>
+    </ClInclude>
     <ClInclude Include="src\Crystal\Core\Layer.hpp">
       <Filter>src\Crystal\Core</Filter>
     </ClInclude>
@@ -99,27 +132,6 @@
     <ClInclude Include="src\Crystal\Crystal.hpp">
       <Filter>src\Crystal</Filter>
     </ClInclude>
-    <ClInclude Include="src\Crystal\Core\Events\ApplicationEvent.hpp">
-      <Filter>src\Crystal\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Crystal\Core\Events\Codes\KeyCodes.hpp">
-      <Filter>src\Crystal\Events\Codes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Crystal\Core\Events\Codes\MouseCodes.hpp">
-      <Filter>src\Crystal\Events\Codes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Crystal\Core\Events\Event.hpp">
-      <Filter>src\Crystal\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Crystal\Core\Events\Input\Input.hpp">
-      <Filter>src\Crystal\Events\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Crystal\Core\Events\KeyEvent.hpp">
-      <Filter>src\Crystal\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Crystal\Core\Events\MouseEvent.hpp">
-      <Filter>src\Crystal\Events</Filter>
-    </ClInclude>
     <ClInclude Include="src\Crystal\Examples\Camera2D.hpp">
       <Filter>src\Crystal\Examples</Filter>
     </ClInclude>
@@ -132,19 +144,25 @@
     <ClInclude Include="src\Crystal\Platforms\Windows\WindowsWindow.hpp">
       <Filter>src\Crystal\Platforms\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\Crystal\Renderer\2D\OrthoGraphicCamera.hpp">
+      <Filter>src\Crystal\Renderer\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Crystal\Renderer\2D\Renderer2D.hpp">
+      <Filter>src\Crystal\Renderer\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Crystal\Renderer\3D\PerspectiveCamera.hpp">
+      <Filter>src\Crystal\Renderer\3D</Filter>
+    </ClInclude>
     <ClInclude Include="src\Crystal\Renderer\Buffer.hpp">
+      <Filter>src\Crystal\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Crystal\Renderer\FrameBuffer.hpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Crystal\Renderer\GraphicsContext.hpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Crystal\Renderer\2D\OrthoGraphicCamera.hpp">
-      <Filter>src\Crystal\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="src\Crystal\Renderer\Renderer.hpp">
-      <Filter>src\Crystal\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Crystal\Renderer\2D\Renderer2D.hpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Crystal\Renderer\RendererCommand.hpp">
@@ -165,8 +183,8 @@
     <ClInclude Include="src\Crystal\crpch.h">
       <Filter>src\Crystal</Filter>
     </ClInclude>
-    <ClInclude Include="src\Crystal\Renderer\3D\PerspectiveCamera.hpp" />
-    <ClInclude Include="src\Crystal\Core\Events\Events.hpp" />
+    <ClInclude Include="src\Crystal\Examples\Camera3D.hpp" />
+    <ClInclude Include="src\Crystal\Renderer\3D\Renderer3D.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\vendor\stb_image\src\stb_image.cpp">
@@ -176,6 +194,9 @@
       <Filter>src\Crystal\APIs\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Crystal\APIs\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Crystal\APIs\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Crystal\APIs\OpenGL\OpenGLFrameBuffer.cpp">
       <Filter>src\Crystal\APIs\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Crystal\APIs\OpenGL\OpenGLRenderingAPI.cpp">
@@ -223,19 +244,25 @@
     <ClCompile Include="src\Crystal\Platforms\Windows\WindowsWindow.cpp">
       <Filter>src\Crystal\Platforms\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\Crystal\Renderer\2D\OrthoGraphicCamera.cpp">
+      <Filter>src\Crystal\Renderer\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Crystal\Renderer\2D\Renderer2D.cpp">
+      <Filter>src\Crystal\Renderer\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Crystal\Renderer\3D\PerspectiveCamera.cpp">
+      <Filter>src\Crystal\Renderer\3D</Filter>
+    </ClCompile>
     <ClCompile Include="src\Crystal\Renderer\Buffer.cpp">
+      <Filter>src\Crystal\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Crystal\Renderer\FrameBuffer.cpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Crystal\Renderer\GraphicsContext.cpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Crystal\Renderer\2D\OrthoGraphicCamera.cpp">
-      <Filter>src\Crystal\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="src\Crystal\Renderer\Renderer.cpp">
-      <Filter>src\Crystal\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Crystal\Renderer\2D\Renderer2D.cpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Crystal\Renderer\RendererCommand.cpp">
@@ -256,6 +283,7 @@
     <ClCompile Include="src\Crystal\crpch.cpp">
       <Filter>src\Crystal</Filter>
     </ClCompile>
-    <ClCompile Include="src\Crystal\Renderer\3D\PerspectiveCamera.cpp" />
+    <ClCompile Include="src\Crystal\Examples\Camera3D.cpp" />
+    <ClCompile Include="src\Crystal\Renderer\3D\Renderer3D.cpp" />
   </ItemGroup>
 </Project>

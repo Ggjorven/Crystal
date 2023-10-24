@@ -10,10 +10,10 @@ namespace Crystal
 	struct MousePosition
 	{
 	public:
-		float X, Y;
+		double X, Y;
 
-		MousePosition(float x = 0.0f, float y = 0.0f)
-			: X(x), Y(x)
+		MousePosition(double x = 0.0f, double y = 0.0f)
+			: X(x), Y(y)
 		{
 		}
 
@@ -23,7 +23,10 @@ namespace Crystal
 		}
 	};
 
-
+	#define CR_CURSOR_SHOWN				0x00034001
+	#define CR_CURSOR_HIDDEN			0x00034002
+	#define CR_CURSOR_DISABLED			0x00034003
+	#define CR_CURSOR_CAPTURED			0x00034004
 
 	class Input
 	{
@@ -36,12 +39,18 @@ namespace Crystal
 
 		inline static MousePosition GetMousePosition() { return s_Instance->GetMousePositionImplementation(); }
 
+		inline static void SetCursorPosition(MousePosition position) { s_Instance->SetCursorPositionImplementation(position); }
+		inline static void SetCursorMode(int mode) { s_Instance->SetCursorModeImplementation(mode); }
+
 	protected:
 		//Implementation functions dependent on platform
 		virtual bool IsKeyPressedImplementation(int keycode) = 0;
 		virtual bool IsMousePressedImplementation(int button) = 0;
 
 		virtual MousePosition GetMousePositionImplementation() = 0;
+
+		virtual void SetCursorPositionImplementation(MousePosition position) = 0;
+		virtual void SetCursorModeImplementation(int mode) = 0;
 
 	private:
 		static Scope<Input> s_Instance;

@@ -19,6 +19,8 @@ namespace Crystal
 
 		MousePosition GetMousePositionImplementation() override;
 
+		void SetCursorPositionImplementation(MousePosition position) override;
+		void SetCursorModeImplementation(int mode) override;
 	};
 
 }

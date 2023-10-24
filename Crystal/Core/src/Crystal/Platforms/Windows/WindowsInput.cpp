@@ -36,7 +36,21 @@ namespace Crystal
         double xPos, yPos;
         glfwGetCursorPos(window, &xPos, &yPos);
 
-        return { (float)xPos, (float)yPos };
+        return { xPos, yPos };
+    }
+
+    void WindowsInput::SetCursorPositionImplementation(MousePosition position)
+    {
+        GLFWwindow* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
+
+        glfwSetCursorPos(window, position.X, position.Y);
+    }
+
+    void WindowsInput::SetCursorModeImplementation(int mode)
+    {
+        GLFWwindow* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
+
+        glfwSetInputMode(window, GLFW_CURSOR, mode);
     }
 
 }

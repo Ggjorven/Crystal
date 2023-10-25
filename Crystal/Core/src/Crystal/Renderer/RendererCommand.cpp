@@ -27,6 +27,11 @@ namespace Crystal
 		s_RenderingAPI->SetViewPort(x, y, width, height);
 	}
 
+	void RendererCommand::EnableDepth(bool enabled)
+	{
+		s_RenderingAPI->EnableDepth(enabled);
+	}
+
 	void RendererCommand::DrawIndexed(const Ref<VertexArray>& vertexArray)
 	{
 		s_RenderingAPI->DrawIndexed(vertexArray);

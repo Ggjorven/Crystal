@@ -22,11 +22,11 @@ public:
 	void OnEvent(Event& e);
 
 	inline const Ref<GameCamera>& GetCamera() { return m_Camera; }
-	inline const Scope<MarioEntityManager>& GetMarioEntityManager() { return m_EM; }
+	inline const Scope<EntityManager>& GetEntityManager() { return m_EM; }
 	inline const Scope<TileManager>& GetTileManager() { return m_TM; }
 
 	inline static const Ref<GameCamera>& GetSceneCamera() { return s_Instance->GetCamera(); }
-	inline static const Scope<MarioEntityManager>& GetSceneMarioEntityManager() { return s_Instance->GetMarioEntityManager(); }
+	inline static const Scope<EntityManager>& GetSceneMarioEntityManager() { return s_Instance->GetEntityManager(); }
 	inline static const Scope<TileManager>& GetSceneTileManager() { return s_Instance->GetTileManager(); }
 
 	void LoadMap(std::filesystem::path path);
@@ -37,6 +37,6 @@ private:
 private:
 	Ref<GameCamera> m_Camera;
 
-	Scope<MarioEntityManager> m_EM;
+	Scope<EntityManager> m_EM;
 	Scope<TileManager> m_TM;
 };

@@ -11,11 +11,11 @@
 
 using namespace Crystal;
 
-class MarioEntityManager
+class EntityManager
 {
 public:
-	MarioEntityManager();
-	virtual ~MarioEntityManager();
+	EntityManager();
+	virtual ~EntityManager();
 
 	virtual void OnUpdate(Timestep& ts);
 	virtual void OnRender();
@@ -25,15 +25,15 @@ public:
 
 	void LoadMap(std::filesystem::path path);
 
-	inline std::vector<Scope<MarioEntity>>& GetEntities() { return m_Entities; }
+	inline std::vector<Scope<Entity>>& GetEntities() { return m_Entities; }
 	inline std::vector<std::string>& GetRawMap() { return m_RawMap; }
 
 private:
-	void CharToMarioEntity(char c, const glm::vec2& position);
+	void CharToEntity(char c, const glm::vec2& position);
 
 private:
 	std::vector<std::string> m_RawMap;
-	std::vector<Scope<MarioEntity>> m_Entities;
+	std::vector<Scope<Entity>> m_Entities;
 	int32_t m_InsertIndex;
 };
 

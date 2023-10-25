@@ -103,6 +103,11 @@ namespace Crystal
 		delete s_CubeData;
 	}
 
+	void Renderer3D::OnDrawCall()
+	{
+		RendererCommand::EnableDepth(true);
+	}
+
 	void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec4& colour, bool reversed, const Ref<PerspectiveCamera>& camera)
 	{
 		DrawCube(position, size, { 0.0f, 0.0f, 0.0f }, colour, reversed, camera);
@@ -110,6 +115,9 @@ namespace Crystal
 
 	void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec3& origin, const glm::vec4& colour, bool reversed, const Ref<PerspectiveCamera>& camera)
 	{
+		//Depth
+		OnDrawCall();
+
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x + origin.x, position.y + origin.y, position.z + origin.z }) * glm::scale(glm::mat4(1.0f), { size.x, size.y, size.z }) * glm::scale(glm::mat4(1.0f), glm::vec3((reversed ? -1.0f : 1.0f), 1.0f, 1.0f));
 
 		s_CubeData->TextureShader->SetUniformFloat4("u_Colour", colour);

@@ -5,40 +5,40 @@
 #include <fstream>
 #include <sstream>
 
-MarioEntityManager::MarioEntityManager()
+EntityManager::EntityManager()
 	: m_InsertIndex(0)
 {
 }
 
-MarioEntityManager::~MarioEntityManager()
+EntityManager::~EntityManager()
 {
 }
 
-void MarioEntityManager::OnUpdate(Timestep& ts) //TODO check if in view
+void EntityManager::OnUpdate(Timestep& ts) //TODO check if in view
 {
-	for (Scope<MarioEntity>& MarioEntity : m_Entities)
+	for (Scope<Entity>& MarioEntity : m_Entities)
 		MarioEntity->OnUpdate(ts);
 }
 
-void MarioEntityManager::OnRender()
+void EntityManager::OnRender()
 {
-	for (Scope<MarioEntity>& MarioEntity : m_Entities)
+	for (Scope<Entity>& MarioEntity : m_Entities)
 		MarioEntity->OnRender();
 }
 
-void MarioEntityManager::OnImGuiRender()
+void EntityManager::OnImGuiRender()
 {
-	for (Scope<MarioEntity>& MarioEntity : m_Entities)
+	for (Scope<Entity>& MarioEntity : m_Entities)
 		MarioEntity->OnImGuiRender();
 }
 
-void MarioEntityManager::OnEvent(Event& e)
+void EntityManager::OnEvent(Event& e)
 {
-	for (Scope<MarioEntity>& MarioEntity : m_Entities)
+	for (Scope<Entity>& MarioEntity : m_Entities)
 		MarioEntity->OnEvent(e);
 }
 
-void MarioEntityManager::LoadMap(std::filesystem::path path)
+void EntityManager::LoadMap(std::filesystem::path path)
 {
 	//Reset
 	m_Entities.clear();
@@ -62,19 +62,19 @@ void MarioEntityManager::LoadMap(std::filesystem::path path)
 		pos.x = 0;
 		for (char& MarioEntity : line) //MarioEntity (X)
 		{
-			CharToMarioEntity(MarioEntity, pos);
-			pos.x += s_MarioEntityWidth;
+			CharToEntity(MarioEntity, pos);
+			pos.x += s_EntityWidth;
 		}
-		pos.y += s_MarioEntityHeight;
+		pos.y += s_EntityHeight;
 	}
 }
 
-void MarioEntityManager::CharToMarioEntity(char c, const glm::vec2& position)
+void EntityManager::CharToEntity(char c, const glm::vec2& position)
 {
 	switch (c)
 	{
 	case 'p':
-		m_Entities.emplace_back(CreateScope<Mario>("Mario", position, glm::vec2(s_MarioEntityWidth, s_MarioEntityHeight)));
+		m_Entities.emplace_back(CreateScope<Mario>("Mario", position, glm::vec2(s_EntityWidth, s_EntityHeight)));
 		break;
 
 	case 'g':

@@ -15,8 +15,8 @@ inline uint32_t s_WindowWidth = 1280;
 inline uint32_t s_WindowHeight = 720;
 
 //MarioEntity properties
-inline uint32_t s_MarioEntityWidth = 16;
-inline uint32_t s_MarioEntityHeight = 16;
+inline uint32_t s_EntityWidth = 16;
+inline uint32_t s_EntityHeight = 16;
 
 //Mario properties
 inline float s_MarioSpeed = 75.0f * s_GlobalScale;

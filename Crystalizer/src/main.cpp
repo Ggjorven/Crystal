@@ -4,6 +4,8 @@
 #include "EditorLayer.hpp"
 #include "FrameBufferLayer.hpp"
 
+#include "Baselayer.hpp"
+
 class Crystalizer : public Crystal::Application
 {
 public:
@@ -11,7 +13,9 @@ public:
 		: Application(appInfo)
 	{
 		//AddLayer(new EditorLayer());
-		AddLayer(new FramebufferLayer());
+		//AddLayer(new FramebufferLayer());
+		//AddLayer(new GameLayer());
+		AddLayer(new Baselayer());
 	}
 
 	virtual ~Crystalizer() {}
@@ -28,6 +32,9 @@ Crystal::Application* Crystal::CreateApplication(int argc, char* argv[])
 	appInfo.WindowProperties.Name = "Window";
 	appInfo.WindowProperties.Width = 1280;
 	appInfo.WindowProperties.Height = 720;
+
+	appInfo.ArgCount = argc;
+	appInfo.Args = argv;
 
 	return new Crystalizer(appInfo);
 }

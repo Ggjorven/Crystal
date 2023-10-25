@@ -7,9 +7,9 @@
 #include "GameLayer.hpp"
 
 Mario::Mario(const std::string_view& debugName, const glm::vec2& position, const glm::vec2& size)
-	: MarioEntity(debugName, position, size, s_MarioPath), m_CurrentTimer(0.f), m_State(State::None)
+	: Entity(debugName, position, size, s_MarioPath), m_CurrentTimer(0.f), m_State(State::None)
 {
-	m_TexCoords = TexCoords(0, 0, s_MarioEntityWidth, s_MarioEntityHeight);
+	m_TexCoords = TexCoords(0, 0, s_EntityWidth, s_EntityHeight);
 
 	m_CoordChangeInterval = 0.175f;
 }
@@ -22,7 +22,7 @@ void Mario::OnUpdate(Timestep& ts)
 {
 	m_State = State::None;
 
-	MarioEntity::OnUpdate(ts);
+	Entity::OnUpdate(ts);
 
 	if (Input::IsKeyPressed(CR_KEY_A)) 
 	{ m_Position.x -= s_MarioSpeed * ts; m_State = State::Running; m_Reversed = true; }
@@ -37,37 +37,37 @@ void Mario::OnUpdate(Timestep& ts)
 	{ m_Position.y -= s_MarioSpeed * ts; m_State = State::Jumping; }
 
 
-	Ref<GameCamera> camera = GameLayer::GetSceneCamera();
-	camera->SetPosition({ camera->GetPosition().x + 0.05f, camera->GetPosition().y });
+	//Ref<GameCamera> camera = GameLayer::GetSceneCamera();
+	//camera->SetPosition({ camera->GetPosition().x + 0.05f, camera->GetPosition().y }); //CAMERA UPDATE FFS
 
 	//Texture changing
 	m_CurrentTimer.GetSeconds() += ts;
 	switch (m_State) //TODO Crouching
 	{
 	case State::None:
-		m_TexCoords.Y = s_MarioEntityHeight * 0;
+		m_TexCoords.Y = s_EntityHeight * 0;
 		break;
 
 	case State::Running:
-		m_TexCoords.Y = s_MarioEntityHeight * 1;
+		m_TexCoords.Y = s_EntityHeight * 1;
 		break;
 
 	case State::Jumping:
-		m_TexCoords.Y = s_MarioEntityHeight * 2;
+		m_TexCoords.Y = s_EntityHeight * 2;
 		break;
 	}
 	if (m_CurrentTimer >= m_CoordChangeInterval) //Check if need to update
 	{
 		m_CurrentTimer = 0;
 
-		m_TexCoords.X += s_MarioEntityWidth;
-		if (m_TexCoords.X > s_MarioEntityWidth * 2) m_TexCoords.X = 0; //There are 3 possible things but we start at 0 so 2
+		m_TexCoords.X += s_EntityWidth;
+		if (m_TexCoords.X > s_EntityWidth * 2) m_TexCoords.X = 0; //There are 3 possible things but we start at 0 so 2
 	}
 }
 
 void Mario::OnRender()
 {
-	MarioEntity::OnRender();
+	Entity::OnRender();
 }
 
 void Mario::OnImGuiRender()

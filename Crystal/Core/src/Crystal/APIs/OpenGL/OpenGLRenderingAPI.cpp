@@ -20,12 +20,13 @@ namespace Crystal
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		//glEnable(GL_DEPTH_TEST);
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_ALWAYS);
 	}
 
 	void OpenGLRenderingAPI::Clear()
 	{
-		glClear(GL_COLOR_BUFFER_BIT /* | GL_DEPTH_BUFFER_BIT*/);
+		glClear(GL_COLOR_BUFFER_BIT  | GL_DEPTH_BUFFER_BIT);
 	}
 
 	void OpenGLRenderingAPI::SetClearColour(const glm::vec4& colour)
@@ -36,6 +37,14 @@ namespace Crystal
 	void OpenGLRenderingAPI::SetViewPort(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
 	{
 		glViewport(x, y, width, height);
+	}
+
+	void OpenGLRenderingAPI::EnableDepth(bool enabled)
+	{
+		if (enabled)
+			glEnable(GL_DEPTH_TEST);
+		else
+			glDisable(GL_DEPTH_TEST);
 	}
 
 	void OpenGLRenderingAPI::DrawIndexed(const Ref<VertexArray>& vertexArray)

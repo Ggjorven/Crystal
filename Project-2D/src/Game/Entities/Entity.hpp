@@ -9,11 +9,11 @@
 
 using namespace Crystal;
 
-class MarioEntity
+class Entity
 {
 public:
-	MarioEntity(const std::string_view& debugName, const glm::vec2& position, const glm::vec2& size, std::filesystem::path texturePath);
-	virtual ~MarioEntity() = default;
+	Entity(const std::string_view& debugName, const glm::vec2& position, const glm::vec2& size, std::filesystem::path texturePath);
+	virtual ~Entity() = default;
 
 	virtual void OnUpdate(Timestep& ts);
 	virtual void OnRender();

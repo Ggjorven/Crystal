@@ -1,14 +1,17 @@
 #include <Crystal/Crystal.hpp>
 #include <imgui.h>
 
+#include "Sandbox/GameLayer.hpp"
+
 using namespace Crystal;
 
 class FramebufferLayer : public Layer 
 {
 public:
     FramebufferLayer()
-        : m_RenderFramebuffer(nullptr), m_DisplayFramebuffer(nullptr)
+        : m_RenderFramebuffer(nullptr)
     {
+        m_Layers.AddLayer(new GameLayer());
     }
 
     virtual ~FramebufferLayer() {}
@@ -18,25 +21,29 @@ public:
         Window& window = Application::Get().GetWindow();
 
         m_RenderFramebuffer = FrameBuffer::Create(window.GetWidth(), window.GetHeight(), FrameBufferFormat::RGBA8);
-        m_DisplayFramebuffer = FrameBuffer::Create(window.GetWidth(), window.GetHeight(), FrameBufferFormat::RGBA8);
     }
 
     void OnDetach() override
     {
         m_RenderFramebuffer.reset();
-        m_DisplayFramebuffer.reset();
     }
 
     void OnUpdate(Timestep& ts) override
     {
+        for (auto layer : m_Layers)
+            layer->OnUpdate(ts);
     }
 
     void OnRender() override
     {
-        m_RenderFramebuffer->Bind();
-        Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-        Renderer2D::DrawQuad({ 1.0f, 0.0f }, { 1.0f, 1.0f }, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
-        m_RenderFramebuffer->Unbind();
+        //m_RenderFramebuffer->Bind();
+        //Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+        //Renderer2D::DrawQuad({ 1.0f, 0.0f }, { 1.0f, 1.0f }, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
+
+        for (auto layer : m_Layers)
+            layer->OnRender();
+
+        //m_RenderFramebuffer->Unbind();
     }
 
     void OnImGuiRender() override
@@ -83,31 +90,36 @@ public:
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
 
-        ImGui::Begin("Viewport");
+        ImGui::Begin("Viewport", (bool*)0, ImGuiWindowFlags_NoDocking);
 
-        auto viewportSize = ImGui::GetContentRegionAvail();
-        m_RenderFramebuffer->Resize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
+        //auto viewportSize = ImGui::GetContentRegionAvail();
+        //m_RenderFramebuffer->Resize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 
-        ImGui::Image((void*)m_RenderFramebuffer->GetColorAttachmentRendererID(), viewportSize, { 0, 1 }, { 1, 0 });
+        //ImGui::Image((void*)m_RenderFramebuffer->GetColorAttachmentRendererID(), viewportSize, { 0, 1 }, { 1, 0 });
         ImGui::End();
 
+        
         ImGui::Begin("a");
 
-        viewportSize = ImGui::GetContentRegionAvail();
+        ImVec2 viewportSize = ImGui::GetContentRegionAvail();
         m_RenderFramebuffer->Resize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
 
         ImGui::Image((void*)m_RenderFramebuffer->GetColorAttachmentRendererID(), viewportSize, { 0, 1 }, { 1, 0 });
 
         ImGui::End();
-
+        
 
         ImGui::End();
 
         ImGui::PopStyleVar();
+
+        //for (auto layer : m_Layers)
+        //    layer->OnImGuiRender();
     }
 
 private:
+    LayerStack m_Layers;
+
     Ref<FrameBuffer> m_RenderFramebuffer;
-    Ref<FrameBuffer> m_DisplayFramebuffer;
 
 };

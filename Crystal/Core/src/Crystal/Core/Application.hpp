@@ -21,10 +21,11 @@ namespace Crystal
 	{
 	public:
 		WindowProperties WindowProperties;
-
+		int ArgCount;
+		char** Args;
 
 		ApplicationInfo(Crystal::WindowProperties windowProperties = Crystal::WindowProperties())
-			: WindowProperties(windowProperties)
+			: WindowProperties(windowProperties), ArgCount(0), Args(nullptr)
 		{
 		}
 	};

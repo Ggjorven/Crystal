@@ -4,6 +4,8 @@
 
 #include <imgui.h>
 
+#include "Sandbox/GameLayer.hpp"
+
 using namespace Crystal;
 
 class EditorLayer : public Layer
@@ -11,6 +13,7 @@ class EditorLayer : public Layer
 public:
 	EditorLayer()
 	{
+		m_Layers.AddLayer(new GameLayer());
 	}
 
 	virtual ~EditorLayer() {}
@@ -21,10 +24,19 @@ public:
 		m_Buffer = FrameBuffer::Create(window.GetWidth(), window.GetHeight(), FrameBufferFormat::RGBA8);
 	}
 
+	void OnUpdate(Timestep& ts)
+	{
+		for (auto layer : m_Layers)
+			layer->OnUpdate(ts);
+	}
+
 	void OnRender() override
 	{
 		m_Buffer->Bind();
-		Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 100.0f, 100.0f }, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+		//Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 100.0f, 100.0f }, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+		for (auto layer : m_Layers)
+			layer->OnRender();
+
 		m_Buffer->Unbind();
 	}
 
@@ -39,8 +51,13 @@ public:
 		ImGui::Image((void*)m_Buffer->GetColorAttachmentRendererID(), viewportSize, { 0, 1 }, { 1, 0 });
 
 		ImGui::End();
+
+		for (auto layer : m_Layers)
+			layer->OnImGuiRender();
 	}
 
 private:
+	LayerStack m_Layers;
+
 	Ref<FrameBuffer> m_Buffer;
 };

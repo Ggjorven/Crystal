@@ -17,6 +17,8 @@ namespace Crystal
 		static void Init();
 		static void Shutdown();
 
+		static void OnDrawCall();
+
 		//Rendering functions
 		//
 		//Coloured

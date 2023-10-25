@@ -135,6 +135,9 @@
     <ClInclude Include="src\Crystal\Examples\Camera2D.hpp">
       <Filter>src\Crystal\Examples</Filter>
     </ClInclude>
+    <ClInclude Include="src\Crystal\Examples\Camera3D.hpp">
+      <Filter>src\Crystal\Examples</Filter>
+    </ClInclude>
     <ClInclude Include="src\Crystal\ImGui\BaseImGuiLayer.hpp">
       <Filter>src\Crystal\ImGui</Filter>
     </ClInclude>
@@ -151,6 +154,9 @@
       <Filter>src\Crystal\Renderer\2D</Filter>
     </ClInclude>
     <ClInclude Include="src\Crystal\Renderer\3D\PerspectiveCamera.hpp">
+      <Filter>src\Crystal\Renderer\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Crystal\Renderer\3D\Renderer3D.hpp">
       <Filter>src\Crystal\Renderer\3D</Filter>
     </ClInclude>
     <ClInclude Include="src\Crystal\Renderer\Buffer.hpp">
@@ -183,8 +189,6 @@
     <ClInclude Include="src\Crystal\crpch.h">
       <Filter>src\Crystal</Filter>
     </ClInclude>
-    <ClInclude Include="src\Crystal\Examples\Camera3D.hpp" />
-    <ClInclude Include="src\Crystal\Renderer\3D\Renderer3D.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\vendor\stb_image\src\stb_image.cpp">
@@ -232,6 +236,9 @@
     <ClCompile Include="src\Crystal\Examples\Camera2D.cpp">
       <Filter>src\Crystal\Examples</Filter>
     </ClCompile>
+    <ClCompile Include="src\Crystal\Examples\Camera3D.cpp">
+      <Filter>src\Crystal\Examples</Filter>
+    </ClCompile>
     <ClCompile Include="src\Crystal\ImGui\BaseImGuiLayer.cpp">
       <Filter>src\Crystal\ImGui</Filter>
     </ClCompile>
@@ -251,6 +258,9 @@
       <Filter>src\Crystal\Renderer\2D</Filter>
     </ClCompile>
     <ClCompile Include="src\Crystal\Renderer\3D\PerspectiveCamera.cpp">
+      <Filter>src\Crystal\Renderer\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Crystal\Renderer\3D\Renderer3D.cpp">
       <Filter>src\Crystal\Renderer\3D</Filter>
     </ClCompile>
     <ClCompile Include="src\Crystal\Renderer\Buffer.cpp">
@@ -283,7 +293,5 @@
     <ClCompile Include="src\Crystal\crpch.cpp">
       <Filter>src\Crystal</Filter>
     </ClCompile>
-    <ClCompile Include="src\Crystal\Examples\Camera3D.cpp" />
-    <ClCompile Include="src\Crystal\Renderer\3D\Renderer3D.cpp" />
   </ItemGroup>
 </Project>

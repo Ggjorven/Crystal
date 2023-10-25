@@ -2,7 +2,7 @@
 
 #include "Game/Entities/Entity.hpp"
 
-class Mario : public MarioEntity
+class Mario : public Entity
 {
 public:
 	Mario(const std::string_view& debugName, const glm::vec2& position, const glm::vec2& size);

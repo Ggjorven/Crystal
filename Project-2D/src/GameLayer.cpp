@@ -22,7 +22,7 @@ void GameLayer::OnAttach()
 	Tiles::Init();
 
 	m_TM = CreateScope<TileManager>();
-	m_EM = CreateScope<MarioEntityManager>();
+	m_EM = CreateScope<EntityManager>();
 
 	LoadMap("assets/maps/world-1-1.txt");
 

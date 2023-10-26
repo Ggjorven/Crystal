@@ -28,6 +28,8 @@ namespace Crystal
 
 	void Camera3D::OnUpdate(Timestep& ts)
 	{
+        m_Camera->OnUpdate(ts);
+
         //Key presses
         if (!m_Escaped)
         {
@@ -99,6 +101,7 @@ namespace Crystal
 
             m_Camera->UpdateArea();
         }
+        //Update matrixes
 	}
 
 	void Camera3D::OnEvent(Event& e)

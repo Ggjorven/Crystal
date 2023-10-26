@@ -25,4 +25,7 @@ private:
 private:
 	Ref<Camera3D> m_Camera3D;
 	Ref<Camera2D> m_Camera2D;
+
+	Ref<Texture2D> m_Tex;
+	bool m_UseTex = false;
 };

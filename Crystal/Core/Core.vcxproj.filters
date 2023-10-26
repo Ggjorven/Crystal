@@ -189,6 +189,8 @@
     <ClInclude Include="src\Crystal\crpch.h">
       <Filter>src\Crystal</Filter>
     </ClInclude>
+    <ClInclude Include="src\Crystal\Platforms\Windows\WindowsUtilities.hpp" />
+    <ClInclude Include="src\Crystal\Utils\Utils.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\vendor\stb_image\src\stb_image.cpp">
@@ -293,5 +295,7 @@
     <ClCompile Include="src\Crystal\crpch.cpp">
       <Filter>src\Crystal</Filter>
     </ClCompile>
+    <ClCompile Include="src\Crystal\Platforms\Windows\WindowsUtilities.cpp" />
+    <ClCompile Include="src\Crystal\Utils\Utils.cpp" />
   </ItemGroup>
 </Project>

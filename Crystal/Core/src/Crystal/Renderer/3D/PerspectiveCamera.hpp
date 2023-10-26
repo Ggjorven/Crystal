@@ -51,15 +51,23 @@ namespace Crystal
         MovementArea& GetArea() { return m_Area; }
         CameraSettings& GetSettings() { return m_Properties; }
 
-        glm::mat4 GetViewMatrix() const { return glm::lookAt(m_Position, m_Position + m_Area.Front, m_Area.Up); }
-        glm::mat4 GetProjectionMatrix() const { return glm::perspective(glm::radians(m_Properties.FOV), m_AspectRatio, 0.1f, 100.0f); }
-        glm::mat4 GetViewProjectionMatrix() const { return GetProjectionMatrix() * GetViewMatrix(); }
+        glm::mat4 GetViewMatrix() const { return m_ViewMatrix; }
+        glm::mat4 GetProjectionMatrix() const { return m_ViewMatrix; }
+        glm::mat4 GetViewProjectionMatrix() const { return m_ProjectionMatrix * m_ViewMatrix; }
+
+        void SetViewMatrix(const glm::mat4& view) { m_ViewMatrix = view; m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix; }
+        void SetProjectionMatrix(const glm::mat4& projection) { m_ProjectionMatrix = projection; m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix; }
+        void SetViewProjectionMatrix(const glm::mat4& viewProjectionMatrix) { m_ViewProjectionMatrix = viewProjectionMatrix; }
 
     private:
         bool OnWindowResize(WindowResizeEvent& e);
 
     private:
         glm::vec3 m_Position = { 0.0f, 0.0f, 0.0f };
+
+        glm::mat4 m_ViewMatrix;
+        glm::mat4 m_ProjectionMatrix;
+        glm::mat4 m_ViewProjectionMatrix;
 
         MovementArea m_Area;
         CameraSettings m_Properties;

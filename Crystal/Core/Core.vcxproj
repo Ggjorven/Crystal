@@ -173,6 +173,7 @@
     <ClInclude Include="src\Crystal\ImGui\BaseImGuiLayer.hpp" />
     <ClInclude Include="src\Crystal\Platforms\Windows\WindowsInput.hpp" />
     <ClInclude Include="src\Crystal\Platforms\Windows\WindowsWindow.hpp" />
+    <ClInclude Include="src\Crystal\Platforms\Windows\WindowsUtilities.hpp" />
     <ClInclude Include="src\Crystal\Renderer\2D\OrthoGraphicCamera.hpp" />
     <ClInclude Include="src\Crystal\Renderer\2D\Renderer2D.hpp" />
     <ClInclude Include="src\Crystal\Renderer\3D\PerspectiveCamera.hpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="src\Crystal\Renderer\Texture.hpp" />
     <ClInclude Include="src\Crystal\Renderer\VertexArray.hpp" />
     <ClInclude Include="src\Crystal\crpch.h" />
+    <ClInclude Include="src\Crystal\Utils\Utils.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\vendor\stb_image\src\stb_image.cpp" />
@@ -208,6 +210,7 @@
     <ClCompile Include="src\Crystal\ImGui\BaseImGuiLayer.cpp" />
     <ClCompile Include="src\Crystal\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Crystal\Platforms\Windows\WindowsInput.cpp" />
+    <ClCompile Include="src\Crystal\Platforms\Windows\WindowsUtilities.cpp" />
     <ClCompile Include="src\Crystal\Platforms\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Crystal\Renderer\2D\OrthoGraphicCamera.cpp" />
     <ClCompile Include="src\Crystal\Renderer\2D\Renderer2D.cpp" />
@@ -225,6 +228,7 @@
     <ClCompile Include="src\Crystal\crpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Crystal\Utils\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Physics\Physics.vcxproj">

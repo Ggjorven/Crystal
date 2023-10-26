@@ -19,6 +19,10 @@ namespace Crystal
 		virtual uint32_t GetWidth() const override { return m_Width; }
 		virtual uint32_t GetHeight() const override { return m_Height; }
 		virtual unsigned char* GetData() const override { return m_Data; }
+		virtual uint32_t GetFormat() const override { return m_DataFormat; }
+
+		virtual uint32_t GetRendererID() const override { return m_RendererID; }
+		virtual const std::string& GetPath() const override { return m_Path; }
 
 		virtual void SetData(void* data, uint32_t size) override;
 		virtual void UpdateSubTexture(int x, int y, int width, int height) override;

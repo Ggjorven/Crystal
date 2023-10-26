@@ -41,6 +41,7 @@
 //Platforms
 	//Windows
 	#include "Crystal/Platforms/Windows/WindowsInput.hpp"
+	#include "Crystal/Platforms/Windows/WindowsUtilities.hpp"
 	#include "Crystal/Platforms/Windows/WindowsWindow.hpp"
 
 //Renderer folder
@@ -61,6 +62,8 @@
 	#include "Crystal/Renderer/3D/PerspectiveCamera.hpp"
 	#include "Crystal/Renderer/3D/Renderer3D.hpp"
 
+//Utils folder
+#include "Crystal/Utils/Utils.hpp"
 
 
 //===================

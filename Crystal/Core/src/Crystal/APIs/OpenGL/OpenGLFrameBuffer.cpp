@@ -40,7 +40,6 @@ namespace Crystal
 		glGenTextures(1, &m_ColorAttachment);
 		glBindTexture(GL_TEXTURE_2D, m_ColorAttachment);
 
-		// TODO: Create Crystal texture object based on format here
 		if (m_Format == FrameBufferFormat::RGBA16F)
 		{
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, m_Width, m_Height, 0, GL_RGBA, GL_FLOAT, nullptr);
@@ -67,7 +66,7 @@ namespace Crystal
 			CR_CORE_ASSERT(false, "Framebuffer is incomplete!");
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glViewport(0, 0, m_Width, m_Height);
+		glViewport(0, 0, m_Width, m_Height); //TODO: remove?
 
 		//Texture creation
 		m_Texture = Texture2D::Create(m_Width, m_Height);

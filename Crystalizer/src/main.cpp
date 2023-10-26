@@ -1,10 +1,7 @@
 #include <Crystal/Crystal.hpp>
 #include <Crystal/Core/AppEntrypoint.hpp>
 
-#include "EditorLayer.hpp"
-#include "FrameBufferLayer.hpp"
-
-#include "Baselayer.hpp"
+#include "Editor.hpp"
 
 class Crystalizer : public Crystal::Application
 {
@@ -12,10 +9,7 @@ public:
 	Crystalizer(Crystal::ApplicationInfo appInfo)
 		: Application(appInfo)
 	{
-		//AddLayer(new EditorLayer());
-		//AddLayer(new FramebufferLayer());
-		//AddLayer(new GameLayer());
-		AddLayer(new Baselayer());
+		AddLayer(new EditorLayer());
 	}
 
 	virtual ~Crystalizer() {}

@@ -53,7 +53,7 @@ namespace Crystal
 			m_LastTime = currentTime;
 
 			//Update & Render
-			RendererCommand::Clear();
+			//RendererCommand::Clear();
 			m_Window->OnUpdate();
 
 			for (Layer* layer : m_LayerStack)

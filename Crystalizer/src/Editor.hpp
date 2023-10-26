@@ -5,30 +5,33 @@
 #include <imgui.h>
 
 //All editor layers
+#include "Panels/Panels.hpp"
 
 //Custom layers
 #include "Sandbox/GameLayer.hpp"
 
 using namespace Crystal;
 
-class Baselayer : public Layer
+class EditorLayer : public Layer
 {
 public:
-	Baselayer()
+	EditorLayer()
 	{
 		s_Instance = this;
 
 		Window& window = Application::Get().GetWindow();
 		m_FrameBuffer = FrameBuffer::Create(window.GetWidth(), window.GetHeight(), FrameBufferFormat::RGBA8);
 
-		s_WindowMin.x = 0;
-		s_WindowMin.y = 0;
-		s_WindowMax.x = window.GetWidth();
-		s_WindowMax.y = window.GetHeight();
+		s_WindowMin.x = 0.0f;
+		s_WindowMin.y = 0.0f;
+		s_WindowMax.x = (float)window.GetWidth();
+		s_WindowMax.y = (float)window.GetHeight();
 	}
 
 	void OnAttach() override
 	{	
+		Panels::Init();
+
 		AddLayer(new GameLayer());
 	}
 
@@ -40,17 +43,22 @@ public:
 	{
 		for (Layer* layer : m_Layers)
 			layer->OnUpdate(ts);
+
 	}
 
 	void OnRender()
 	{
 		// TODO: Framebuffer
+		//RendererCommand::SetViewPort(0, 0, s_WindowMax.x, s_WindowMax.y);
 		m_FrameBuffer->Bind();
 
 		RendererCommand::Clear();
+		//RendererCommand::SetViewPort(0, 0, s_WindowMax.x, s_WindowMax.y);
 
 		for (Layer* layer : m_Layers)
 			layer->OnRender();
+
+		//RendererCommand::SetViewPort(0, 0, s_WindowMax.x, s_WindowMax.y);
 
 		m_FrameBuffer->Unbind();
 	}
@@ -68,6 +76,7 @@ public:
 
 			ImVec2 size = ImGui::GetContentRegionAvail();
 			m_FrameBuffer->Resize((uint32_t)size.x, (uint32_t)size.y);
+			//m_FrameBuffer->Resize(1280u, 720u);
 
 			ImGui::Image((void*)m_FrameBuffer->GetColorAttachmentRendererID(), size, { 0, 1 }, { 1, 0 });
 
@@ -75,10 +84,10 @@ public:
 			s_WindowMin = ImGui::GetWindowContentRegionMin();
 			s_WindowMax = ImGui::GetWindowContentRegionMax();
 
-			s_WindowMin.x += ImGui::GetWindowPos().x;
-			s_WindowMin.y += ImGui::GetWindowPos().y;
-			s_WindowMax.x += ImGui::GetWindowPos().x;
-			s_WindowMax.y += ImGui::GetWindowPos().y;
+			//s_WindowMin.x += ImGui::GetWindowPos().x;
+			//s_WindowMin.y += ImGui::GetWindowPos().y;
+			//s_WindowMax.x += ImGui::GetWindowPos().x;
+			//s_WindowMax.y += ImGui::GetWindowPos().y;
 
 			ImGui::End();
 			ImGui::PopStyleVar(1);
@@ -92,7 +101,7 @@ public:
 	{
 		EventHandler handler(e);
 
-		handler.Handle<WindowResizeEvent>(CR_BIND_EVENT_FN(Baselayer::WindowResize)); //For when not using 
+		handler.Handle<WindowResizeEvent>(CR_BIND_EVENT_FN(EditorLayer::WindowResize)); //For when not using 
 
 		for (Layer* layer : m_Layers)
 			layer->OnEvent(e);
@@ -100,6 +109,7 @@ public:
 
 public:
 	static bool InWindow(MousePosition position) { return s_Instance->InWindowImplementation(position); }
+	static glm::vec2 GetWindowSize() { return { s_WindowMax.x, s_WindowMax.y }; }
 
 private:
 	void AddLayer(Layer* layer) { m_Layers.AddLayer(layer); }
@@ -115,13 +125,13 @@ private:
 
 	bool InWindowImplementation(MousePosition position)
 	{
-		CR_WARN("Mouse position X: {0}, Y: {1}", position.X, position.Y);
-		CR_WARN("Window min: X: {0}, Y: {1}, max: X: {2}, Y: {3}", s_WindowMin.x, s_WindowMin.y, s_WindowMax.x, s_WindowMax.y);
+		//CR_WARN("Mouse position X: {0}, Y: {1}", position.X, position.Y);
+		//CR_WARN("Window min: X: {0}, Y: {1}, max: X: {2}, Y: {3}", s_WindowMin.x, s_WindowMin.y, s_WindowMax.x, s_WindowMax.y);
 
 		int safeZone = 5;
 		if (
-			position.X > s_WindowMin.x + safeZone && position.X < s_WindowMax.x - safeZone &&
-			position.Y > s_WindowMin.y + safeZone && position.Y < s_WindowMax.y - safeZone
+			position.X >= s_WindowMin.x + safeZone && position.X <= s_WindowMax.x - safeZone &&
+			position.Y >= s_WindowMin.y + safeZone && position.Y <= s_WindowMax.y - safeZone
 			)
 		{
 			//CR_WARN("TRUE");
@@ -132,11 +142,14 @@ private:
 	}
 
 private:
-	static Baselayer* s_Instance;
+	static EditorLayer* s_Instance;
 
 private:
 	LayerStack m_Layers;
 	Ref<FrameBuffer> m_FrameBuffer;
+
+	Ref<Texture2D> m_Tex;
+	bool m_UseTex = false;
 
 	static ImVec2 s_WindowMin;
 	static ImVec2 s_WindowMax;

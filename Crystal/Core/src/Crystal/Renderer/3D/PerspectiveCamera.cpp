@@ -15,6 +15,9 @@ namespace Crystal
 
 	void PerspectiveCamera::OnUpdate(Timestep& ts)
 	{
+		m_ViewMatrix = glm::lookAt(m_Position, m_Position + m_Area.Front, m_Area.Up);
+		m_ProjectionMatrix = glm::perspective(glm::radians(m_Properties.FOV), m_AspectRatio, 0.1f, 100.0f);
+		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewProjectionMatrix;
 	}
 
 	void PerspectiveCamera::OnEvent(Event& e)

@@ -16,6 +16,8 @@ Crystal is an ambitious game engine that combines the power of OpenGL and Vulkan
 
 ## How to use
 
+- **First of all:** Make sure you have the Vulkan SDK installed.
+
 - **Visual Studio 2022:** Run the "Win-Gen-Projects.bat" in the scripts folder. There should now be a Crystal.sln file in the root of repository.
 
 - **Other:** You can also use other compilers such as g++ or gcc. To do so you should compile all the src directories found in "Crystal" and all of the vendor src directories. Make sure to compile the Core and Physics and the vendor apps to a .lib file, Crystalizer can be compiled to a .exe, don't forget to link the .lib files to these.

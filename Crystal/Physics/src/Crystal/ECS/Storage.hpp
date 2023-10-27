@@ -27,7 +27,7 @@ namespace Crystal::ECS
         virtual ~Storage() = default;
 
         template<typename ComponentType>
-        ComponentType& GetComponent(CR_UUID uuid)
+        ComponentType* GetComponent(CR_UUID uuid)
         {
             //CR_CORE_ASSERT(std::is_base_of<Crystal::ECS::Component, ComponentType>::value, "T must be a subclass of Component");
 
@@ -36,7 +36,7 @@ namespace Crystal::ECS
             {
                 try
                 {
-                    return std::any_cast<ComponentType&>(componentMap[uuid]);
+                    return &std::any_cast<ComponentType&>(componentMap[uuid]);
                 }
                 catch (const std::bad_any_cast& e)
                 {
@@ -46,7 +46,8 @@ namespace Crystal::ECS
             else
                 CR_CORE_ERROR("Component doesn't exist.");
 
-            return ComponentType();
+
+            return nullptr;
         }
 
         template<typename ComponentType>

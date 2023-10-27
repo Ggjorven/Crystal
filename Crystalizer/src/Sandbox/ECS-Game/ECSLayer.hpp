@@ -23,7 +23,6 @@ private:
 	bool MousePress(MouseButtonPressedEvent& e);
 
 private:
-	ECS::Storage m_Storage;
+	Ref<Scene> m_Scene;
 
-	Ref<ECS::Entity> m_Entity;
 };

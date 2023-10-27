@@ -1,7 +1,9 @@
-Entity:
-  Size:
-    - 17
-    - 15
-  Position:
-    - 10
-    - 2.75
+Scene: "Basic"
+Entities:
+  - Entity: 12082307277909004810
+    TagComponent:
+      Tag: Mario
+    TransformComponent:
+      Position: [10, 0, 20]
+      Size: [3, 9.5, 0.0]
+      Rotation: 0

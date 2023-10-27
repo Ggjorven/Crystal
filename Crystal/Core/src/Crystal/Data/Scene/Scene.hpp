@@ -24,7 +24,11 @@ namespace Crystal
 		void OnRenderEditor();
 		void OnEvent(Event& e);
 
-		//ECS stuff ex. CreateEntity
+		void AddEntity(ECS::Entity& entity) { m_Entities.emplace_back(entity); }
+		std::vector<ECS::Entity>& GetEntities() { return m_Entities; }
+
+		ECS::Storage& GetStorage() { return m_Storage; }
+		std::string GetName() { return m_DebugName; }
 
 	protected:
 		std::string m_DebugName;

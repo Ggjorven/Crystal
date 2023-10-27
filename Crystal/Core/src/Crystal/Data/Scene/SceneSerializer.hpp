@@ -21,8 +21,8 @@ namespace Crystal
 		void Deserialize(std::filesystem::path path);
 
 	private:
-		void SerializeEntity(YAML::Node& node);
-		void DeserializeEntity(YAML::Node& node);
+		void SerializeEntity(YAML::Emitter& emitter, ECS::Entity& entity);
+		void DeserializeEntity(YAML::detail::iterator_value& node);
 
 	private:
 		Ref<Scene>& m_Scene;

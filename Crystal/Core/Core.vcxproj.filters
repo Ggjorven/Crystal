@@ -216,6 +216,9 @@
     <ClInclude Include="src\Crystal\Utils\Utils.hpp">
       <Filter>src\Crystal\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\Crystal\Utils\YamlUtils.hpp">
+      <Filter>src\Crystal\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="src\Crystal\crpch.h">
       <Filter>src\Crystal</Filter>
     </ClInclude>

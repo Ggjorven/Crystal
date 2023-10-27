@@ -8,6 +8,7 @@
 #include "Crystal/ECS/Storage.hpp"
 
 #include <string>
+#include <optional>
 #include <type_traits> 
 
 namespace Crystal::ECS
@@ -32,14 +33,15 @@ namespace Crystal::ECS
         }
 
         template <typename ComponentType>
-        inline ComponentType& GetComponent()
+        inline ComponentType* GetComponent()
         {
             return m_Storage.GetComponent<ComponentType>(m_UUID);
         }
 
+        inline void SetUUID(CR_UUID uuid) { m_UUID = uuid; }
         inline const CR_UUID GetUUID() const { return m_UUID; }
 
-        static Ref<Entity> Create(ECS::Storage& storage, const std::string& name = "Entity");
+        static Entity Create(ECS::Storage& storage, const std::string& name = "Entity");
 
     protected:
         ECS::Storage& m_Storage;

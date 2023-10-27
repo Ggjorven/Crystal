@@ -10,10 +10,9 @@ namespace Crystal::ECS
         m_UUID = UUIDGenerator::GenerateUUID();
     }
 
-    Ref<Entity> Entity::Create(ECS::Storage& storage, const std::string& name)
+    Entity Entity::Create(ECS::Storage& storage, const std::string& name)
     {
-        Ref<Entity> entity = CreateRef<Entity>(storage, name);
-        return entity;
+        return Entity(storage, name);
     }
 
 }

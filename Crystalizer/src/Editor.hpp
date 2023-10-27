@@ -32,8 +32,8 @@ public:
 		//serializer.Serialize("test.yaml");
 		//serializer.Deserialize("test.yaml");
 
-		AddLayer(new Layer2D());
-		//AddLayer(new Layer3D());
+		//AddLayer(new Layer2D());
+		AddLayer(new Layer3D());
 	}
 
 	void OnDetach() override

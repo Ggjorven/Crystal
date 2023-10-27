@@ -2,6 +2,7 @@
 #include "SceneSerializer.hpp"
 
 #include <glm/glm.hpp>
+#include "Utils/YamlUtils.hpp"
 
 namespace Crystal
 {
@@ -17,18 +18,28 @@ namespace Crystal
 
 	void SceneSerializer::Serialize(std::filesystem::path path)
 	{
-		YAML::Node data;
+		YAML::Emitter data;
 
-		data["Entity"]["Size"][0] = 17.0f;
-		data["Entity"]["Size"][1] = 15.0f;
-		data["Entity"]["Position"][0] = 10.0f;
-		data["Entity"]["Position"][1] = 2.75f;
+
+		data << YAML::BeginMap;
+		data << YAML::Key << "Scene";
+		data << YAML::Value << m_Scene->GetName();
+
+		data << YAML::Key << "Entities";
+		data << YAML::Value << YAML::BeginSeq;
+
+		for (ECS::Entity& entity : m_Scene->m_Entities)
+			SerializeEntity(data, entity);
+
+		data << YAML::EndSeq;
+		data << YAML::EndMap;
 
 		std::ofstream file(path);
 
 		if (file.good())
 		{
-			file << data;
+			//CR_CORE_TRACE("Adding data to file {0}: \n{1}", path.string(), data.c_str());
+			file << data.c_str();
 			file.close();
 		}
 		else
@@ -39,18 +50,91 @@ namespace Crystal
 	{
 		YAML::Node data = YAML::LoadFile(path.string());
 
-		//CR_CORE_TRACE("Info: [Test] = '{0}', [Abc] = '{1}'", data["Test"].as<int>(), data["Abc"].as<std::string>());
-		CR_CORE_TRACE("Entity Info:");
-		CR_CORE_TRACE("	[Size] = X: {0}, Y: {1}", data["Entity"]["Size"][0].as<float>(), data["Entity"]["Size"][1].as<float>());
-		CR_CORE_TRACE("	[Position] = X: {0}, Y: {1}", data["Entity"]["Position"][0].as<float>(), data["Entity"]["Position"][1].as<float>());
+		//Set scene name
+		m_Scene->m_DebugName = data["Scene"].as<std::string>(); 
+
+		auto& entities = data["Entities"];
+		if (entities)
+		{
+			for (auto& entity : entities)
+				DeserializeEntity(entity);
+		}
+		
+		std::stringstream ss;
+		ss << data;
+		CR_CORE_TRACE("Loading data from file {0}: \n{1}", path.string(), ss.str());
 	}
 
-	void SceneSerializer::SerializeEntity(YAML::Node& node)
+	void SceneSerializer::SerializeEntity(YAML::Emitter& emitter, ECS::Entity& entity)
 	{
+		CR_UUID uuid = entity.GetUUID();
+
+		emitter << YAML::BeginMap; // Entity
+		emitter << YAML::Key << "Entity";
+		emitter << YAML::Value << uuid;
+
+		if (entity.GetComponent<ECS::TagComponent>())
+		{
+			emitter << YAML::Key << "TagComponent";
+			emitter << YAML::BeginMap; // TagComponent
+
+			auto& tag = entity.GetComponent<ECS::TagComponent>()->Tag;
+			emitter << YAML::Key << "Tag" << YAML::Value << tag;
+
+			emitter << YAML::EndMap; // TagComponent
+		}
+
+		if (entity.GetComponent<ECS::TransformComponent>())
+		{
+			emitter << YAML::Key << "TransformComponent";
+			emitter << YAML::BeginMap; // TransformComponent
+
+			auto& transform = *entity.GetComponent<ECS::TransformComponent>();
+			emitter << YAML::Key << "Position" << transform.Position;
+			emitter << YAML::Key << "Size" << YAML::Value << transform.Size;
+			emitter << YAML::Key << "Rotation" << YAML::Value << transform.Rotation;
+
+			emitter << YAML::EndMap; // TransformComponent
+		}
+
+		emitter << YAML::EndMap; //Entity 
 	}
 
-	void SceneSerializer::DeserializeEntity(YAML::Node& node)
+	void SceneSerializer::DeserializeEntity(YAML::detail::iterator_value& node)
 	{
+		uint64_t uuid = node["Entity"].as<uint64_t>();
+
+		//Creation of the Entity
+		ECS::Entity entity = ECS::Entity::Create(m_Scene->m_Storage);
+		entity.SetUUID(uuid);
+
+		//TagComponent
+		auto tagComponent = node["TagComponent"];
+		if (tagComponent)
+		{
+			CR_CORE_TRACE("Loaded tag component.");
+
+			ECS::TagComponent tag;
+			tag.Tag = tagComponent["Tag"].as<std::string>();
+
+			entity.AddComponent<ECS::TagComponent>(tag);
+		}
+
+		//TransformComponent
+		auto transformComponent = node["TransformComponent"];
+		if (transformComponent)
+		{
+			CR_CORE_TRACE("Loaded transform component.");
+
+			ECS::TransformComponent transform;
+			transform.Position = transformComponent["Position"].as<glm::vec3>();
+			transform.Size = transformComponent["Size"].as<glm::vec3>();
+			transform.Rotation = transformComponent["Rotation"].as<float>();
+
+			entity.AddComponent<ECS::TransformComponent>(transform);
+		}
+
+		m_Scene->AddEntity(entity);
 	}
 
 }

@@ -76,8 +76,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>crpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;CR_PLATFORM_WINDOWS;GLEW_STATIC;CR_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\Crystal;..\Physics\src;..\..\vendor\GLEW\include;..\..\vendor\GLFW\include;..\..\vendor\ImGui;..\..\vendor\spdlog\include;..\..\vendor\glm;..\..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;yaml_cpp_EXPORTS;CR_PLATFORM_WINDOWS;GLEW_STATIC;CR_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;src\Crystal;..\Physics\src;..\..\vendor\GLEW\include;..\..\vendor\GLFW\include;..\..\vendor\ImGui;..\..\vendor\spdlog\include;..\..\vendor\glm;..\..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;..\..\vendor\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -98,8 +98,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>crpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;CR_PLATFORM_WINDOWS;GLEW_STATIC;CR_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\Crystal;..\Physics\src;..\..\vendor\GLEW\include;..\..\vendor\GLFW\include;..\..\vendor\ImGui;..\..\vendor\spdlog\include;..\..\vendor\glm;..\..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;yaml_cpp_EXPORTS;CR_PLATFORM_WINDOWS;GLEW_STATIC;CR_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;src\Crystal;..\Physics\src;..\..\vendor\GLEW\include;..\..\vendor\GLFW\include;..\..\vendor\ImGui;..\..\vendor\spdlog\include;..\..\vendor\glm;..\..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;..\..\vendor\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -123,8 +123,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>crpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;CR_PLATFORM_WINDOWS;GLEW_STATIC;CR_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\Crystal;..\Physics\src;..\..\vendor\GLEW\include;..\..\vendor\GLFW\include;..\..\vendor\ImGui;..\..\vendor\spdlog\include;..\..\vendor\glm;..\..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;yaml_cpp_EXPORTS;CR_PLATFORM_WINDOWS;GLEW_STATIC;CR_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;src\Crystal;..\Physics\src;..\..\vendor\GLEW\include;..\..\vendor\GLFW\include;..\..\vendor\ImGui;..\..\vendor\spdlog\include;..\..\vendor\glm;..\..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;..\..\vendor\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -168,12 +168,16 @@
     <ClInclude Include="src\Crystal\Core\UUID.hpp" />
     <ClInclude Include="src\Crystal\Core\Window.hpp" />
     <ClInclude Include="src\Crystal\Crystal.hpp" />
+    <ClInclude Include="src\Crystal\Data\Project\Project.hpp" />
+    <ClInclude Include="src\Crystal\Data\Project\ProjectSerializer.hpp" />
+    <ClInclude Include="src\Crystal\Data\Scene\Scene.hpp" />
+    <ClInclude Include="src\Crystal\Data\Scene\SceneSerializer.hpp" />
     <ClInclude Include="src\Crystal\Examples\Camera2D.hpp" />
     <ClInclude Include="src\Crystal\Examples\Camera3D.hpp" />
     <ClInclude Include="src\Crystal\ImGui\BaseImGuiLayer.hpp" />
     <ClInclude Include="src\Crystal\Platforms\Windows\WindowsInput.hpp" />
-    <ClInclude Include="src\Crystal\Platforms\Windows\WindowsWindow.hpp" />
     <ClInclude Include="src\Crystal\Platforms\Windows\WindowsUtilities.hpp" />
+    <ClInclude Include="src\Crystal\Platforms\Windows\WindowsWindow.hpp" />
     <ClInclude Include="src\Crystal\Renderer\2D\OrthoGraphicCamera.hpp" />
     <ClInclude Include="src\Crystal\Renderer\2D\Renderer2D.hpp" />
     <ClInclude Include="src\Crystal\Renderer\3D\PerspectiveCamera.hpp" />
@@ -187,8 +191,8 @@
     <ClInclude Include="src\Crystal\Renderer\Shader.hpp" />
     <ClInclude Include="src\Crystal\Renderer\Texture.hpp" />
     <ClInclude Include="src\Crystal\Renderer\VertexArray.hpp" />
-    <ClInclude Include="src\Crystal\crpch.h" />
     <ClInclude Include="src\Crystal\Utils\Utils.hpp" />
+    <ClInclude Include="src\Crystal\crpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\vendor\stb_image\src\stb_image.cpp" />
@@ -205,6 +209,10 @@
     <ClCompile Include="src\Crystal\Core\Layer.cpp" />
     <ClCompile Include="src\Crystal\Core\LayerStack.cpp" />
     <ClCompile Include="src\Crystal\Core\Window.cpp" />
+    <ClCompile Include="src\Crystal\Data\Project\Project.cpp" />
+    <ClCompile Include="src\Crystal\Data\Project\ProjectSerializer.cpp" />
+    <ClCompile Include="src\Crystal\Data\Scene\Scene.cpp" />
+    <ClCompile Include="src\Crystal\Data\Scene\SceneSerializer.cpp" />
     <ClCompile Include="src\Crystal\Examples\Camera2D.cpp" />
     <ClCompile Include="src\Crystal\Examples\Camera3D.cpp" />
     <ClCompile Include="src\Crystal\ImGui\BaseImGuiLayer.cpp" />
@@ -225,10 +233,10 @@
     <ClCompile Include="src\Crystal\Renderer\Shader.cpp" />
     <ClCompile Include="src\Crystal\Renderer\Texture.cpp" />
     <ClCompile Include="src\Crystal\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\Crystal\Utils\Utils.cpp" />
     <ClCompile Include="src\Crystal\crpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Crystal\Utils\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Physics\Physics.vcxproj">
@@ -245,6 +253,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\vendor\spdlog\spdlog.vcxproj">
       <Project>{8EAD431C-7A4F-6EF2-630A-82464F4BF542}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\vendor\yaml-cpp\yaml-cpp.vcxproj">
+      <Project>{88F1A057-74BE-FB62-9DD7-E90A890331F1}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

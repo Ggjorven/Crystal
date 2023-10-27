@@ -418,3 +418,7 @@ vendor/ImGui/ImGui.vcxproj.user
 vendor/spdlog/spdlog.vcxproj
 vendor/spdlog/spdlog.vcxproj.filters
 vendor/spdlog/spdlog.vcxproj.user
+
+vendor/yaml-cpp/yaml-cpp.vcxproj
+vendor/yaml-cpp/yaml-cpp.vcxproj.filters
+vendor/yaml-cpp/yaml-cpp.vcxproj.user

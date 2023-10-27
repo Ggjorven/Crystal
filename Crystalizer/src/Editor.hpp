@@ -15,7 +15,7 @@ using namespace Crystal;
 class EditorLayer : public Layer
 {
 public:
-	EditorLayer()
+	EditorLayer(const ApplicationInfo& appinfo)
 	{
 		s_Instance = this;
 
@@ -31,6 +31,12 @@ public:
 	void OnAttach() override
 	{	
 		Panels::Init();
+
+		Ref<Scene> scene = CreateRef<Scene>("testScene");
+		SceneSerializer serializer(scene);
+
+		serializer.Serialize("test.yaml");
+		serializer.Deserialize("test.yaml");
 
 		AddLayer(new GameLayer());
 	}
@@ -117,8 +123,8 @@ private:
 	bool WindowResize(WindowResizeEvent& e)
 	{
 		//This function is for when a program asks for InWindow but there is no "Viewport" window so we use the actual window
-		s_WindowMax.x = e.GetWidth();
-		s_WindowMax.y = e.GetHeight();
+		s_WindowMax.x = (float)e.GetWidth();
+		s_WindowMax.y = (float)e.GetHeight();
 
 		return false;
 	}

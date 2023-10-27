@@ -28,6 +28,15 @@
     <Filter Include="src\Crystal\Core\Events\Input">
       <UniqueIdentifier>{5900A19D-C518-88C7-8EC5-1761FA9C1C61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Crystal\Data">
+      <UniqueIdentifier>{C702AF13-B3FB-CD65-DC2D-B3EAC885AD71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Crystal\Data\Project">
+      <UniqueIdentifier>{0D7E9658-F9A2-E5D8-22EE-CA680E72E4F6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Crystal\Data\Scene">
+      <UniqueIdentifier>{2429A619-1023-CF6B-F98F-657CE52835D8}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Crystal\Examples">
       <UniqueIdentifier>{ECBDF430-D84C-7EFA-816B-92F56DD98EA0}</UniqueIdentifier>
     </Filter>
@@ -48,6 +57,9 @@
     </Filter>
     <Filter Include="src\Crystal\Renderer\3D">
       <UniqueIdentifier>{4A50C538-B687-0DD0-BF91-71F32B4834C9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Crystal\Utils">
+      <UniqueIdentifier>{7E3ACD8A-EA50-CB20-33C8-56429F1D9CA8}</UniqueIdentifier>
     </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
@@ -132,6 +144,18 @@
     <ClInclude Include="src\Crystal\Crystal.hpp">
       <Filter>src\Crystal</Filter>
     </ClInclude>
+    <ClInclude Include="src\Crystal\Data\Project\Project.hpp">
+      <Filter>src\Crystal\Data\Project</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Crystal\Data\Project\ProjectSerializer.hpp">
+      <Filter>src\Crystal\Data\Project</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Crystal\Data\Scene\Scene.hpp">
+      <Filter>src\Crystal\Data\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Crystal\Data\Scene\SceneSerializer.hpp">
+      <Filter>src\Crystal\Data\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="src\Crystal\Examples\Camera2D.hpp">
       <Filter>src\Crystal\Examples</Filter>
     </ClInclude>
@@ -142,6 +166,9 @@
       <Filter>src\Crystal\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="src\Crystal\Platforms\Windows\WindowsInput.hpp">
+      <Filter>src\Crystal\Platforms\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Crystal\Platforms\Windows\WindowsUtilities.hpp">
       <Filter>src\Crystal\Platforms\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\Crystal\Platforms\Windows\WindowsWindow.hpp">
@@ -186,11 +213,12 @@
     <ClInclude Include="src\Crystal\Renderer\VertexArray.hpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Crystal\Utils\Utils.hpp">
+      <Filter>src\Crystal\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="src\Crystal\crpch.h">
       <Filter>src\Crystal</Filter>
     </ClInclude>
-    <ClInclude Include="src\Crystal\Platforms\Windows\WindowsUtilities.hpp" />
-    <ClInclude Include="src\Crystal\Utils\Utils.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\vendor\stb_image\src\stb_image.cpp">
@@ -235,6 +263,18 @@
     <ClCompile Include="src\Crystal\Core\Window.cpp">
       <Filter>src\Crystal\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\Crystal\Data\Project\Project.cpp">
+      <Filter>src\Crystal\Data\Project</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Crystal\Data\Project\ProjectSerializer.cpp">
+      <Filter>src\Crystal\Data\Project</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Crystal\Data\Scene\Scene.cpp">
+      <Filter>src\Crystal\Data\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Crystal\Data\Scene\SceneSerializer.cpp">
+      <Filter>src\Crystal\Data\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\Crystal\Examples\Camera2D.cpp">
       <Filter>src\Crystal\Examples</Filter>
     </ClCompile>
@@ -248,6 +288,9 @@
       <Filter>src\Crystal\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\Crystal\Platforms\Windows\WindowsInput.cpp">
+      <Filter>src\Crystal\Platforms\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Crystal\Platforms\Windows\WindowsUtilities.cpp">
       <Filter>src\Crystal\Platforms\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\Crystal\Platforms\Windows\WindowsWindow.cpp">
@@ -292,10 +335,11 @@
     <ClCompile Include="src\Crystal\Renderer\VertexArray.cpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Crystal\Utils\Utils.cpp">
+      <Filter>src\Crystal\Utils</Filter>
+    </ClCompile>
     <ClCompile Include="src\Crystal\crpch.cpp">
       <Filter>src\Crystal</Filter>
     </ClCompile>
-    <ClCompile Include="src\Crystal\Platforms\Windows\WindowsUtilities.cpp" />
-    <ClCompile Include="src\Crystal\Utils\Utils.cpp" />
   </ItemGroup>
 </Project>

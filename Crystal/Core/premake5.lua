@@ -22,7 +22,8 @@ project "Core"
 	{
 		"_CRT_SECURE_NO_WARNINGS",
 		"GLFW_INCLUDE_NONE",
-		"GLEW_STATIC"
+		"GLEW_STATIC",
+		"yaml_cpp_EXPORTS"
 	}
 
 	includedirs
@@ -38,7 +39,8 @@ project "Core"
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
-		"%{IncludeDir.VulkanSDK}"
+		"%{IncludeDir.VulkanSDK}",
+		"%{IncludeDir.yaml}"
 	}
 
 	links
@@ -50,7 +52,8 @@ project "Core"
 		"GLEW",
 		"GLFW",
 		"ImGui",
-		"spdlog"
+		"spdlog",
+		"yaml-cpp"
 	}
 
 	filter "system:windows"

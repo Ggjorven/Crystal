@@ -9,7 +9,7 @@ public:
 	Crystalizer(Crystal::ApplicationInfo appInfo)
 		: Application(appInfo)
 	{
-		AddLayer(new EditorLayer());
+		AddLayer(new EditorLayer(appInfo));
 	}
 
 	virtual ~Crystalizer() {}

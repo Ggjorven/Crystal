@@ -4,7 +4,15 @@
 
 #include "Crystal/Core/UUID.hpp"
 
+#include <any>
 #include <unordered_map>
+#include <map>
+#include <vector>
+#include <typeindex>
+#include <typeinfo>
+#include <type_traits>
+#include <functional>
+#include <optional>
 
 //Components
 #include "Component.hpp"
@@ -15,26 +23,58 @@ namespace Crystal::ECS
     class Storage
     {
     public:
-        //static std::unordered_map<Component::Type, std::unordered_map<CR_UUID, Component>> s_Components;
-        static std::unordered_map<CR_UUID, TransformComponent> Storage::s_TransformComponents;
+        Storage() = default;
+        virtual ~Storage() = default;
 
-        template<typename T>
-        static T& GetComponent(CR_UUID uuid)
+        template<typename ComponentType>
+        ComponentType& GetComponent(CR_UUID uuid)
         {
-            //CR_CORE_ASSERT(std::is_base_of<Component, T>::value, "T must be a subclass of Component");
-            //if (Storage::s_Components[T::GetType()][uuid] == Storage::s_Components[T::GetType()].end())
-            //{
-            //    CR_CORE_ASSERT(false, "Component doesn't Exists");
-            //}
+            //CR_CORE_ASSERT(std::is_base_of<Crystal::ECS::Component, ComponentType>::value, "T must be a subclass of Component");
 
-            //return Storage::s_Components[T::GetType()][uuid];
+            auto& componentMap = GetComponentsMap<ComponentType>();
+            if (componentMap.find(uuid) != componentMap.end())
+            {
+                try
+                {
+                    return std::any_cast<ComponentType&>(componentMap[uuid]);
+                }
+                catch (const std::bad_any_cast& e)
+                {
+                    CR_CORE_ASSERT(false, "Component is of the wrong type.");
+                }
+            }
+            else
+                CR_CORE_ERROR("Component doesn't exist.");
+
+            return ComponentType();
         }
 
-        template<>
-        static TransformComponent& GetComponent<TransformComponent>(CR_UUID uuid)
+        template<typename ComponentType>
+        void AddComponent(CR_UUID uuid, const ComponentType& component)
         {
-            return Storage::s_TransformComponents[uuid];
+            auto& componentMap = GetComponentsMap<ComponentType>();
+            componentMap[uuid] = component;
         }
+
+        template<typename ComponentType>
+        void RemoveComponent(CR_UUID uuid)
+        {
+            auto& componentMap = GetComponentsMap<ComponentType>();
+
+            auto it = componentMap.find(uuid);
+            if (it != componentMap.end())
+                componentMap.erase(it);
+        }
+
+    private:
+        template<typename ComponentType>
+        std::unordered_map<CR_UUID, std::any>& GetComponentsMap()
+        {
+            return m_ComponentMaps[typeid(ComponentType)];
+        }
+
+    private:
+        std::unordered_map<std::type_index, std::unordered_map<CR_UUID, std::any>> m_ComponentMaps;
     };
 
 }

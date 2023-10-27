@@ -18,11 +18,11 @@ namespace Crystal
 		virtual ~SceneSerializer();
 
 		void Serialize(std::filesystem::path path);
-
 		void Deserialize(std::filesystem::path path);
 
 	private:
-		// TODO: ECS serializer
+		void SerializeEntity(YAML::Node& node);
+		void DeserializeEntity(YAML::Node& node);
 
 	private:
 		Ref<Scene>& m_Scene;

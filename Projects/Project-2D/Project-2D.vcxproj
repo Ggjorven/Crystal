@@ -142,7 +142,6 @@
     <ClInclude Include="src\Game\Settings.hpp" />
     <ClInclude Include="src\Game\Tiles\Tile.hpp" />
     <ClInclude Include="src\Game\Utils\GameCamera.hpp" />
-    <ClInclude Include="src\GameLayer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game\Entities\Entity.cpp" />

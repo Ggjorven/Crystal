@@ -6,7 +6,7 @@
 
 using namespace Crystal;
 
-class GameLayer : public Layer
+class Layer3D : public Layer
 {
 public:
 	void OnAttach() override;

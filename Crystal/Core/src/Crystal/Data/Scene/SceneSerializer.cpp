@@ -45,4 +45,12 @@ namespace Crystal
 		CR_CORE_TRACE("	[Position] = X: {0}, Y: {1}", data["Entity"]["Position"][0].as<float>(), data["Entity"]["Position"][1].as<float>());
 	}
 
+	void SceneSerializer::SerializeEntity(YAML::Node& node)
+	{
+	}
+
+	void SceneSerializer::DeserializeEntity(YAML::Node& node)
+	{
+	}
+
 }

@@ -3,7 +3,12 @@
 #include "Crystal/Core/Core.hpp"
 #include "Crystal/Core/Events/Event.hpp"
 
+#include "Crystal/ECS/Entity.hpp"
+#include "Crystal/ECS/Storage.hpp"
+
+#include <vector>
 #include <string>
+
 
 namespace Crystal
 {
@@ -24,7 +29,8 @@ namespace Crystal
 	protected:
 		std::string m_DebugName;
 
-		// TODO: ECS storage
+		ECS::Storage m_Storage;
+		std::vector<ECS::Entity> m_Entities;
 
 		//Friend classes to be able to use some private members/functions
 		friend class SceneSerializer;

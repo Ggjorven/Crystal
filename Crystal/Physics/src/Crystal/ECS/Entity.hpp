@@ -7,6 +7,7 @@
 #include "Crystal/ECS/Component.hpp"
 #include "Crystal/ECS/Storage.hpp"
 
+#include <string>
 #include <type_traits> 
 
 namespace Crystal::ECS
@@ -15,49 +16,35 @@ namespace Crystal::ECS
     class Entity
     {
     public:
-        Entity();
+        Entity(ECS::Storage& storage, const std::string& name = "Entity");
         virtual ~Entity() = default;
 
-        //TODO fix
-
-        // Add a component of type T to the entity
-        template <typename T>
-        inline void AddComponent()
+        template <typename ComponentType>
+        inline void AddComponent(ComponentType component = ComponentType())
         {
-            //Checks
-            //CR_CORE_ASSERT(std::is_base_of<Component, T>::value, "T must be a subclass of Component");
-            //if (Storage::s_Components[T::GetType()][m_UUID] == Storage::s_Components[T::GetType()].end())
-            //{
-            //    CR_CORE_ASSERT(false, "Component doesn't Exists");
-            //}
-
-            //Storage::s_Components[T::GetType()][m_UUID] = T();
+            m_Storage.AddComponent<ComponentType>(m_UUID, component);
         }
 
-        template<>
-        inline void AddComponent<TransformComponent>()
-        {
-            Storage::s_TransformComponents[m_UUID] = TransformComponent();
-        }
-
-
-        // Remove a component of type T from the entity
-        template <typename T>
+        template <typename ComponentType>
         inline void RemoveComponent()
         {
-            //Checks
-            //CR_CORE_ASSERT(std::is_base_of<Component, T>::value, "T must be a subclass of Component");
-            //if (Storage::s_Components[T::GetType()][m_UUID] == Storage::s_Components[T::GetType()].end())
-            //{
-            //    CR_CORE_ASSERT(false, "Component doesn't Exists");
-            //}
+            m_Storage.RemoveComponent<ComponentType>(m_UUID);
+        }
 
-            //TODO removal
+        template <typename ComponentType>
+        inline ComponentType& GetComponent()
+        {
+            return m_Storage.GetComponent<ComponentType>(m_UUID);
         }
 
         inline const CR_UUID GetUUID() const { return m_UUID; }
 
+        static Ref<Entity> Create(ECS::Storage& storage, const std::string& name = "Entity");
+
     protected:
+        ECS::Storage& m_Storage;
+
+        std::string m_DebugName;
         CR_UUID m_UUID;
     };
 

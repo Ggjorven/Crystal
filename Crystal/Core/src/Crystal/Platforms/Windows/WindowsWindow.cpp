@@ -5,6 +5,8 @@
 
 #include "Crystal/Core/Events/Events.hpp"
 
+#include "Crystal/Core/Events/Input/Input.hpp"
+
 namespace Crystal
 {
 
@@ -34,6 +36,28 @@ namespace Crystal
 		m_Context->SwapBuffers();
 	}
 
+	bool WindowsWindow::InView(MousePosition position) const
+	{
+		#ifndef CR_DIST
+		int padding = 5; //5 pixels //Changeable
+		int topPadding = 10; //Extra 10 pixels for the top so when used in the editor and you want to pick up an imgui window it works
+
+		#else //Turned off in dist //Also changeable in debug and release of course
+		int padding = 0;
+		int topPadding = 0;
+		#endif
+
+		//CR_WARN("Mouse position X: {0}, Y: {1}", position.X, position.Y);
+		//CR_WARN("View position X: {0}, Y: {1}", m_Data.ViewX, m_Data.ViewY);
+		//CR_WARN("View size X: {0}, Y: {1}", m_Data.ViewWidth, m_Data.ViewHeight);
+
+		if (position.X >= m_Data.ViewX + padding && position.X <= m_Data.ViewWidth + m_Data.ViewX - padding &&
+			position.Y >= m_Data.ViewY + padding + topPadding && position.Y <= m_Data.ViewHeight + m_Data.ViewY - padding)
+			return false;
+
+		return true;
+	}
+
 	void WindowsWindow::SetVSync(bool enabled)
 	{
 		glfwSwapInterval(enabled);
@@ -61,7 +85,7 @@ namespace Crystal
 		m_Window = glfwCreateWindow((int)properties.Width, (int)properties.Height, properties.Name.c_str(), nullptr, nullptr);
 		s_Instances++;
 
-		glfwSetWindowUserPointer(m_Window, &m_Data); //So we can access the data
+		glfwSetWindowUserPointer(m_Window, &m_Data); //So we can access/get to the data in lambda functions
 
 		//Graphics context init 
 		m_Context = GraphicsContext::Create(m_Window);
@@ -74,6 +98,8 @@ namespace Crystal
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 				data.Width = width;
 				data.Height = height;
+				data.ViewWidth = width;
+				data.ViewHeight = height;
 
 				WindowResizeEvent event(width, height);
 				data.CallBack(event);

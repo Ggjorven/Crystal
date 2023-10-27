@@ -2,6 +2,7 @@
 #include <Crystal/Core/AppEntrypoint.hpp>
 
 #include "Editor.hpp"
+#include "ECS-Game/ECSLayer.hpp"
 
 class Crystalizer : public Crystal::Application
 {
@@ -9,7 +10,10 @@ public:
 	Crystalizer(Crystal::ApplicationInfo appInfo)
 		: Application(appInfo)
 	{
-		AddLayer(new EditorLayer(appInfo));
+		//AddLayer(new EditorLayer(appInfo));
+		//AddLayer(new Layer2D());
+		//AddLayer(new Layer3D());
+		AddLayer(new ECSLayer());
 	}
 
 	virtual ~Crystalizer() {}

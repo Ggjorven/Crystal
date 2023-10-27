@@ -17,6 +17,9 @@ project "Crystalizer"
 	includedirs
 	{
 		"src",
+		"src/Sandbox",
+		"src/Sandbox/2D",
+		"src/Sandbox/3D",
 
 		"%{wks.location}/Crystal/Core/src",
 		"%{wks.location}/Crystal/Physics/src",

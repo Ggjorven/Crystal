@@ -22,7 +22,7 @@ Crystal is an ambitious game engine that combines the power of OpenGL and Vulkan
 
 - **Other:** You can also use other compilers such as g++ or gcc. To do so you should compile all the src directories found in "Crystal" and all of the vendor src directories. Make sure to compile the Core and Physics and the vendor apps to a .lib file, Crystalizer can be compiled to a .exe, don't forget to link the .lib files to these.
 
-- **Running/Compiling a project:** To run a project you can go to the Editor.hpp in Crystalizer and set the project/layer to be added to the editor.
+- **Running/Compiling a project:** To run a project you can go to the Editor.hpp in Crystalizer and set the project path member variable to your project and just run Crystalizer.
 
 ## Development Status
 

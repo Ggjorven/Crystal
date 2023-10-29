@@ -19,6 +19,8 @@ public:
 	EditorLayer(const ApplicationInfo& appinfo)
 	{
 		Window& window = Application::Get().GetWindow();
+		window.SetVSync(true);
+
 		m_FrameBuffer = FrameBuffer::Create(window.GetWidth(), window.GetHeight(), FrameBufferFormat::RGBA8);
 	}
 
@@ -73,7 +75,6 @@ public:
 
 			//Update viewport size
 			Window& window = Application::Get().GetWindow();
-			ImGuiIO io = ImGui::GetIO();
 
 			ImVec2 windowPos = ImGui::GetWindowPos();
 			ImVec2 mainViewportPos = ImGui::GetMainViewport()->Pos;
@@ -86,6 +87,13 @@ public:
 
 			ImGui::End();
 			ImGui::PopStyleVar(1);
+
+			ImGui::Begin("Metrics");
+
+			ImGuiIO io = ImGui::GetIO();
+			ImGui::Text("%d vertices, %d indices (%d triangles)", io.MetricsRenderVertices, io.MetricsRenderIndices, io.MetricsRenderIndices / 3);
+
+			ImGui::End();
 		}
 
 		for (Layer* layer : m_Layers)

@@ -32,6 +32,7 @@ group "Crystal"
 		include "Crystal/Physics"
 	group "Crystal"
 	include "Crystalizer"
+	include "Runtime"
 group ""
 
 group "Misc"

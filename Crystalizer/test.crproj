@@ -1,14 +1,9 @@
 Scene: Patat
 Entities:
-  - Entity: 9263535903660660842
+  - Entity: 1908514179779442035
     TagComponent:
       Tag: Mario
     TransformComponent:
       Position: [1, 0, 20]
       Size: [10, 9, 0]
       Rotation: 0
-    Renderer2DComponent:
-      Texture: oijeagoiejg
-      Colour: ofiejaofiejao
-    ScriptComponent:
-      Name: Mario.cpp

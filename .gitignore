@@ -390,6 +390,13 @@ Crystalizer/Crystalizer.vcxproj.user
 
 
 
+#Runtime
+Runtime/Runtime.vcxproj
+Runtime/Runtime.vcxproj.filters
+Runtime/Runtime.vcxproj.user
+
+
+
 #Project-2D
 Project-2D/Project-2D.vcxproj
 Project-2D/Project-2D.vcxproj.filters

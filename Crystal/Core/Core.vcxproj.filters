@@ -34,9 +34,6 @@
     <Filter Include="src\Crystal\Data\Project">
       <UniqueIdentifier>{0D7E9658-F9A2-E5D8-22EE-CA680E72E4F6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Crystal\Data\Scene">
-      <UniqueIdentifier>{2429A619-1023-CF6B-F98F-657CE52835D8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Crystal\Examples">
       <UniqueIdentifier>{ECBDF430-D84C-7EFA-816B-92F56DD98EA0}</UniqueIdentifier>
     </Filter>
@@ -149,12 +146,6 @@
     </ClInclude>
     <ClInclude Include="src\Crystal\Data\Project\ProjectSerializer.hpp">
       <Filter>src\Crystal\Data\Project</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Crystal\Data\Scene\Scene.hpp">
-      <Filter>src\Crystal\Data\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Crystal\Data\Scene\SceneSerializer.hpp">
-      <Filter>src\Crystal\Data\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\Crystal\Examples\Camera2D.hpp">
       <Filter>src\Crystal\Examples</Filter>
@@ -271,12 +262,6 @@
     </ClCompile>
     <ClCompile Include="src\Crystal\Data\Project\ProjectSerializer.cpp">
       <Filter>src\Crystal\Data\Project</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Crystal\Data\Scene\Scene.cpp">
-      <Filter>src\Crystal\Data\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Crystal\Data\Scene\SceneSerializer.cpp">
-      <Filter>src\Crystal\Data\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\Crystal\Examples\Camera2D.cpp">
       <Filter>src\Crystal\Examples</Filter>

@@ -55,15 +55,16 @@ namespace Crystal::ECS
 	{
 		glm::vec4 Colour = { 1.0f, 1.0f, 1.0f, 1.0f };
 		Ref<Texture2D> Texture;
+		bool UseTexture;
 
 		Renderer2DComponent() = default;
 		Renderer2DComponent(const Renderer2DComponent& other) = default;
 		Renderer2DComponent(const glm::vec4& colour) 
-			: Colour(colour) {}
+			: Colour(colour), UseTexture(false) {}
 		Renderer2DComponent(Ref<Texture2D> texture) 
-			: Texture(texture) {}
+			: Texture(texture), UseTexture(true) {}
 		Renderer2DComponent(Ref<Texture2D> texture, const glm::vec4& colour)
-			: Texture(texture), Colour(colour) {}
+			: Texture(texture), Colour(colour), UseTexture(true) {}
 	};
 
 	/*

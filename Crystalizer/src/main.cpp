@@ -10,9 +10,9 @@ public:
 	Crystalizer(Crystal::ApplicationInfo appInfo)
 		: Application(appInfo)
 	{
-		//AddLayer(new EditorLayer(appInfo));
+		AddLayer(new EditorLayer(appInfo));
 		//AddLayer(new Layer2D());
-		AddLayer(new Layer3D());
+		//AddLayer(new Layer3D());
 		//AddLayer(new ECSLayer());
 	}
 

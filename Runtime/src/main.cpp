@@ -11,7 +11,7 @@ public:
 	Runtime(ApplicationInfo& info)
 		: Application(info)
 	{
-		AddLayer(new RuntimeLayer());
+		AddLayer(new Crystal::RuntimeLayer());
 	}
 	~Runtime()
 	{

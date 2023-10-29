@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Crystal/Core/Core.hpp"
-#include "Crystal/Renderer/Texture.hpp"
+#include <Crystal/Core/Core.hpp>
+#include <Crystal/Renderer/Texture.hpp>
+#include <Crystal/Data/Project/Project.hpp>
 
 #include <string>
 
@@ -13,12 +14,23 @@ namespace Crystal
 	class Panels
 	{
 	public:
-		static void Init();
+		Panels(Ref<Project>& project);
+		virtual ~Panels();
 
-		static void TexturePanel(const std::string_view& name, Ref<Texture2D>& changeAbleTexture, bool* useTexture = nullptr);
+		void ObjectsWindow();
+		void ObjectPropertiesWindow();
+		void TexturePanel(const std::string_view& name, Ref<Texture2D>& changeAbleTexture, bool* useTexture = nullptr);
+
+		static void BeginColours();
+		static void EndColours();
 
 	private:
-		static Ref<Texture2D> s_CheckerboardTex;
+		Ref<Project>& m_Project;
+
+		ECS::Entity* m_SelectedEntity;
+
+		Ref<Texture2D> m_CheckerboardTex;
+
 	};
 
 }

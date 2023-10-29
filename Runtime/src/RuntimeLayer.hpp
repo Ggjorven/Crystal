@@ -2,49 +2,29 @@
 
 #include <Crystal/Crystal.hpp>
 
-using namespace Crystal;
+#include <filesystem>
 
-class RuntimeLayer : public Layer
+namespace Crystal
 {
-public:
-	RuntimeLayer()
-		: Layer("Runtime layer")
-	{
-		m_Scene = CreateRef<Scene>("");
-	}
-	virtual ~RuntimeLayer()
-	{
 
-	}
+	class RuntimeLayer : public Layer
+	{
+	public:
+		RuntimeLayer();
+		virtual ~RuntimeLayer();
 
-	void OnAttach() override
-	{
-		SceneSerializer serializer(m_Scene);
+		void OnAttach() override;
+		void OnDetach() override;
 
-		//serializer.Deserialize("$project$");
-	}
-	void OnDetach() override
-	{
+		void OnUpdate(Timestep& ts) override;
+		void OnRender() override;
 
-	}
+		void OnImGuiRender() override;
+		void OnEvent(Event& e);
 
-	void OnUpdate(Timestep& ts) override
-	{
-		m_Scene->OnUpdate(ts);
-	}
-	void OnRender() override
-	{
-		m_Scene->OnRenderRuntime();
-	}
-	void OnImGuiRender() override
-	{
-	}
+	private:
+		std::filesystem::path m_Path = "../Crystalizer/test.crproj";
 
-	void OnEvent(Event& e)
-	{
-		m_Scene->OnEvent(e);
-	}
-	
-private:
-	Ref<Scene> m_Scene;
-};
+		Ref<Project> m_Project;
+	};
+}

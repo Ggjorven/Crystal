@@ -43,8 +43,8 @@ namespace Crystal::ECS
                     CR_CORE_ASSERT(false, "Component is of the wrong type.");
                 }
             }
-            else
-                CR_CORE_ERROR("Component doesn't exist.");
+            //else
+            //    CR_CORE_ERROR("Component doesn't exist.");
 
 
             return nullptr;

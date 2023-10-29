@@ -76,8 +76,8 @@ namespace Crystal
 		m_ZoomLevel -= e.GetYOffset() * 0.25f;
 		m_ZoomLevel = std::max(m_ZoomLevel, m_MaxZoomLevel);
 
-		float width = static_cast<float>(Application::Get().GetWindow().GetWidth()) / 2.0f;
-		float height = static_cast<float>(Application::Get().GetWindow().GetHeight()) / 2.0f;
+		float width = static_cast<float>(Application::Get().GetWindow().GetViewportWidth()) / 2.0f;
+		float height = static_cast<float>(Application::Get().GetWindow().GetViewportHeight()) / 2.0f;
 
 		m_Camera->SetProjection(-width * m_ZoomLevel, width * m_ZoomLevel, -height * m_ZoomLevel, height * m_ZoomLevel);
 

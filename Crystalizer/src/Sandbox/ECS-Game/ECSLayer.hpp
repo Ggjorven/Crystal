@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Crystal/Crystal.hpp>
+#include <Crystal/Examples/Camera2D.hpp>
 
 using namespace Crystal;
 
@@ -20,9 +21,10 @@ public:
 	void OnEvent(Event& e);
 
 private:
+	bool Reload(KeyPressedEvent& e);
 	bool MousePress(MouseButtonPressedEvent& e);
 
 private:
-	Ref<Scene> m_Scene;
-
+	Ref<Project> m_Project;
+	Ref<Camera2D> m_Camera;
 };

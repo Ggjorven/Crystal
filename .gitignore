@@ -398,14 +398,14 @@ Runtime/Runtime.vcxproj.user
 
 
 #Project-2D
-Project-2D/Project-2D.vcxproj
-Project-2D/Project-2D.vcxproj.filters
-Project-2D/Project-2D.vcxproj.user
+Projects/Project-2D/Project-2D.vcxproj
+Projects/Project-2D/Project-2D.vcxproj.filters
+Projects/Project-2D/Project-2D.vcxproj.user
 
 #Project-3D
-Project-3D/Project-3D.vcxproj
-Project-3D/Project-3D.vcxproj.filters
-Project-3D/Project-3D.vcxproj.user
+Projects/Project-3D/Project-3D.vcxproj
+Projects/Project-3D/Project-3D.vcxproj.filters
+Projects/Project-3D/Project-3D.vcxproj.user
 
 
 

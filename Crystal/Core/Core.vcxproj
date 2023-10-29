@@ -170,8 +170,6 @@
     <ClInclude Include="src\Crystal\Crystal.hpp" />
     <ClInclude Include="src\Crystal\Data\Project\Project.hpp" />
     <ClInclude Include="src\Crystal\Data\Project\ProjectSerializer.hpp" />
-    <ClInclude Include="src\Crystal\Data\Scene\Scene.hpp" />
-    <ClInclude Include="src\Crystal\Data\Scene\SceneSerializer.hpp" />
     <ClInclude Include="src\Crystal\Examples\Camera2D.hpp" />
     <ClInclude Include="src\Crystal\Examples\Camera3D.hpp" />
     <ClInclude Include="src\Crystal\ImGui\BaseImGuiLayer.hpp" />
@@ -212,8 +210,6 @@
     <ClCompile Include="src\Crystal\Core\Window.cpp" />
     <ClCompile Include="src\Crystal\Data\Project\Project.cpp" />
     <ClCompile Include="src\Crystal\Data\Project\ProjectSerializer.cpp" />
-    <ClCompile Include="src\Crystal\Data\Scene\Scene.cpp" />
-    <ClCompile Include="src\Crystal\Data\Scene\SceneSerializer.cpp" />
     <ClCompile Include="src\Crystal\Examples\Camera2D.cpp" />
     <ClCompile Include="src\Crystal\Examples\Camera3D.cpp" />
     <ClCompile Include="src\Crystal\ImGui\BaseImGuiLayer.cpp" />

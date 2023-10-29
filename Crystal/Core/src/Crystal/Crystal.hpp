@@ -40,10 +40,6 @@
 	#include "Crystal/Data/Project/Project.hpp"
 	#include "Crystal/Data/Project/ProjectSerializer.hpp"
 
-	//Scene
-	#include "Crystal/Data/Scene/Scene.hpp"
-	#include "Crystal/Data/Scene/SceneSerializer.hpp"
-
 //ImGui folder
 #include "Crystal/ImGui/BaseImGuiLayer.hpp"
 

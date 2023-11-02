@@ -40,7 +40,8 @@ project "Core"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.VulkanSDK}",
-		"%{IncludeDir.yaml}"
+		"%{IncludeDir.yaml}",
+		"%{IncludeDir.mono}",
 	}
 
 	links
@@ -49,6 +50,8 @@ project "Core"
 
 		"opengl32.lib",
 		"%{Library.Vulkan}",
+		"%{Library.mono}",
+
 		"GLEW",
 		"GLFW",
 		"ImGui",

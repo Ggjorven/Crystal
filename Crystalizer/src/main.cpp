@@ -2,6 +2,7 @@
 #include <Crystal/Core/AppEntrypoint.hpp>
 
 #include "Editor.hpp"
+#include "Sandbox/3D/Layer3D.hpp"
 #include "ECS-Game/ECSLayer.hpp"
 
 class Crystalizer : public Crystal::Application

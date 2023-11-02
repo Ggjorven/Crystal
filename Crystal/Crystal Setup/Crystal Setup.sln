@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{840C416C-B8F3-42BC-B0DD-F6BB14C9F8CB}") = "Crystal Setup_advinst", "Crystal Setup_advinst\Crystal Setup_advinst.aiproj", "{BA6095E6-C6F4-4193-8466-057C05DC1274}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		All|Default = All|Default
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA6095E6-C6F4-4193-8466-057C05DC1274}.All|Default.ActiveCfg = All
+		{BA6095E6-C6F4-4193-8466-057C05DC1274}.All|Default.Build.0 = All
+		{BA6095E6-C6F4-4193-8466-057C05DC1274}.Debug|Default.ActiveCfg = Debug
+		{BA6095E6-C6F4-4193-8466-057C05DC1274}.Debug|Default.Build.0 = Debug
+		{BA6095E6-C6F4-4193-8466-057C05DC1274}.Release|Default.ActiveCfg = Release
+		{BA6095E6-C6F4-4193-8466-057C05DC1274}.Release|Default.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6E484556-147C-4D39-9AD8-4D8A7C4F0AA8}
+	EndGlobalSection
+EndGlobal

@@ -429,3 +429,7 @@ vendor/spdlog/spdlog.vcxproj.user
 vendor/yaml-cpp/yaml-cpp.vcxproj
 vendor/yaml-cpp/yaml-cpp.vcxproj.filters
 vendor/yaml-cpp/yaml-cpp.vcxproj.user
+
+vendor/luacpp/luacpp.vcxproj
+vendor/luacpp/luacpp.vcxproj.filters
+vendor/luacpp/luacpp.vcxproj.user

@@ -12,9 +12,7 @@ namespace Crystal
 	{
 	}
 
-	ProjectSerializer::~ProjectSerializer()
-	{
-	}
+	ProjectSerializer::~ProjectSerializer() = default;
 
 	void ProjectSerializer::Serialize(std::filesystem::path path)
 	{
@@ -103,10 +101,22 @@ namespace Crystal
 			emitter << YAML::BeginMap; // Renderer2DComponent
 
 			auto& r2d = *entity.GetComponent<ECS::Renderer2DComponent>();
+			emitter << YAML::Key << "Enable" << r2d.Enable;
 			if (r2d.Texture)
 				emitter << YAML::Key << "Texture" << r2d.Texture->GetPath();
 			emitter << YAML::Key << "Colour" << r2d.Colour;
 			emitter << YAML::Key << "UseTexture" << r2d.UseTexture;
+
+			emitter << YAML::EndMap; // Renderer2DComponent
+		}
+
+		if (entity.GetComponent<ECS::ScriptComponent>())
+		{
+			emitter << YAML::Key << "ScriptComponent";
+			emitter << YAML::BeginMap; // Renderer2DComponent
+
+			auto& sc = *entity.GetComponent<ECS::ScriptComponent>();
+			emitter << YAML::Key << "Path" << sc.Path.string();
 
 			emitter << YAML::EndMap; // Renderer2DComponent
 		}
@@ -155,6 +165,7 @@ namespace Crystal
 			//CR_CORE_TRACE("Loaded renderer2D component.");
 
 			ECS::Renderer2DComponent r2d;
+			r2d.Enable = renderer2DComponent["Enable"].as<bool>();
 			if (renderer2DComponent["Texture"])
 				r2d.Texture = Texture2D::Create(renderer2DComponent["Texture"].as<std::string>());
 
@@ -162,6 +173,18 @@ namespace Crystal
 			r2d.UseTexture = renderer2DComponent["UseTexture"].as<bool>();
 
 			entity.AddComponent<ECS::Renderer2DComponent>(r2d);
+		}
+
+		//ScriptComponent
+		auto scriptComponent = node["ScriptComponent"];
+		if (scriptComponent)
+		{
+			//CR_CORE_TRACE("Loaded script component.");
+
+			ECS::ScriptComponent sc;
+			sc.Path = scriptComponent["Path"].as<std::string>();
+
+			entity.AddComponent<ECS::ScriptComponent>(sc);
 		}
 
 		m_Project->AddEntity(entity);

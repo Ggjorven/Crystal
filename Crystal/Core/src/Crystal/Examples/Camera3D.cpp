@@ -1,8 +1,6 @@
 #include "crpch.h"
 #include "Camera3D.hpp"
 
-#include <GLFW/glfw3.h> //TODO: remove
-
 #include "Crystal/Core/Application.hpp"
 
 #include "Crystal/Core/Events/Codes/KeyCodes.hpp"

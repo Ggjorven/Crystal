@@ -29,12 +29,19 @@ project "Runtime"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.VulkanSDK}",
-		"%{IncludeDir.yaml}"
+		"%{IncludeDir.yaml}",
+		"%{IncludeDir.luacpp}",
 	}
 
 	links
 	{
 		"Core"
+	}
+
+	monodir = "%{wks.location}bin/" .. outputdir .. "/bin/lib/mono/4.5"
+	postbuildcommands 
+	{
+		'{COPY} "%{wks.location}vendor/mono/bin/Debug/mono-2.0-sgen.dll" "%{cfg.targetdir}"'
 	}
 
 	filter "system:windows"

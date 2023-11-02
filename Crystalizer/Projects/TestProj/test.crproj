@@ -1,0 +1,23 @@
+Project: New
+Entities:
+  - Entity: 1041514445959119603
+    TagComponent:
+      Tag: a
+    TransformComponent:
+      Position: [0, 127, 0]
+      Size: [123.32, 100, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Texture: F:\Code\C++\VS\Crystal\Crystalizer\assets\textures\test.png
+      Colour: [1, 1, 1, 1]
+      UseTexture: true
+  - Entity: 11384957466291035642
+    TransformComponent:
+      Position: [0, 0, 0]
+      Size: [92, 149, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Colour: [0, 1, 1, 1]
+      UseTexture: false

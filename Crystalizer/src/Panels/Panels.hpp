@@ -14,7 +14,7 @@ namespace Crystal
 	class Panels
 	{
 	public:
-		Panels(Ref<Project>& project);
+		explicit Panels(Ref<Project>& project);
 		virtual ~Panels();
 
 		void ObjectsWindow();

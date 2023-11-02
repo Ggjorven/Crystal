@@ -35,11 +35,10 @@ namespace Crystal
 		for (ECS::Entity& entity : m_Project->GetEntities())
 		{
 			ECS::Renderer2DComponent* r2d = entity.GetComponent<ECS::Renderer2DComponent>();
-			if (r2d) // TODO(Jorben): Runtime Camera or something
+			ECS::TransformComponent* transform = entity.GetComponent<ECS::TransformComponent>();
+			if (r2d && transform) // TODO(Jorben): Runtime Camera or something
 			{
-				ECS::TransformComponent* transform = entity.GetComponent<ECS::TransformComponent>();
-
-				if (r2d->Texture && r2d->UseTexture)
+				if (r2d->Texture && r2d->Enable && r2d->UseTexture)
 					Renderer2D::DrawQuad(glm::vec2(transform->Position.x, transform->Position.y), glm::vec2(transform->Size.x, transform->Size.y), r2d->Texture, false);
 				else
 					Renderer2D::DrawQuad(glm::vec2(transform->Position.x, transform->Position.y), glm::vec2(transform->Size.x, transform->Size.y), r2d->Colour, false);

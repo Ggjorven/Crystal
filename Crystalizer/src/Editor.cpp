@@ -1,56 +1,60 @@
 #include "Editor.hpp"
 
-EditorLayer::EditorLayer(const ApplicationInfo& appinfo)
-	: m_Panels(nullptr)
+#include <string>
+
+EditorLayer::EditorLayer(const ApplicationInfo& appInfo)
 {
 	Window& window = Application::Get().GetWindow();
 	window.SetVSync(true);
+
+	m_Camera = CreateRef<EditorCamera>();
 
 	m_FrameBuffer = FrameBuffer::Create(window.GetWidth(), window.GetHeight(), FrameBufferFormat::RGBA8);
 
 	m_Project = CreateRef<Project>("New");
 	m_Panels = CreateRef<Panels>(m_Project);
+
+	if (appInfo.ArgCount > 1)
+		m_Path = appInfo.Args[1];
 }
 
-EditorLayer::~EditorLayer()
-{
-}
+EditorLayer::~EditorLayer() = default;
 
 void EditorLayer::OnAttach()
 {
-	ProjectSerializer serializer(m_Project);
-
-	serializer.Deserialize(m_Path);
+	if (m_Path != "")
+	{
+		ProjectSerializer serializer(m_Project);
+		serializer.Deserialize(m_Path);
+	}
 }
 
 void EditorLayer::OnDetach()
 {
 	ProjectSerializer serializer(m_Project);
-
 	serializer.Serialize(m_Path);
 }
 
 void EditorLayer::OnUpdate(Timestep& ts)
 {
+	m_Camera->OnUpdate(ts);
 }
 
 void EditorLayer::OnRender()
 {
 	m_FrameBuffer->Bind();
-
 	RendererCommand::Clear();
 
 	for (ECS::Entity& entity : m_Project->GetEntities())
 	{
 		ECS::Renderer2DComponent* r2d = entity.GetComponent<ECS::Renderer2DComponent>();
-		if (r2d) // TODO(Jorben): Editor Camera
+		ECS::TransformComponent* transform = entity.GetComponent<ECS::TransformComponent>();
+		if (r2d && r2d->Enable && transform) // TODO(Jorben): Editor Camera
 		{
-			ECS::TransformComponent* transform = entity.GetComponent<ECS::TransformComponent>();
-
 			if (r2d->Texture && r2d->UseTexture)
-				Renderer2D::DrawQuad(glm::vec2(transform->Position.x, transform->Position.y), glm::vec2(transform->Size.x, transform->Size.y), r2d->Texture, false);
+				Renderer2D::DrawQuad(glm::vec2(transform->Position.x, transform->Position.y), glm::vec2(transform->Size.x, transform->Size.y), r2d->Texture, false, m_Camera->GetCamera());
 			else
-				Renderer2D::DrawQuad(glm::vec2(transform->Position.x, transform->Position.y), glm::vec2(transform->Size.x, transform->Size.y), r2d->Colour, false);
+				Renderer2D::DrawQuad(glm::vec2(transform->Position.x, transform->Position.y), glm::vec2(transform->Size.x, transform->Size.y), r2d->Colour, false, m_Camera->GetCamera());
 		}
 	}
 
@@ -70,11 +74,19 @@ void EditorLayer::OnImGuiRender()
 		{
 			if (ImGui::MenuItem("New project"))
 			{
-				m_Project.reset();
-				m_Project = CreateRef<Project>("New");
+				//Save
 				ProjectSerializer serializer(m_Project);
 
-				serializer.Serialize("New-Project.crproj");
+				serializer.Serialize(m_Path);
+
+				//New
+				m_Project.reset();
+				m_Project = CreateRef<Project>("New");
+				m_Path = "New-Project-" + std::to_string(UUIDGenerator::GenerateUUID()) + ".crproj"; //New path
+
+				serializer = ProjectSerializer(m_Project);
+
+				serializer.Serialize(m_Path);
 			}
 
 			if (ImGui::MenuItem("Open project"))
@@ -107,7 +119,8 @@ void EditorLayer::OnImGuiRender()
 	}
 
 	//Viewport
-	{	
+	{
+		Panels::BeginColours();
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f)); //NECESSARY FOR RESIZING FRAMEBUFFER
 		ImGui::Begin("Viewport", (bool*)0, ImGuiWindowFlags_None);
 
@@ -124,23 +137,26 @@ void EditorLayer::OnImGuiRender()
 		ImVec2 mainViewportPos = ImGui::GetMainViewport()->Pos;
 		ImVec2 relativePos = { windowPos.x - mainViewportPos.x, windowPos.y - mainViewportPos.y };
 
-		window.SetViewportWidth(ImGui::GetWindowSize().x);
-		window.SetViewportHeight(ImGui::GetWindowSize().y);
-		window.SetViewportX(relativePos.x);
-		window.SetViewportY(relativePos.y);
+		window.SetViewportWidth((uint32_t)ImGui::GetWindowSize().x);
+		window.SetViewportHeight((uint32_t)ImGui::GetWindowSize().y);
+		window.SetViewportX((uint32_t)relativePos.x);
+		window.SetViewportY((uint32_t)relativePos.y);
 
 		ImGui::End();
 		ImGui::PopStyleVar(1);
+		Panels::EndColours();
 	}
 
-	//Objects window
+	//Windows
 	m_Panels->ObjectsWindow();
 	m_Panels->ObjectPropertiesWindow();
+
+	//ImGui::ShowStyleEditor();
 }
 
 void EditorLayer::OnEvent(Event& e)
 {
-
+	/* empty */
 }
 
 bool EditorLayer::InWindow(ImVec2 windowPos, ImVec2 windowSize, MousePosition mousePosition)

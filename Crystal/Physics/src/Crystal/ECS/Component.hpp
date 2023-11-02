@@ -2,8 +2,11 @@
 
 #include "Crystal/Core/UUID.hpp"
 #include "Crystal/Renderer/Texture.hpp"
+#include "Crystal/Scripting/EntityScript.hpp"
 
 #include <glm/glm.hpp>
+
+#include <filesystem>
 
 namespace Crystal::ECS
 {
@@ -41,20 +44,11 @@ namespace Crystal::ECS
         float Rotation = 0.0f;
     };
 
-	struct ScriptComponent : public Component
-	{
-		std::string Path;
-
-		ScriptComponent() = default;
-		ScriptComponent(const ScriptComponent& other) = default;
-		ScriptComponent(const std::string& path)
-			: Path(path) {}
-	};
-
 	struct Renderer2DComponent
 	{
+		bool Enable = true;
 		glm::vec4 Colour = { 1.0f, 1.0f, 1.0f, 1.0f };
-		Ref<Texture2D> Texture;
+		Ref<Texture2D> Texture = nullptr;
 		bool UseTexture;
 
 		Renderer2DComponent() = default;
@@ -65,6 +59,17 @@ namespace Crystal::ECS
 			: Texture(texture), UseTexture(true) {}
 		Renderer2DComponent(Ref<Texture2D> texture, const glm::vec4& colour)
 			: Texture(texture), Colour(colour), UseTexture(true) {}
+	};
+
+	struct ScriptComponent : public Component
+	{
+		std::filesystem::path Path;
+		EntityScript Script;
+
+		ScriptComponent() = default;
+		ScriptComponent(const ScriptComponent& other) = default;
+		ScriptComponent(const std::filesystem::path& path)
+			: Path(path), Script(path) {}
 	};
 
 	/*

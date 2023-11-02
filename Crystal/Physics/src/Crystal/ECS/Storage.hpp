@@ -4,6 +4,11 @@
 
 #include "Crystal/Core/UUID.hpp"
 
+#include <mono/jit/jit.h>
+#include <mono/metadata/assembly.h>
+#include <mono/metadata/class.h>
+#include <mono/metadata/debug-helpers.h>
+
 #include <any>
 #include <unordered_map>
 #include <map>
@@ -23,8 +28,8 @@ namespace Crystal::ECS
     class Storage
     {
     public:
-        Storage() = default;
-        virtual ~Storage() = default;
+        Storage();
+        virtual ~Storage();
 
         template<typename ComponentType>
         ComponentType* GetComponent(CR_UUID uuid)
@@ -38,14 +43,11 @@ namespace Crystal::ECS
                 {
                     return &std::any_cast<ComponentType&>(componentMap[uuid]);
                 }
-                catch (const std::bad_any_cast& e)
+                catch (const std::bad_any_cast e)
                 {
                     CR_CORE_ASSERT(false, "Component is of the wrong type.");
                 }
             }
-            //else
-            //    CR_CORE_ERROR("Component doesn't exist.");
-
 
             return nullptr;
         }
@@ -66,6 +68,9 @@ namespace Crystal::ECS
             if (it != componentMap.end())
                 componentMap.erase(it);
         }
+
+    public:
+        static MonoDomain* s_ScriptingDomain;
 
     private:
         template<typename ComponentType>

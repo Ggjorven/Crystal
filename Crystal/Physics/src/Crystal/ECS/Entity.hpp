@@ -43,6 +43,19 @@ namespace Crystal::ECS
 
         static Entity Create(ECS::Storage& storage, const std::string& name = "Entity");
 
+        //Operators
+        Entity& Entity::operator=(const Entity& other) 
+        {
+            if (this != &other) 
+            {
+                m_DebugName = other.m_DebugName;
+
+                m_Storage = other.m_Storage;
+                m_UUID = other.m_UUID;
+            }
+            return *this;
+        }
+
     protected:
         ECS::Storage& m_Storage;
 

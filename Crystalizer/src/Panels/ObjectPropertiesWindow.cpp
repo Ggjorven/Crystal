@@ -81,9 +81,9 @@ namespace Crystal
 			{
 				if (ImGui::CollapsingHeader("TransformComponent", nullptr, ImGuiTreeNodeFlags_DefaultOpen))
 				{
-					ImGui::DragFloat3("Position", glm::value_ptr(tc->Position), 1.0f); // TODO(Jorben): Update speed when Editor camera is created
-					ImGui::DragFloat3("Size", glm::value_ptr(tc->Size), 1.0f); // TODO(Jorben): Update speed when Editor camera is created
-					ImGui::DragFloat("Rotation", &tc->Rotation, 1.0f); // TODO(Jorben): Update speed when Editor camera is created
+					ImGui::DragFloat3("Position", glm::value_ptr(tc->Position), 1.0f);
+					ImGui::DragFloat3("Size", glm::value_ptr(tc->Size), 1.0f); 
+					ImGui::DragFloat("Rotation", &tc->Rotation, 1.0f); 
 				}
 			}
 
@@ -126,7 +126,7 @@ namespace Crystal
 					if (ImGui::Button("OnUpdate"))
 					{
 						sc->Script.OnUpdate(Timestep(0.0f));
-					}
+					} 
 
 				}
 			}

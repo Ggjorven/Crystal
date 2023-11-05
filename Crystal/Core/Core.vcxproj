@@ -181,7 +181,6 @@
     <ClInclude Include="src\Crystal\Renderer\3D\PerspectiveCamera.hpp" />
     <ClInclude Include="src\Crystal\Renderer\3D\Renderer3D.hpp" />
     <ClInclude Include="src\Crystal\Renderer\Buffer.hpp" />
-    <ClInclude Include="src\Crystal\Renderer\Tools\EditorCamera.hpp" />
     <ClInclude Include="src\Crystal\Renderer\FrameBuffer.hpp" />
     <ClInclude Include="src\Crystal\Renderer\GraphicsContext.hpp" />
     <ClInclude Include="src\Crystal\Renderer\Renderer.hpp" />
@@ -189,6 +188,7 @@
     <ClInclude Include="src\Crystal\Renderer\RenderingAPI.hpp" />
     <ClInclude Include="src\Crystal\Renderer\Shader.hpp" />
     <ClInclude Include="src\Crystal\Renderer\Texture.hpp" />
+    <ClInclude Include="src\Crystal\Renderer\Tools\EditorCamera.hpp" />
     <ClInclude Include="src\Crystal\Renderer\VertexArray.hpp" />
     <ClInclude Include="src\Crystal\Scripting\EntityScript.hpp" />
     <ClInclude Include="src\Crystal\Utils\Utils.hpp" />
@@ -224,7 +224,6 @@
     <ClCompile Include="src\Crystal\Renderer\3D\PerspectiveCamera.cpp" />
     <ClCompile Include="src\Crystal\Renderer\3D\Renderer3D.cpp" />
     <ClCompile Include="src\Crystal\Renderer\Buffer.cpp" />
-    <ClCompile Include="src\Crystal\Renderer\Tools\EditorCamera.cpp" />
     <ClCompile Include="src\Crystal\Renderer\FrameBuffer.cpp" />
     <ClCompile Include="src\Crystal\Renderer\GraphicsContext.cpp" />
     <ClCompile Include="src\Crystal\Renderer\Renderer.cpp" />
@@ -232,6 +231,7 @@
     <ClCompile Include="src\Crystal\Renderer\RenderingAPI.cpp" />
     <ClCompile Include="src\Crystal\Renderer\Shader.cpp" />
     <ClCompile Include="src\Crystal\Renderer\Texture.cpp" />
+    <ClCompile Include="src\Crystal\Renderer\Tools\EditorCamera.cpp" />
     <ClCompile Include="src\Crystal\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Crystal\Scripting\EntityScript.cpp" />
     <ClCompile Include="src\Crystal\Utils\Utils.cpp" />

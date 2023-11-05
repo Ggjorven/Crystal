@@ -49,7 +49,10 @@ namespace Crystal
 		YAML::Node data = YAML::LoadFile(path.string());
 
 		//Set scene name
-		m_Project->m_DebugName = data["Project"].as<std::string>(); 
+		if (data["Project"])
+			m_Project->m_DebugName = data["Project"].as<std::string>();
+		else
+			CR_CORE_WARN("No \"Project:\" tab found in {0}\n\tNot critical, just no data loaded and starting as a blank project.", path.string());
 
 		auto& entities = data["Entities"];
 		if (entities)

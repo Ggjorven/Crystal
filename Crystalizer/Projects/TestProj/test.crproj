@@ -1,23 +1,16 @@
 Project: New
 Entities:
-  - Entity: 1041514445959119603
+  - Entity: 17260805137098287381
     TagComponent:
-      Tag: a
+      Tag: Mario
     TransformComponent:
-      Position: [0, 127, 0]
-      Size: [123.32, 100, 0]
+      Position: [32, 0, 0]
+      Size: [64, 64, 0]
       Rotation: 0
     Renderer2DComponent:
       Enable: true
-      Texture: F:\Code\C++\VS\Crystal\Crystalizer\assets\textures\test.png
-      Colour: [1, 1, 1, 1]
-      UseTexture: true
-  - Entity: 11384957466291035642
-    TransformComponent:
-      Position: [0, 0, 0]
-      Size: [92, 149, 0]
-      Rotation: 0
-    Renderer2DComponent:
-      Enable: true
-      Colour: [0, 1, 1, 1]
+      Colour: [0.0882352442, 0.75, 0.302335501, 1]
       UseTexture: false
+  - Entity: 3769516395066234708
+    TagComponent:
+      Tag: Test

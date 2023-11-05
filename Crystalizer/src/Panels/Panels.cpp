@@ -17,7 +17,8 @@ namespace Crystal
 	Panels::Panels(Ref<Project>& project)
 		: m_Project(project), m_SelectedEntity(nullptr)
 	{
-		m_CheckerboardTex = Texture2D::Create("assets/textures/checkerboard.tga");
+		std::string path = Utils::GetEnviromentVariable("CRYSTAL_DIR");
+		m_CheckerboardTex = Texture2D::Create(path + "\\Crystalizer\\assets\\textures\\Checkerboard.tga");
 	}
 
 	Panels::~Panels()
@@ -49,7 +50,9 @@ namespace Crystal
 				std::string filename = Utils::OpenFile("");
 
 				if (!filename.empty())
+				{
 					changeAbleTexture.reset(); changeAbleTexture = Texture2D::Create(filename);
+				}
 			}
 		}
 		if (useTexture) //if not nullptr

@@ -37,7 +37,7 @@ project "Physics"
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.VulkanSDK}",
 		"%{IncludeDir.yaml}",
-		"%{IncludeDir.mono}",
+		"%{IncludeDir.mono}"
 	}
 
 	filter "system:windows"

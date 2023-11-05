@@ -55,6 +55,9 @@
     <Filter Include="src\Crystal\Renderer\3D">
       <UniqueIdentifier>{4A50C538-B687-0DD0-BF91-71F32B4834C9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Crystal\Renderer\Tools">
+      <UniqueIdentifier>{84871A6D-7097-C63D-D950-2B5CC57FB5D6}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Crystal\Scripting">
       <UniqueIdentifier>{200D4260-8C79-FD5A-556D-95B8C1981FC3}</UniqueIdentifier>
     </Filter>
@@ -204,6 +207,9 @@
     <ClInclude Include="src\Crystal\Renderer\Texture.hpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Crystal\Renderer\Tools\EditorCamera.hpp">
+      <Filter>src\Crystal\Renderer\Tools</Filter>
+    </ClInclude>
     <ClInclude Include="src\Crystal\Renderer\VertexArray.hpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClInclude>
@@ -219,7 +225,6 @@
     <ClInclude Include="src\Crystal\crpch.h">
       <Filter>src\Crystal</Filter>
     </ClInclude>
-    <ClInclude Include="src\Crystal\Renderer\Tools\EditorCamera.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\vendor\stb_image\src\stb_image.cpp">
@@ -327,6 +332,9 @@
     <ClCompile Include="src\Crystal\Renderer\Texture.cpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Crystal\Renderer\Tools\EditorCamera.cpp">
+      <Filter>src\Crystal\Renderer\Tools</Filter>
+    </ClCompile>
     <ClCompile Include="src\Crystal\Renderer\VertexArray.cpp">
       <Filter>src\Crystal\Renderer</Filter>
     </ClCompile>
@@ -339,6 +347,5 @@
     <ClCompile Include="src\Crystal\crpch.cpp">
       <Filter>src\Crystal</Filter>
     </ClCompile>
-    <ClCompile Include="src\Crystal\Renderer\Tools\EditorCamera.cpp" />
   </ItemGroup>
 </Project>

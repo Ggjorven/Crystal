@@ -16,6 +16,8 @@ namespace Crystal
 		
 		static float GetTime() { return s_Instance->GetTimeImplementation(); }
 
+		static const std::string& GetEnviromentVariable(const std::string& key);
+
 	private:
 		virtual std::string OpenFileImplementation(const char* filter) = 0;
 		virtual std::string SaveFileImplementation(const char* filter) = 0;

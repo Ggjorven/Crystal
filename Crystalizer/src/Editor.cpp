@@ -15,14 +15,14 @@ EditorLayer::EditorLayer(const ApplicationInfo& appInfo)
 	m_Panels = CreateRef<Panels>(m_Project);
 
 	if (appInfo.ArgCount > 1)
-		m_Path = appInfo.Args[1];
+		m_Path = std::filesystem::path(appInfo.Args[0]).parent_path() / std::filesystem::path(appInfo.Args[1]);
 }
 
 EditorLayer::~EditorLayer() = default;
 
 void EditorLayer::OnAttach()
 {
-	if (m_Path != "")
+	if (!m_Path.empty())
 	{
 		ProjectSerializer serializer(m_Project);
 		serializer.Deserialize(m_Path);
@@ -49,7 +49,7 @@ void EditorLayer::OnRender()
 	{
 		ECS::Renderer2DComponent* r2d = entity.GetComponent<ECS::Renderer2DComponent>();
 		ECS::TransformComponent* transform = entity.GetComponent<ECS::TransformComponent>();
-		if (r2d && r2d->Enable && transform) // TODO(Jorben): Editor Camera
+		if (r2d && r2d->Enable && transform) 
 		{
 			if (r2d->Texture && r2d->UseTexture)
 				Renderer2D::DrawQuad(glm::vec2(transform->Position.x, transform->Position.y), glm::vec2(transform->Size.x, transform->Size.y), r2d->Texture, false, m_Camera->GetCamera());
@@ -74,19 +74,7 @@ void EditorLayer::OnImGuiRender()
 		{
 			if (ImGui::MenuItem("New project"))
 			{
-				//Save
-				ProjectSerializer serializer(m_Project);
-
-				serializer.Serialize(m_Path);
-
-				//New
-				m_Project.reset();
-				m_Project = CreateRef<Project>("New");
-				m_Path = "New-Project-" + std::to_string(UUIDGenerator::GenerateUUID()) + ".crproj"; //New path
-
-				serializer = ProjectSerializer(m_Project);
-
-				serializer.Serialize(m_Path);
+				CreateNewProject();
 			}
 
 			if (ImGui::MenuItem("Open project"))
@@ -156,7 +144,7 @@ void EditorLayer::OnImGuiRender()
 
 void EditorLayer::OnEvent(Event& e)
 {
-	/* empty */
+	m_Camera->OnEvent(e);
 }
 
 bool EditorLayer::InWindow(ImVec2 windowPos, ImVec2 windowSize, MousePosition mousePosition)
@@ -166,4 +154,58 @@ bool EditorLayer::InWindow(ImVec2 windowPos, ImVec2 windowSize, MousePosition mo
 		return true;
 
 	return false;
+}
+
+void EditorLayer::CreateNewProject()
+{
+	//Save
+	ProjectSerializer serializer(m_Project);
+
+	serializer.Serialize(m_Path);
+
+	//New
+	m_Project.reset();
+	m_Project = CreateRef<Project>("New");
+	m_Path = "New-Project-" + std::to_string(UUIDGenerator::GenerateUUID()) + ".crproj"; //New path
+
+	serializer = ProjectSerializer(m_Project);
+
+	serializer.Serialize(m_Path);
+
+	/*
+	[Window][DockSpaceViewport_11111111]
+	Pos=0,19
+	Size=1920,998
+	Collapsed=0
+
+	[Window][Debug##Default]
+	Pos=60,60
+	Size=400,400
+	Collapsed=0
+
+	[Window][Viewport]
+	Pos=274,19
+	Size=1646,998
+	Collapsed=0
+	DockId=0x00000002,0
+
+	[Window][Properties]
+	Pos=0,580
+	Size=272,437
+	Collapsed=0
+	DockId=0x00000004,0
+
+	[Window][Objects]
+	Pos=0,19
+	Size=272,559
+	Collapsed=0
+	DockId=0x00000003,0
+
+	[Docking][Data]
+	DockSpace     ID=0x8B93E3BD Window=0xA787BDB4 Pos=0,42 Size=1920,998 Split=X
+	  DockNode    ID=0x00000001 Parent=0x8B93E3BD SizeRef=272,998 Split=Y Selected=0x967E7699
+		DockNode  ID=0x00000003 Parent=0x00000001 SizeRef=272,559 Selected=0x967E7699
+		DockNode  ID=0x00000004 Parent=0x00000001 SizeRef=272,437 Selected=0x199AB496
+	  DockNode    ID=0x00000002 Parent=0x8B93E3BD SizeRef=1646,998 CentralNode=1 Selected=0x13926F0B
+  */
 }

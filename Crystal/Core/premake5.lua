@@ -41,7 +41,7 @@ project "Core"
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.VulkanSDK}",
 		"%{IncludeDir.yaml}",
-		"%{IncludeDir.mono}",
+		"%{IncludeDir.mono}"
 	}
 
 	links

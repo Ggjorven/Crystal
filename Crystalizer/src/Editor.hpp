@@ -30,6 +30,9 @@ public:
 	static bool InWindow(ImVec2 windowPos, ImVec2 windowSize, MousePosition mousePosition);
 
 private:
+	void CreateNewProject();
+
+private:
 	std::filesystem::path m_Path = "Projects/TestProj/test.crproj";
 
 	Ref<Project> m_Project;

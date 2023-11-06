@@ -125,7 +125,8 @@ namespace Crystal
 
 					if (ImGui::Button("OnUpdate"))
 					{
-						sc->Script.OnUpdate(Timestep(0.0f));
+						Timestep ts(0.0f);
+						sc->Script.OnUpdate(ts);
 					} 
 
 				}

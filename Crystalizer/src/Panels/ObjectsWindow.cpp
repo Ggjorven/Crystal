@@ -112,12 +112,10 @@ namespace Crystal
 					}
 
 					//Create a menu
-					if (ImGui::Selectable(name.c_str())) // TODO
+					if (ImGui::Selectable(name.c_str()))
 					{
-						CR_CORE_TRACE("Delete {0}", name);
-
 						std::vector<ECS::Entity>& entities = m_Project->GetEntities();
-						for (int i = 0; i < entities.size(); i++)
+						for (unsigned int i = 0; i < entities.size(); i++)
 						{
 							if (entities[i].GetUUID() == entity.GetUUID())
 							{

@@ -9,7 +9,7 @@ IncludeDir["spdlog"] = "%{wks.location}/vendor/spdlog/include"
 IncludeDir["glm"] = "%{wks.location}/vendor/glm"
 IncludeDir["VulkanSDK"] = "%{VULKAN_SDK}/Include"
 IncludeDir["yaml"] = "%{wks.location}/vendor/yaml-cpp/include"
-IncludeDir["mono"] = "%{wks.location}/vendor/mono/include"
+IncludeDir["Coral"] = "%{wks.location}/vendor/Coral/Coral.Native/Include"
 
 LibraryDir = {}
 
@@ -19,4 +19,3 @@ Library = {}
 
 Library["Vulkan"] = "%{LibraryDir.VulkanSDK}/vulkan-1.lib"
 Library["VulkanUtils"] = "%{LibraryDir.VulkanSDK}/VkLayer_utils.lib"
-Library["mono"] = "%{wks.location}/vendor/mono/lib/windows/Debug/mono-2.0-sgen.lib"

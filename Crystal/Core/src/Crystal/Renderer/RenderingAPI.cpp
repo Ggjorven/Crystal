@@ -2,13 +2,13 @@
 #include "RenderingAPI.hpp"
 
 #include "APIs/OpenGL/OpenGLRenderingAPI.hpp"
-//#include "APIs/Vulkan/VulkanRendererAPI.hpp"
+//#include "APIs/Vulkan/VulkanRendererAPI.hpp" // TODO(Jorben): Add Vulkan support.
 
 namespace Crystal
 {
-																	//
-	RenderingAPI::API RenderingAPI::s_API = RenderingAPI::API::OpenGL; //Select RendererAPI here
-																	//
+																		//
+	RenderingAPI::API RenderingAPI::s_API = RenderingAPI::API::OpenGL;	//Select RendererAPI here
+																		//
 	Scope<RenderingAPI> RenderingAPI::Create()
 	{
 		switch (s_API)

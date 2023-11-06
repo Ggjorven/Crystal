@@ -125,8 +125,6 @@ bool GameCamera::OnWindowResized(WindowResizeEvent& e)
 	float width = static_cast<float>(Application::Get().GetWindow().GetViewportWidth()) / 2.0f;
 	float height = static_cast<float>(Application::Get().GetWindow().GetViewportHeight()) / 2.0f;
 
-	//m_Origin = { -(width / 2.0f), height / 2.0f };
-
 	m_Camera->SetProjection(-width * m_ZoomLevel, width * m_ZoomLevel, -height * m_ZoomLevel, height * m_ZoomLevel);
 
 	SetPositionToLowestTile();
@@ -141,45 +139,20 @@ void GameCamera::UpdateView()
 
 void GameCamera::SetPositionToLowestTile()
 {
-	//CR_WARN("Called tile pos");
-
 	//Check if lowest tile is in view
 	std::vector<Scope<Tile>>& tiles = Layer2D::GetSceneTileManager()->GetTiles();
 
-	glm::vec2& lowestPos = glm::vec2(0.0f, 0.0f);
+	glm::vec2 lowestPos = glm::vec2(0.0f, 0.0f);
 	for (Scope<Tile>& tile : tiles)
 	{
 		//Get lowest position
 		if (lowestPos.y < tile->GetPosition().y)
 			lowestPos.y = tile->GetPosition().y;
 	}
-
-	//0.0f is middle
-	//lowestPos.y is ~720, but we need half of this
-
-	//float centerX = static_cast<float>(Application::Get().GetWindow().GetWidth()) / 2.0f;
-	//float centerY = static_cast<float>(Application::Get().GetWindow().GetHeight()) / 2.0f;
-
-	//float increment = (Application::Get().GetWindow().GetHeight() / 2.0f) - (lowestPos.y / 2.0f) + (s_TileHeight * s_GlobalScale);
-
-	//CR_WARN("Change = (lowestPos.y * s_GlobalScale) - (s_TileHeight * s_GlobalScale) - windowSize = ?");
 	
 	Window& window = Application::Get().GetWindow();
 	float windowSize = (float)window.GetViewportHeight();
-	//float change = (lowestPos.y * s_GlobalScale / windowSize) * (s_TileHeight * s_GlobalScale) * -1;
 	float change = windowSize - (lowestPos.y * s_GlobalScale) - (s_TileHeight * s_GlobalScale);
-	//-48
-	//~110
-
-
-
-
-	//CR_WARN("Window h: {0}", windowSize);
-	//CR_WARN("Lowest t: {0}", lowestPos.y);
-	//CR_WARN("Change = (lowestPos.y * s_GlobalScale) - (s_TileHeight * s_GlobalScale) - windowSize = ?");
-	//CR_WARN("Change = ({0} * {1}) - ({2} * {3}) - {4} = {5}", lowestPos.y, s_GlobalScale, s_TileHeight, s_GlobalScale, windowSize, change);
-	
-	//TODO fix
 
 	m_CameraPosition = { m_CameraPosition.x, change, m_CameraPosition.z};
 	m_Camera->SetPosition(m_CameraPosition);

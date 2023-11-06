@@ -4,10 +4,7 @@
 
 #include "Crystal/Core/UUID.hpp"
 
-#include <mono/jit/jit.h>
-#include <mono/metadata/assembly.h>
-#include <mono/metadata/class.h>
-#include <mono/metadata/debug-helpers.h>
+// TODO(Jorben): Implement Coral
 
 #include <any>
 #include <unordered_map>
@@ -70,7 +67,7 @@ namespace Crystal::ECS
         }
 
     public:
-        static MonoDomain* s_ScriptingDomain;
+        //static MonoDomain* s_ScriptingDomain;
 
     private:
         template<typename ComponentType>

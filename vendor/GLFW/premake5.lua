@@ -2,6 +2,8 @@ project "GLFW"
 	kind "StaticLib"
 	language "C"
 
+    architecture "x86_64"
+
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 

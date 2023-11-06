@@ -50,13 +50,12 @@ namespace Crystal
 
 
 
-	Ref<Shader> Shader::Create(const std::string& filepath) //TODO
+	Ref<Shader> Shader::Create(std::filesystem::path path)
 	{
-		CR_CORE_ASSERT(false, "This overload of the Shader::Create function is not supported at the moment")
 		switch (Renderer::GetAPI())
 		{
 		case RenderingAPI::API::None: CR_CORE_ASSERT(false, "RenderingAPI::None is currently not supported!"); return nullptr;
-		//case RenderingAPI::API::OpenGL: CreateScope<OpenGLShader>(filepath);
+		case RenderingAPI::API::OpenGL: CreateScope<OpenGLShader>(path);
 		}
 
 		CR_CORE_ASSERT(false, "Unknown RenderingAPI!");

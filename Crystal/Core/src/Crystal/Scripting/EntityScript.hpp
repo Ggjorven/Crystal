@@ -4,11 +4,6 @@
 
 #include <filesystem>
 
-#include <mono/jit/jit.h>
-#include <mono/metadata/assembly.h>
-#include <mono/metadata/class.h>
-#include <mono/metadata/debug-helpers.h>
-
 namespace Crystal
 {
 
@@ -27,14 +22,6 @@ namespace Crystal
 		// TODO(Jorben): Extra functionality (ex. Collision)
 
 	private:
-        MonoAssembly* m_Assembly = nullptr;
-        MonoImage* m_Image = nullptr;
-
-        MonoClass* m_Class = nullptr;
-        MonoObject* m_EntityObject = nullptr;
-
-		MonoMethod* m_OnCreateMethod = nullptr;
-		MonoMethod* m_OnUpdateMethod = nullptr;
 	};
 
 }

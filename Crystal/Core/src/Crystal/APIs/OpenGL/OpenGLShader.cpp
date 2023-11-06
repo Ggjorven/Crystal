@@ -5,6 +5,10 @@
 
 namespace Crystal
 {
+	OpenGLShader::OpenGLShader(std::filesystem::path path)
+		: OpenGLShader(path.string(), Shader::Read(path.string()).VertexSource, Shader::Read(path.string()).FragmentSource)
+	{
+	}
 
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSource, const std::string fragmentSource)
 		: m_Name(name), m_RendererID(0)
@@ -126,7 +130,7 @@ namespace Crystal
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 
 		if (location == -1)
-			CR_CORE_ASSERT(false, "Uniform does not exist.", name); //Shader probably not bound
+			CR_CORE_ASSERT(false, "Uniform does not exist.", name); // Note(Jorben): If you recieve this error the shader is probably not bound.
 
 		return location;
 	}
@@ -138,7 +142,7 @@ namespace Crystal
 	//--------------------------
 	//		   Defaults
 	//--------------------------
-	static ShaderSource Colour = {
+	static const ShaderSource Colour = {
 		R"(
 		#version 330 core
 
@@ -163,7 +167,7 @@ namespace Crystal
 	)"
 	};
 
-	static ShaderSource Texture = {
+	static const ShaderSource Texture = {
 		R"(
 		#version 330 core
 
@@ -193,7 +197,7 @@ namespace Crystal
 		}
 	)"
 	};
-	static ShaderSource TextureColour = {
+	static const ShaderSource TextureColour = {
 		R"(
 		#version 330 core
 
@@ -228,7 +232,7 @@ namespace Crystal
 	//--------------------------
 	//		   Transforms
 	//--------------------------
-	static ShaderSource ColourT = {
+	static const ShaderSource ColourT = {
 		R"(
 		#version 330 core
 
@@ -255,7 +259,7 @@ namespace Crystal
 	)"
 	};
 
-	static ShaderSource TextureT = {
+	static const ShaderSource TextureT = {
 		R"(
 		#version 330 core
 
@@ -288,7 +292,7 @@ namespace Crystal
 	)"
 	};
 
-	static ShaderSource TextureColourT = {
+	static const ShaderSource TextureColourT = {
 		R"(
 		#version 330 core
 
@@ -325,7 +329,7 @@ namespace Crystal
 	//--------------------------
 	//		ViewProjections
 	//--------------------------
-	static ShaderSource ColourTVP = {
+	static const ShaderSource ColourTVP = {
 		R"(
 		#version 330 core
 
@@ -353,7 +357,7 @@ namespace Crystal
 	)"
 	};
 
-	static ShaderSource TextureTVP = {
+	static const ShaderSource TextureTVP = {
 		R"(
 		#version 330 core
 
@@ -387,7 +391,7 @@ namespace Crystal
 	)"
 	};
 
-	static ShaderSource TextureColourTVP = {
+	static const ShaderSource TextureColourTVP = {
 		R"(
 		#version 330 core
 
@@ -422,7 +426,7 @@ namespace Crystal
 	)"
 	};
 
-	static ShaderSource TextureColourTVPT = {
+	static const ShaderSource TextureColourTVPT = {
 		R"(
 		#version 330 core
 
@@ -491,7 +495,7 @@ namespace Crystal
 		case ShaderLib::Type::Textured_Coloured_Transform_ViewProj_TexCoord: return TextureColourTVPT;
 		}
 
-		CR_CORE_ASSERT(false, "Not a proper shader selected.");
-		return ShaderSource("error", "error");
+		CR_CORE_ASSERT(false, "Unable to recognize shader type.");
+		return ShaderSource("", "");
 	}
 }

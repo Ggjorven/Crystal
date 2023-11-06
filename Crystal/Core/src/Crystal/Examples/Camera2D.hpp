@@ -48,7 +48,6 @@ namespace Crystal
 		float GetMaxZoomLevel() { return m_MaxZoomLevel; }
 		void SetMaxZoomLevel(float max) { m_MaxZoomLevel = max; }
 
-		//Also need to update the view
 		void SetPosition(glm::vec2 position) { m_CameraPosition = { position.x, position.y, 0.0f }; UpdateView(); }
 		glm::vec3& GetPosition() { return m_CameraPosition;}
 
@@ -74,7 +73,7 @@ namespace Crystal
 
 		glm::vec2 m_Origin = { 0.0f, 0.0f };
 		glm::vec3 m_CameraPosition = { 0.0f, 0.0f, 0.0f };
-		float m_CameraRotation = 0.0f; //In degrees, in the clockwise direction
+		float m_CameraRotation = 0.0f; // Note(Jorben): In degrees, in the clockwise direction.
 
 		float m_MovementSpeed = 5.0f, m_RotationSpeed = 180.0f;
 		float m_MaxZoomLevel = 0.25f;

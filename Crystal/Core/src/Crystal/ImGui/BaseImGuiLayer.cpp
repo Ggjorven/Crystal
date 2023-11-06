@@ -12,7 +12,7 @@
 #include <GLFW/glfw3.h>
 #include <GL/glew.h>
 
-#include <vulkan/vulkan.hpp> //TODO to be used
+#include <vulkan/vulkan.hpp> // TODO(Jorben): Add vulkan support.
 
 namespace Crystal
 {
@@ -85,7 +85,6 @@ namespace Crystal
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-		//Failsafe?
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
 			GLFWwindow* backup_current_context = glfwGetCurrentContext();

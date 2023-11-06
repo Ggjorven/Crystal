@@ -31,9 +31,6 @@ namespace Crystal
 	class Input
 	{
 	public:
-		Input() = default;			//Only to be used by the Engine not the Client
-		virtual ~Input() = default;
-
 		inline static bool IsKeyPressed(int keycode) { return s_Instance->IsKeyPressedImplementation(keycode); }
 		inline static bool IsMousePressed(int button) { return s_Instance->IsMousePressedImplementation(button); }
 

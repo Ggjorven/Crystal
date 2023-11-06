@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Script", "Script.csproj", "{9AFBBAD0-869D-E5A6-6F58-F9FA5B996CF7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coral.Managed", "..\..\..\..\vendor\Coral\Coral.Managed\Coral.Managed.csproj", "{D85CE37E-0068-4B1D-BD30-DB0185B1B98E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Dist|Any CPU = Dist|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9AFBBAD0-869D-E5A6-6F58-F9FA5B996CF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AFBBAD0-869D-E5A6-6F58-F9FA5B996CF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AFBBAD0-869D-E5A6-6F58-F9FA5B996CF7}.Dist|Any CPU.ActiveCfg = Dist|Any CPU
+		{9AFBBAD0-869D-E5A6-6F58-F9FA5B996CF7}.Dist|Any CPU.Build.0 = Dist|Any CPU
+		{9AFBBAD0-869D-E5A6-6F58-F9FA5B996CF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AFBBAD0-869D-E5A6-6F58-F9FA5B996CF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D85CE37E-0068-4B1D-BD30-DB0185B1B98E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D85CE37E-0068-4B1D-BD30-DB0185B1B98E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D85CE37E-0068-4B1D-BD30-DB0185B1B98E}.Dist|Any CPU.ActiveCfg = Debug|Any CPU
+		{D85CE37E-0068-4B1D-BD30-DB0185B1B98E}.Dist|Any CPU.Build.0 = Debug|Any CPU
+		{D85CE37E-0068-4B1D-BD30-DB0185B1B98E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D85CE37E-0068-4B1D-BD30-DB0185B1B98E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

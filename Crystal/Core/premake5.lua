@@ -1,8 +1,12 @@
 project "Core"
 	kind "StaticLib"
 	language "C++"
-	cppdialect "C++17"
-	staticruntime "off"
+	cppdialect "C++20"
+	staticruntime "On"
+
+	debuggertype "NativeWithManagedCore" -- for Coral
+
+	architecture "x86_64"
 
 	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
@@ -15,6 +19,7 @@ project "Core"
 		"src/**.h",
 		"src/**.hpp",
 		"src/**.cpp",
+		
 		"%{wks.location}/vendor/stb_image/src/stb_image.cpp"
 	}
 
@@ -41,8 +46,10 @@ project "Core"
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.VulkanSDK}",
 		"%{IncludeDir.yaml}",
-		"%{IncludeDir.mono}"
+		"%{IncludeDir.Coral}"
 	}
+
+    libdirs { "%{wks.location}/vendor/NetCore/7.0.7/" }
 
 	links
 	{
@@ -50,13 +57,13 @@ project "Core"
 
 		"opengl32.lib",
 		"%{Library.Vulkan}",
-		"%{Library.mono}",
 
 		"GLEW",
 		"GLFW",
 		"ImGui",
 		"spdlog",
-		"yaml-cpp"
+		"yaml-cpp",
+		"Coral.Native"
 	}
 
 	filter "system:windows"

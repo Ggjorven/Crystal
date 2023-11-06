@@ -430,6 +430,10 @@ vendor/yaml-cpp/yaml-cpp.vcxproj
 vendor/yaml-cpp/yaml-cpp.vcxproj.filters
 vendor/yaml-cpp/yaml-cpp.vcxproj.user
 
-vendor/luacpp/luacpp.vcxproj
-vendor/luacpp/luacpp.vcxproj.filters
-vendor/luacpp/luacpp.vcxproj.user
+vendor/Coral/Coral.Managed/Coral.Managed.csproj
+vendor/Coral/Coral.Managed/Coral.Managed.csproj.filters
+vendor/Coral/Coral.Managed/Coral.Managed.csproj.user
+
+vendor/Coral/Coral.Native/Coral.Native.vcxproj
+vendor/Coral/Coral.Native/Coral.Native.vcxproj.filters
+vendor/Coral/Coral.Native/Coral.Native.vcxproj.user

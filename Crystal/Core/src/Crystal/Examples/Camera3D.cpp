@@ -99,7 +99,6 @@ namespace Crystal
 
             m_Camera->UpdateArea();
         }
-        //Update matrixes
 	}
 
 	void Camera3D::OnEvent(Event& e)

@@ -4,7 +4,7 @@
 namespace Crystal::ECS
 {
 
-    MonoDomain* Storage::s_ScriptingDomain = nullptr;
+    //MonoDomain* Storage::s_ScriptingDomain = nullptr;
 
     Storage::Storage()
     {

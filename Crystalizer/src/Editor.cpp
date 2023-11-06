@@ -109,7 +109,7 @@ void EditorLayer::OnImGuiRender()
 	//Viewport
 	{
 		Panels::BeginColours();
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f)); //NECESSARY FOR RESIZING FRAMEBUFFER
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f)); // Note(Jorben): Necessary for resizing framebuffer
 		ImGui::Begin("Viewport", (bool*)0, ImGuiWindowFlags_None);
 
 		ImVec2 size = ImGui::GetContentRegionAvail();
@@ -139,39 +139,7 @@ void EditorLayer::OnImGuiRender()
 	m_Panels->ObjectsWindow();
 	m_Panels->ObjectPropertiesWindow();
 
-	//ImGui::ShowStyleEditor();
-}
-
-void EditorLayer::OnEvent(Event& e)
-{
-	m_Camera->OnEvent(e);
-}
-
-bool EditorLayer::InWindow(ImVec2 windowPos, ImVec2 windowSize, MousePosition mousePosition)
-{
-	if (mousePosition.X >= windowPos.x && mousePosition.X <= windowSize.x + windowPos.x &&
-		mousePosition.Y >= windowPos.y && mousePosition.Y <= windowSize.y + windowPos.y)
-		return true;
-
-	return false;
-}
-
-void EditorLayer::CreateNewProject()
-{
-	//Save
-	ProjectSerializer serializer(m_Project);
-
-	serializer.Serialize(m_Path);
-
-	//New
-	m_Project.reset();
-	m_Project = CreateRef<Project>("New");
-	m_Path = "New-Project-" + std::to_string(UUIDGenerator::GenerateUUID()) + ".crproj"; //New path
-
-	serializer = ProjectSerializer(m_Project);
-
-	serializer.Serialize(m_Path);
-
+	// TODO(Jorben): Add dockspace information for ImGui somehow, to prevent having to copy imgui.ini files
 	/*
 	[Window][DockSpaceViewport_11111111]
 	Pos=0,19
@@ -203,9 +171,40 @@ void EditorLayer::CreateNewProject()
 
 	[Docking][Data]
 	DockSpace     ID=0x8B93E3BD Window=0xA787BDB4 Pos=0,42 Size=1920,998 Split=X
-	  DockNode    ID=0x00000001 Parent=0x8B93E3BD SizeRef=272,998 Split=Y Selected=0x967E7699
-		DockNode  ID=0x00000003 Parent=0x00000001 SizeRef=272,559 Selected=0x967E7699
-		DockNode  ID=0x00000004 Parent=0x00000001 SizeRef=272,437 Selected=0x199AB496
-	  DockNode    ID=0x00000002 Parent=0x8B93E3BD SizeRef=1646,998 CentralNode=1 Selected=0x13926F0B
-  */
+	DockNode    ID=0x00000001 Parent=0x8B93E3BD SizeRef=272,998 Split=Y Selected=0x967E7699
+	DockNode  ID=0x00000003 Parent=0x00000001 SizeRef=272,559 Selected=0x967E7699
+	DockNode  ID=0x00000004 Parent=0x00000001 SizeRef=272,437 Selected=0x199AB496
+	DockNode    ID=0x00000002 Parent=0x8B93E3BD SizeRef=1646,998 CentralNode=1 Selected=0x13926F0B
+	*/
+}
+
+void EditorLayer::OnEvent(Event& e)
+{
+	m_Camera->OnEvent(e);
+}
+
+bool EditorLayer::InWindow(ImVec2 windowPos, ImVec2 windowSize, MousePosition mousePosition)
+{
+	if (mousePosition.X >= windowPos.x && mousePosition.X <= windowSize.x + windowPos.x &&
+		mousePosition.Y >= windowPos.y && mousePosition.Y <= windowSize.y + windowPos.y)
+		return true;
+
+	return false;
+}
+
+void EditorLayer::CreateNewProject()
+{
+	//Save
+	ProjectSerializer serializer(m_Project);
+
+	serializer.Serialize(m_Path);
+
+	//New
+	m_Project.reset();
+	m_Project = CreateRef<Project>("New");
+	m_Path = "New-Project-" + std::to_string(UUIDGenerator::GenerateUUID()) + ".crproj"; //New path
+
+	serializer = ProjectSerializer(m_Project);
+
+	serializer.Serialize(m_Path);
 }

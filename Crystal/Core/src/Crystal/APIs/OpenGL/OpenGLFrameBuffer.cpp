@@ -66,7 +66,7 @@ namespace Crystal
 			CR_CORE_ASSERT(false, "Framebuffer is incomplete!");
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glViewport(0, 0, m_Width, m_Height); //TODO: remove?
+		glViewport(0, 0, m_Width, m_Height);
 
 		//Texture creation
 		m_Texture = Texture2D::Create(m_Width, m_Height);
@@ -94,6 +94,7 @@ namespace Crystal
 
 	OpenGLFrameBuffer::FBData OpenGLFrameBuffer::GetFramebufferData()
 	{
+		// Note(Jorben): This function is currently in beta and only supports RGBA as a framebuffer format.
 		// Allocate memory for the data (make sure to free it when done)
 		void* data = malloc(m_Width * m_Height * 4); // * 4 for RGBA format
 

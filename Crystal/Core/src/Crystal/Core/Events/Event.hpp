@@ -67,8 +67,6 @@ namespace Crystal
 		{
 		}
 
-		//EX_FUNC(bool, EventFunction, Event& e);
-
 		template<typename T, typename F>
 		bool Handle(const F& func)
 		{

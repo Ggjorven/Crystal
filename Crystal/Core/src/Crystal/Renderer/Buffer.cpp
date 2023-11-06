@@ -2,7 +2,7 @@
 #include "Buffer.hpp"
 
 #include "Crystal/Renderer/Renderer.hpp"
-#include "APIs/OpenGL/OpenGLBuffer.hpp" //vertex & index
+#include "APIs/OpenGL/OpenGLBuffer.hpp" // Note(Jorben): Includes both Vertex- & Indexbuffers.
 
 namespace Crystal
 {

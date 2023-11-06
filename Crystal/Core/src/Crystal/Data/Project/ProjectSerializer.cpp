@@ -36,7 +36,7 @@ namespace Crystal
 
 		if (file.good())
 		{
-			//CR_CORE_TRACE("Adding data to file {0}: \n{1}", path.string(), data.c_str());
+			CR_CORE_TRACE("Adding data to file {0}: \n{1}", path.string(), data.c_str());
 			file << data.c_str();
 			file.close();
 		}
@@ -54,16 +54,24 @@ namespace Crystal
 		else
 			CR_CORE_WARN("No \"Project:\" tab found in {0}\n\tNot critical, just no data loaded and starting as a blank project.", path.string());
 
-		auto& entities = data["Entities"];
+		auto entities = data["Entities"];
 		if (entities)
 		{
-			for (auto& entity : entities)
+			for (auto entity : entities)
 				DeserializeEntity(entity);
 		}
 		
 		std::stringstream ss;
 		ss << data;
 		CR_CORE_TRACE("Loading project: {0}", path.string());
+	}
+
+	ProjectSerializer& ProjectSerializer::operator=(const ProjectSerializer& other)
+	{
+		if (this != &other)
+			m_Project = other.m_Project;
+
+		return *this;
 	}
 
 	void ProjectSerializer::SerializeEntity(YAML::Emitter& emitter, ECS::Entity& entity)
@@ -139,8 +147,6 @@ namespace Crystal
 		auto tagComponent = node["TagComponent"];
 		if (tagComponent)
 		{
-			//CR_CORE_TRACE("Loaded tag component.");
-
 			ECS::TagComponent tag;
 			tag.Tag = tagComponent["Tag"].as<std::string>();
 
@@ -151,8 +157,6 @@ namespace Crystal
 		auto transformComponent = node["TransformComponent"];
 		if (transformComponent)
 		{
-			//CR_CORE_TRACE("Loaded transform component.");
-
 			ECS::TransformComponent transform;
 			transform.Position = transformComponent["Position"].as<glm::vec3>();
 			transform.Size = transformComponent["Size"].as<glm::vec3>();
@@ -165,8 +169,6 @@ namespace Crystal
 		auto renderer2DComponent = node["Renderer2DComponent"];
 		if (renderer2DComponent)
 		{
-			//CR_CORE_TRACE("Loaded renderer2D component.");
-
 			ECS::Renderer2DComponent r2d;
 			r2d.Enable = renderer2DComponent["Enable"].as<bool>();
 			if (renderer2DComponent["Texture"])
@@ -182,8 +184,6 @@ namespace Crystal
 		auto scriptComponent = node["ScriptComponent"];
 		if (scriptComponent)
 		{
-			//CR_CORE_TRACE("Loaded script component.");
-
 			ECS::ScriptComponent sc;
 			sc.Path = scriptComponent["Path"].as<std::string>();
 

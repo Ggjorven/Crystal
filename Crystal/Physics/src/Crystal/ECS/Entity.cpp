@@ -15,4 +15,15 @@ namespace Crystal::ECS
         return Entity(storage, name);
     }
 
+    Entity& Entity::operator=(const Entity& other)
+    {
+        if (this != &other) 
+        {
+            m_DebugName = other.m_DebugName;
+            m_Storage = other.m_Storage;
+            m_UUID = other.m_UUID;
+        }
+        return *this;
+    }
+
 }

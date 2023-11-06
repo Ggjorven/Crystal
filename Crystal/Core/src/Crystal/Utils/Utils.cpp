@@ -12,9 +12,12 @@ namespace Crystal
 	Ref<Utils> Utils::s_Instance = CreateRef<WindowsUtils>();
 	#endif
 
-	const std::string& Utils::GetEnviromentVariable(const std::string& key)
+	std::string Utils::GetEnviromentVariable(const std::string& key)
 	{
-		return std::string(std::getenv(key.c_str()));
+		const char* val = std::getenv(key.c_str());
+		if (val != nullptr)
+			return std::string(val);
+		return std::string("");
 	}
 
 }

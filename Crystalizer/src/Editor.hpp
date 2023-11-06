@@ -6,7 +6,6 @@
 #include <filesystem>
 #include <imgui.h>
 
-//All editor layers
 #include "Panels/Panels.hpp"
 
 using namespace Crystal;

@@ -1,8 +1,11 @@
 project "Runtime"
 	kind "ConsoleApp"
 	language "C++"
-	cppdialect "C++17"
+	cppdialect "C++20"
 	staticruntime "off"
+
+    architecture "x86_64"
+	debuggertype "NativeWithManagedCore" -- for Coral
 
 	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
@@ -30,7 +33,7 @@ project "Runtime"
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.VulkanSDK}",
 		"%{IncludeDir.yaml}",
-		"%{IncludeDir.luacpp}",
+		"%{IncludeDir.Coral}",
 	}
 
 	links
@@ -38,11 +41,11 @@ project "Runtime"
 		"Core"
 	}
 
-	monodir = "%{wks.location}bin/" .. outputdir .. "/bin/lib/mono/4.5"
-	postbuildcommands 
+	postbuildcommands -- TODO fix
 	{
-		'{COPY} "%{wks.location}vendor/mono/bin/Debug/mono-2.0-sgen.dll" "%{cfg.targetdir}"'
-	}
+		'{COPYFILE} "%{wks.location}/vendor/NetCore/7.0.7/nethost.dll" "%{cfg.targetdir}"',
+        '{COPYFILE} "%{wks.location}/vendor/Coral/Coral.Managed/Coral.Managed.runtimeconfig.json" "%{cfg.targetdir}"',
+    }
 
 	filter "system:windows"
 		systemversion "latest"

@@ -20,13 +20,7 @@ namespace Crystal
 		void Serialize(std::filesystem::path path);
 		void Deserialize(std::filesystem::path path);
 
-		ProjectSerializer& ProjectSerializer::operator=(const ProjectSerializer& other)
-		{
-			if (this != &other)
-				m_Project = other.m_Project;
-
-			return *this;
-		}
+		ProjectSerializer& operator = (const ProjectSerializer& other);
 
 	private:
 		void SerializeEntity(YAML::Emitter& emitter, ECS::Entity& entity);

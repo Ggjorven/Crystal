@@ -14,3 +14,12 @@ Entities:
   - Entity: 3769516395066234708
     TagComponent:
       Tag: Test
+  - Entity: 16215795341026022543
+    TransformComponent:
+      Position: [333, 0, 0]
+      Size: [117, 138, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Colour: [1, 1, 1, 1]
+      UseTexture: false

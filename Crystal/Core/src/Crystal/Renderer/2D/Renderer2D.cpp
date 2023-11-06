@@ -56,7 +56,7 @@ namespace Crystal
 		s_QuadData->QuadVertexArray->AddIndexBuffer(IndexBuffer);
 
 
-		//Texture & Shader
+		// Texture & Shader
 		s_QuadData->WhiteTexture = Texture2D::Create(1, 1);
 		uint32_t whiteTextureData = 0xffffffff;
 

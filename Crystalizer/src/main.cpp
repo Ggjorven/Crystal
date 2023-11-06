@@ -4,6 +4,7 @@
 #include "Editor.hpp"
 #include "Sandbox/3D/Layer3D.hpp"
 #include "ECS-Game/ECSLayer.hpp"
+#include "Sandbox/Coral/CoralLayer.hpp"
 
 class Crystalizer : public Crystal::Application
 {
@@ -15,6 +16,7 @@ public:
 		//AddLayer(new Layer2D());
 		//AddLayer(new Layer3D());
 		//AddLayer(new ECSLayer());
+		AddLayer(new CoralLayer(appInfo));
 	}
 
 	virtual ~Crystalizer() {}

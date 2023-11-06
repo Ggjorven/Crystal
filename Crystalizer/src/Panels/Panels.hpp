@@ -26,7 +26,6 @@ namespace Crystal
 
 	private:
 		Ref<Project>& m_Project;
-
 		ECS::Entity* m_SelectedEntity;
 
 		Ref<Texture2D> m_CheckerboardTex;

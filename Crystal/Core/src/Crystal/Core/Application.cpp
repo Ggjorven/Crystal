@@ -35,10 +35,7 @@ namespace Crystal
 		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
 		{
 			if (e.Handled)
-			{
-				//CR_CORE_TRACE("Event handled");
 				break;
-			}
 			(*it)->OnEvent(e);
 		}
 	}
@@ -53,7 +50,6 @@ namespace Crystal
 			m_LastTime = currentTime;
 
 			//Update & Render
-			//RendererCommand::Clear();
 			m_Window->OnUpdate();
 
 			for (Layer* layer : m_LayerStack)

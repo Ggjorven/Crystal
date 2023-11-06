@@ -10,13 +10,14 @@ namespace Crystal
 	class Utils
 	{
 	public:
-		// These return empty strings if cancelled
+		
+		//These return empty strings if cancelled
 		static std::string OpenFile(const char* filter) { return s_Instance->OpenFileImplementation(filter); }
 		static std::string SaveFile(const char* filter) { return s_Instance->SaveFileImplementation(filter); }
 		
 		static float GetTime() { return s_Instance->GetTimeImplementation(); }
 
-		static const std::string& GetEnviromentVariable(const std::string& key);
+		static std::string GetEnviromentVariable(const std::string& key);
 
 	private:
 		virtual std::string OpenFileImplementation(const char* filter) = 0;

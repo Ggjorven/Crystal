@@ -1,8 +1,10 @@
 project "Physics"
 	kind "StaticLib"
 	language "C++"
-	cppdialect "C++17"
-	staticruntime "off"
+	cppdialect "C++20"
+	staticruntime "On"
+
+	architecture "x86_64"
 
 	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
@@ -37,7 +39,9 @@ project "Physics"
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.VulkanSDK}",
 		"%{IncludeDir.yaml}",
-		"%{IncludeDir.mono}"
+		"%{IncludeDir.Coral}",
+
+		"%{wks.location}/vendor/NetCore/7.0.7/"
 	}
 
 	filter "system:windows"

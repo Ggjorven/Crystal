@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 
 #include <string>
+#include <filesystem>
 
 namespace Crystal
 {
@@ -41,7 +42,7 @@ namespace Crystal
 
 		static ShaderSource Read(const std::string& filepath);
 
-		static Ref<Shader> Create(const std::string& filepath);
+		static Ref<Shader> Create(std::filesystem::path path);
 		static Ref<Shader> Create(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource);
 
 	private:
@@ -61,9 +62,6 @@ namespace Crystal
 		};
 
 	public:
-		ShaderLib() = default;			//Only to be used by the engine not the client
-		virtual ~ShaderLib() = default;
-
 		inline static ShaderSource GetShaderSource(ShaderLib::Type type) { return s_Instance->GetShaderSourceImplementation(type); }
 
 		static Scope<ShaderLib> Create();

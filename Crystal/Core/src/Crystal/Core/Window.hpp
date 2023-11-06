@@ -51,7 +51,6 @@ namespace Crystal
 			newData.Name = properties.Name;
 			newData.Width = properties.Width;
 			newData.Height = properties.Height;
-			//newData.CallBack = ...;
 			return newData;
 		}
 	};
@@ -69,11 +68,6 @@ namespace Crystal
 		virtual void OnRender() = 0;
 
 		// Actual window size
-		/*
-			Adds a bit of padding...
-		*/
-		virtual bool InView(MousePosition position) const = 0;
-
 		virtual uint32_t GetWidth() const = 0;
 		virtual uint32_t GetHeight() const = 0;
 
@@ -89,6 +83,11 @@ namespace Crystal
 
 		virtual void SetViewportWidth(uint32_t width) = 0;
 		virtual void SetViewportHeight(uint32_t height) = 0;
+
+		/*
+			Adds a bit of padding (in non-Dist builds)...
+		*/
+		virtual bool InView(MousePosition position) const = 0;
 
 		// Extra
 		virtual void SetVSync(bool enabled) = 0;

@@ -2,6 +2,8 @@ project "GLEW"
 	kind "StaticLib"
 	language "C++"
 
+    architecture "x86_64"
+	
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
@@ -30,13 +32,13 @@ project "GLEW"
 
 	filter "system:windows"
 		systemversion "latest"
-		cppdialect "C++17"
+		cppdialect "C++20"
 		staticruntime "On"
 
 	filter "system:linux"
 		pic "On"
 		systemversion "latest"
-		cppdialect "C++17"
+		cppdialect "C++20"
 		staticruntime "On"
 
 	filter "configurations:Debug"

@@ -11,12 +11,11 @@ public class Entity
     }
     public void OnCreate()
     {
-        Console.WriteLine("Create");
+        Console.WriteLine("Creation function");
     }
 
     public void OnUpdate(float ts)
     {
-        Console.WriteLine("Update new" + ts);
-        Console.WriteLine("Update again");
+        Console.WriteLine("Update timestep: " + ts);
     }
 }

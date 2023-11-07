@@ -113,7 +113,7 @@ namespace Crystal
 	//Textured
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, bool reversed, const Ref<OrthoGraphicCamera>& camera)
 	{
-		DrawQuad(position, size, { 0.0f, 0.0f }, texture, TexCoords(0u, 0u, texture->GetWidth(), texture->GetWidth()), reversed, camera);
+		DrawQuad(position, size, { 0.0f, 0.0f }, texture, TexCoords(0u, 0u, texture->GetWidth(), texture->GetHeight()), reversed, camera);
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, const TexCoords& coords, bool reversed, const Ref<OrthoGraphicCamera>& camera)
@@ -123,7 +123,7 @@ namespace Crystal
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec2& origin, const Ref<Texture2D>& texture, bool reversed, const Ref<OrthoGraphicCamera>& camera)
 	{
-		DrawQuad(position, size, origin, texture, TexCoords(0u, 0u, texture->GetWidth(), texture->GetWidth()), reversed, camera);
+		DrawQuad(position, size, origin, texture, TexCoords(0u, 0u, texture->GetWidth(), texture->GetHeight()), reversed, camera);
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec2& origin, const Ref<Texture2D>& texture, const TexCoords& coords, bool reversed, const Ref<OrthoGraphicCamera>& camera)

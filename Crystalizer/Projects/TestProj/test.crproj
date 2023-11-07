@@ -23,7 +23,7 @@ Entities:
       Enable: true
       Texture: F:\Code\C++\VS\Crystal\Crystalizer\assets\textures\QuestionBlock.png
       Colour: [1, 1, 1, 1]
-      UseTexture: true
+      UseTexture: false
     ScriptComponent:
       Path: ""
       Class: ""

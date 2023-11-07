@@ -48,7 +48,7 @@ namespace Crystal
 			auto yOffset = static_cast<float>(m_LastMousePosition.Y - mousePosition.Y);
 
 			//Update position
-			m_Camera->SetPosition({ m_Camera->GetPosition().x - xOffset, m_Camera->GetPosition().y - yOffset, m_Camera->GetPosition().z });
+			m_Camera->SetPosition({ m_Camera->GetPosition().x - xOffset * m_Zoom, m_Camera->GetPosition().y - yOffset * m_Zoom, m_Camera->GetPosition().z });
 			m_Position = { m_Camera->GetPosition().x, m_Camera->GetPosition().y };
 		}
 

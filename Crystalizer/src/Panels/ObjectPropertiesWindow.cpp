@@ -55,6 +55,11 @@ namespace Crystal
 					{
 						m_SelectedEntity->AddComponent<ECS::Renderer2DComponent>();
 					}
+
+					if (!m_SelectedEntity->GetComponent<ECS::ScriptComponent>() && ImGui::MenuItem("Script"))
+					{
+						m_SelectedEntity->AddComponent<ECS::ScriptComponent>();
+					}
 					ImGui::EndMenu();
 				}
 
@@ -103,19 +108,24 @@ namespace Crystal
 			{
 				if (ImGui::CollapsingHeader("ScriptComponent", nullptr, ImGuiTreeNodeFlags_DefaultOpen)) // TODO(Jorben): Add right click enabled/disabled functionality
 				{
-					ImGui::Text("Class Name:");
+					ImGui::Text("File:");
+					ImGui::SameLine();
+					// TODO(Jorben): Adding a script based on file explorer
+					static char Scriptbuffer[256];
+					strcpy_s(Scriptbuffer, sizeof(Scriptbuffer), sc->Path.string().c_str());
+					if (ImGui::InputText("##Script", Scriptbuffer, sizeof(Scriptbuffer), ImGuiInputTextFlags_EnterReturnsTrue))
+					{
+						sc->Path = Scriptbuffer;
+						sc->Script.SetDLL(Scriptbuffer);
+					}
+
+					ImGui::Text("Class:");
 					ImGui::SameLine();
 
 					static char buffer[256];
-					strcpy_s(buffer, sizeof(buffer), sc->Path.string().c_str());
+					strcpy_s(buffer, sizeof(buffer), sc->Script.GetClass().c_str());
 					if (ImGui::InputText("##ClassName", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
 						sc->Script.SetClass(buffer);
-
-					// TODO(Jorben): Adding a script based on file explorer
-					static char Scriptbuffer[256];
-					strcpy_s(buffer, sizeof(Scriptbuffer), sc->Path.string().c_str());
-					if (ImGui::InputText("##Script", Scriptbuffer, sizeof(Scriptbuffer), ImGuiInputTextFlags_EnterReturnsTrue))
-						sc->Script.SetDLL(Scriptbuffer);
 
 					// TODO(Jorben): Make better
 					if (ImGui::Button("OnCreate"))

@@ -4,7 +4,10 @@
 
 #include "Crystal/Core/UUID.hpp"
 
-// TODO(Jorben): Implement Coral
+#include <Coral/HostInstance.hpp>
+#include <Coral/GC.hpp>
+#include <Coral/NativeArray.hpp>
+#include <Coral/Attribute.hpp>
 
 #include <any>
 #include <unordered_map>
@@ -16,7 +19,6 @@
 #include <functional>
 #include <optional>
 
-//Components
 #include "Component.hpp"
 
 namespace Crystal::ECS
@@ -67,7 +69,8 @@ namespace Crystal::ECS
         }
 
     public:
-        //static MonoDomain* s_ScriptingDomain;
+        static Coral::HostInstance s_Host;
+        //static Coral::AssemblyLoadContext s_Context;
 
     private:
         template<typename ComponentType>

@@ -4,6 +4,7 @@
 #include <array>
 #include <shared_mutex>
 #include <list>
+#include <utility>
 
 namespace Coral {
 
@@ -78,8 +79,11 @@ namespace Coral {
 					if (pageIndex >= m_PageCount)
 					{
 						auto oldPages = m_PageCount;
-						m_PageCount = std::max(16ull, m_PageCount * 2);
-						auto newPageTable = std::make_unique<Page*[]>(m_PageCount);
+						//ggjorven change
+						//m_PageCount = std::max(16uLL, m_PageCount * 2);
+						m_PageCount = 16uLL << static_cast<uint64_t>(std::ceil(std::log2(m_PageCount * 2)));
+
+						auto newPageTable =  std::make_unique<Page*[]>(m_PageCount);
 						std::memcpy(newPageTable.get(), m_PageTable.load(), oldPages * sizeof(void*));
 						m_PageTable.exchange(newPageTable.get());
 						m_PageTables.push_back(std::move(newPageTable));
@@ -111,7 +115,9 @@ namespace Coral {
 					if (pageIndex >= m_PageCount)
 					{
 						auto oldPages = m_PageCount;
-						m_PageCount = std::max(16ull, m_PageCount * 2);
+						//ggjorven change
+						//m_PageCount = std::max(16ull, m_PageCount * 2);
+						m_PageCount = 16uLL << static_cast<uint64_t>(std::ceil(std::log2(m_PageCount * 2)));
 						auto newPageTable = std::make_unique<Page*[]>(m_PageCount);
 						std::memcpy(newPageTable.get(), m_PageTable.load(), oldPages * sizeof(void*));
 						m_PageTable.exchange(newPageTable.get());
@@ -140,7 +146,9 @@ namespace Coral {
 				if (pageIndex >= m_PageCount)
 				{
 					auto oldPages = m_PageCount;
-					m_PageCount = std::max(16ull, m_PageCount * 2);
+					//ggjorven change
+					//m_PageCount = std::max(16ull, m_PageCount * 2);
+					m_PageCount = 16uLL << static_cast<uint64_t>(std::ceil(std::log2(m_PageCount * 2)));
 					auto newPageTable = std::make_unique<Page*[]>(m_PageCount);
 					std::memcpy(newPageTable.get(), m_PageTable.load(), oldPages * sizeof(void*));
 					m_PageTable.exchange(newPageTable.get());
@@ -167,7 +175,10 @@ namespace Coral {
 				if (pageIndex >= m_PageCount)
 				{
 					auto oldPages = m_PageCount;
-					m_PageCount = std::max(16ull, m_PageCount * 2);
+					//ggjorven change
+					//m_PageCount = std::max(16uLL, m_PageCount * 2);
+					m_PageCount = 16uLL << static_cast<uint64_t>(std::ceil(std::log2(m_PageCount * 2)));
+
 					auto newPageTable = std::make_unique<Page*[]>(m_PageCount);
 					std::memcpy(newPageTable.get(), m_PageTable.load(), oldPages * sizeof(void*));
 					m_PageTable.exchange(newPageTable.get());

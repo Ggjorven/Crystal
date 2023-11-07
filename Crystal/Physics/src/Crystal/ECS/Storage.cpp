@@ -1,27 +1,27 @@
 #include "crpch.h"
 #include "Storage.hpp"
 
+#include "Crystal/Utils/Utils.hpp"
+
 namespace Crystal::ECS
 {
 
-    //MonoDomain* Storage::s_ScriptingDomain = nullptr;
+    Coral::HostInstance Storage::s_Host;
+    //Coral::AssemblyLoadContext Storage::s_Context;
 
     Storage::Storage()
     {
-        // Initialize the Mono runtime
-        //s_ScriptingDomain = mono_jit_init("CSharpInterop");
+        Coral::HostSettings settings;
+        settings.CoralDirectory = std::string(Utils::GetEnviromentVariable("CRYSTAL_DIR")) + "\\bin\\Debug-windows-x86_64\\Coral\\";
 
-        // Create a new Mono domain
-        //s_ScriptingDomain = mono_domain_create();
+        s_Host.Initialize(settings);
+
+        //s_Context = s_Host.CreateAssemblyLoadContext("Crystal");
     }
 
     Storage::~Storage()
     {
-        // Unload the Mono domain and its assemblies
-        //mono_domain_unload(s_ScriptingDomain);
-
-        // Clean up the Mono runtime
-        //mono_jit_cleanup(s_ScriptingDomain);
+        s_Host.Shutdown();
     }
 
 }

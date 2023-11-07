@@ -30,7 +30,7 @@ As of [9/10/2023], Crystal is in active development. It's important to note that
 
 ## Contribution
 
-If you are interested in contributing to the Crystal Game Engine project, please visit the [GitHub repository](https://github.com/ggjorven/Crystal) for more information on how to get involved.
+If you are interested in contributing to the Crystal Game Engine project, please send me a message on [Discord](https://discord.com/) (ggjorven#0914) for more information on how to get involved.
 
 ## Copyright
 

@@ -128,6 +128,7 @@ namespace Crystal
 
 			auto& sc = *entity.GetComponent<ECS::ScriptComponent>();
 			emitter << YAML::Key << "Path" << sc.Path.string();
+			emitter << YAML::Key << "Class" << sc.Script.GetClass();
 
 			emitter << YAML::EndMap; // Renderer2DComponent
 		}
@@ -186,6 +187,8 @@ namespace Crystal
 		{
 			ECS::ScriptComponent sc;
 			sc.Path = scriptComponent["Path"].as<std::string>();
+			sc.Script.SetDLL(sc.Path);
+			sc.Script.SetClass(scriptComponent["Class"].as<std::string>());
 
 			entity.AddComponent<ECS::ScriptComponent>(sc);
 		}

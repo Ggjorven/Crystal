@@ -16,6 +16,7 @@ public class Entity
 
     public void OnUpdate(float ts)
     {
-        Console.WriteLine("Update");
+        Console.WriteLine("Update new" + ts);
+        Console.WriteLine("Update again");
     }
 }

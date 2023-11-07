@@ -16,7 +16,7 @@ public:
 		//AddLayer(new Layer2D());
 		//AddLayer(new Layer3D());
 		//AddLayer(new ECSLayer());
-		AddLayer(new CoralLayer(appInfo));
+		//AddLayer(new CoralLayer(appInfo));
 	}
 
 	virtual ~Crystalizer() {}

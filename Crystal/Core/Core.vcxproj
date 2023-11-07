@@ -77,20 +77,21 @@
       <PrecompiledHeaderFile>crpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;yaml_cpp_EXPORTS;CR_PLATFORM_WINDOWS;GLEW_STATIC;CR_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\Crystal;..\Physics\src;..\..\vendor\GLEW\include;..\..\vendor\GLFW\include;..\..\vendor\ImGui;..\..\vendor\spdlog\include;..\..\vendor\glm;..\..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;..\..\vendor\yaml-cpp\include;..\..\vendor\mono\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\Crystal;..\Physics\src;..\..\vendor\GLEW\include;..\..\vendor\GLFW\include;..\..\vendor\ImGui;..\..\vendor\spdlog\include;..\..\vendor\glm;..\..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;..\..\vendor\yaml-cpp\include;..\..\vendor\Coral\Coral.Native\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;C:\VulkanSDK\1.3.216.0\Lib\vulkan-1.lib;..\..\vendor\mono\lib\windows\Debug\mono-2.0-sgen.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;C:\VulkanSDK\1.3.216.0\Lib\vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\vendor\NetCore\7.0.7;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -99,7 +100,7 @@
       <PrecompiledHeaderFile>crpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;yaml_cpp_EXPORTS;CR_PLATFORM_WINDOWS;GLEW_STATIC;CR_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\Crystal;..\Physics\src;..\..\vendor\GLEW\include;..\..\vendor\GLFW\include;..\..\vendor\ImGui;..\..\vendor\spdlog\include;..\..\vendor\glm;..\..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;..\..\vendor\yaml-cpp\include;..\..\vendor\mono\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\Crystal;..\Physics\src;..\..\vendor\GLEW\include;..\..\vendor\GLFW\include;..\..\vendor\ImGui;..\..\vendor\spdlog\include;..\..\vendor\glm;..\..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;..\..\vendor\yaml-cpp\include;..\..\vendor\Coral\Coral.Native\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -107,7 +108,7 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -115,7 +116,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;C:\VulkanSDK\1.3.216.0\Lib\vulkan-1.lib;..\..\vendor\mono\lib\windows\Debug\mono-2.0-sgen.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;C:\VulkanSDK\1.3.216.0\Lib\vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\vendor\NetCore\7.0.7;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
@@ -124,7 +126,7 @@
       <PrecompiledHeaderFile>crpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;yaml_cpp_EXPORTS;CR_PLATFORM_WINDOWS;GLEW_STATIC;CR_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\Crystal;..\Physics\src;..\..\vendor\GLEW\include;..\..\vendor\GLFW\include;..\..\vendor\ImGui;..\..\vendor\spdlog\include;..\..\vendor\glm;..\..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;..\..\vendor\yaml-cpp\include;..\..\vendor\mono\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\Crystal;..\Physics\src;..\..\vendor\GLEW\include;..\..\vendor\GLFW\include;..\..\vendor\ImGui;..\..\vendor\spdlog\include;..\..\vendor\glm;..\..\vendor\stb_image\include;C:\VulkanSDK\1.3.216.0\Include;..\..\vendor\yaml-cpp\include;..\..\vendor\Coral\Coral.Native\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -132,7 +134,7 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -140,7 +142,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;C:\VulkanSDK\1.3.216.0\Lib\vulkan-1.lib;..\..\vendor\mono\lib\windows\Debug\mono-2.0-sgen.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;C:\VulkanSDK\1.3.216.0\Lib\vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\vendor\NetCore\7.0.7;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -257,6 +260,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\vendor\yaml-cpp\yaml-cpp.vcxproj">
       <Project>{88F1A057-74BE-FB62-9DD7-E90A890331F1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\vendor\Coral\Coral.Native\Coral.Native.vcxproj">
+      <Project>{EB0B2E29-D76E-BDCD-80F4-F5836C368950}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

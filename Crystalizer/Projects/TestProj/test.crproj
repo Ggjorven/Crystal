@@ -11,15 +11,19 @@ Entities:
       Enable: true
       Colour: [0.0882352442, 0.75, 0.302335501, 1]
       UseTexture: false
-  - Entity: 3769516395066234708
-    TagComponent:
-      Tag: Test
+    ScriptComponent:
+      Path: Script.dll
+      Class: Entity
   - Entity: 16215795341026022543
     TransformComponent:
-      Position: [333, 0, 0]
-      Size: [117, 138, 0]
+      Position: [-69, 0, 0]
+      Size: [136, 136, 0]
       Rotation: 0
     Renderer2DComponent:
       Enable: true
+      Texture: F:\Code\C++\VS\Crystal\Crystalizer\assets\textures\QuestionBlock.png
       Colour: [1, 1, 1, 1]
-      UseTexture: false
+      UseTexture: true
+    ScriptComponent:
+      Path: ""
+      Class: ""

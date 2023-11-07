@@ -2,11 +2,6 @@
 
 #include <Crystal/Crystal.hpp>
 
-#include <Coral/HostInstance.hpp>
-#include <Coral/GC.hpp>
-#include <Coral/NativeArray.hpp>
-#include <Coral/Attribute.hpp>
-
 using namespace Crystal;
 
 class CoralLayer : public Layer
@@ -58,10 +53,12 @@ public:
 private:
 	ApplicationInfo m_AppInfo;
 
+	//Global
 	Coral::HostSettings m_CoralSettings;
 	Coral::HostInstance m_Host;
 
 	Coral::AssemblyLoadContext m_Context;
+	//Per Class
 	Coral::ManagedAssembly m_Assembly;
 
 	Coral::Type m_Type;

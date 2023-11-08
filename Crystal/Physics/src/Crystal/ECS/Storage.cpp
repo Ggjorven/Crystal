@@ -3,6 +3,8 @@
 
 #include "Crystal/Utils/Utils.hpp"
 
+#include "Crystal/Scripting/Wrapper/SetupInternalCalls.hpp"
+
 namespace Crystal::ECS
 {
 
@@ -16,7 +18,9 @@ namespace Crystal::ECS
 
         s_Host.Initialize(settings);
 
-        //s_Context = s_Host.CreateAssemblyLoadContext("Crystal");
+        m_Context = s_Host.CreateAssemblyLoadContext("Crystal");
+        m_Assembly = m_Context.LoadAssembly(Utils::GetEnviromentVariable("CRYSTAL_DIR") + std::string("\\bin\\Debug-windows-x86_64\\Coral\\") + "Scripting-Engine.dll");
+        Wrapper::Setup::Run(m_Assembly);
     }
 
     Storage::~Storage()

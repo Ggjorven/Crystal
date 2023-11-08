@@ -6,6 +6,8 @@
 #include "Crystal/ECS/Entity.hpp"
 #include "Crystal/ECS/Storage.hpp"
 
+#include "Crystal/Renderer/Tools/EditorCamera.hpp"
+
 #include <vector>
 #include <string>
 
@@ -30,11 +32,17 @@ namespace Crystal
 		ECS::Storage& GetStorage() { return m_Storage; }
 		std::string GetName() { return m_DebugName; }
 
+		static Project* GetCurrentProject() { return s_CurrentProject; }
+
 	protected:
 		std::string m_DebugName;
 
 		ECS::Storage m_Storage;
 		std::vector<ECS::Entity> m_Entities;
+
+		Ref<EditorCamera> m_EditorCamera;
+
+		static Project* s_CurrentProject;
 
 		//Friend classes to be able to use some private members/functions
 		friend class ProjectSerializer;

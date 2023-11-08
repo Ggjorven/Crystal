@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coral.Managed", "..\..\..\.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mario", "..\Mario\Mario.csproj", "{FD693438-A02D-4862-A957-511A9C97FB87}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scripting-Engine", "..\..\..\..\Crystal\Scripting\Scripting-Engine.csproj", "{5EB70D46-0F94-4BA3-B9D5-78E0A4F48751}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,12 @@ Global
 		{FD693438-A02D-4862-A957-511A9C97FB87}.Dist|Any CPU.Build.0 = Debug|Any CPU
 		{FD693438-A02D-4862-A957-511A9C97FB87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD693438-A02D-4862-A957-511A9C97FB87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EB70D46-0F94-4BA3-B9D5-78E0A4F48751}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EB70D46-0F94-4BA3-B9D5-78E0A4F48751}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EB70D46-0F94-4BA3-B9D5-78E0A4F48751}.Dist|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EB70D46-0F94-4BA3-B9D5-78E0A4F48751}.Dist|Any CPU.Build.0 = Debug|Any CPU
+		{5EB70D46-0F94-4BA3-B9D5-78E0A4F48751}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EB70D46-0F94-4BA3-B9D5-78E0A4F48751}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

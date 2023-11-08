@@ -61,6 +61,12 @@
     <Filter Include="src\Crystal\Scripting">
       <UniqueIdentifier>{200D4260-8C79-FD5A-556D-95B8C1981FC3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Crystal\Scripting\Wrapper">
+      <UniqueIdentifier>{F09CB4FD-5CB5-9B27-2562-2BC1913930C1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Crystal\Scripting\Wrapper\ECS">
+      <UniqueIdentifier>{3A89B4CF-A6F7-094F-EFE0-C44E5B8EFFEA}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Crystal\Utils">
       <UniqueIdentifier>{7E3ACD8A-EA50-CB20-33C8-56429F1D9CA8}</UniqueIdentifier>
     </Filter>
@@ -216,6 +222,12 @@
     <ClInclude Include="src\Crystal\Scripting\EntityScript.hpp">
       <Filter>src\Crystal\Scripting</Filter>
     </ClInclude>
+    <ClInclude Include="src\Crystal\Scripting\Wrapper\ECS\Component.hpp">
+      <Filter>src\Crystal\Scripting\Wrapper\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Crystal\Scripting\Wrapper\SetupInternalCalls.hpp">
+      <Filter>src\Crystal\Scripting\Wrapper</Filter>
+    </ClInclude>
     <ClInclude Include="src\Crystal\Utils\Utils.hpp">
       <Filter>src\Crystal\Utils</Filter>
     </ClInclude>
@@ -340,6 +352,12 @@
     </ClCompile>
     <ClCompile Include="src\Crystal\Scripting\EntityScript.cpp">
       <Filter>src\Crystal\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Crystal\Scripting\Wrapper\ECS\Component.cpp">
+      <Filter>src\Crystal\Scripting\Wrapper\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Crystal\Scripting\Wrapper\SetupInternalCalls.cpp">
+      <Filter>src\Crystal\Scripting\Wrapper</Filter>
     </ClCompile>
     <ClCompile Include="src\Crystal\Utils\Utils.cpp">
       <Filter>src\Crystal\Utils</Filter>

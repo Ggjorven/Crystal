@@ -7,8 +7,6 @@ EditorLayer::EditorLayer(const ApplicationInfo& appInfo)
 	Window& window = Application::Get().GetWindow();
 	window.SetVSync(true);
 
-	m_Camera = CreateRef<EditorCamera>();
-
 	m_FrameBuffer = FrameBuffer::Create(window.GetWidth(), window.GetHeight(), FrameBufferFormat::RGBA8);
 
 	m_Project = CreateRef<Project>("New");
@@ -27,6 +25,8 @@ void EditorLayer::OnAttach()
 		ProjectSerializer serializer(m_Project);
 		serializer.Deserialize(m_Path);
 	}
+	//Wrapper::Component::TagComponent_GetTag(m_Project->GetEntities()[0].GetUUID());
+	//Wrapper::Component::TagComponent_SetTag(m_Project->GetEntities()[0].GetUUID(), Coral::NativeString("ABC"));
 }
 
 void EditorLayer::OnDetach()
@@ -37,7 +37,7 @@ void EditorLayer::OnDetach()
 
 void EditorLayer::OnUpdate(Timestep& ts)
 {
-	m_Camera->OnUpdate(ts);
+	m_Project->OnUpdate(ts);
 }
 
 void EditorLayer::OnRender()
@@ -45,17 +45,13 @@ void EditorLayer::OnRender()
 	m_FrameBuffer->Bind();
 	RendererCommand::Clear();
 
-	for (ECS::Entity& entity : m_Project->GetEntities())
+	if (!m_Running)
 	{
-		ECS::Renderer2DComponent* r2d = entity.GetComponent<ECS::Renderer2DComponent>();
-		ECS::TransformComponent* transform = entity.GetComponent<ECS::TransformComponent>();
-		if (r2d && r2d->Enable && transform) 
-		{
-			if (r2d->Texture && r2d->UseTexture)
-				Renderer2D::DrawQuad(glm::vec2(transform->Position.x, transform->Position.y), glm::vec2(transform->Size.x, transform->Size.y), r2d->Texture, false, m_Camera->GetCamera());
-			else
-				Renderer2D::DrawQuad(glm::vec2(transform->Position.x, transform->Position.y), glm::vec2(transform->Size.x, transform->Size.y), r2d->Colour, false, m_Camera->GetCamera());
-		}
+		m_Project->OnRenderEditor();
+	}
+	else
+	{
+		m_Project->OnRenderRuntime();
 	}
 
 	m_FrameBuffer->Unbind();
@@ -138,6 +134,7 @@ void EditorLayer::OnImGuiRender()
 	//Windows
 	m_Panels->ObjectsWindow();
 	m_Panels->ObjectPropertiesWindow();
+	m_Panels->RunWindow(m_Running);
 
 	// TODO(Jorben): Add dockspace information for ImGui somehow, to prevent having to copy imgui.ini files
 	/*
@@ -180,7 +177,7 @@ void EditorLayer::OnImGuiRender()
 
 void EditorLayer::OnEvent(Event& e)
 {
-	m_Camera->OnEvent(e);
+	m_Project->OnEvent(e);
 }
 
 bool EditorLayer::InWindow(ImVec2 windowPos, ImVec2 windowSize, MousePosition mousePosition)

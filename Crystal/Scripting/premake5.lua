@@ -29,3 +29,8 @@ project "Scripting-Engine"
     {
         "Coral.Managed"
     }
+
+    -- postbuildcommands
+    -- {
+    --     '{COPYFILE} "%{wks.location}/bin/" .. outputdir .. "Scripting-Engine.dll" "%{cfg.targetdir}"',
+    -- }

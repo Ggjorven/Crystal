@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Crystal/Core/Core.hpp"
+#include "Crystal/Core/UUID.hpp"
 
 #include <Coral/HostInstance.hpp>
 #include <Coral/GC.hpp>
@@ -11,6 +12,21 @@
 
 namespace Crystal
 {
+	namespace ECS
+	{
+		class TagComponent;
+	}
+
+	struct ComponentQueue
+	{
+	public:
+		// TagComponent
+		bool SetTag = false;
+		std::string Tag = "";
+
+	public:
+		ComponentQueue() = default;
+	};
 
 	class EntityScript
 	{
@@ -21,6 +37,7 @@ namespace Crystal
 
 		void SetDLL(std::filesystem::path path);
 		void SetClass(const std::string& name);
+		void SetUUID(CR_UUID uuid) { m_UUID = uuid; }
 
 		void OnCreate();
 		void OnUpdate(Timestep& ts);
@@ -28,11 +45,17 @@ namespace Crystal
 
 		std::string& GetClass() { return m_Name; }
 
+
+		//Components
+		void AddTagComponent(ECS::TagComponent& tagComponent);
+
 	private:
 		void Load(std::filesystem::path path);
+		void LoadClass();
 
 	private:
 		std::string m_Name;
+		CR_UUID m_UUID = 0;
 		bool m_Set = false;
 
 		bool m_ContextInitialized = false;
@@ -41,6 +64,8 @@ namespace Crystal
 
 		Coral::Type m_Type;
 		Coral::ManagedObject m_Object;
+
+		ComponentQueue m_Queue;
 	};
 
 }

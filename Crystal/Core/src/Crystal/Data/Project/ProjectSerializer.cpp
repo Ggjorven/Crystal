@@ -189,6 +189,14 @@ namespace Crystal
 			sc.Path = scriptComponent["Path"].as<std::string>();
 			sc.Script.SetDLL(sc.Path);
 			sc.Script.SetClass(scriptComponent["Class"].as<std::string>());
+			sc.Script.SetUUID(entity.GetUUID());
+
+			//Add components
+			if (tagComponent)
+			{
+				CR_CORE_TRACE("(ProjectSerializer::Deserialize) Found tag component");
+				sc.Script.AddTagComponent(*entity.GetComponent<ECS::TagComponent>());
+			}
 
 			entity.AddComponent<ECS::ScriptComponent>(sc);
 		}

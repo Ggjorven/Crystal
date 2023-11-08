@@ -59,6 +59,7 @@ namespace Crystal
 					if (!m_SelectedEntity->GetComponent<ECS::ScriptComponent>() && ImGui::MenuItem("Script"))
 					{
 						m_SelectedEntity->AddComponent<ECS::ScriptComponent>();
+						m_SelectedEntity->GetComponent<ECS::ScriptComponent>()->Script.SetUUID(m_SelectedEntity->GetUUID());
 					}
 					ImGui::EndMenu();
 				}

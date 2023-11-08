@@ -50,10 +50,10 @@ project "Crystalizer"
 		"libnethost.lib"
 	}
 
-	postbuildcommands -- TODO fix
+	postbuildcommands
 	{
 		'{COPYFILE} "%{wks.location}/vendor/NetCore/7.0.7/nethost.dll" "%{cfg.targetdir}"',
-        '{COPYFILE} "%{wks.location}/vendor/Coral/Coral.Managed/Coral.Managed.runtimeconfig.json" "%{cfg.targetdir}"',
+        '{COPYFILE} "%{wks.location}/vendor/Coral/Coral.Managed/Coral.Managed.runtimeconfig.json" "%{cfg.targetdir}"'
     }
 
 	filter "system:windows"

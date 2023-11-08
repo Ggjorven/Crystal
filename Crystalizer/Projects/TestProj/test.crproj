@@ -2,9 +2,9 @@ Project: New
 Entities:
   - Entity: 17260805137098287381
     TagComponent:
-      Tag: Mario
+      Tag: ABC
     TransformComponent:
-      Position: [32, 0, 0]
+      Position: [18.6467609, 0, 0]
       Size: [64, 64, 0]
       Rotation: 0
     Renderer2DComponent:
@@ -13,7 +13,7 @@ Entities:
       UseTexture: false
     ScriptComponent:
       Path: Script.dll
-      Class: Entity
+      Class: Placeholder
   - Entity: 16215795341026022543
     TransformComponent:
       Position: [-69, 0, 0]
@@ -24,6 +24,3 @@ Entities:
       Texture: F:\Code\C++\VS\Crystal\Crystalizer\assets\textures\QuestionBlock.png
       Colour: [1, 1, 1, 1]
       UseTexture: false
-    ScriptComponent:
-      Path: ""
-      Class: ""

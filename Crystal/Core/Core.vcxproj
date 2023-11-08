@@ -194,6 +194,8 @@
     <ClInclude Include="src\Crystal\Renderer\Tools\EditorCamera.hpp" />
     <ClInclude Include="src\Crystal\Renderer\VertexArray.hpp" />
     <ClInclude Include="src\Crystal\Scripting\EntityScript.hpp" />
+    <ClInclude Include="src\Crystal\Scripting\Wrapper\ECS\Component.hpp" />
+    <ClInclude Include="src\Crystal\Scripting\Wrapper\SetupInternalCalls.hpp" />
     <ClInclude Include="src\Crystal\Utils\Utils.hpp" />
     <ClInclude Include="src\Crystal\Utils\YamlUtils.hpp" />
     <ClInclude Include="src\Crystal\crpch.h" />
@@ -237,6 +239,8 @@
     <ClCompile Include="src\Crystal\Renderer\Tools\EditorCamera.cpp" />
     <ClCompile Include="src\Crystal\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Crystal\Scripting\EntityScript.cpp" />
+    <ClCompile Include="src\Crystal\Scripting\Wrapper\ECS\Component.cpp" />
+    <ClCompile Include="src\Crystal\Scripting\Wrapper\SetupInternalCalls.cpp" />
     <ClCompile Include="src\Crystal\Utils\Utils.cpp" />
     <ClCompile Include="src\Crystal\crpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

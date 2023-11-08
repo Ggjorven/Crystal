@@ -17,6 +17,7 @@ namespace Crystal
 		explicit Panels(Ref<Project>& project);
 		virtual ~Panels();
 
+		void RunWindow(bool& running);
 		void ObjectsWindow();
 		void ObjectPropertiesWindow();
 		void TexturePanel(const std::string_view& name, Ref<Texture2D>& changeAbleTexture, bool* useTexture = nullptr);
@@ -29,7 +30,7 @@ namespace Crystal
 		ECS::Entity* m_SelectedEntity;
 
 		Ref<Texture2D> m_CheckerboardTex;
-
+		Ref<Texture2D> m_ButtonTex;
 	};
 
 }

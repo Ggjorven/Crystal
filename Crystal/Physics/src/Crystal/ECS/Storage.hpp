@@ -81,6 +81,9 @@ namespace Crystal::ECS
 
     private:
         std::unordered_map<std::type_index, std::unordered_map<CR_UUID, std::any>> m_ComponentMaps;
+
+        Coral::AssemblyLoadContext m_Context;
+        Coral::ManagedAssembly m_Assembly;
     };
 
 }

@@ -33,10 +33,10 @@ private:
 
 private:
 	std::filesystem::path m_Path = "Projects/TestProj/test.crproj";
+	bool m_Running = false;
 
 	Ref<Project> m_Project;
 	Ref<FrameBuffer> m_FrameBuffer;
 
 	Ref<Panels> m_Panels = nullptr;
-	Ref<EditorCamera> m_Camera;
 };

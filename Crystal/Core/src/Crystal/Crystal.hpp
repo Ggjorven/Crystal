@@ -67,6 +67,11 @@
 	#include "Crystal/Renderer/3D/PerspectiveCamera.hpp"
 	#include "Crystal/Renderer/3D/Renderer3D.hpp"
 
+//Scripting
+#include "Crystal/Scripting/EntityScript.hpp"
+	//Wrapper
+	#include "Crystal/Scripting/Wrapper/ECS/Component.hpp"
+
 //Utils folder
 #include "Crystal/Utils/Utils.hpp"
 

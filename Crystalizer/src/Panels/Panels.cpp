@@ -19,6 +19,7 @@ namespace Crystal
 	{
 		std::string path = Utils::GetEnviromentVariable("CRYSTAL_DIR");
 		m_CheckerboardTex = Texture2D::Create(path + "\\Crystalizer\\assets\\textures\\Checkerboard.tga");
+		m_ButtonTex = Texture2D::Create(path + "\\Crystalizer\\assets\\textures\\Checkerboard.tga");
 	}
 
 	Panels::~Panels()

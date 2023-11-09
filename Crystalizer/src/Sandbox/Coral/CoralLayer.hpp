@@ -21,7 +21,7 @@ public:
 		m_Host.Initialize(m_CoralSettings);
 
 		m_Context = m_Host.CreateAssemblyLoadContext("Crystal");
-		std::string path = Utils::GetEnviromentVariable("CRYSTAL_DIR") + std::string("\\bin\\Debug-windows-x86_64\\Coral\\") + std::string("Script.dll");
+		std::string path = Application::GetWorkingDirectory().string() + std::string("\\Script.dll");
 		m_Assembly = m_Context.LoadAssembly(path);
 
 		m_Type = m_Assembly.GetType("Entity");

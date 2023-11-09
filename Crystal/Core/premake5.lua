@@ -54,6 +54,7 @@ project "Core"
 	links
 	{
 		"Physics",
+		"Scripting-Engine.dll",
 
 		"opengl32.lib",
 		"%{Library.Vulkan}",

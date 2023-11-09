@@ -13,10 +13,15 @@ namespace Crystal
 	{
 	public:
 		T X, Y;
+		T* ValuePtr;
 
 	public:
 		Vec2(T x, T y)
 			: X(x), Y(y)
+		{
+		}
+		Vec2(const glm::vec2& vec)
+			: X(vec.x), Y(vec.y), ValuePtr(&X)
 		{
 		}
 	};
@@ -26,10 +31,15 @@ namespace Crystal
 	{
 	public:
 		T X, Y, Z;
+		T* ValuePtr;
 
 	public:
 		Vec3(T x, T y, T z)
 			: X(x), Y(y), Z(z)
+		{
+		}
+		Vec3(const glm::vec3& vec)
+			: X(vec.x), Y(vec.y), Z(vec.z), ValuePtr(&X)
 		{
 		}
 	};
@@ -39,10 +49,15 @@ namespace Crystal
 	{
 	public:
 		T X, Y, Z, W;
+		T* ValuePtr;
 
 	public:
 		Vec4(T x, T y, T z, T w)
 			: X(x), Y(y), Z(z), W(w)
+		{
+		}
+		Vec4(const glm::vec4& vec)
+			: X(vec.x), Y(vec.y), Z(vec.z), W(vec.w), ValuePtr(&X)
 		{
 		}
 	};

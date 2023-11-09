@@ -85,7 +85,7 @@ namespace Crystal
 	void EntityScript::Load(std::filesystem::path path)
 	{
 		// TODO(Jorben): Make the path variable be able to be absolute instead of this fixed path
-		std::string pathStr = Utils::GetEnviromentVariable("CRYSTAL_DIR") + std::string("\\bin\\Debug-windows-x86_64\\Coral\\") + path.string();
+		std::string pathStr = path.string();
 
 		if (m_Set)
 		{

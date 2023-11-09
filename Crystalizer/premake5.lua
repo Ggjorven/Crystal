@@ -5,6 +5,7 @@ project "Crystalizer"
 	staticruntime "off"
 	
 	debuggertype "NativeWithManagedCore" -- for Coral
+	debugdir "$(TargetDir)"
 
 	architecture "x86_64"
 
@@ -53,7 +54,10 @@ project "Crystalizer"
 	postbuildcommands
 	{
 		'{COPYFILE} "%{wks.location}/vendor/NetCore/7.0.7/nethost.dll" "%{cfg.targetdir}"',
-        '{COPYFILE} "%{wks.location}/vendor/Coral/Coral.Managed/Coral.Managed.runtimeconfig.json" "%{cfg.targetdir}"'
+        '{COPYFILE} "%{wks.location}/vendor/Coral/Coral.Managed/Coral.Managed.runtimeconfig.json" "%{cfg.targetdir}"',
+
+        '{COPYFILE} "%{wks.location}/bin/%{cfg.buildcfg}-%{cfg.system}-/Coral.Managed/Coral.Managed.dll" "%{cfg.targetdir}"',
+        '{COPYFILE} "%{wks.location}/bin/%{cfg.buildcfg}-%{cfg.system}-/Scripting-Engine/Scripting-Engine.dll" "%{cfg.targetdir}"'
     }
 
 	filter "system:windows"

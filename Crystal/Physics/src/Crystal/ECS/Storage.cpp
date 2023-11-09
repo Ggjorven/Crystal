@@ -1,8 +1,8 @@
 #include "crpch.h"
 #include "Storage.hpp"
 
+#include "Crystal/Core/Application.hpp"
 #include "Crystal/Utils/Utils.hpp"
-
 #include "Crystal/Scripting/Wrapper/SetupInternalCalls.hpp"
 
 namespace Crystal::ECS
@@ -30,12 +30,12 @@ namespace Crystal::ECS
     {
         Coral::HostSettings settings;
         settings.MessageCallback = CoralMessageCallback;
-        settings.CoralDirectory = std::string(Utils::GetEnviromentVariable("CRYSTAL_DIR")) + "\\bin\\Debug-windows-x86_64\\Coral\\";
+        settings.CoralDirectory = Application::GetWorkingDirectory().string() + "\\";
 
         s_Host.Initialize(settings);
 
         m_Context = s_Host.CreateAssemblyLoadContext("Crystal");
-        m_Assembly = m_Context.LoadAssembly(Utils::GetEnviromentVariable("CRYSTAL_DIR") + std::string("\\bin\\Debug-windows-x86_64\\Coral\\") + "Scripting-Engine.dll");
+        m_Assembly = m_Context.LoadAssembly(Application::GetWorkingDirectory().string() + "\\Scripting-Engine.dll");
         Wrapper::Setup::Run(m_Assembly);
     }
 

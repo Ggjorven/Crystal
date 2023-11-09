@@ -14,6 +14,8 @@
 
 #include "Crystal/ImGui/BaseImGuiLayer.hpp"
 
+#include <filesystem>
+
 namespace Crystal
 {
 
@@ -47,6 +49,7 @@ namespace Crystal
 		inline Window& GetWindow() { return *m_Window; }
 
 		inline static Application& Get() { return *s_Instance; }
+		inline static std::filesystem::path GetWorkingDirectory() { return std::filesystem::path(s_Instance->m_AppInfo.Args[0]).parent_path(); }
 
 	private:
 		void Init(ApplicationInfo appInfo);

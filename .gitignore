@@ -380,7 +380,10 @@ Crystal/Core/Core.vcxproj.user
 Crystal/Physics/Physics.vcxproj
 Crystal/Physics/Physics.vcxproj.filters
 Crystal/Physics/Physics.vcxproj.user
-
+#Scripting-Engine
+Crystal/Scripting/Scripting-Engine.csproj
+Crystal/Scripting/Scripting-Engine.csproj.filters
+Crystal/Scripting/Scripting-Engine.csproj.user
 
 
 #Crystalizer

@@ -3,18 +3,24 @@ using Crystal;
 
 using System;
 
-public class Placeholder : Crystal.Entity
+public class Placeholder : Entity
 {
 
     public void OnCreate()
     {
-        Console.WriteLine("Creation function");
-        GetComponent<TagComponent>().SetTag("abc");
+        TagComponent tag = new TagComponent(ID);
+        tag.Tag = "Test";
+        
+        AddComponent<TagComponent>(tag);
+        //tag.Tag = "Test2";
     }
 
     public void OnUpdate(float ts)
     {
-        Console.WriteLine("Update timestep: " + ts);
+        if (HasComponent<TagComponent>())
+        {
+            GetComponent<TagComponent>().Tag = "JOJGOIEGJ";
+        }
     }
 
 }

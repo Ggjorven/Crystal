@@ -20,6 +20,8 @@ namespace Crystal
 		void RunWindow(bool& running);
 		void ObjectsWindow();
 		void ObjectPropertiesWindow();
+
+		void Vector3(const std::string& label, float& value, const ImVec4& colourN, const ImVec4& colourH, const ImVec4& colourP, bool renderMultiSelect);
 		void TexturePanel(const std::string_view& name, Ref<Texture2D>& changeAbleTexture, bool* useTexture = nullptr);
 
 		static void BeginColours();

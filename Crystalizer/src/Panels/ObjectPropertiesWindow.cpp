@@ -87,9 +87,9 @@ namespace Crystal
 			{
 				if (ImGui::CollapsingHeader("TransformComponent", nullptr, ImGuiTreeNodeFlags_DefaultOpen))
 				{
-					ImGui::DragFloat3("Position", glm::value_ptr(tc->Position), 1.0f);
-					ImGui::DragFloat3("Size", glm::value_ptr(tc->Size), 1.0f); 
-					ImGui::DragFloat("Rotation", &tc->Rotation, 1.0f); 
+					ImGui::DragFloat3("Position", glm::value_ptr(tc->Position), 1.0f, 0.0f, 0.0f, "%.0f");
+					ImGui::DragFloat3("Size", glm::value_ptr(tc->Size), 1.0f, 0.0f, 0.0f, "%.0f");
+					ImGui::DragFloat("Rotation", &tc->Rotation, 1.0f, 0.0f, 0.0f, "%.0f");
 				}
 			}
 
@@ -99,7 +99,7 @@ namespace Crystal
 				if (ImGui::CollapsingHeader("Renderer2DComponent", nullptr, ImGuiTreeNodeFlags_DefaultOpen)) // TODO(Jorben): Add right click enabled/disabled functionality
 				{
 					ImGui::Checkbox("Enabled", &r2d->Enable);
-					ImGui::ColorEdit4("Colour", glm::value_ptr(r2d->Colour));
+					ImGui::ColorEdit4("Colour", glm::value_ptr(r2d->Colour), ImGuiColorEditFlags_Uint8);
 					TexturePanel("Texture", r2d->Texture, &r2d->UseTexture);
 				}
 			}

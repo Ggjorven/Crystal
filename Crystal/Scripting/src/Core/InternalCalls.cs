@@ -15,6 +15,8 @@ namespace Crystal
             Components 
         */
         //TagComponent
+        internal static unsafe delegate*<ulong, NativeString, void> AddTagComponent;
+
         internal static unsafe delegate*<ulong, NativeString> TagComponent_GetTag;
         internal static unsafe delegate*<ulong, NativeString, void> TagComponent_SetTag;
 

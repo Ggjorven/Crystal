@@ -1,5 +1,7 @@
 #include "Editor.hpp"
 
+#include "Crystal/Utils/CustomTypes.hpp"
+
 #include <string>
 
 EditorLayer::EditorLayer(const ApplicationInfo& appInfo)
@@ -25,8 +27,6 @@ void EditorLayer::OnAttach()
 		ProjectSerializer serializer(m_Project);
 		serializer.Deserialize(m_Path);
 	}
-	//Wrapper::Component::TagComponent_GetTag(m_Project->GetEntities()[0].GetUUID());
-	//Wrapper::Component::TagComponent_SetTag(m_Project->GetEntities()[0].GetUUID(), Coral::NativeString("ABC"));
 }
 
 void EditorLayer::OnDetach()
@@ -79,11 +79,12 @@ void EditorLayer::OnImGuiRender()
 
 				if (!file.empty())
 				{
+					m_Path = file;
+					
 					m_Project.reset();
 					m_Project = CreateRef<Project>("New");
 
 					ProjectSerializer serializer(m_Project);
-					m_Path = file;
 					serializer.Deserialize(m_Path);
 				}
 
@@ -92,7 +93,6 @@ void EditorLayer::OnImGuiRender()
 			if (ImGui::MenuItem("Save project"))
 			{
 				ProjectSerializer serializer(m_Project);
-
 				serializer.Serialize(m_Path);
 			}
 			ImGui::EndMenu();

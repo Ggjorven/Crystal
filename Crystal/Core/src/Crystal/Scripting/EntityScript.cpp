@@ -1,6 +1,8 @@
 #include "crpch.h"
 #include "EntityScript.hpp"
 
+#include "Crystal/Core/UUID.hpp"
+
 #include "Crystal/Utils/Utils.hpp"
 #include "Crystal/ECS/Component.hpp"
 #include "Crystal/ECS/Storage.hpp"
@@ -28,26 +30,30 @@ namespace Crystal
 	void EntityScript::SetClass(const std::string& name)
 	{
 		m_Name = name;
+		/*
 		if (m_Assembly.GetLoadStatus() != Coral::AssemblyLoadStatus::Success)
 		{
 			CR_CORE_WARN("Tried to load a class before specifying file or failed to load file.");
 			return;
 		}
+		*/
 	}
 
 	void EntityScript::OnCreate()
 	{
 		if (!m_Set)
-			LoadClass();
-
-		// TagComponent
-		if (m_Queue.SetTag)
 		{
-			m_Object.InvokeMethod("AddTagComponent", Coral::NativeString(m_Queue.Tag));
-
-			// Reset
-			m_Queue.SetTag = false;
-			m_Queue.Tag = "";
+			if (!m_Name.empty())
+				LoadClass();
+			else
+			{
+				CR_CORE_WARN("Tried to run OnCreate() without setting a valid class.");
+				return;
+			}
+			//--Components--
+			// TagComponent
+			if (m_Queue.TagComponent)
+				m_Object.InvokeMethod("AddTagComponent");
 		}
 
 		m_Object.InvokeMethod("OnCreate");
@@ -57,20 +63,28 @@ namespace Crystal
 	void EntityScript::OnUpdate(Timestep& ts)
 	{
 		if (!m_Set)
-			LoadClass();
+		{
+			if (!m_Name.empty())
+				LoadClass();
+			else
+			{
+				CR_CORE_WARN("Tried to run OnUpdate without setting a valid class.");
+				return;
+			}
+		}
 
 		m_Object.InvokeMethod("OnUpdate", (float)ts);
 	}
 
-	void EntityScript::AddTagComponent(ECS::TagComponent& tagComponent)
+	void EntityScript::AddTagComponent()
 	{
-		CR_CORE_TRACE("(EntityScript::AddTagComponent)");
-		m_Queue.SetTag = true;
-		m_Queue.Tag = tagComponent.Tag;
+		// TODO(Jorben): Somehow remove queue's
+		m_Queue.TagComponent = true;
 	}
 
 	void EntityScript::Load(std::filesystem::path path)
 	{
+		// TODO(Jorben): Make the path variable be able to be absolute instead of this fixed path
 		std::string pathStr = Utils::GetEnviromentVariable("CRYSTAL_DIR") + std::string("\\bin\\Debug-windows-x86_64\\Coral\\") + path.string();
 
 		if (m_Set)
@@ -83,11 +97,9 @@ namespace Crystal
 			ECS::Storage::s_Host.UnloadAssemblyLoadContext(m_Context);
 		
 		
-		m_Context = ECS::Storage::s_Host.CreateAssemblyLoadContext(path.string()); 
+		m_Context = ECS::Storage::s_Host.CreateAssemblyLoadContext(path.string() + std::to_string(UUIDGenerator::GenerateUUID())); 
 		m_ContextInitialized = true;
 		m_Assembly = m_Context.LoadAssembly(pathStr);
-
-		//removed setup here
 	}
 
 	void EntityScript::LoadClass()
@@ -95,8 +107,6 @@ namespace Crystal
 		m_Type = m_Assembly.GetType(m_Name);
 		m_Object = m_Type.CreateInstance();
 
-		// TODO(Jorben): Add the entity to the class
-		//m_Object.InvokeMethod("", &m_Entity)
 		m_Object.InvokeMethod("SetUUID", (uint64_t)m_UUID);
 
 		m_Set = true;

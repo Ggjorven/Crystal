@@ -37,6 +37,7 @@ F:\Code\C++\VS\Crystal\Crystal\Core\src\Crystal\Renderer\Tools\EditorCamera.cpp;
 F:\Code\C++\VS\Crystal\Crystal\Core\src\Crystal\Renderer\VertexArray.cpp;F:\Code\C++\VS\Crystal\bin-int\Debug-windows-x86_64\Core\VertexArray.obj
 F:\Code\C++\VS\Crystal\Crystal\Core\src\Crystal\Scripting\EntityScript.cpp;F:\Code\C++\VS\Crystal\bin-int\Debug-windows-x86_64\Core\EntityScript.obj
 F:\Code\C++\VS\Crystal\Crystal\Core\src\Crystal\Scripting\Wrapper\ECS\Component.cpp;F:\Code\C++\VS\Crystal\bin-int\Debug-windows-x86_64\Core\Component.obj
+F:\Code\C++\VS\Crystal\Crystal\Core\src\Crystal\Scripting\Wrapper\ECS\Entity.cpp;F:\Code\C++\VS\Crystal\bin-int\Debug-windows-x86_64\Core\Entity.obj
 F:\Code\C++\VS\Crystal\Crystal\Core\src\Crystal\Scripting\Wrapper\SetupInternalCalls.cpp;F:\Code\C++\VS\Crystal\bin-int\Debug-windows-x86_64\Core\SetupInternalCalls.obj
 F:\Code\C++\VS\Crystal\Crystal\Core\src\Crystal\Utils\Utils.cpp;F:\Code\C++\VS\Crystal\bin-int\Debug-windows-x86_64\Core\Utils.obj
 F:\Code\C++\VS\Crystal\Crystal\Core\src\Crystal\crpch.cpp;F:\Code\C++\VS\Crystal\bin-int\Debug-windows-x86_64\Core\crpch.obj

@@ -4,16 +4,16 @@ Entities:
     TagComponent:
       Tag: ABC
     TransformComponent:
-      Position: [18.6467609, 0, 0]
+      Position: [0, 294, 0]
       Size: [64, 64, 0]
       Rotation: 0
     Renderer2DComponent:
       Enable: true
-      Colour: [0.0882352442, 0.75, 0.302335501, 1]
+      Colour: [0, 0.749019623, 0.301960796, 1]
       UseTexture: false
     ScriptComponent:
       Path: Script.dll
-      Class: Placeholder
+      Class: ""
   - Entity: 16215795341026022543
     TransformComponent:
       Position: [-69, 0, 0]

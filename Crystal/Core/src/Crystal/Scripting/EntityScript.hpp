@@ -14,15 +14,14 @@ namespace Crystal
 {
 	namespace ECS
 	{
-		class TagComponent;
+		struct TagComponent;
 	}
 
 	struct ComponentQueue
 	{
 	public:
 		// TagComponent
-		bool SetTag = false;
-		std::string Tag = "";
+		bool TagComponent = false;
 
 	public:
 		ComponentQueue() = default;
@@ -47,7 +46,7 @@ namespace Crystal
 
 
 		//Components
-		void AddTagComponent(ECS::TagComponent& tagComponent);
+		void AddTagComponent();
 
 	private:
 		void Load(std::filesystem::path path);
@@ -66,6 +65,7 @@ namespace Crystal
 		Coral::ManagedObject m_Object;
 
 		ComponentQueue m_Queue;
+
 	};
 
 }

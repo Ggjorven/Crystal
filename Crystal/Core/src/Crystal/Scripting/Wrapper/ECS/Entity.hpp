@@ -7,11 +7,11 @@
 namespace Crystal::Wrapper
 {
 
-	class Component
+	class Entity
 	{
 	public:
-		static void TagComponent_SetTag(uint64_t uuid, Coral::NativeString str);
-		static Coral::NativeString TagComponent_GetTag(uint64_t uuid);
+		static void AddTagComponent(uint64_t uuid, Coral::NativeString tag);
 	};
+
 
 }

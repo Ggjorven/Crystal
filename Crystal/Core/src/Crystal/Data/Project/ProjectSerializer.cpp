@@ -193,10 +193,9 @@ namespace Crystal
 
 			//Add components
 			if (tagComponent)
-			{
-				CR_CORE_TRACE("(ProjectSerializer::Deserialize) Found tag component");
-				sc.Script.AddTagComponent(*entity.GetComponent<ECS::TagComponent>());
-			}
+				sc.Script.AddTagComponent();
+
+
 
 			entity.AddComponent<ECS::ScriptComponent>(sc);
 		}

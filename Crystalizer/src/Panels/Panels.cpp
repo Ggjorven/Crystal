@@ -26,6 +26,47 @@ namespace Crystal
 	{
 	}
 
+	void Panels::Vector3(const std::string& label, float& value, const ImVec4& colourN, const ImVec4& colourH, const ImVec4& colourP, bool renderMultiSelect)
+	{
+		/* TODO(Jorben): ...
+		{
+			UI::ScopedStyle buttonFrame(ImGuiStyleVar_FramePadding, ImVec2(framePadding, 0.0f));
+			UI::ScopedStyle buttonRounding(ImGuiStyleVar_FrameRounding, 1.0f);
+			UI::ScopedColourStack buttonColours(ImGuiCol_Button, colourN,
+				ImGuiCol_ButtonHovered, colourH,
+				ImGuiCol_ButtonActive, colourP);
+
+			UI::ScopedFont buttonFont(boldFont);
+
+			UI::ShiftCursorY(2.0f);
+			if (ImGui::Button(label.c_str(), buttonSize))
+			{
+				value = resetValue;
+				modified = true;
+			}
+		}
+
+		ImGui::SameLine(0.0f, outlineSpacing);
+		ImGui::SetNextItemWidth(inputItemWidth);
+		UI::ShiftCursorY(-2.0f);
+		ImGui::PushItemFlag(ImGuiItemFlags_MixedValue, renderMultiSelect);
+		bool wasTempInputActive = ImGui::TempInputIsActive(ImGui::GetID(("##" + label).c_str()));
+		modified |= UI::DragFloat(("##" + label).c_str(), &value, 0.1f, 0.0f, 0.0f, "%.2f", 0);
+
+		// NOTE(Peter): Ugly hack to make tabbing behave the same as Enter (e.g marking it as manually modified)
+		if (modified && Input::IsKeyDown(KeyCode::Tab))
+			manuallyEdited = true;
+
+		if (ImGui::TempInputIsActive(ImGui::GetID(("##" + label).c_str())))
+			modified = false;
+
+		ImGui::PopItemFlag();
+
+		if (wasTempInputActive)
+			manuallyEdited |= ImGui::IsItemDeactivatedAfterEdit();
+		*/
+	}
+
 	void Panels::TexturePanel(const std::string_view& name, Ref<Texture2D>& changeAbleTexture, bool* useTexture)
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10, 10));

@@ -198,7 +198,18 @@ public static class AssemblyLoader
 			LogMessage($"Loading assembly '{InAssemblyFilePath}'", MessageLevel.Info);
 			var assemblyName = assembly.GetName();
 			int assemblyId = assemblyName.Name!.GetHashCode();
-			s_AssemblyCache.Add(assemblyId, assembly);
+
+			//ggjorven change (commented out)
+			/*
+			if (s_AssemblyCache.ContainsKey(assemblyId)) 
+			{
+                LogMessage($"Already contains key so using already created assembly.", MessageLevel.Info);
+                s_LastLoadStatus = AssemblyLoadStatus.Success;
+                return assemblyId;
+            }
+			*/
+
+            s_AssemblyCache.Add(assemblyId, assembly);
 			s_LastLoadStatus = AssemblyLoadStatus.Success;
 			return assemblyId;
 		}

@@ -12,12 +12,24 @@ namespace Crystal::Wrapper
 	//	return Project::GetCurrentProject()->GetStorage().GetComponent<ECS::TransformComponent>(uuid);
 	//}
 
-	void TagComponent_SetTag(uint64_t uuid, Coral::NativeString str)
+	void Component::TagComponent_SetTag(uint64_t uuid, Coral::NativeString str)
 	{
-		Project::GetCurrentProject()->GetStorage().GetComponent<ECS::TagComponent>(uuid)->Tag = std::string(str);
+		ECS::TagComponent* tc = Project::GetCurrentProject()->GetStorage().GetComponent<ECS::TagComponent>(uuid);
+
+		if (tc)
+		{
+			tc->Tag = std::string(str);
+		}
+		else
+		{
+			ECS::TagComponent newTc = ECS::TagComponent();
+			newTc.Tag = std::string(str);
+
+			Project::GetCurrentProject()->GetStorage().AddComponent<ECS::TagComponent>(uuid, newTc);
+		}
 	}
 
-	Coral::NativeString TagComponent_GetTag(uint64_t uuid)
+	Coral::NativeString Component::TagComponent_GetTag(uint64_t uuid)
 	{
 		return Coral::NativeString(Project::GetCurrentProject()->GetStorage().GetComponent<ECS::TagComponent>(uuid)->Tag);
 	}

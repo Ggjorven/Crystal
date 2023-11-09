@@ -54,7 +54,7 @@
     <Compile Include="src\Core\InternalCalls.cs" />
     <Compile Include="src\ECS\Component.cs" />
     <Compile Include="src\ECS\Entity.cs" />
-    <Compile Include="src\ECS\Storage.cs" />
+    <Compile Include="src\Utils\CustomTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\vendor\Coral\Coral.Managed\Coral.Managed.csproj">

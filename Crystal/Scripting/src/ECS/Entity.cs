@@ -45,44 +45,43 @@ namespace Crystal
         public Entity(ulong id = 0) { ID = id; }
         public void SetUUID(ulong id) { ID = id; }
 
-		public void AddComponent<T>(T component) where T : Component
+		// Base function
+		public void AddComponent<T>(T component) where T : Component { m_Components[typeof(T)] = component; }
+		// TagComponent
+		public void AddComponent<TagC>(TagComponent component) where TagC : TagComponent
 		{
-            Console.WriteLine("(AddComponent) Adding component " + typeof(T).Name);
-			m_Components[typeof(T)] = component;
-		}
+			component.ID = ID;
+
+            m_Components[typeof(TagComponent)] = component;
+			unsafe
+			{
+                InternalCalls.AddTagComponent(ID, component.Tag);
+			}
+        }
 
 		public bool HasComponent<T>() where T : Component
 		{
 			if (m_Components.ContainsKey(typeof(T)))
-			{
-				Console.WriteLine("(HasComponent) Has Component");
 				return true;
-			}
 
-			Console.WriteLine("(HasComponent) No Component");
 			return false;
 		}
 
         public T GetComponent<T>() where T : Component, new()
         {
 			if (HasComponent<T>())
-			{
-				Console.WriteLine("(GetComponent) Has Component");
 				return (T)m_Components[typeof(T)];
-			}
 
-            Console.WriteLine("(GetComponent) No Component");
             return new T();
         }
 
 		/*
 			All component adding from C++
 		*/
-		public void AddTagComponent(string tag)
+		public void AddTagComponent()
 		{
-			Console.WriteLine("(AddTagComponent) Adding tag component in C#");
 			TagComponent tagComponent = new TagComponent(ID);
-			AddComponent<TagComponent>(tagComponent);
+			m_Components[typeof(TagComponent)] = tagComponent; // Note(Jorben): Purposefully not using AddComponent<> since that also adds it to the engine's memory but that where this function was called from.
 		}
     }
 

@@ -10,6 +10,8 @@
 
 #include "Crystal/Renderer/2D/OrthoGraphicCamera.hpp"
 
+#include "Crystal/Utils/CustomTypes.hpp"
+
 namespace Crystal
 {
 

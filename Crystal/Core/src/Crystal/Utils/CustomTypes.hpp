@@ -12,8 +12,10 @@ namespace Crystal
 	struct Vec2
 	{
 	public:
-		T X, Y;
-		T* ValuePtr;
+		union { T X, x; };
+		union { T Y, y; };
+		
+		T* ValuePtr; 
 
 	public:
 		Vec2(T x, T y)
@@ -30,7 +32,10 @@ namespace Crystal
 	struct Vec3
 	{
 	public:
-		T X, Y, Z;
+		union { T X, x, R, r; };
+		union { T Y, y, G, b; };
+		union { T Z, z, B, b; };
+
 		T* ValuePtr;
 
 	public:
@@ -48,7 +53,11 @@ namespace Crystal
 	struct Vec4
 	{
 	public:
-		T X, Y, Z, W;
+		union { T X, x, R, r; };
+		union { T Y, y, G, b; };
+		union { T Z, z, B, b; };
+		union { T W, w, A, a; };
+
 		T* ValuePtr;
 
 	public:

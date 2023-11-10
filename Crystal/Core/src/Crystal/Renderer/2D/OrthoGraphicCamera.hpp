@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Crystal/Core/Core.hpp"
+#include "Crystal/Utils/CustomTypes.hpp"
 
 #include <glm/glm.hpp>
 
@@ -14,10 +15,10 @@ namespace Crystal
 
 		void SetProjection(float left, float right, float bottom, float top);
 
-		void SetPosition(const glm::vec3& position) { m_Position = position; CalculateViewMatrix(); }
+		void SetPosition(const Vec3<float>& position) { m_Position = position; CalculateViewMatrix(); }
 		void SetRotation(float rotation) { m_Rotation = rotation; CalculateViewMatrix(); }
 
-		const glm::vec3& GetPosition() const { return m_Position; }
+		const Vec3<float>& GetPosition() const { return m_Position; }
 		float GetRotation() const { return m_Rotation; }
 
 		const glm::mat4& GetProjectionMatrix() const { return m_ProjectionMatrix; }
@@ -32,7 +33,7 @@ namespace Crystal
 		glm::mat4 m_ViewMatrix;
 		glm::mat4 m_ViewProjectionMatrix;
 
-		glm::vec3 m_Position = { 0.0f, 0.0f, 0.0f };
+		Vec3<float> m_Position = { 0.0f, 0.0f, 0.0f };
 		float m_Rotation = 0.0f;
 	};
 }

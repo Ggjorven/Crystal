@@ -17,7 +17,7 @@ namespace Crystal
 		s_RenderingAPI->Clear();
 	}
 
-	void RendererCommand::SetClearColour(const glm::vec4& colour)
+	void RendererCommand::SetClearColour(const Vec4<float>& colour)
 	{
 		s_RenderingAPI->SetClearColour(colour);
 	}

@@ -35,8 +35,8 @@ private:
 	std::filesystem::path m_Path = Utils::GetEnviromentVariable("CRYSTAL_DIR") + "/Crystalizer/Projects/TestProj/test.crproj";
 	bool m_Running = false;
 
-	Ref<Project> m_Project;
-	Ref<FrameBuffer> m_FrameBuffer;
+	Ref<Project> m_Project = nullptr;
+	Ref<FrameBuffer> m_FrameBuffer = nullptr;
 
 	Ref<Panels> m_Panels = nullptr;
 };

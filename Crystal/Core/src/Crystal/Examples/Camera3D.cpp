@@ -32,15 +32,15 @@ namespace Crystal
         if (!m_Escaped)
         {
             float velocity = m_MovementSpeed * ts;
-            glm::vec3 moveDirection = glm::vec3(0.0f, 0.0f, 0.0f);
+            Vec3<float> moveDirection = { 0.0f, 0.0f, 0.0f };
 
             MovementArea& area = m_Camera->GetArea();
 
             // Calculate forward/backward and left/right movement.
             if (Input::IsKeyPressed(CR_KEY_W))
-                moveDirection += glm::vec3(area.Front.x, 0.0f, area.Front.z);
+                moveDirection += Vec3<float>(area.Front.x, 0.0f, area.Front.z);
             if (Input::IsKeyPressed(CR_KEY_S))
-                moveDirection -= glm::vec3(area.Front.x, 0.0f, area.Front.z);
+                moveDirection -= Vec3<float>(area.Front.x, 0.0f, area.Front.z);
             if (Input::IsKeyPressed(CR_KEY_A))
                 moveDirection -= area.Right;
             if (Input::IsKeyPressed(CR_KEY_D))
@@ -52,11 +52,11 @@ namespace Crystal
             if (Input::IsKeyPressed(CR_KEY_LEFT_SHIFT))
                 moveDirection -= area.Up;
 
-            if (glm::length(moveDirection) > 0.0f)
-                moveDirection = glm::normalize(moveDirection);
+            if (glm::length(Convert(moveDirection)) > 0.0f)
+                moveDirection = glm::normalize(Convert(moveDirection));
 
             // Update the camera position.
-            m_Camera->GetPosition() += moveDirection * velocity;
+            m_Camera->GetPosition() += Convert(moveDirection) * velocity;
 
 
 

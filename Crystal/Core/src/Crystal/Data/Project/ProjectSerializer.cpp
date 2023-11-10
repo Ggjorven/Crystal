@@ -195,7 +195,8 @@ namespace Crystal
 			if (tagComponent)
 				sc.Script.AddTagComponent();
 
-
+			if (transformComponent)
+				sc.Script.AddTransformComponent();
 
 			entity.AddComponent<ECS::ScriptComponent>(sc);
 		}

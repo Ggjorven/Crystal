@@ -50,10 +50,13 @@ namespace Crystal
 				CR_CORE_WARN("Tried to run OnCreate() without setting a valid class.");
 				return;
 			}
+
 			//--Components--
-			// TagComponent
 			if (m_Queue.TagComponent)
 				m_Object.InvokeMethod("AddTagComponent");
+
+			if (m_Queue.TransformComponent)
+				m_Object.InvokeMethod("AddTransformComponent"); // TODO(Jorben): Add
 		}
 
 		m_Object.InvokeMethod("OnCreate");
@@ -72,7 +75,6 @@ namespace Crystal
 				return;
 			}
 		}
-
 		m_Object.InvokeMethod("OnUpdate", (float)ts);
 	}
 
@@ -80,6 +82,12 @@ namespace Crystal
 	{
 		// TODO(Jorben): Somehow remove queue's
 		m_Queue.TagComponent = true;
+	}
+
+	void EntityScript::AddTransformComponent()
+	{
+		// TODO(Jorben): Somehow remove queue's
+		m_Queue.TransformComponent = true;
 	}
 
 	void EntityScript::Load(std::filesystem::path path)

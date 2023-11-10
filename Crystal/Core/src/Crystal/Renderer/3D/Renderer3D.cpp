@@ -108,12 +108,12 @@ namespace Crystal
 		RendererCommand::EnableDepth(true);
 	}
 
-	void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec4& colour, bool reversed, const Ref<PerspectiveCamera>& camera)
+	void Renderer3D::DrawCube(const Vec3<float>& position, const Vec3<float>& size, const Vec4<float>& colour, bool reversed, const Ref<PerspectiveCamera>& camera)
 	{
 		DrawCube(position, size, { 0.0f, 0.0f, 0.0f }, colour, reversed, camera);
 	}
 
-	void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec3& origin, const glm::vec4& colour, bool reversed, const Ref<PerspectiveCamera>& camera)
+	void Renderer3D::DrawCube(const Vec3<float>& position, const Vec3<float>& size, const Vec3<float>& origin, const Vec4<float>& colour, bool reversed, const Ref<PerspectiveCamera>& camera)
 	{
 		//Depth
 		OnDrawCall();
@@ -122,8 +122,8 @@ namespace Crystal
 
 		s_CubeData->TextureShader->SetUniformFloat4("u_Colour", colour);
 
-		s_CubeData->TextureShader->SetUniformFloat2("u_TexOffset", glm::vec2(0.0f, 0.0f));
-		s_CubeData->TextureShader->SetUniformFloat2("u_TexScale", glm::vec2(1.0f, 1.0f));
+		s_CubeData->TextureShader->SetUniformFloat2("u_TexOffset", Vec2<float>(0.0f, 0.0f));
+		s_CubeData->TextureShader->SetUniformFloat2("u_TexScale", Vec2<float>(1.0f, 1.0f));
 
 		s_CubeData->TextureShader->SetUniformMat4("u_Transform", transform);
 		if (camera != nullptr)

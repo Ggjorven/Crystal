@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Crystal/Core/Core.hpp"
+#include "Crystal/Utils/CustomTypes.hpp"
 
 #include <glm/glm.hpp>
 
@@ -33,9 +34,9 @@ namespace Crystal
 		virtual void UnBind() const = 0;
 
 		virtual void SetUniformInt1(const std::string& name, int value) = 0;
-		virtual void SetUniformFloat2(const std::string& name, const glm::vec2& value) = 0;
-		virtual void SetUniformFloat3(const std::string& name, const glm::vec3& value) = 0;
-		virtual void SetUniformFloat4(const std::string& name, const glm::vec4& value) = 0;
+		virtual void SetUniformFloat2(const std::string& name, const Vec2<float>& value) = 0;
+		virtual void SetUniformFloat3(const std::string& name, const Vec3<float>& value) = 0;
+		virtual void SetUniformFloat4(const std::string& name, const Vec4<float>& value) = 0;
 		virtual void SetUniformMat4(const std::string& name, const glm::mat4& value) = 0;
 
 		virtual const std::string& GetName() = 0;

@@ -21,8 +21,8 @@ namespace Crystal
 		//Rendering functions
 		//
 		//Coloured
-		static void DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec4& colour, bool reversed = false, const Ref<PerspectiveCamera>& camera = nullptr);
-		static void DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec3& origin, const glm::vec4& colour, bool reversed = false, const Ref<PerspectiveCamera>& camera = nullptr);
+		static void DrawCube(const Vec3<float>& position, const Vec3<float>& size, const Vec4<float>& colour, bool reversed = false, const Ref<PerspectiveCamera>& camera = nullptr);
+		static void DrawCube(const Vec3<float>& position, const Vec3<float>& size, const Vec3<float>& origin, const Vec4<float>& colour, bool reversed = false, const Ref<PerspectiveCamera>& camera = nullptr);
 	};
 
 }

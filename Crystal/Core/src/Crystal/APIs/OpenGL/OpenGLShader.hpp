@@ -21,9 +21,9 @@ namespace Crystal
 		void UnBind() const override;
 
 		void SetUniformInt1(const std::string& name, int value) override;
-		void SetUniformFloat2(const std::string& name, const glm::vec2& value) override;
-		void SetUniformFloat3(const std::string& name, const glm::vec3& value) override;
-		void SetUniformFloat4(const std::string& name, const glm::vec4& value) override;
+		void SetUniformFloat2(const std::string& name, const Vec2<float>& value) override;
+		void SetUniformFloat3(const std::string& name, const Vec3<float>& value) override;
+		void SetUniformFloat4(const std::string& name, const Vec4<float>& value) override;
 		void SetUniformMat4(const std::string& name, const glm::mat4& value) override;
 
 		const std::string& GetName() override { return m_Name; }

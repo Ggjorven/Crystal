@@ -2,22 +2,22 @@ Project: New
 Entities:
   - Entity: 17260805137098287381
     TagComponent:
-      Tag: JOJGOIEGJ
+      Tag: fageag
     TransformComponent:
-      Position: [0, 294, 0]
-      Size: [64, 64, 0]
+      Position: [370, 100, 0]
+      Size: [100, 100, 0]
       Rotation: 0
     Renderer2DComponent:
-      Enable: false
+      Enable: true
       Colour: [0, 0, 1, 1]
       UseTexture: false
     ScriptComponent:
-      Path: F:\Code\C++\VS\Crystal\Crystalizer\Projects\TestProj\Script.dll
-      Class: Placeholder
+      Path: F:\Code\C++\VS\Crystal\Crystalizer\Projects\TestProj\Scripts\bin\Release\Script.dll
+      Class: Test
   - Entity: 16215795341026022543
     TransformComponent:
-      Position: [-69, 0, 0]
-      Size: [136, 136, 0]
+      Position: [0, 0, 0]
+      Size: [100, 100, 0]
       Rotation: 0
     Renderer2DComponent:
       Enable: true

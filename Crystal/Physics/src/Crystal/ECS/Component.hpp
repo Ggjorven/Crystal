@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Crystal/Utils/CustomTypes.hpp"
 #include "Crystal/Core/UUID.hpp"
 #include "Crystal/Renderer/Texture.hpp"
 #include "Crystal/Scripting/EntityScript.hpp"
@@ -36,28 +37,28 @@ namespace Crystal::ECS
     public:
 		TransformComponent() = default;
 		TransformComponent(const TransformComponent& other) = default;
-		TransformComponent(const glm::vec3& position, const glm::vec3& size, float rotation)
+		TransformComponent(const Vec3<float>& position, const Vec3<float>& size, float rotation)
 			: Position(position), Size(size), Rotation(rotation) {}
 
-        glm::vec3 Position = { 0.0f, 0.0f, 0.0f };
-        glm::vec3 Size = { 0.0f, 0.0f, 0.0f };
+		Vec3<float> Position = { 0.0f, 0.0f, 0.0f };
+		Vec3<float> Size = { 0.0f, 0.0f, 0.0f };
         float Rotation = 0.0f;
     };
 
 	struct Renderer2DComponent
 	{
 		bool Enable = true;
-		glm::vec4 Colour = { 1.0f, 1.0f, 1.0f, 1.0f };
+		Vec4<float> Colour = { 1.0f, 1.0f, 1.0f, 1.0f };
 		Ref<Texture2D> Texture = nullptr;
 		bool UseTexture;
 
 		Renderer2DComponent() = default;
 		Renderer2DComponent(const Renderer2DComponent& other) = default;
-		Renderer2DComponent(const glm::vec4& colour) 
+		Renderer2DComponent(const Vec4<float>& colour)
 			: Colour(colour), UseTexture(false) {}
 		Renderer2DComponent(Ref<Texture2D> texture) 
 			: Texture(texture), UseTexture(true) {}
-		Renderer2DComponent(Ref<Texture2D> texture, const glm::vec4& colour)
+		Renderer2DComponent(Ref<Texture2D> texture, const Vec4<float>& colour)
 			: Texture(texture), Colour(colour), UseTexture(true) {}
 	};
 

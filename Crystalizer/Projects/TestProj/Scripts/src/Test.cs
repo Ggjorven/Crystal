@@ -1,9 +1,7 @@
-using Coral.Managed.Interop;
+using System;
 using Crystal;
 
-using System;
-
-public class Placeholder : Entity
+public class Test : Entity
 {
 
     public void OnCreate()
@@ -19,7 +17,11 @@ public class Placeholder : Entity
     {
         if (HasComponent<TagComponent>())
         {
-            GetComponent<TagComponent>().Tag = "JOJGOIEGJ";
+            GetComponent<TagComponent>().Tag = "fageag";
+        }
+        if (HasComponent<TransformComponent>())
+        {
+            GetComponent<TransformComponent>().PosX += 10.0f;
         }
     }
 

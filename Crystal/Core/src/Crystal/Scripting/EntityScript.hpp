@@ -20,8 +20,8 @@ namespace Crystal
 	struct ComponentQueue
 	{
 	public:
-		// TagComponent
 		bool TagComponent = false;
+		bool TransformComponent = false;
 
 	public:
 		ComponentQueue() = default;
@@ -47,6 +47,7 @@ namespace Crystal
 
 		//Components
 		void AddTagComponent();
+		void AddTransformComponent();
 
 	private:
 		void Load(std::filesystem::path path);

@@ -5,6 +5,8 @@
 
 #include "Crystal/Core/Events/Input/Input.hpp"
 
+#include "Crystal/Utils/CustomTypes.hpp"
+
 namespace Crystal
 {
 

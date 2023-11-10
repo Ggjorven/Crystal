@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Crystal/Core/Core.hpp"
+#include "Crystal/Utils/CustomTypes.hpp"
 
 #include <yaml-cpp/yaml.h>
 
@@ -82,6 +83,8 @@ namespace YAML
 			return true;
 		}
 	};
+
+
 
 	template<>
 	struct convert<glm::quat>

@@ -15,4 +15,14 @@ namespace Crystal::Wrapper
 		Project::GetCurrentProject()->GetStorage().AddComponent<ECS::TagComponent>(uuid, tagComponent);
 	}
 
+	void Entity::AddTransformComponent(uint64_t uuid, Vec3<float> position, Vec3<float> size, float rotation)
+	{
+		ECS::TransformComponent transformComponent;
+		transformComponent.Position = position;
+		transformComponent.Size = size;
+		transformComponent.Rotation = rotation;
+
+		Project::GetCurrentProject()->GetStorage().AddComponent<ECS::TransformComponent>(uuid, transformComponent);
+	}
+
 }

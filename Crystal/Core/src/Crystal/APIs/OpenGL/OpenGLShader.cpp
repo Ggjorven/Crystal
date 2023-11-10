@@ -32,19 +32,19 @@ namespace Crystal
 		glUniform1i(location, value);
 	}
 
-	void OpenGLShader::SetUniformFloat2(const std::string& name, const glm::vec2& value)
+	void OpenGLShader::SetUniformFloat2(const std::string& name, const Vec2<float>& value)
 	{
 		GLint location = GetUniformLocation(name);
 		glUniform2f(location, value.x, value.y);
 	}
 
-	void OpenGLShader::SetUniformFloat3(const std::string& name, const glm::vec3& value)
+	void OpenGLShader::SetUniformFloat3(const std::string& name, const Vec3<float>& value)
 	{
 		GLint location = GetUniformLocation(name);
 		glUniform3f(location, value.x, value.y, value.z);
 	}
 
-	void OpenGLShader::SetUniformFloat4(const std::string& name, const glm::vec4& value)
+	void OpenGLShader::SetUniformFloat4(const std::string& name, const Vec4<float>& value)
 	{
 		GLint location = GetUniformLocation(name);
 		glUniform4f(location, value.r, value.g, value.b, value.a);

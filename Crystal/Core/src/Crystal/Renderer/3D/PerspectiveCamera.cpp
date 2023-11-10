@@ -15,7 +15,7 @@ namespace Crystal
 
 	void PerspectiveCamera::OnUpdate(Timestep& ts)
 	{
-		m_ViewMatrix = glm::lookAt(m_Position, m_Position + m_Area.Front, m_Area.Up);
+		m_ViewMatrix = glm::lookAt(Convert(m_Position), Convert(m_Position + m_Area.Front), Convert(m_Area.Up));
 		m_ProjectionMatrix = glm::perspective(glm::radians(m_Properties.FOV), m_AspectRatio, 0.1f, 100.0f);
 		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewProjectionMatrix;
 	}
@@ -36,7 +36,7 @@ namespace Crystal
 		newFront.z = sin(glm::radians(m_Properties.Yaw)) * cos(glm::radians(m_Properties.Pitch));
 
 		m_Area.Front = glm::normalize(newFront);
-		m_Area.Right = glm::normalize(glm::cross(m_Area.Front, m_Area.Up));
+		m_Area.Right = glm::normalize(glm::cross(Convert(m_Area.Front), Convert(m_Area.Up)));
 	}
 
 	bool PerspectiveCamera::OnWindowResize(WindowResizeEvent& e)

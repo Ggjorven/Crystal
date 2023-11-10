@@ -87,8 +87,8 @@ namespace Crystal
 			{
 				if (ImGui::CollapsingHeader("TransformComponent", nullptr, ImGuiTreeNodeFlags_DefaultOpen))
 				{
-					ImGui::DragFloat3("Position", glm::value_ptr(tc->Position), 1.0f, 0.0f, 0.0f, "%.0f");
-					ImGui::DragFloat3("Size", glm::value_ptr(tc->Size), 1.0f, 0.0f, 0.0f, "%.0f");
+					ImGui::DragFloat3("Position", tc->Position.GetData(), 1.0f, 0.0f, 0.0f, "%.0f");
+					ImGui::DragFloat3("Size", tc->Size.GetData(), 1.0f, 0.0f, 0.0f, "%.0f");
 					ImGui::DragFloat("Rotation", &tc->Rotation, 1.0f, 0.0f, 0.0f, "%.0f");
 				}
 			}
@@ -99,7 +99,7 @@ namespace Crystal
 				if (ImGui::CollapsingHeader("Renderer2DComponent", nullptr, ImGuiTreeNodeFlags_DefaultOpen)) // TODO(Jorben): Add right click enabled/disabled functionality
 				{
 					ImGui::Checkbox("Enabled", &r2d->Enable);
-					ImGui::ColorEdit4("Colour", glm::value_ptr(r2d->Colour), ImGuiColorEditFlags_Uint8);
+					ImGui::ColorEdit4("Colour", r2d->Colour.GetData(), ImGuiColorEditFlags_Uint8);
 					TexturePanel("Texture", r2d->Texture, &r2d->UseTexture);
 				}
 			}
@@ -109,18 +109,27 @@ namespace Crystal
 			{
 				if (ImGui::CollapsingHeader("ScriptComponent", nullptr, ImGuiTreeNodeFlags_DefaultOpen)) // TODO(Jorben): Add right click enabled/disabled functionality
 				{
-					ImGui::Text("File:");
+					ImGui::BulletText(sc->Path.filename().string().c_str());
+
 					ImGui::SameLine();
-					// TODO(Jorben): Adding a script based on file explorer
-					static char Scriptbuffer[256];
-					strcpy_s(Scriptbuffer, sizeof(Scriptbuffer), sc->Path.string().c_str());
-					if (ImGui::InputText("##Script", Scriptbuffer, sizeof(Scriptbuffer), ImGuiInputTextFlags_EnterReturnsTrue))
+					if (ImGui::Button("Reload"))
 					{
-						sc->Path = Scriptbuffer;
-						sc->Script.SetDLL(Scriptbuffer);
+						sc->Script.SetDLL(sc->Path);
 					}
 
-					ImGui::Text("Class:");
+					ImGui::SameLine();
+					if (ImGui::Button("..."))
+					{
+						std::string filename = Utils::OpenFile("");
+
+						if (!filename.empty())
+						{
+							sc->Path = filename;
+							sc->Script.SetDLL(filename);
+						}
+					}
+
+					ImGui::BulletText("Class:");
 					ImGui::SameLine();
 
 					static char buffer[256];
@@ -133,7 +142,7 @@ namespace Crystal
 					{
 						sc->Script.OnCreate();
 					}
-
+					ImGui::SameLine();
 					if (ImGui::Button("OnUpdate"))
 					{
 						Timestep ts(0.0f);

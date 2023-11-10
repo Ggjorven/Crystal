@@ -58,9 +58,9 @@ void ECSLayer::OnRender()
 			ECS::TransformComponent* transform = entity.GetComponent<ECS::TransformComponent>();
 
 			if (r2d->Texture) 
-				Renderer2D::DrawQuad(glm::vec2(transform->Position.x, transform->Position.y), glm::vec2(transform->Size.x, transform->Size.y), r2d->Texture, false, m_Camera->GetCamera());
+				Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), r2d->Texture, false, m_Camera->GetCamera());
 			else
-				Renderer2D::DrawQuad(glm::vec2(transform->Position.x, transform->Position.y), glm::vec2(transform->Size.x, transform->Size.y), r2d->Colour, false, m_Camera->GetCamera());
+				Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), r2d->Colour, false, m_Camera->GetCamera());
 		}
 	}
 }

@@ -59,6 +59,17 @@ namespace Crystal
 			}
         }
 
+		public void AddComponent<TransformC>(TransformComponent component) where TransformC : TransformComponent
+		{
+            component.ID = ID;
+
+            m_Components[typeof(TagComponent)] = component;
+            unsafe
+            {
+                //InternalCalls.AddTransformComponent(ID, component.Tag); // TODO
+            }
+        }
+
 		public bool HasComponent<T>() where T : Component
 		{
 			if (m_Components.ContainsKey(typeof(T)))
@@ -83,6 +94,13 @@ namespace Crystal
 			TagComponent tagComponent = new TagComponent(ID);
 			m_Components[typeof(TagComponent)] = tagComponent; // Note(Jorben): Purposefully not using AddComponent<> since that also adds it to the engine's memory but that where this function was called from.
 		}
+
+        public void AddTransformComponent()
+        {
+			Console.WriteLine("Adding Transform");
+            TransformComponent transformComponent = new TransformComponent(ID);
+            m_Components[typeof(TransformComponent)] = transformComponent; // Note(Jorben): Purposefully not using AddComponent<> since that also adds it to the engine's memory but that where this function was called from.
+        }
     }
 
 }

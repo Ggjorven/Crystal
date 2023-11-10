@@ -16,7 +16,7 @@ namespace Crystal
 		void Init() override;
 		void Clear() override;
 
-		void SetClearColour(const glm::vec4& colour) override;
+		void SetClearColour(const Vec4<float>& colour) override;
 		void SetViewPort(uint32_t x, uint32_t y, uint32_t width, uint32_t height) override;
 		void EnableDepth(bool enabled) override;
 

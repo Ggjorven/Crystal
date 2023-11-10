@@ -29,7 +29,7 @@ namespace Crystal
 		glClear(GL_COLOR_BUFFER_BIT  | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void OpenGLRenderingAPI::SetClearColour(const glm::vec4& colour)
+	void OpenGLRenderingAPI::SetClearColour(const Vec4<float>& colour)
 	{
 		glClearColor(colour.r, colour.g, colour.b, colour.a);
 	}

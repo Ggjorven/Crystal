@@ -7,15 +7,17 @@
 namespace Crystal
 {
 
-	// Vectors
 	template<typename T>
 	struct Vec2
 	{
 	public:
-		union { T X, x; };
-		union { T Y, y; };
-		
-		T* ValuePtr; 
+		union {
+			struct { T X, Y; };
+			struct { T x, y; };
+			struct { T R, G; };
+			struct { T r, g; };
+			T data[2];
+		};
 
 	public:
 		Vec2(T x, T y)
@@ -23,8 +25,76 @@ namespace Crystal
 		{
 		}
 		Vec2(const glm::vec2& vec)
-			: X(vec.x), Y(vec.y), ValuePtr(&X)
+			: X(vec.x), Y(vec.y)
 		{
+		}
+
+		T* GetData()
+		{
+			return &X;
+		}
+
+		operator glm::vec2() const
+		{
+			return glm::vec2(X, Y);
+		}
+
+		Vec2 operator+(const Vec2& vec) const 
+		{
+			return Vec2(X + vec.X, Y + vec.Y);
+		}
+
+		Vec2 operator-(const Vec2& vec) const 
+		{
+			return Vec2(X - vec.X, Y - vec.Y);
+		}
+
+		Vec2 operator*(const Vec2& vec) const 
+		{
+			return Vec2(X * vec.X, Y * vec.Y);
+		}
+
+		Vec2 operator/(const Vec2& vec) const 
+		{
+			if (vec.X == 0 || vec.Y == 0) 
+			{
+				CR_CORE_WARN("Tried to divide by 0, returned original Vector");
+				return Vec2(X, Y);
+			}
+			return Vec2(X / vec.X, Y / vec.Y);
+		}
+
+		Vec2& operator+=(const Vec2& vec) 
+		{
+			X += vec.X;
+			Y += vec.Y;
+			return *this;
+		}
+
+		Vec2& operator-=(const Vec2& vec) 
+		{
+			X -= vec.X;
+			Y -= vec.Y;
+			return *this;
+		}
+
+		Vec2& operator*=(const Vec2& vec) 
+		{
+			X *= vec.X;
+			Y *= vec.Y;
+			return *this;
+		}
+
+		Vec2& operator/=(const Vec2& vec) 
+		{
+			if (vec.X == 0 || vec.Y == 0)
+			{
+				CR_CORE_WARN("Tried to divide by 0, returned original Vector");
+				return Vec2(X, Y);
+			}
+			X /= vec.X;
+			Y /= vec.Y;
+			return *this;
 		}
 	};
 
@@ -32,11 +102,13 @@ namespace Crystal
 	struct Vec3
 	{
 	public:
-		union { T X, x, R, r; };
-		union { T Y, y, G, b; };
-		union { T Z, z, B, b; };
-
-		T* ValuePtr;
+		union {
+			struct { T X, Y, Z; };
+			struct { T x, y, z; };
+			struct { T R, G, B; };
+			struct { T r, g, b; };
+			T data[3];
+		};
 
 	public:
 		Vec3(T x, T y, T z)
@@ -44,8 +116,80 @@ namespace Crystal
 		{
 		}
 		Vec3(const glm::vec3& vec)
-			: X(vec.x), Y(vec.y), Z(vec.z), ValuePtr(&X)
+			: X(vec.x), Y(vec.y), Z(vec.z)
 		{
+		}
+
+		T* GetData()
+		{
+			return &X;
+		}
+
+		operator glm::vec3() const
+		{
+			return glm::vec3(X, Y, Z);
+		}
+
+		Vec3 operator+(const Vec3& vec) const 
+		{
+			return Vec3(X + vec.X, Y + vec.Y, Z + vec.Z);
+		}
+
+		Vec3 operator-(const Vec3& vec) const 
+		{
+			return Vec3(X - vec.X, Y - vec.Y, Z - vec.Z);
+		}
+
+		Vec3 operator*(const Vec3& vec) const 
+		{
+			return Vec3(X * vec.X, Y * vec.Y, Z * vec.Z);
+		}
+
+		Vec3 operator/(const Vec3& vec) const 
+		{
+			if (vec.X == 0 || vec.Y == 0 || vec.Z == 0) 
+			{
+				CR_CORE_WARN("Tried to divide by 0, returned original Vector");
+				return Vec3(X, Y, Z);
+			}
+			return Vec3(X / vec.X, Y / vec.Y, Z / vec.Z);
+		}
+
+		Vec3& operator+=(const Vec3& vec) 
+		{
+			X += vec.X;
+			Y += vec.Y;
+			Z += vec.Z;
+			return *this;
+		}
+
+		Vec3& operator-=(const Vec3& vec) 
+		{
+			X -= vec.X;
+			Y -= vec.Y;
+			Z -= vec.Z;
+			return *this;
+		}
+
+		Vec3& operator*=(const Vec3& vec) 
+		{
+			X *= vec.X;
+			Y *= vec.Y;
+			Z *= vec.Z;
+			return *this;
+		}
+
+		Vec3& operator/=(const Vec3& vec) 
+		{
+			if (vec.X == 0 || vec.Y == 0 || vec.Z == 0)
+			{
+				CR_CORE_WARN("Tried to divide by 0, returned original Vector");
+				return Vec3(X, Y, Z);
+			}
+			X /= vec.X;
+			Y /= vec.Y;
+			Z /= vec.Z;
+			return *this;
 		}
 	};
 
@@ -53,12 +197,13 @@ namespace Crystal
 	struct Vec4
 	{
 	public:
-		union { T X, x, R, r; };
-		union { T Y, y, G, b; };
-		union { T Z, z, B, b; };
-		union { T W, w, A, a; };
-
-		T* ValuePtr;
+		union {
+			struct { T X, Y, Z, W; };
+			struct { T x, y, z, w; };
+			struct { T R, G, B, A; };
+			struct { T r, g, b, a; };
+			T data[4];
+		};
 
 	public:
 		Vec4(T x, T y, T z, T w)
@@ -66,8 +211,84 @@ namespace Crystal
 		{
 		}
 		Vec4(const glm::vec4& vec)
-			: X(vec.x), Y(vec.y), Z(vec.z), W(vec.w), ValuePtr(&X)
+			: X(vec.x), Y(vec.y), Z(vec.z), W(vec.w)
 		{
+		}
+
+		T* GetData()
+		{
+			return &X;
+		}
+
+		operator glm::vec4() const 
+		{
+			return glm::vec4(X, Y, Z, W);
+		}
+
+		Vec4 operator+(const Vec4& vec) const 
+		{
+			return Vec4(X + vec.X, Y + vec.Y, Z + vec.Z, W + vec.W);
+		}
+
+		Vec4 operator-(const Vec4& vec) const 
+		{
+			return Vec4(X - vec.X, Y - vec.Y, Z - vec.Z, W - vec.W);
+		}
+
+		Vec4 operator*(const Vec4& vec) const 
+		{
+			return Vec4(X * vec.X, Y * vec.Y, Z * vec.Z, W * vec.W);
+		}
+
+		Vec4 operator/(const Vec4& vec) const 
+		{
+			if (vec.X == 0 || vec.Y == 0 || vec.Z == 0 || vec.W == 0) 
+			{
+				CR_CORE_WARN("Tried to divide by 0, returned original Vector");
+				return Vec4(X, Y, Z, W);
+			}
+			return Vec4(X / vec.X, Y / vec.Y, Z / vec.Z, W / vec.W);
+		}
+
+		Vec4& operator+=(const Vec4& vec) 
+		{
+			X += vec.X;
+			Y += vec.Y;
+			Z += vec.Z;
+			W += vec.W;
+			return *this;
+		}
+
+		Vec4& operator-=(const Vec4& vec) 
+		{
+			X -= vec.X;
+			Y -= vec.Y;
+			Z -= vec.Z;
+			W -= vec.W;
+			return *this;
+		}
+
+		Vec4& operator*=(const Vec4& vec) 
+		{
+			X *= vec.X;
+			Y *= vec.Y;
+			Z *= vec.Z;
+			W *= vec.W;
+			return *this;
+		}
+
+		Vec4& operator/=(const Vec4& vec) 
+		{
+			if (vec.X == 0 || vec.Y == 0 || vec.Z == 0 || vec.W == 0)
+			{
+				CR_CORE_WARN("Tried to divide by 0, returned original Vector");
+				return Vec4(X, Y, Z, W);
+			}
+			X /= vec.X;
+			Y /= vec.Y;
+			Z /= vec.Z;
+			W /= vec.W;
+			return *this;
 		}
 	};
 

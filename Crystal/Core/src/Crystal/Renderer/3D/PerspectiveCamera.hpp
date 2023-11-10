@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Crystal/Core/Core.hpp"
+#include "Crystal/Utils/CustomTypes.hpp"
 #include "Crystal/Core/Events/Events.hpp"
 
 #include <glm/glm.hpp>
@@ -12,11 +13,11 @@ namespace Crystal
     struct MovementArea
     {
     public:
-        glm::vec3 Front;
-        glm::vec3 Up;
-        glm::vec3 Right;
+        Vec3<float> Front;
+        Vec3<float> Up;
+        Vec3<float> Right;
 
-        MovementArea(const glm::vec3& front, const glm::vec3& up, const glm::vec3& right)
+        MovementArea(const Vec3<float>& front, const Vec3<float>& up, const Vec3<float>& right)
             : Front(front), Up(up), Right(right)
         {
         }
@@ -46,7 +47,7 @@ namespace Crystal
 
         void UpdateArea();
 
-        glm::vec3& GetPosition() { return m_Position; }
+        Vec3<float>& GetPosition() { return m_Position; }
         
         MovementArea& GetArea() { return m_Area; }
         CameraSettings& GetSettings() { return m_Properties; }
@@ -63,7 +64,7 @@ namespace Crystal
         bool OnWindowResize(WindowResizeEvent& e);
 
     private:
-        glm::vec3 m_Position = { 0.0f, 0.0f, 0.0f };
+        Vec3<float> m_Position = { 0.0f, 0.0f, 0.0f };
 
         glm::mat4 m_ViewMatrix;
         glm::mat4 m_ProjectionMatrix;

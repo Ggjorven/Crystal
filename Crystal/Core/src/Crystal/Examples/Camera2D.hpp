@@ -50,13 +50,13 @@ namespace Crystal
 		float GetMaxZoomLevel() { return m_MaxZoomLevel; }
 		void SetMaxZoomLevel(float max) { m_MaxZoomLevel = max; }
 
-		void SetPosition(glm::vec2 position) { m_CameraPosition = { position.x, position.y, 0.0f }; UpdateView(); }
-		glm::vec3& GetPosition() { return m_CameraPosition;}
+		void SetPosition(Vec2<float> position) { m_CameraPosition = { position.x, position.y, 0.0f }; UpdateView(); }
+		Vec3<float>& GetPosition() { return m_CameraPosition;}
 
-		void Move(glm::vec2 position) { m_CameraPosition.x += position.x; m_CameraPosition.y += position.y; UpdateView(); }
+		void Move(Vec2<float> position) { m_CameraPosition.x += position.x; m_CameraPosition.y += position.y; UpdateView(); }
 
-		void SetOrigin(glm::vec2 origin) { m_Origin = origin; UpdateView(); }
-		glm::vec2 GetOrigin() { return m_Origin; }
+		void SetOrigin(Vec2<float> origin) { m_Origin = origin; UpdateView(); }
+		Vec2<float> GetOrigin() { return m_Origin; }
 
 	private:
 		bool OnMouseScrolled(MouseScrolledEvent& e);
@@ -73,8 +73,8 @@ namespace Crystal
 
 		bool m_Rotation;
 
-		glm::vec2 m_Origin = { 0.0f, 0.0f };
-		glm::vec3 m_CameraPosition = { 0.0f, 0.0f, 0.0f };
+		Vec2<float> m_Origin = { 0.0f, 0.0f };
+		Vec3<float> m_CameraPosition = { 0.0f, 0.0f, 0.0f };
 		float m_CameraRotation = 0.0f; // Note(Jorben): In degrees, in the clockwise direction.
 
 		float m_MovementSpeed = 5.0f, m_RotationSpeed = 180.0f;

@@ -1,6 +1,8 @@
 #include "crpch.h"
 #include "SetupInternalCalls.hpp"
 
+#include "Crystal/Core/Events/Input/Input.hpp"
+
 #include "Crystal/Scripting/Wrapper/ECS/Entity.hpp"
 #include "Crystal/Scripting/Wrapper/ECS/Component.hpp"
 
@@ -9,6 +11,10 @@ namespace Crystal::Wrapper
 
 	void Setup::Run(Coral::ManagedAssembly& assembly)
 	{
+		// ---Core---
+		assembly.AddInternalCall("Crystal.InternalCalls", "Input_IsKeyPressed", reinterpret_cast<void*>(&Input::IsKeyPressed));
+
+		// ---ECS---
 		// TagComponent
 		assembly.AddInternalCall("Crystal.InternalCalls", "AddTagComponent", reinterpret_cast<void*>(&Entity::AddTagComponent));
 		/// Setters

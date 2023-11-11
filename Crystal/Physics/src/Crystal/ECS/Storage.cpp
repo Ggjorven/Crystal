@@ -35,7 +35,7 @@ namespace Crystal::ECS
         s_Host.Initialize(settings);
 
         m_Context = s_Host.CreateAssemblyLoadContext("Crystal");
-        m_Assembly = m_Context.LoadAssembly(Application::GetWorkingDirectory().string() + "\\Scripting-Engine.dll");
+        m_Assembly = m_Context.LoadAssembly((Application::GetWorkingDirectory().string() + "\\Scripting-Engine.dll"));
         Wrapper::Setup::Run(m_Assembly);
     }
 

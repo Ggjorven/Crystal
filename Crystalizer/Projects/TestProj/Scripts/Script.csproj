@@ -55,6 +55,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Crystal\Scripting\Scripting-Engine.csproj" />
-    <ProjectReference Include="..\..\..\..\vendor\Coral\Coral.Managed\Coral.Managed.csproj" />
   </ItemGroup>
 </Project>

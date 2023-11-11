@@ -50,14 +50,13 @@ namespace Crystal
 				CR_CORE_WARN("Tried to run OnCreate() without setting a valid class.");
 				return;
 			}
-
-			//--Components--
-			if (m_Queue.TagComponent)
-				m_Object.InvokeMethod("AddTagComponent");
-
-			if (m_Queue.TransformComponent)
-				m_Object.InvokeMethod("AddTransformComponent"); // TODO(Jorben): Add
 		}
+		//--Components--
+		if (m_Queue.TagComponent)
+			m_Object.InvokeMethod("AddTagComponent");
+
+		if (m_Queue.TransformComponent)
+			m_Object.InvokeMethod("AddTransformComponent");
 
 		m_Object.InvokeMethod("OnCreate");
 
@@ -75,6 +74,7 @@ namespace Crystal
 				return;
 			}
 		}
+		if (ts == NULL) /*CR_CORE_WARN("Timestep = 0")*/;
 		m_Object.InvokeMethod("OnUpdate", (float)ts);
 	}
 

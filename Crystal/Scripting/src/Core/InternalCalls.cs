@@ -11,9 +11,10 @@ namespace Crystal
 
     unsafe public class InternalCalls
     {
-        /*
-            Components 
-        */
+        // ---Core---
+        internal static unsafe delegate*<int, bool> Input_IsKeyPressed;
+
+        // ---ECS---
         // TagComponent
         internal static unsafe delegate*<ulong, NativeString, void> AddTagComponent;
 

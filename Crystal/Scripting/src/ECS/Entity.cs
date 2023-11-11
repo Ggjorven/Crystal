@@ -86,21 +86,19 @@ namespace Crystal
             return new T();
         }
 
-		/*
-			All component adding from C++
-		*/
+		//-------Components---------
+		// Note(Jorben): Purposefully not using AddComponent<> since that also adds it to the engine's memory but that's where this function was called from.
 		public void AddTagComponent()
 		{
 			TagComponent tagComponent = new TagComponent(ID);
-			m_Components[typeof(TagComponent)] = tagComponent; // Note(Jorben): Purposefully not using AddComponent<> since that also adds it to the engine's memory but that where this function was called from.
+			m_Components[typeof(TagComponent)] = tagComponent;
 		}
 
-        public void AddTransformComponent()
-        {
-			Console.WriteLine("Adding Transform");
-            TransformComponent transformComponent = new TransformComponent(ID);
-            m_Components[typeof(TransformComponent)] = transformComponent; // Note(Jorben): Purposefully not using AddComponent<> since that also adds it to the engine's memory but that where this function was called from.
-        }
+		public void AddTransformComponent()
+		{
+			TransformComponent transformComponent = new TransformComponent(ID);
+			m_Components[typeof(TransformComponent)] = transformComponent;
+		}
     }
 
 }

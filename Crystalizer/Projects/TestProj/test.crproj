@@ -4,7 +4,7 @@ Entities:
     TagComponent:
       Tag: fageag
     TransformComponent:
-      Position: [370, 100, 0]
+      Position: [300, 0, 0]
       Size: [100, 100, 0]
       Rotation: 0
     Renderer2DComponent:
@@ -12,7 +12,7 @@ Entities:
       Colour: [0, 0, 1, 1]
       UseTexture: false
     ScriptComponent:
-      Path: F:\Code\C++\VS\Crystal\Crystalizer\Projects\TestProj\Scripts\bin\Release\Script.dll
+      Path: D:\Code\C++\VS\Crystal\Crystalizer\Projects\TestProj\Scripts\bin\Release\Script.dll
       Class: Test
   - Entity: 16215795341026022543
     TransformComponent:
@@ -21,6 +21,6 @@ Entities:
       Rotation: 0
     Renderer2DComponent:
       Enable: true
-      Texture: F:\Code\C++\VS\Crystal\Crystalizer\assets\textures\QuestionBlock.png
+      Texture: D:\Code\C++\VS\Crystal\Crystalizer\assets\textures\QuestionBlock.png
       Colour: [1, 1, 1, 1]
       UseTexture: false

@@ -21,7 +21,15 @@ public class Test : Entity
         }
         if (HasComponent<TransformComponent>())
         {
-            GetComponent<TransformComponent>().PosX += 10.0f;
+            TransformComponent transform = GetComponent<TransformComponent>();
+
+            if (Input.IsKeyPressed(KeyCode.W)) 
+                transform.PosY += 10;
+
+            if (Input.IsKeyPressed(KeyCode.S))
+                transform.PosY -= 10;
+
+            //GetComponent<TransformComponent>().PosX += 10.0f;
         }
     }
 

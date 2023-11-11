@@ -27,10 +27,6 @@ void EditorLayer::OnAttach()
 		ProjectSerializer serializer(m_Project);
 		serializer.Deserialize(m_Path);
 	}
-	Vec2<float> vector = { 1.0f, 10.0f };
-	CR_CORE_TRACE("X: {0} x: {1}", vector.X, vector.x);
-	//*vector.ValuePtr = 10.0f;
-	//CR_CORE_TRACE("X: {0} x: {1}", vector.X, vector.x);
 }
 
 void EditorLayer::OnDetach()

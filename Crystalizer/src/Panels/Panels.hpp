@@ -37,9 +37,15 @@ namespace Crystal
 		{
 			None = 0, Play, Pause
 		};
+		
+		enum class Icon
+		{
+			None = -1, Tag = 0, Transform, Renderer2D, Script
+		};
 
 		static ButtonState s_ButtonState;
 		static std::array<Ref<Texture2D>, 2> s_Buttons;
+		static std::array<Ref<Texture2D>, 4> s_Icons;
 		
 		Ref<Project>& m_Project;
 		ECS::Entity* m_SelectedEntity;

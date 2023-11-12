@@ -68,7 +68,7 @@ namespace Crystal
 			ECS::TagComponent* tag = m_SelectedEntity->GetComponent<ECS::TagComponent>();
 			if (tag)
 			{
-				if (UI::BeginECSComponent("TagComponent"))
+				if (UI::BeginECSComponent("TagComponent", s_Icons[(int)Icon::Tag]))
 				{
 					ImGui::Text("Tag:");
 					ImGui::SameLine();
@@ -83,7 +83,7 @@ namespace Crystal
 			ECS::TransformComponent* tc = m_SelectedEntity->GetComponent<ECS::TransformComponent>();
 			if (tc)
 			{
-				if (UI::BeginECSComponent("TransformComponent"))
+				if (UI::BeginECSComponent("TransformComponent", s_Icons[(int)Icon::Transform]))
 				{
 					UI::Vector3("Position", tc->Position, Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
 					UI::Vector3("Size", tc->Size, Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
@@ -99,7 +99,7 @@ namespace Crystal
 			ECS::Renderer2DComponent* r2d = m_SelectedEntity->GetComponent<ECS::Renderer2DComponent>();
 			if (r2d)
 			{
-				if (UI::BeginECSComponent("Renderer2DComponent")) // TODO(Jorben): Add right click enabled/disabled functionality
+				if (UI::BeginECSComponent("Renderer2DComponent", s_Icons[(int)Icon::Renderer2D])) // TODO(Jorben): Add right click enabled/disabled functionality
 				{
 					//ImGui::Checkbox("Enabled", &r2d->Enable);
 					ImGui::ColorEdit4("Colour", r2d->Colour.GetData(), ImGuiColorEditFlags_Uint8);
@@ -110,7 +110,7 @@ namespace Crystal
 			ECS::ScriptComponent* sc = m_SelectedEntity->GetComponent<ECS::ScriptComponent>();
 			if (sc)
 			{
-				if (UI::BeginECSComponent("ScriptComponent")) // TODO(Jorben): Add right click enabled/disabled functionality
+				if (UI::BeginECSComponent("ScriptComponent", s_Icons[(int)Icon::Script])) // TODO(Jorben): Add right click enabled/disabled functionality
 				{
 					ImGui::BulletText(sc->Path.filename().string().c_str());
 

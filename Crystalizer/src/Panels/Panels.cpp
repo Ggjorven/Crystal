@@ -19,6 +19,7 @@ namespace Crystal
 
 	Panels::ButtonState Panels::s_ButtonState = Panels::ButtonState::Play;
 	std::array<Ref<Texture2D>, 2> Panels::s_Buttons = { };
+	std::array<Ref<Texture2D>, 4> Panels::s_Icons = { };
 
 
 	Panels::Panels(Ref<Project>& project)
@@ -31,6 +32,11 @@ namespace Crystal
 		s_Buttons[1] = Texture2D::Create(path + "\\Crystalizer\\assets\\textures\\pause.png");
 
 		s_ButtonTex = s_Buttons[0];
+
+		s_Icons[0] = Texture2D::Create(path + "\\Crystalizer\\assets\\textures\\icons\\Text.png");
+		s_Icons[1] = Texture2D::Create(path + "\\Crystalizer\\assets\\textures\\icons\\Transform.png");
+		s_Icons[2] = Texture2D::Create(path + "\\Crystalizer\\assets\\textures\\icons\\SpriteRenderer.png");
+		s_Icons[3] = Texture2D::Create(path + "\\Crystalizer\\assets\\textures\\icons\\Script.png");
 	}
 
 	Panels::~Panels()

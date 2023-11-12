@@ -7,14 +7,33 @@
 namespace Crystal::UI
 {
 
-	bool BeginECSComponent(const char* label)
+	bool BeginECSComponent(const char* label, Ref<Texture2D> icon)
 	{
-		if (ImGui::CollapsingHeader(label, nullptr, ImGuiTreeNodeFlags_DefaultOpen))
+		bool open = false;
+
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20.0f, 4.0f));
+		ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_FramePadding | ImGuiTreeNodeFlags_DefaultOpen;
+
+		if (ImGui::TreeNodeEx(label, treeNodeFlags))
 		{
-			return true;
+			open = true;
+			ImGui::TreePop();
 		}
 
-		return false;
+		if (icon)
+		{
+			ImVec2 cursorPos = ImGui::GetCursorPos();
+			ImVec2 iconSize(16, 16);
+
+			ImGui::SetCursorPos(ImVec2(cursorPos.x, cursorPos.y - (ImGui::GetStyle().FramePadding.y * 5.63)));
+			ImGui::Image((ImTextureID)icon->GetRendererID(), iconSize, { 0, 1 }, { 1, 0 });
+
+			ImGui::SetCursorPos(ImVec2(cursorPos.x, cursorPos.y));
+		}
+
+
+		ImGui::PopStyleVar(1);
+		return open;
 	}
 
 	void Vector3(const char* label, Vec3<float>& value, const Vec4<float>& colourX, const Vec4<float>& colourY, const Vec4<float>& colourZ)

@@ -29,7 +29,8 @@ void EditorLayer::OnAttach()
 		ProjectSerializer serializer(m_Project);
 		serializer.Deserialize(m_Path);
 	}
-
+	
+	
 	const char* settings =
 		R"(
 [Window][DockSpaceViewport_11111111]
@@ -37,32 +38,37 @@ Pos=0,19
 Size=1280,701
 Collapsed=0
 
-[Window][Viewport]
-Pos=295,19
-Size=985,701
+[Window][Debug##Default]
+Pos=60,60
+Size=400,400
 Collapsed=0
-DockId=0x00000004,0
+
+[Window][Viewport]
+Pos=333,19
+Size=947,701
+Collapsed=0
+DockId=0x00000002,0
 
 [Window][Objects]
 Pos=0,19
-Size=293,369
+Size=331,372
 Collapsed=0
-DockId=0x00000005,0
+DockId=0x00000003,0
 
 [Window][Properties]
-Pos=0,390
-Size=293,330
+Pos=0,393
+Size=331,327
 Collapsed=0
-DockId=0x00000006,0
+DockId=0x00000004,0
 
 [Docking][Data]
-DockSpace     ID=0x8B93E3BD Window=0xA787BDB4 Pos=501,228 Size=1280,701 Split=X
-    DockNode    ID=0x00000001 Parent=0x8B93E3BD SizeRef=293,701 Split=Y Selected=0x967E7699
-    DockNode  ID=0x00000005 Parent=0x00000001 SizeRef=334,369 Selected=0x967E7699
-    DockNode  ID=0x00000006 Parent=0x00000001 SizeRef=334,330 HiddenTabBar=1 Selected=0x199AB496
-    DockNode    ID=0x00000002 Parent=0x8B93E3BD SizeRef=985,701 Split=Y
-    DockNode  ID=0x00000003 Parent=0x00000002 SizeRef=944,49 HiddenTabBar=1 Selected=0x31C57546
-    DockNode  ID=0x00000004 Parent=0x00000002 SizeRef=944,650 CentralNode=1 HiddenTabBar=1 Selected=0x13926F0B)";
+DockSpace     ID=0x8B93E3BD Window=0xA787BDB4 Pos=216,258 Size=1280,701 Split=X
+  DockNode    ID=0x00000001 Parent=0x8B93E3BD SizeRef=331,701 Split=Y Selected=0x967E7699
+    DockNode  ID=0x00000003 Parent=0x00000001 SizeRef=223,372 Selected=0x967E7699
+    DockNode  ID=0x00000004 Parent=0x00000001 SizeRef=223,327 HiddenTabBar=1 Selected=0x199AB496
+  DockNode    ID=0x00000002 Parent=0x8B93E3BD SizeRef=947,701 CentralNode=1 HiddenTabBar=1 Selected=0x13926F0B
+
+	)";
 
 	ImGuiIO& io = ImGui::GetIO();
 	io.WantSaveIniSettings = true;
@@ -72,7 +78,7 @@ DockSpace     ID=0x8B93E3BD Window=0xA787BDB4 Pos=501,228 Size=1280,701 Split=X
 
 	settings = ImGui::SaveIniSettingsToMemory();
 	io.WantSaveIniSettings = false;
-
+	
 }
 
 void EditorLayer::OnDetach()
@@ -220,7 +226,6 @@ void EditorLayer::CreateNewProject()
 {
 	//Save
 	ProjectSerializer serializer(m_Project);
-
 	serializer.Serialize(m_Path);
 
 	//New
@@ -230,6 +235,5 @@ void EditorLayer::CreateNewProject()
 	m_Path = Utils::GetEnviromentVariable("CRYSTAL_DIR") + "\\Crystalizer\\Projects\\New-Project-" + random + "New-Project-" + random + ".crproj"; //New path
 
 	serializer = ProjectSerializer(m_Project);
-
 	serializer.Serialize(m_Path);
 }

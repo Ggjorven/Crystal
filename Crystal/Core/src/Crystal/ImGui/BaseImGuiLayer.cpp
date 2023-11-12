@@ -6,6 +6,7 @@
 #include <backends/imgui_impl_opengl3.h>
 
 #include "Crystal/Core/Application.hpp"
+#include "Crystal/Utils/Utils.hpp"
 
 #include "Crystal/Renderer/Renderer.hpp"
 
@@ -40,6 +41,8 @@ namespace Crystal
 		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoTaskBarIcons;
 		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
 
+		io.IniFilename = NULL;
+
 		ImGui::StyleColorsDark();
 
 		// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
@@ -59,6 +62,16 @@ namespace Crystal
 		ImGui_ImplOpenGL3_Init("#version 410");
 
 		//ImGui_ImplGlfw_InitForVulkan(window, true);
+
+
+		//Load a cool font?
+		/* //TODO(Jorben): Fix
+		CR_CORE_TRACE("{0}", std::string(Utils::GetEnviromentVariable("CRYSTAL_DIR") + "\\Crystalizer\\assets\\fonts\\SulphurPoint-Bold.ttf"));
+		io.Fonts->ClearFonts();
+		ImFont* font = io.Fonts->AddFontFromFileTTF(std::string(Utils::GetEnviromentVariable("CRYSTAL_DIR") + "\\Crystalizer\\assets\\fonts\\SulphurPoint-Bold.ttf").c_str(), 18.0f);
+		ImGui::PushFont(font);
+		*/
+		
 	}
 
 	void BaseImGuiLayer::OnDetach()

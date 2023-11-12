@@ -22,8 +22,7 @@ namespace Crystal
 		virtual ~Project();
 
 		void OnUpdate(Timestep& ts);
-		void OnRenderRuntime();
-		void OnRenderEditor();
+		void OnRender();
 		void OnEvent(Event& e);
 
 		void AddEntity(ECS::Entity& entity) { m_Entities.emplace_back(entity); }
@@ -34,6 +33,17 @@ namespace Crystal
 
 		static Project* GetCurrentProject() { return s_CurrentProject; }
 
+		enum class State
+		{
+			None = 0, Editor, Runtime
+		};
+
+		void SetState(State state) { m_State = state; }
+
+	protected:
+		void OnRenderRuntime();
+		void OnRenderEditor();
+
 	protected:
 		std::string m_DebugName;
 
@@ -43,6 +53,9 @@ namespace Crystal
 		Ref<EditorCamera> m_EditorCamera;
 
 		static Project* s_CurrentProject;
+
+		bool m_FirstUpdate = true;
+		State m_State = State::None;
 
 		//Friend classes to be able to use some private members/functions
 		friend class ProjectSerializer;

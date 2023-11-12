@@ -2,6 +2,8 @@
 
 #include "Crystal/Utils/CustomTypes.hpp"
 
+#include <imgui_internal.h>
+
 #include <string>
 
 EditorLayer::EditorLayer(const ApplicationInfo& appInfo)
@@ -27,6 +29,50 @@ void EditorLayer::OnAttach()
 		ProjectSerializer serializer(m_Project);
 		serializer.Deserialize(m_Path);
 	}
+
+	const char* settings =
+		R"(
+[Window][DockSpaceViewport_11111111]
+Pos=0,19
+Size=1280,701
+Collapsed=0
+
+[Window][Viewport]
+Pos=295,19
+Size=985,701
+Collapsed=0
+DockId=0x00000004,0
+
+[Window][Objects]
+Pos=0,19
+Size=293,369
+Collapsed=0
+DockId=0x00000005,0
+
+[Window][Properties]
+Pos=0,390
+Size=293,330
+Collapsed=0
+DockId=0x00000006,0
+
+[Docking][Data]
+DockSpace     ID=0x8B93E3BD Window=0xA787BDB4 Pos=501,228 Size=1280,701 Split=X
+    DockNode    ID=0x00000001 Parent=0x8B93E3BD SizeRef=293,701 Split=Y Selected=0x967E7699
+    DockNode  ID=0x00000005 Parent=0x00000001 SizeRef=334,369 Selected=0x967E7699
+    DockNode  ID=0x00000006 Parent=0x00000001 SizeRef=334,330 HiddenTabBar=1 Selected=0x199AB496
+    DockNode    ID=0x00000002 Parent=0x8B93E3BD SizeRef=985,701 Split=Y
+    DockNode  ID=0x00000003 Parent=0x00000002 SizeRef=944,49 HiddenTabBar=1 Selected=0x31C57546
+    DockNode  ID=0x00000004 Parent=0x00000002 SizeRef=944,650 CentralNode=1 HiddenTabBar=1 Selected=0x13926F0B)";
+
+	ImGuiIO& io = ImGui::GetIO();
+	io.WantSaveIniSettings = true;
+
+	ImGui::ClearIniSettings();
+	ImGui::LoadIniSettingsFromMemory(settings, std::strlen(settings));
+
+	settings = ImGui::SaveIniSettingsToMemory();
+	io.WantSaveIniSettings = false;
+
 }
 
 void EditorLayer::OnDetach()
@@ -38,6 +84,7 @@ void EditorLayer::OnDetach()
 void EditorLayer::OnUpdate(Timestep& ts)
 {
 	m_Project->OnUpdate(ts);
+	m_Project->SetState((m_Running ? Project::State::Runtime : Project::State::Editor));
 }
 
 void EditorLayer::OnRender()
@@ -45,14 +92,7 @@ void EditorLayer::OnRender()
 	m_FrameBuffer->Bind();
 	RendererCommand::Clear();
 
-	if (!m_Running)
-	{
-		m_Project->OnRenderEditor();
-	}
-	else
-	{
-		m_Project->OnRenderRuntime();
-	}
+	m_Project->OnRender();
 
 	m_FrameBuffer->Unbind();
 }
@@ -126,6 +166,32 @@ void EditorLayer::OnImGuiRender()
 		window.SetViewportX((uint32_t)relativePos.x);
 		window.SetViewportY((uint32_t)relativePos.y);
 
+		Vec2<float> buttonSize(24.f, 24.f);
+
+		//ImGui::Dummy(ImVec2(ImGui::GetWindowSize().x / 2.0f - buttonSize.x * 2, 0.f));
+		ImGui::SetCursorPos(ImVec2(ImGui::GetWindowSize().x / 2.0f - buttonSize.x, 6.0f));
+
+		if (ImGui::ImageButton((ImTextureID)Panels::s_ButtonTex->GetRendererID(), ImVec2(buttonSize.x, buttonSize.y), { 0, 1 }, { 1, 0 }))
+		{
+			// TODO(Jorben): Add a better system for resetting the project
+			/*
+			ProjectSerializer serializer(m_Project);
+			if (m_Running)
+			{
+				m_Project.reset();
+				m_Project = CreateRef<Project>();
+				serializer.Deserialize(m_Path);
+			}
+			else
+			{
+				serializer.Serialize(m_Path);
+			}
+			*/
+
+			m_Running = !m_Running;
+			Panels::SwitchButtons();
+		}
+
 		ImGui::End();
 		ImGui::PopStyleVar(1);
 		Panels::EndColours();
@@ -134,45 +200,6 @@ void EditorLayer::OnImGuiRender()
 	//Windows
 	m_Panels->ObjectsWindow();
 	m_Panels->ObjectPropertiesWindow();
-	m_Panels->RunWindow(m_Running);
-
-	// TODO(Jorben): Add dockspace information for ImGui somehow, to prevent having to copy imgui.ini files
-	/*
-	[Window][DockSpaceViewport_11111111]
-	Pos=0,19
-	Size=1920,998
-	Collapsed=0
-
-	[Window][Debug##Default]
-	Pos=60,60
-	Size=400,400
-	Collapsed=0
-
-	[Window][Viewport]
-	Pos=274,19
-	Size=1646,998
-	Collapsed=0
-	DockId=0x00000002,0
-
-	[Window][Properties]
-	Pos=0,580
-	Size=272,437
-	Collapsed=0
-	DockId=0x00000004,0
-
-	[Window][Objects]
-	Pos=0,19
-	Size=272,559
-	Collapsed=0
-	DockId=0x00000003,0
-
-	[Docking][Data]
-	DockSpace     ID=0x8B93E3BD Window=0xA787BDB4 Pos=0,42 Size=1920,998 Split=X
-	DockNode    ID=0x00000001 Parent=0x8B93E3BD SizeRef=272,998 Split=Y Selected=0x967E7699
-	DockNode  ID=0x00000003 Parent=0x00000001 SizeRef=272,559 Selected=0x967E7699
-	DockNode  ID=0x00000004 Parent=0x00000001 SizeRef=272,437 Selected=0x199AB496
-	DockNode    ID=0x00000002 Parent=0x8B93E3BD SizeRef=1646,998 CentralNode=1 Selected=0x13926F0B
-	*/
 }
 
 void EditorLayer::OnEvent(Event& e)
@@ -199,7 +226,8 @@ void EditorLayer::CreateNewProject()
 	//New
 	m_Project.reset();
 	m_Project = CreateRef<Project>("New");
-	m_Path = "New-Project-" + std::to_string(UUIDGenerator::GenerateUUID()) + ".crproj"; //New path
+	std::string random = std::to_string(UUIDGenerator::GenerateUUID());
+	m_Path = Utils::GetEnviromentVariable("CRYSTAL_DIR") + "\\Crystalizer\\Projects\\New-Project-" + random + "New-Project-" + random + ".crproj"; //New path
 
 	serializer = ProjectSerializer(m_Project);
 

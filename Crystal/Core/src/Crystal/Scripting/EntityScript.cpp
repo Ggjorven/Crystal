@@ -74,7 +74,7 @@ namespace Crystal
 				return;
 			}
 		}
-		if (ts == NULL) /*CR_CORE_WARN("Timestep = 0")*/;
+		if (ts == NULL) CR_CORE_WARN("Timestep = 0");
 		m_Object.InvokeMethod("OnUpdate", (float)ts);
 	}
 

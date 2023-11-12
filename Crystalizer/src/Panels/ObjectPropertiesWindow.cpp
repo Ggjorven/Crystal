@@ -4,6 +4,8 @@
 #include "Crystal/Core/Events/Input/Input.hpp"
 #include "Crystal/Utils/Utils.hpp"
 
+#include "Crystal/UI/UICore.hpp"
+
 #include "Editor.hpp"
 
 #include <glm/glm.hpp>
@@ -29,11 +31,7 @@ namespace Crystal
 				ImVec2 mainViewportPos = ImGui::GetMainViewport()->Pos;
 				ImVec2 relativePos = { windowPos.x - mainViewportPos.x, windowPos.y - mainViewportPos.y };
 
-				ImVec2 windowSize = ImGui::GetCurrentWindow()->Size;
-
-				MousePosition pos = Crystal::Input::GetMousePosition();
-
-				if (EditorLayer::InWindow(relativePos, windowSize, pos))
+				if (EditorLayer::InWindow(relativePos, ImGui::GetCurrentWindow()->Size, Crystal::Input::GetMousePosition()))
 					ImGui::OpenPopup("New Component");
 			}
 
@@ -70,12 +68,12 @@ namespace Crystal
 			ECS::TagComponent* tag = m_SelectedEntity->GetComponent<ECS::TagComponent>();
 			if (tag)
 			{
-				if (ImGui::CollapsingHeader("TagComponent", nullptr, ImGuiTreeNodeFlags_DefaultOpen))
+				if (UI::BeginECSComponent("TagComponent"))
 				{
 					ImGui::Text("Tag:");
 					ImGui::SameLine();
 
-					static char buffer[256]; 
+					static char buffer[256];
 					strcpy_s(buffer, sizeof(buffer), tag->Tag.c_str());
 					if (ImGui::InputText("##TagInput", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
 						tag->Tag = buffer;
@@ -85,20 +83,25 @@ namespace Crystal
 			ECS::TransformComponent* tc = m_SelectedEntity->GetComponent<ECS::TransformComponent>();
 			if (tc)
 			{
-				if (ImGui::CollapsingHeader("TransformComponent", nullptr, ImGuiTreeNodeFlags_DefaultOpen))
+				if (UI::BeginECSComponent("TransformComponent"))
 				{
-					ImGui::DragFloat3("Position", tc->Position.GetData(), 1.0f, 0.0f, 0.0f, "%.0f");
-					ImGui::DragFloat3("Size", tc->Size.GetData(), 1.0f, 0.0f, 0.0f, "%.0f");
-					ImGui::DragFloat("Rotation", &tc->Rotation, 1.0f, 0.0f, 0.0f, "%.0f");
+					UI::Vector3("Position", tc->Position, Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
+					UI::Vector3("Size", tc->Size, Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
+					/* // TODO(Jorben): Add rotation back here and add it in Renderer2D
+					ImGui::Text("Rotation: ");
+					ImGui::SameLine();
+					ImGui::SetNextItemWidth(150);
+					ImGui::DragFloat("##Rotation", &tc->Rotation, 1.0f, 0.0f, 0.0f, "%.1f");
+					*/
 				}
 			}
 
 			ECS::Renderer2DComponent* r2d = m_SelectedEntity->GetComponent<ECS::Renderer2DComponent>();
 			if (r2d)
 			{
-				if (ImGui::CollapsingHeader("Renderer2DComponent", nullptr, ImGuiTreeNodeFlags_DefaultOpen)) // TODO(Jorben): Add right click enabled/disabled functionality
+				if (UI::BeginECSComponent("Renderer2DComponent")) // TODO(Jorben): Add right click enabled/disabled functionality
 				{
-					ImGui::Checkbox("Enabled", &r2d->Enable);
+					//ImGui::Checkbox("Enabled", &r2d->Enable);
 					ImGui::ColorEdit4("Colour", r2d->Colour.GetData(), ImGuiColorEditFlags_Uint8);
 					TexturePanel("Texture", r2d->Texture, &r2d->UseTexture);
 				}
@@ -107,15 +110,13 @@ namespace Crystal
 			ECS::ScriptComponent* sc = m_SelectedEntity->GetComponent<ECS::ScriptComponent>();
 			if (sc)
 			{
-				if (ImGui::CollapsingHeader("ScriptComponent", nullptr, ImGuiTreeNodeFlags_DefaultOpen)) // TODO(Jorben): Add right click enabled/disabled functionality
+				if (UI::BeginECSComponent("ScriptComponent")) // TODO(Jorben): Add right click enabled/disabled functionality
 				{
 					ImGui::BulletText(sc->Path.filename().string().c_str());
 
 					ImGui::SameLine();
 					if (ImGui::Button("Reload"))
-					{
 						sc->Script.SetDLL(sc->Path);
-					}
 
 					ImGui::SameLine();
 					if (ImGui::Button("..."))
@@ -134,21 +135,10 @@ namespace Crystal
 
 					static char buffer[256];
 					strcpy_s(buffer, sizeof(buffer), sc->Script.GetClass().c_str());
+
+					ImGui::SetNextItemWidth(160);
 					if (ImGui::InputText("##ClassName", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
 						sc->Script.SetClass(buffer);
-
-					// TODO(Jorben): Make better
-					if (ImGui::Button("OnCreate"))
-					{
-						sc->Script.OnCreate();
-					}
-					ImGui::SameLine();
-					if (ImGui::Button("OnUpdate"))
-					{
-						Timestep ts(0.0f);
-						sc->Script.OnUpdate(ts);
-					} 
-
 				}
 			}
 		}

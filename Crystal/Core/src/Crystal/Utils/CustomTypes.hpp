@@ -107,6 +107,9 @@ namespace Crystal
 			struct { T x, y, z; };
 			struct { T R, G, B; };
 			struct { T r, g, b; };
+			//struct { T x, X, r, R; };
+			//struct { T y, Y, g, G; };
+			//struct { T z, Z, b, B; };
 			T data[3];
 		};
 

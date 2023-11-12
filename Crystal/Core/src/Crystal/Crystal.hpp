@@ -28,23 +28,23 @@
 	#include "Crystal/Core/Events/KeyEvent.hpp"
 	#include "Crystal/Core/Events/MouseEvent.hpp"
 
-	//Codes
+	//Codes folder
 	#include "Crystal/Core/Events/Codes/KeyCodes.hpp"
 	#include "Crystal/Core/Events/Codes/MouseCodes.hpp"
 
-	//Input
+	//Input folder
 	#include "Crystal/Core/Events/Input/Input.hpp"
 
 //Data folder
-	//Project
+	//Project folder
 	#include "Crystal/Data/Project/Project.hpp"
 	#include "Crystal/Data/Project/ProjectSerializer.hpp"
 
 //ImGui folder
 #include "Crystal/ImGui/BaseImGuiLayer.hpp"
 
-//Platforms
-	//Windows
+//Platforms folder
+	//Windows folder
 	#include "Crystal/Platforms/Windows/WindowsInput.hpp"
 	#include "Crystal/Platforms/Windows/WindowsUtilities.hpp"
 	#include "Crystal/Platforms/Windows/WindowsWindow.hpp"
@@ -59,18 +59,21 @@
 #include "Crystal/Renderer/Shader.hpp"
 #include "Crystal/Renderer/Texture.hpp"
 #include "Crystal/Renderer/VertexArray.hpp"
-	//2D
+	//2D folder
 	#include "Crystal/Renderer/2D/OrthoGraphicCamera.hpp"
 	#include "Crystal/Renderer/2D/Renderer2D.hpp"
 
-	//3D
+	//3D folder
 	#include "Crystal/Renderer/3D/PerspectiveCamera.hpp"
 	#include "Crystal/Renderer/3D/Renderer3D.hpp"
 
-//Scripting
+//Scripting folder
 #include "Crystal/Scripting/EntityScript.hpp"
 	//Wrapper
 	#include "Crystal/Scripting/Wrapper/ECS/Component.hpp"
+
+//UI folder
+#include "Crystal/UI/UICore.hpp"
 
 //Utils folder
 #include "Crystal/Utils/Utils.hpp"

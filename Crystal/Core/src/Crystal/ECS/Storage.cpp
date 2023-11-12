@@ -1,6 +1,8 @@
 #include "crpch.h"
 #include "Storage.hpp"
 
+#include "Crystal/Core/UUID.hpp"
+
 #include "Crystal/Core/Application.hpp"
 #include "Crystal/Utils/Utils.hpp"
 #include "Crystal/Scripting/Wrapper/SetupInternalCalls.hpp"
@@ -15,7 +17,7 @@ namespace Crystal::ECS
         switch (level)
         {
         case Coral::MessageLevel::Info:
-            CR_CORE_TRACE("(Coral) {0}", std::string(message));
+            //CR_CORE_TRACE("(Coral) {0}", std::string(message));
             break;
         case Coral::MessageLevel::Warning:
             CR_CORE_WARN("(Coral) {0}", std::string(message));
@@ -32,15 +34,17 @@ namespace Crystal::ECS
         settings.MessageCallback = CoralMessageCallback;
         settings.CoralDirectory = Application::GetWorkingDirectory().string() + "\\";
 
+        s_Host = Coral::HostInstance();
         s_Host.Initialize(settings);
 
-        m_Context = s_Host.CreateAssemblyLoadContext("Crystal");
+        m_Context = s_Host.CreateAssemblyLoadContext("Crystal-" + std::to_string(UUIDGenerator::GenerateUUID()));
         m_Assembly = m_Context.LoadAssembly((Application::GetWorkingDirectory().string() + "\\Scripting-Engine.dll"));
         Wrapper::Setup::Run(m_Assembly);
     }
 
     Storage::~Storage()
     {
+        s_Host.UnloadAssemblyLoadContext(m_Context);
         s_Host.Shutdown();
     }
 

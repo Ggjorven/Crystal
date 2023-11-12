@@ -14,57 +14,27 @@
 
 namespace Crystal
 {
+
+	Ref<Texture2D> Panels::s_ButtonTex = nullptr;
+
+	Panels::ButtonState Panels::s_ButtonState = Panels::ButtonState::Play;
+	std::array<Ref<Texture2D>, 2> Panels::s_Buttons = { };
+
+
 	Panels::Panels(Ref<Project>& project)
 		: m_Project(project), m_SelectedEntity(nullptr)
 	{
 		std::string path = Utils::GetEnviromentVariable("CRYSTAL_DIR");
 		m_CheckerboardTex = Texture2D::Create(path + "\\Crystalizer\\assets\\textures\\Checkerboard.tga");
-		m_ButtonTex = Texture2D::Create(path + "\\Crystalizer\\assets\\textures\\Checkerboard.tga");
+
+		s_Buttons[0] = Texture2D::Create(path + "\\Crystalizer\\assets\\textures\\play.png");
+		s_Buttons[1] = Texture2D::Create(path + "\\Crystalizer\\assets\\textures\\pause.png");
+
+		s_ButtonTex = s_Buttons[0];
 	}
 
 	Panels::~Panels()
 	{
-	}
-
-	void Panels::Vector3(const std::string& label, float& value, const ImVec4& colourN, const ImVec4& colourH, const ImVec4& colourP, bool renderMultiSelect)
-	{
-		/* TODO(Jorben): ...
-		{
-			UI::ScopedStyle buttonFrame(ImGuiStyleVar_FramePadding, ImVec2(framePadding, 0.0f));
-			UI::ScopedStyle buttonRounding(ImGuiStyleVar_FrameRounding, 1.0f);
-			UI::ScopedColourStack buttonColours(ImGuiCol_Button, colourN,
-				ImGuiCol_ButtonHovered, colourH,
-				ImGuiCol_ButtonActive, colourP);
-
-			UI::ScopedFont buttonFont(boldFont);
-
-			UI::ShiftCursorY(2.0f);
-			if (ImGui::Button(label.c_str(), buttonSize))
-			{
-				value = resetValue;
-				modified = true;
-			}
-		}
-
-		ImGui::SameLine(0.0f, outlineSpacing);
-		ImGui::SetNextItemWidth(inputItemWidth);
-		UI::ShiftCursorY(-2.0f);
-		ImGui::PushItemFlag(ImGuiItemFlags_MixedValue, renderMultiSelect);
-		bool wasTempInputActive = ImGui::TempInputIsActive(ImGui::GetID(("##" + label).c_str()));
-		modified |= UI::DragFloat(("##" + label).c_str(), &value, 0.1f, 0.0f, 0.0f, "%.2f", 0);
-
-		// NOTE(Peter): Ugly hack to make tabbing behave the same as Enter (e.g marking it as manually modified)
-		if (modified && Input::IsKeyDown(KeyCode::Tab))
-			manuallyEdited = true;
-
-		if (ImGui::TempInputIsActive(ImGui::GetID(("##" + label).c_str())))
-			modified = false;
-
-		ImGui::PopItemFlag();
-
-		if (wasTempInputActive)
-			manuallyEdited |= ImGui::IsItemDeactivatedAfterEdit();
-		*/
 	}
 
 	void Panels::TexturePanel(const std::string_view& name, Ref<Texture2D>& changeAbleTexture, bool* useTexture)
@@ -139,6 +109,7 @@ namespace Crystal
 		ImGui::PushStyleColor(ImGuiCol_NavHighlight, ImVec4(0.20f, 0.63f, 0.72f, 0.54f));
 		*/
 		
+		
 		//Colours
 		auto& colours = ImGui::GetStyle().Colors;
 		colours[ImGuiCol_FrameBg] = ImVec4(0.14f, 0.36f, 0.41f, 0.54f);
@@ -206,11 +177,12 @@ namespace Crystal
 		ImGui::GetStyle().WindowMenuButtonPosition = ImGuiDir_Right;
 		ImGui::GetStyle().ColorButtonPosition = ImGuiDir_Left;
 		ImGui::PushStyleVar(ImGuiStyleVar_ButtonTextAlign, ImVec2(0.5f, 0.5f));
-
+		
 	}
 
 	void Panels::EndColours()
 	{
+		
 		//Colours
 		//ImGui::PopStyleColor(26);
 
@@ -227,6 +199,21 @@ namespace Crystal
 		ImGui::PopStyleVar(2);
 		ImGui::GetStyle().WindowMenuButtonPosition = ImGuiDir_Right;
 		ImGui::GetStyle().ColorButtonPosition = ImGuiDir_Right;
+		
+	}
+
+	void Panels::SwitchButtons()
+	{
+		if (s_ButtonState == ButtonState::Play)
+		{
+			s_ButtonTex = s_Buttons[1];
+			s_ButtonState = ButtonState::Pause;
+		}
+		else if (s_ButtonState == ButtonState::Pause)
+		{
+			s_ButtonTex = s_Buttons[0];
+			s_ButtonState = ButtonState::Play;
+		}
 	}
 
 }

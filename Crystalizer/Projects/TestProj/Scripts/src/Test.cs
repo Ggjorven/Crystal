@@ -6,30 +6,40 @@ public class Test : Entity
 
     public void OnCreate()
     {
+        //Console.WriteLine("(Test) OnCreate");
+
         TagComponent tag = new TagComponent(ID);
-        tag.Tag = "Test";
+        tag.Tag = "Mario";
         
         AddComponent<TagComponent>(tag);
-        //tag.Tag = "Test2";
     }
 
     public void OnUpdate(float ts)
     {
+        //Console.WriteLine("(Test) OnUpdate, ts: " + ts);
+
         if (HasComponent<TagComponent>())
         {
-            GetComponent<TagComponent>().Tag = "fageag";
+            GetComponent<TagComponent>().Tag = "Mario";
         }
         if (HasComponent<TransformComponent>())
         {
             TransformComponent transform = GetComponent<TransformComponent>();
 
             if (Input.IsKeyPressed(KeyCode.W)) 
-                transform.PosY += 10;
+                transform.PosY += 1500f * ts;
 
             if (Input.IsKeyPressed(KeyCode.S))
-                transform.PosY -= 10;
+                transform.PosY -= 1500f * ts;
 
-            //GetComponent<TransformComponent>().PosX += 10.0f;
+            if (Input.IsKeyPressed(KeyCode.D))
+                transform.PosX += 1500f * ts;
+
+            if (Input.IsKeyPressed(KeyCode.A))
+                transform.PosX -= 1500f * ts;
+
+            if (Input.IsKeyPressed(KeyCode.Escape))
+                Console.WriteLine("ESCAPED");
         }
     }
 

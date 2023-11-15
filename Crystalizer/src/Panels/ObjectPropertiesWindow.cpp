@@ -5,6 +5,7 @@
 #include "Crystal/Utils/Utils.hpp"
 
 #include "Crystal/UI/UICore.hpp"
+#include "Crystal/UI/UITools.hpp"
 
 #include "Editor.hpp"
 
@@ -102,8 +103,27 @@ namespace Crystal
 				if (UI::BeginECSComponent("Renderer2DComponent", s_Icons[(int)Icon::Renderer2D])) // TODO(Jorben): Add right click enabled/disabled functionality
 				{
 					//ImGui::Checkbox("Enabled", &r2d->Enable);
-					ImGui::ColorEdit4("Colour", r2d->Colour.GetData(), ImGuiColorEditFlags_Uint8);
 					TexturePanel("Texture", r2d->Texture, &r2d->UseTexture);
+					ImGui::SameLine();
+
+					ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.f);
+
+					UI::Tools::SetContextFontSize(2.f);
+					ImGui::ColorEdit4("Colour", r2d->Colour.GetData(), ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_NoOptions | ImGuiColorEditFlags_NoPicker | ImGuiColorEditFlags_NoTooltip);
+					UI::Tools::SetContextFontSize(0.0f);
+
+					if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+					{
+						ImGui::OpenPopup("ColorPickerPopup");
+					}
+
+					if (ImGui::BeginPopup("ColorPickerPopup"))
+					{
+						ImGui::ColorPicker4("ColorPicker", r2d->Colour.GetData());
+						ImGui::EndPopup();
+					}
+
+					ImGui::PopStyleVar(1);
 				}
 			}
 
@@ -112,11 +132,20 @@ namespace Crystal
 			{
 				if (UI::BeginECSComponent("ScriptComponent", s_Icons[(int)Icon::Script])) // TODO(Jorben): Add right click enabled/disabled functionality
 				{
-					ImGui::BulletText(sc->Path.filename().string().c_str());
+					std::string path = sc->Path.filename().replace_extension("").string();
+					ImGui::BulletText(path.c_str());
 
-					ImGui::SameLine();
-					if (ImGui::Button("Reload"))
-						sc->Script.SetDLL(sc->Path);
+					if (!path.empty())
+					{
+						ImGui::SameLine();
+						if (ImGui::Button("Reload"))
+							sc->Script.SetDLL(sc->Path);
+					}
+					else
+					{
+						ImGui::SameLine();
+						ImGui::Dummy(ImVec2(16.f, 16.f));
+					}
 
 					ImGui::SameLine();
 					if (ImGui::Button("..."))

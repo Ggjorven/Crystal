@@ -50,16 +50,18 @@ namespace Crystal::ECS
 		bool Enable = true;
 		Vec4<float> Colour = { 1.0f, 1.0f, 1.0f, 1.0f };
 		Ref<Texture2D> Texture = nullptr;
+
 		bool UseTexture;
+		bool UseColour;
 
 		Renderer2DComponent() = default;
 		Renderer2DComponent(const Renderer2DComponent& other) = default;
 		Renderer2DComponent(const Vec4<float>& colour)
-			: Colour(colour), UseTexture(false) {}
+			: Colour(colour), UseTexture(false), UseColour(true) {}
 		Renderer2DComponent(Ref<Texture2D> texture) 
-			: Texture(texture), UseTexture(true) {}
+			: Texture(texture), UseTexture(true), UseColour(false) {}
 		Renderer2DComponent(Ref<Texture2D> texture, const Vec4<float>& colour)
-			: Texture(texture), Colour(colour), UseTexture(true) {}
+			: Texture(texture), Colour(colour), UseTexture(true), UseColour(false) {}
 	};
 
 	struct ScriptComponent : public Component

@@ -107,103 +107,10 @@ void EditorLayer::OnImGuiRender()
 {
 	ImGui::DockSpaceOverViewport();
 
-	//Menu bar
-	{
-		Panels::BeginColours();
-		ImGui::BeginMainMenuBar();
-
-		if (ImGui::BeginMenu("File"))
-		{
-			if (ImGui::MenuItem("New project"))
-			{
-				CreateNewProject();
-			}
-
-			if (ImGui::MenuItem("Open project"))
-			{
-				std::string file = Utils::OpenFile("");
-
-				if (!file.empty())
-				{
-					m_Path = file;
-					
-					m_Project.reset();
-					m_Project = CreateRef<Project>("New");
-
-					ProjectSerializer serializer(m_Project);
-					serializer.Deserialize(m_Path);
-				}
-
-			}
-
-			if (ImGui::MenuItem("Save project"))
-			{
-				ProjectSerializer serializer(m_Project);
-				serializer.Serialize(m_Path);
-			}
-			ImGui::EndMenu();
-		}
-
-		ImGui::EndMainMenuBar();
-		Panels::EndColours();
-	}
-
-	//Viewport
-	{
-		Panels::BeginColours();
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f)); // Note(Jorben): Necessary for resizing framebuffer
-		ImGui::Begin("Viewport", (bool*)0, ImGuiWindowFlags_None);
-
-		ImVec2 size = ImGui::GetContentRegionAvail();
-		if (size.x != 0 && size.y != 0) //Check if window is collapsed
-			m_FrameBuffer->Resize((uint32_t)size.x, (uint32_t)size.y);
-
-		ImGui::Image((void*)m_FrameBuffer->GetColorAttachmentRendererID(), size, { 0, 1 }, { 1, 0 });
-
-		//Update viewport size
-		Window& window = Application::Get().GetWindow();
-
-		ImVec2 windowPos = ImGui::GetWindowPos();
-		ImVec2 mainViewportPos = ImGui::GetMainViewport()->Pos;
-		ImVec2 relativePos = { windowPos.x - mainViewportPos.x, windowPos.y - mainViewportPos.y };
-
-		window.SetViewportWidth((uint32_t)ImGui::GetWindowSize().x);
-		window.SetViewportHeight((uint32_t)ImGui::GetWindowSize().y);
-		window.SetViewportX((uint32_t)relativePos.x);
-		window.SetViewportY((uint32_t)relativePos.y);
-
-		Vec2<float> buttonSize(24.f, 24.f);
-
-		//ImGui::Dummy(ImVec2(ImGui::GetWindowSize().x / 2.0f - buttonSize.x * 2, 0.f));
-		ImGui::SetCursorPos(ImVec2(ImGui::GetWindowSize().x / 2.0f - buttonSize.x, 6.0f));
-
-		if (ImGui::ImageButton((ImTextureID)Panels::s_ButtonTex->GetRendererID(), ImVec2(buttonSize.x, buttonSize.y), { 0, 1 }, { 1, 0 }))
-		{
-			// TODO(Jorben): Add a better system for resetting the project
-			/*
-			ProjectSerializer serializer(m_Project);
-			if (m_Running)
-			{
-				m_Project.reset();
-				m_Project = CreateRef<Project>();
-				serializer.Deserialize(m_Path);
-			}
-			else
-			{
-				serializer.Serialize(m_Path);
-			}
-			*/
-
-			m_Running = !m_Running;
-			Panels::SwitchButtons();
-		}
-
-		ImGui::End();
-		ImGui::PopStyleVar(1);
-		Panels::EndColours();
-	}
+	MenuBar();
 
 	//Windows
+	ViewPort();
 	m_Panels->ObjectsWindow();
 	m_Panels->ObjectPropertiesWindow();
 }
@@ -236,4 +143,99 @@ void EditorLayer::CreateNewProject()
 
 	serializer = ProjectSerializer(m_Project);
 	serializer.Serialize(m_Path);
+}
+
+void EditorLayer::MenuBar()
+{
+	Panels::BeginColours();
+	ImGui::BeginMainMenuBar();
+
+	if (ImGui::BeginMenu("File"))
+	{
+		if (ImGui::MenuItem("New project"))
+		{
+			CreateNewProject();
+		}
+
+		if (ImGui::MenuItem("Open project"))
+		{
+			std::string file = Utils::OpenFile("");
+
+			if (!file.empty())
+			{
+				m_Path = file;
+
+				m_Project.reset();
+				m_Project = CreateRef<Project>("New");
+
+				ProjectSerializer serializer(m_Project);
+				serializer.Deserialize(m_Path);
+			}
+
+		}
+
+		if (ImGui::MenuItem("Save project"))
+		{
+			ProjectSerializer serializer(m_Project);
+			serializer.Serialize(m_Path);
+		}
+		ImGui::EndMenu();
+	}
+
+	ImGui::EndMainMenuBar();
+	Panels::EndColours();
+}
+
+void EditorLayer::ViewPort()
+{
+	Panels::BeginColours();
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f)); // Note(Jorben): Necessary for resizing framebuffer
+	ImGui::Begin("Viewport", (bool*)0, ImGuiWindowFlags_None);
+
+	ImVec2 size = ImGui::GetContentRegionAvail();
+	if (size.x != 0 && size.y != 0) //Check if window is collapsed
+		m_FrameBuffer->Resize((uint32_t)size.x, (uint32_t)size.y);
+
+	ImGui::Image((void*)m_FrameBuffer->GetColorAttachmentRendererID(), size, { 0, 1 }, { 1, 0 });
+
+	//Update viewport size
+	Window& window = Application::Get().GetWindow();
+
+	ImVec2 windowPos = ImGui::GetWindowPos();
+	ImVec2 mainViewportPos = ImGui::GetMainViewport()->Pos;
+	ImVec2 relativePos = { windowPos.x - mainViewportPos.x, windowPos.y - mainViewportPos.y };
+
+	window.SetViewportWidth((uint32_t)ImGui::GetWindowSize().x);
+	window.SetViewportHeight((uint32_t)ImGui::GetWindowSize().y);
+	window.SetViewportX((uint32_t)relativePos.x);
+	window.SetViewportY((uint32_t)relativePos.y);
+
+	Vec2<float> buttonSize(24.f, 24.f);
+
+	ImGui::SetCursorPos(ImVec2(ImGui::GetWindowSize().x / 2.0f - buttonSize.x, 6.0f));
+
+	if (ImGui::ImageButton((ImTextureID)Panels::s_ButtonTex->GetRendererID(), ImVec2(buttonSize.x, buttonSize.y), { 0, 1 }, { 1, 0 }))
+	{
+		// TODO(Jorben): Add a better system for resetting the project
+		/*
+		ProjectSerializer serializer(m_Project);
+		if (m_Running)
+		{
+			m_Project.reset();
+			m_Project = CreateRef<Project>();
+			serializer.Deserialize(m_Path);
+		}
+		else
+		{
+			serializer.Serialize(m_Path);
+		}
+		*/
+
+		m_Running = !m_Running;
+		Panels::SwitchButtons();
+	}
+
+	ImGui::End();
+	ImGui::PopStyleVar(1);
+	Panels::EndColours();
 }

@@ -20,6 +20,29 @@ namespace Crystal
 		Panels::BeginColours();
 		ImGui::Begin("Objects");
 
+		static bool showDelete = false;
+		static CR_UUID deleteUUID = 0;
+
+		//New object
+		if (ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+		{
+			ImVec2 windowPos = ImGui::GetCurrentWindow()->Pos;
+			ImVec2 mainViewportPos = ImGui::GetMainViewport()->Pos;
+			ImVec2 relativePos = { windowPos.x - mainViewportPos.x, windowPos.y - mainViewportPos.y };
+
+			ImVec2 windowSize = ImGui::GetCurrentWindow()->Size;
+
+			MousePosition pos = Crystal::Input::GetMousePosition();
+
+			if (EditorLayer::InWindow(relativePos, windowSize, pos))
+			{
+				ImGui::OpenPopup("New Object");
+
+				showDelete = false;
+				deleteUUID = 0;
+			}
+		}
+
 		for (ECS::Entity& entity : m_Project->GetEntities())
 		{
 			//Naming
@@ -35,111 +58,51 @@ namespace Crystal
 			//Create a selectable entity
 			if (ImGui::Selectable(name.c_str(), false, ImGuiSelectableFlags_SpanAllColumns)) // TODO(Jorben): Make it so you can see that it's selected so replace 'false'
 			{
-				m_SelectedEntity = &entity; 
+				m_SelectedEntity = &entity;
 			}
 
 			//Check for right-click/delete
 			if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
 			{
-				CR_CORE_TRACE("AAA");
-
-				ImGui::OpenPopup("Delete-Object");
-
-				if (ImGui::BeginPopupContextItem("Delete-Object")) // TODO(Jorben): Fix, now the other menu shows up instead of this one
-				{
-					if (ImGui::MenuItem("Delete"))
-					{
-						auto& entities = m_Project->GetEntities();
-						for (int i = 0; i < entities.size(); i++)
-						{
-							if (entities[i].GetUUID() == entity.GetUUID())
-							{
-								entities.erase(entities.begin() + i);
-								break;
-							}
-						}
-					}
-					ImGui::EndPopup();
-				}
+				showDelete = true;
+				deleteUUID = entity.GetUUID();
 			}
-			
+		}
 
-			//New object
-			/*
-			if (ImGui::IsMouseReleased(ImGuiMouseButton_Right))
+		//Actual pop-up
+		if (ImGui::BeginPopupContextItem("New Object"))
+		{
+
+			if (ImGui::BeginMenu(" New        "))
 			{
-				ImVec2 windowPos = ImGui::GetCurrentWindow()->Pos;
-				ImVec2 mainViewportPos = ImGui::GetMainViewport()->Pos;
-				ImVec2 relativePos = { windowPos.x - mainViewportPos.x, windowPos.y - mainViewportPos.y };
-
-				ImVec2 windowSize = ImGui::GetCurrentWindow()->Size;
-
-				MousePosition pos = Crystal::Input::GetMousePosition();
-
-				if (EditorLayer::InWindow(relativePos, windowSize, pos))
+				if (ImGui::MenuItem("Entity"))
 				{
-					if (!popUp)
-					{
-						ImGui::OpenPopup("New Object");
-						popUp = true;
-					}
+					ECS::Entity e(m_Project->GetStorage(), "New");
+					m_Project->AddEntity(e);
 				}
-			}
 
-			//Actual pop-up
-			if (ImGui::BeginPopupContextItem("New Object"))
-			{
-				if (ImGui::BeginMenu(" New        "))
+				if (ImGui::MenuItem("Camera")) // TODO(Jorben): Actually create a camera
 				{
-					if (ImGui::MenuItem("Entity"))
-					{
-						ECS::Entity e(m_Project->GetStorage(), "New");
-						m_Project->AddEntity(e);
-					}
-
-					if (ImGui::MenuItem("Camera")) // TODO(Jorben): Actually create a camera
-					{
-						CR_CORE_TRACE("TODO");
-					}
-					ImGui::EndMenu();
-				}
-				ImGui::Separator();
-				if (ImGui::BeginMenu(" Delete        "))
-				{
-					for (ECS::Entity& entity : m_Project->GetEntities())
-					{
-						//Naming
-						std::string name;
-						{
-							ECS::TagComponent const* tag = entity.GetComponent<ECS::TagComponent>();
-							if (tag && !tag->Tag.empty())
-								name = "Entity - " + tag->Tag;
-							else
-								name = "Entity - " + std::to_string(entity.GetUUID());
-						}
-
-						//Create a menu
-						if (ImGui::Selectable(name.c_str()))
-						{
-							std::vector<ECS::Entity>& entities = m_Project->GetEntities();
-							for (unsigned int i = 0; i < entities.size(); i++)
-							{
-								if (entities[i].GetUUID() == entity.GetUUID())
-								{
-									entities.erase(entities.begin() + i);
-									break;
-								}
-							}
-						}
-					}
-					ImGui::EndMenu();
+					CR_CORE_TRACE("TODO");
 				}
 				ImGui::EndMenu();
 			}
-		*/
-		}
-		
 
+			if (showDelete && ImGui::MenuItem(" Delete"))
+			{
+				auto& entities = m_Project->GetEntities();
+				for (int i = 0; i < entities.size(); i++)
+				{
+					if (entities[i].GetUUID() == deleteUUID)
+					{
+						entities.erase(entities.begin() + i);
+						break;
+					}
+				}
+				showDelete = false;
+			}
+			ImGui::EndMenu();
+		}
 
 		ImGui::End();
 		Panels::EndColours();

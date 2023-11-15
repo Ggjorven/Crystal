@@ -40,7 +40,6 @@ namespace Crystal
 					sc->Script.OnUpdate(ts);
 				}
 			}
-
 			m_EditorCamera->OnUpdate(ts); // TODO(Jorben): Remove and replace with runtime camera
 		}
 	}
@@ -88,9 +87,14 @@ namespace Crystal
 			if (r2d && r2d->Enable && transform)
 			{
 				if (r2d->Texture && r2d->UseTexture)
-					Renderer2D::DrawQuad(glm::vec2(transform->Position.x, transform->Position.y), glm::vec2(transform->Size.x, transform->Size.y), r2d->Texture, false, m_EditorCamera->GetCamera());
+				{
+
+					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), r2d->Texture, false, m_EditorCamera->GetCamera());
+				}
 				else
-					Renderer2D::DrawQuad(glm::vec2(transform->Position.x, transform->Position.y), glm::vec2(transform->Size.x, transform->Size.y), r2d->Colour, false, m_EditorCamera->GetCamera());
+				{
+					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), r2d->Colour, false, m_EditorCamera->GetCamera());
+				}
 			}
 		}
 	}

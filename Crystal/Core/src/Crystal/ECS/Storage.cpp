@@ -38,7 +38,10 @@ namespace Crystal::ECS
         s_Host.Initialize(settings);
 
         m_Context = s_Host.CreateAssemblyLoadContext("Crystal-" + std::to_string(UUIDGenerator::GenerateUUID()));
+
+        //m_Assembly = m_Context.LoadAssembly((Application::GetWorkingDirectory().string() + "\\hostfxr.dll"));
         m_Assembly = m_Context.LoadAssembly((Application::GetWorkingDirectory().string() + "\\Scripting-Engine.dll"));
+
         Wrapper::Setup::Run(m_Assembly);
     }
 

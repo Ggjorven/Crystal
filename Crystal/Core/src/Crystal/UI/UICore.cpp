@@ -12,6 +12,7 @@ namespace Crystal::UI
 		bool open = false;
 
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20.0f, 4.0f));
+		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 2);
 		ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_FramePadding | ImGuiTreeNodeFlags_DefaultOpen;
 
 		if (ImGui::TreeNodeEx(label, treeNodeFlags))
@@ -25,14 +26,14 @@ namespace Crystal::UI
 			ImVec2 cursorPos = ImGui::GetCursorPos();
 			ImVec2 iconSize(16, 16);
 
-			ImGui::SetCursorPos(ImVec2(cursorPos.x, cursorPos.y - (ImGui::GetStyle().FramePadding.y * 5.63)));
+			ImGui::SetCursorPos(ImVec2(cursorPos.x, cursorPos.y - (ImGui::GetStyle().FramePadding.y * 5.63f)));
 			ImGui::Image((ImTextureID)icon->GetRendererID(), iconSize, { 0, 1 }, { 1, 0 });
 
 			ImGui::SetCursorPos(ImVec2(cursorPos.x, cursorPos.y));
 		}
 
 
-		ImGui::PopStyleVar(1);
+		ImGui::PopStyleVar(2);
 		return open;
 	}
 

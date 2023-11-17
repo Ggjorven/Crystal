@@ -23,7 +23,7 @@ namespace Crystal
 
         public void Init()
         {
-            Console.WriteLine("Init method called");
+            //Console.WriteLine("Init method called");
 
             var properties = this.GetType().GetFields(/*BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic*/);
             //var properties = this.GetType().GetCustomAttributes(typeof(ValueFoe));

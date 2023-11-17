@@ -34,6 +34,7 @@ namespace Crystal
 		EntityScript(std::filesystem::path path);
 		virtual ~EntityScript();
 
+		// TODO(Jorben): Add a way of reloading since removing m_Set
 		void SetDLL(std::filesystem::path path);
 		void SetClass(const std::string& name);
 		void SetUUID(CR_UUID uuid) { m_UUID = uuid; }
@@ -57,7 +58,6 @@ namespace Crystal
 		std::string m_Name;
 
 		CR_UUID m_UUID = 0;
-		bool m_Set = false;
 
 		bool m_ContextInitialized = false;
 		Coral::AssemblyLoadContext m_Context;

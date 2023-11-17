@@ -176,56 +176,69 @@ namespace Crystal::Wrapper
 	/*
 		ScriptComponent
 	*/
-	void Component::ScriptComponent_AddValueField_Byte(uint64_t uuid, uint8_t byte)
+	void Component::ScriptComponent_AddValueField_Byte(uint64_t uuid, Coral::NativeString name, uint8_t byte)
 	{
+		CR_CORE_TRACE("{0}", __FUNCTION__);
 	}
 
-	void Component::ScriptComponent_AddValueField_SByte(uint64_t uuid, int8_t sbyte)
+	void Component::ScriptComponent_AddValueField_SByte(uint64_t uuid, Coral::NativeString name, int8_t sbyte)
 	{
+		CR_CORE_TRACE("{0}", __FUNCTION__);
 	}
 
-	void Component::ScriptComponent_AddValueField_Short(uint64_t uuid, int16_t shortVar)
+	void Component::ScriptComponent_AddValueField_Short(uint64_t uuid, Coral::NativeString name, int16_t shortVar)
 	{
+		CR_CORE_TRACE("{0}", __FUNCTION__);
 	}
 
-	void Component::ScriptComponent_AddValueField_UShort(uint64_t uuid, uint16_t ushortVar)
+	void Component::ScriptComponent_AddValueField_UShort(uint64_t uuid, Coral::NativeString name, uint16_t ushortVar)
 	{
+		CR_CORE_TRACE("{0}", __FUNCTION__);
 	}
 
-	void Component::ScriptComponent_AddValueField_Int(uint64_t uuid, int32_t intVar)
+	void Component::ScriptComponent_AddValueField_Int(uint64_t uuid, Coral::NativeString name, int32_t intVar)
 	{
+		CR_CORE_TRACE("{0}", __FUNCTION__);
 	}
 
-	void Component::ScriptComponent_AddValueField_UInt(uint64_t uuid, uint32_t uintVar)
+	void Component::ScriptComponent_AddValueField_UInt(uint64_t uuid, Coral::NativeString name, uint32_t uintVar)
 	{
+		CR_CORE_TRACE("{0}", __FUNCTION__);
 	}
 
-	void Component::ScriptComponent_AddValueField_Long(uint64_t uuid, int64_t longVar)
+	void Component::ScriptComponent_AddValueField_Long(uint64_t uuid, Coral::NativeString name, int64_t longVar)
 	{
+		CR_CORE_TRACE("{0}", __FUNCTION__);
 	}
 
-	void Component::ScriptComponent_AddValueField_ULong(uint64_t uuid, uint64_t ulongVar)
+	void Component::ScriptComponent_AddValueField_ULong(uint64_t uuid, Coral::NativeString name, uint64_t ulongVar)
 	{
+		CR_CORE_TRACE("{0}", __FUNCTION__);
 	}
 
-	void Component::ScriptComponent_AddValueField_Float(uint64_t uuid, float floatVar)
+	void Component::ScriptComponent_AddValueField_Float(uint64_t uuid, Coral::NativeString name, float floatVar)
 	{
+		CR_CORE_TRACE("{0} {1}, {2}, {3}", __FUNCTION__, uuid, std::string(name), floatVar);
 	}
 
-	void Component::ScriptComponent_AddValueField_Double(uint64_t uuid, double doubleVar)
+	void Component::ScriptComponent_AddValueField_Double(uint64_t uuid, Coral::NativeString name, double doubleVar)
 	{
+		CR_CORE_TRACE("{0}", __FUNCTION__);
 	}
 
-	void Component::ScriptComponent_AddValueField_Char(uint64_t uuid, char charVar)
+	void Component::ScriptComponent_AddValueField_Char(uint64_t uuid, Coral::NativeString name, char charVar)
 	{
+		CR_CORE_TRACE("{0}", __FUNCTION__);
 	}
 
-	void Component::ScriptComponent_AddValueField_Bool(uint64_t uuid, bool boolVar)
+	void Component::ScriptComponent_AddValueField_Bool(uint64_t uuid, Coral::NativeString name, bool boolVar)
 	{
+		CR_CORE_TRACE("{0}", __FUNCTION__);
 	}
 
-	void Component::ScriptComponent_AddValueField_String(uint64_t uuid, std::string stringVar)
+	void Component::ScriptComponent_AddValueField_String(uint64_t uuid, Coral::NativeString name, Coral::NativeString stringVar)
 	{
+		CR_CORE_TRACE("{0}", __FUNCTION__);
 	}
 
 

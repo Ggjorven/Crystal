@@ -6,7 +6,10 @@ using Crystal;
 public class Test : Entity
 {
     [ValueField]
-    public float a;
+    public int b = 0;
+
+    [ValueField]
+    public float a = 0.0f;
 
     public override void OnCreate()
     {

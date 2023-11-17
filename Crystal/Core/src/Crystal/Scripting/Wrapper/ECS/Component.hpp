@@ -34,19 +34,19 @@ namespace Crystal::Wrapper
 		static float TransformComponent_GetRotation(uint64_t uuid);
 
 		// ScriptComponent
-		static void ScriptComponent_AddValueField_Byte(uint64_t uuid, uint8_t byte);
-		static void ScriptComponent_AddValueField_SByte(uint64_t uuid, int8_t sbyte);
-		static void ScriptComponent_AddValueField_Short(uint64_t uuid, int16_t shortVar);
-		static void ScriptComponent_AddValueField_UShort(uint64_t uuid, uint16_t ushortVar);
-		static void ScriptComponent_AddValueField_Int(uint64_t uuid, int32_t intVar);
-		static void ScriptComponent_AddValueField_UInt(uint64_t uuid, uint32_t uintVar);
-		static void ScriptComponent_AddValueField_Long(uint64_t uuid, int64_t longVar);
-		static void ScriptComponent_AddValueField_ULong(uint64_t uuid, uint64_t ulongVar);
-		static void ScriptComponent_AddValueField_Float(uint64_t uuid, float floatVar);
-		static void ScriptComponent_AddValueField_Double(uint64_t uuid, double doubleVar);
-		static void ScriptComponent_AddValueField_Char(uint64_t uuid, char charVar);
-		static void ScriptComponent_AddValueField_Bool(uint64_t uuid, bool boolVar);
-		static void ScriptComponent_AddValueField_String(uint64_t uuid, std::string stringVar);
+		static void ScriptComponent_AddValueField_Byte(uint64_t uuid, Coral::NativeString name, uint8_t byte);
+		static void ScriptComponent_AddValueField_SByte(uint64_t uuid, Coral::NativeString name, int8_t sbyte);
+		static void ScriptComponent_AddValueField_Short(uint64_t uuid, Coral::NativeString name, int16_t shortVar);
+		static void ScriptComponent_AddValueField_UShort(uint64_t uuid, Coral::NativeString name, uint16_t ushortVar);
+		static void ScriptComponent_AddValueField_Int(uint64_t uuid, Coral::NativeString name, int32_t intVar);
+		static void ScriptComponent_AddValueField_UInt(uint64_t uuid, Coral::NativeString name, uint32_t uintVar);
+		static void ScriptComponent_AddValueField_Long(uint64_t uuid, Coral::NativeString name, int64_t longVar);
+		static void ScriptComponent_AddValueField_ULong(uint64_t uuid, Coral::NativeString name, uint64_t ulongVar);
+		static void ScriptComponent_AddValueField_Float(uint64_t uuid, Coral::NativeString name, float floatVar);
+		static void ScriptComponent_AddValueField_Double(uint64_t uuid, Coral::NativeString name, double doubleVar);
+		static void ScriptComponent_AddValueField_Char(uint64_t uuid, Coral::NativeString name, char charVar);
+		static void ScriptComponent_AddValueField_Bool(uint64_t uuid, Coral::NativeString name, bool boolVar);
+		static void ScriptComponent_AddValueField_String(uint64_t uuid, Coral::NativeString name, Coral::NativeString stringVar);
 	};
 
 }

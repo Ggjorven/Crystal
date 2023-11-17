@@ -34,6 +34,8 @@ namespace Crystal
 				{
 					if (m_FirstUpdate)
 					{
+						// TODO(Jorben): Run a function that sets all value field values
+						// ex. sc->Script->UpdateValueFieldValues();
 						sc->Script->OnCreate();
 						m_FirstUpdate = false;
 					}

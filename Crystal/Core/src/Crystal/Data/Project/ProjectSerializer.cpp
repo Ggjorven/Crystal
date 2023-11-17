@@ -18,7 +18,6 @@ namespace Crystal
 	{
 		YAML::Emitter data;
 
-
 		data << YAML::BeginMap;
 		data << YAML::Key << "Project";
 		data << YAML::Value << m_Project->GetName();
@@ -46,6 +45,8 @@ namespace Crystal
 
 	void ProjectSerializer::Deserialize(std::filesystem::path path)
 	{
+		CR_CORE_TRACE("Loading project: {0}", path.string());
+		
 		YAML::Node data = YAML::LoadFile(path.string());
 
 		//Set scene name
@@ -63,7 +64,6 @@ namespace Crystal
 		
 		std::stringstream ss;
 		ss << data;
-		CR_CORE_TRACE("Loading project: {0}", path.string());
 	}
 
 	ProjectSerializer& ProjectSerializer::operator=(const ProjectSerializer& other)

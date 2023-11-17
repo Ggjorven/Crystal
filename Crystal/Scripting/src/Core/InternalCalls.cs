@@ -41,19 +41,20 @@ namespace Crystal
         internal static unsafe delegate*<ulong, float> TransformComponent_GetRotation;
 
         // ScriptComponent
-        /// EntityScript
-        internal static unsafe delegate*<ulong, byte, void> ScriptComponent_AddValueField_Byte;
-        internal static unsafe delegate*<ulong, sbyte, void> ScriptComponent_AddValueField_SByte;
-        internal static unsafe delegate*<ulong, short, void> ScriptComponent_AddValueField_Short;
-        internal static unsafe delegate*<ulong, ushort, void> ScriptComponent_AddValueField_UShort;
-        internal static unsafe delegate*<ulong, int, void> ScriptComponent_AddValueField_Int;
-        internal static unsafe delegate*<ulong, uint, void> ScriptComponent_AddValueField_UInt;
-        internal static unsafe delegate*<ulong, long, void> ScriptComponent_AddValueField_Long;
-        internal static unsafe delegate*<ulong, ulong, void> ScriptComponent_AddValueField_ULong;
-        internal static unsafe delegate*<ulong, float, void> ScriptComponent_AddValueField_Float;
-        internal static unsafe delegate*<ulong, double, void> ScriptComponent_AddValueField_Double;
-        internal static unsafe delegate*<ulong, char, void> ScriptComponent_AddValueField_Char;
-        internal static unsafe delegate*<ulong, bool, void> ScriptComponent_AddValueField_Bool;
-        internal static unsafe delegate*<ulong, string, void> ScriptComponent_AddValueField_String;
+        /// EntityScript // TODO(Jorben): Fix these functions from crashing <summary>
+
+        internal static unsafe delegate*<ulong, NativeString, byte, void> ScriptComponent_AddValueField_Byte;
+        internal static unsafe delegate*<ulong, NativeString, sbyte, void> ScriptComponent_AddValueField_SByte;
+        internal static unsafe delegate*<ulong, NativeString, short, void> ScriptComponent_AddValueField_Short;
+        internal static unsafe delegate*<ulong, NativeString, ushort, void> ScriptComponent_AddValueField_UShort;
+        internal static unsafe delegate*<ulong, NativeString, int, void> ScriptComponent_AddValueField_Int;
+        internal static unsafe delegate*<ulong, NativeString, uint, void> ScriptComponent_AddValueField_UInt;
+        internal static unsafe delegate*<ulong, NativeString, long, void> ScriptComponent_AddValueField_Long;
+        internal static unsafe delegate*<ulong, NativeString, ulong, void> ScriptComponent_AddValueField_ULong;
+        internal static unsafe delegate*<ulong, NativeString, float, void> ScriptComponent_AddValueField_Float;
+        internal static unsafe delegate*<ulong, NativeString, double, void> ScriptComponent_AddValueField_Double;
+        internal static unsafe delegate*<ulong, NativeString, char, void> ScriptComponent_AddValueField_Char;
+        internal static unsafe delegate*<ulong, NativeString, bool, void> ScriptComponent_AddValueField_Bool;
+        internal static unsafe delegate*<ulong, NativeString, NativeString, void> ScriptComponent_AddValueField_String;
     }
 }

@@ -30,14 +30,7 @@ void EditorLayer::OnAttach()
 		serializer.Deserialize(m_Path);
 	}
 	
-	Ref<ECS::TransformComponent> tc = m_Project->GetStorage().GetComponent<ECS::TransformComponent>(11900670760340589512);
-	if (tc != nullptr)
-	{
-		CR_CORE_TRACE("{0} {1} {2}", tc->Position.X, tc->Position.Y, tc->Position.Z);
-	}
-	
-	const char* settings =
-		R"(
+	const char* settings = R"(
 [Window][DockSpaceViewport_11111111]
 Pos=0,19
 Size=1280,701

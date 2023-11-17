@@ -10,85 +10,104 @@ namespace Crystal
 {
 
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
-    public abstract class CustomEngineAttribute : Attribute
+    unsafe public abstract class CustomEngineAttribute : Attribute
     {
-        public abstract void Process(object value, string variableName, ulong UUID);
+        unsafe public abstract void Process(object value, string variableName, ulong UUID);
     }
 
-    public class ValueField : CustomEngineAttribute // TODO(Jorben): Fix, check last ChatGPT response...
+    unsafe public class ValueField : CustomEngineAttribute // TODO(Jorben): Fix, check last ChatGPT response...
     {
-        public override void Process(object value, string variableName, ulong UUID)
+        unsafe public override void Process(object value, string variableName, ulong UUID)
         {
-            //Console.WriteLine($"Process {value}");
-
-            if (value is byte byteValue) // Equivalent C++ type: uint8_t
+            Console.WriteLine($"Process {value}");
+            try
             {
-                Console.WriteLine($"Value passed into value field is {value} and type byte.");
+                if (value is byte byteValue) // Equivalent C++ type: uint8_t
+                {
+                    //Console.WriteLine($"Value passed into value field is {value} and type byte.");
+                    InternalCalls.ScriptComponent_AddValueField_Byte(UUID, variableName, byteValue);
+                }
+
+                else if (value is sbyte sbyteValue) // Equivalent C++ type: int8_t
+                {
+                    //Console.WriteLine($"Value passed into value field is {value} and type sbyte.");
+                    InternalCalls.ScriptComponent_AddValueField_SByte(UUID, variableName, sbyteValue);
+                }
+
+                else if (value is short shortValue) // Equivalent C++ type: int16_t
+                {
+                    //Console.WriteLine($"Value passed into value field is {value} and type short.");
+                    InternalCalls.ScriptComponent_AddValueField_Short(UUID, variableName, shortValue);
+                }
+
+                else if (value is ushort ushortValue) // Equivalent C++ type: uint16_t
+                {
+                    //Console.WriteLine($"Value passed into value field is {value} and type ushort.");
+                    InternalCalls.ScriptComponent_AddValueField_UShort(UUID, variableName, ushortValue);
+                }
+
+                else if (value is int intValue) // Equivalent C++ type: int32_t
+                {
+                    Console.WriteLine($"Value passed into value ({variableName}) field is {intValue} and type int.");
+                    InternalCalls.ScriptComponent_AddValueField_Int(UUID, variableName, intValue);
+                }
+
+                else if (value is uint uintValue) // Equivalent C++ type: uint32_t
+                {
+                    //Console.WriteLine($"Value passed into value field is {value} and type uint.");
+                    InternalCalls.ScriptComponent_AddValueField_UInt(UUID, variableName, uintValue);
+                }
+
+                else if (value is long longValue) // Equivalent C++ type: int64_t
+                {
+                    //Console.WriteLine($"Value passed into value field is {value} and type long.");
+                   InternalCalls.ScriptComponent_AddValueField_Long(UUID, variableName, longValue);
+                }
+
+                else if (value is ulong ulongValue) // Equivalent C++ type: uint64_t
+                {
+                    //Console.WriteLine($"Value passed into value field is {value} and type ulong.");
+                    InternalCalls.ScriptComponent_AddValueField_ULong(UUID, variableName, ulongValue);
+                }
+
+                else if (value is float floatValue) // Equivalent C++ type: float
+                {
+                    //Console.WriteLine($"Value passed into value field is {value} and type float.");
+                    InternalCalls.ScriptComponent_AddValueField_Float(UUID, variableName, floatValue);
+                }
+
+                else if (value is double doubleValue) // Equivalent C++ type: double
+                {
+                    //Console.WriteLine($"Value passed into value field is {value} and type double.");
+                    InternalCalls.ScriptComponent_AddValueField_Double(UUID, variableName, doubleValue);
+                }
+
+                else if (value is char charValue) // Equivalent C++ type: char
+                {
+                    //Console.WriteLine($"Value passed into value field is {value} and type char.");
+                    InternalCalls.ScriptComponent_AddValueField_Char(UUID, variableName, charValue);
+                }
+
+                else if (value is bool boolValue) // Equivalent C++ type: bool
+                {
+                    //Console.WriteLine($"Value passed into value field is {value} and type bool.");
+                    InternalCalls.ScriptComponent_AddValueField_Bool(UUID, variableName, boolValue);
+                }
+
+                else if (value is string stringValue) // Equivalent C++ type: std::string
+                {
+                    //Console.WriteLine($"Value passed into value field is {value} and type string.");
+                    InternalCalls.ScriptComponent_AddValueField_String(UUID, variableName, stringValue);
+                }
+
+                else
+                {
+                    //Console.WriteLine("Value passed into value field is currently not recognized.");
+                }
             }
-
-            else if (value is sbyte sbyteValue) // Equivalent C++ type: int8_t
+            catch (Exception e) 
             {
-                Console.WriteLine($"Value passed into value field is {value} and type sbyte.");
-            }
-
-            else if (value is short shortValue) // Equivalent C++ type: int16_t
-            {
-                Console.WriteLine($"Value passed into value field is {value} and type short.");
-            }
-
-            else if (value is ushort ushortValue) // Equivalent C++ type: uint16_t
-            {
-                Console.WriteLine($"Value passed into value field is {value} and type ushort.");
-            }
-
-            else if (value is int intValue) // Equivalent C++ type: int32_t
-            {
-                Console.WriteLine($"Value passed into value field is {value} and type int.");
-            }
-
-            else if (value is uint uintValue) // Equivalent C++ type: uint32_t
-            {
-                Console.WriteLine($"Value passed into value field is {value} and type uint.");
-            }
-
-            else if (value is long longValue) // Equivalent C++ type: int64_t
-            {
-                Console.WriteLine($"Value passed into value field is {value} and type long.");
-            }
-
-            else if (value is ulong ulongValue) // Equivalent C++ type: uint64_t
-            {
-                Console.WriteLine($"Value passed into value field is {value} and type ulong.");
-            }
-
-            else if (value is float floatValue) // Equivalent C++ type: float
-            {
-                Console.WriteLine($"Value passed into value field is {value} and type float.");
-            }
-
-            else if (value is double doubleValue) // Equivalent C++ type: double
-            {
-                Console.WriteLine($"Value passed into value field is {value} and type double.");
-            }
-
-            else if (value is char charValue) // Equivalent C++ type: char
-            {
-                Console.WriteLine($"Value passed into value field is {value} and type char.");
-            }
-
-            else if (value is bool boolValue) // Equivalent C++ type: bool
-            {
-                Console.WriteLine($"Value passed into value field is {value} and type bool.");
-            }
-
-            else if (value is string stringValue) // Equivalent C++ type: std::string
-            {
-                Console.WriteLine($"Value passed into value field is {value} and type string.");
-            }
-
-            else
-            {
-                Console.WriteLine("Value passed into value field is currently not recognized.");
+                Console.WriteLine($"Exception during process of Entity::Init() in C#: {e}");
             }
 
         }

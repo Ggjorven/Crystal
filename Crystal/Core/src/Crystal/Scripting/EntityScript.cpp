@@ -41,6 +41,7 @@ namespace Crystal
 
 	void EntityScript::OnCreate()
 	{
+		/*
 		if (!m_Set)
 		{
 			if (!m_Name.empty())
@@ -51,6 +52,7 @@ namespace Crystal
 				return;
 			}
 		}
+		*/
 		//--Components--
 		if (m_Queue.TagComponent)
 			m_Object.InvokeMethod("AddTagComponent");
@@ -95,11 +97,13 @@ namespace Crystal
 		// TODO(Jorben): Make the path variable be able to be absolute instead of this fixed path
 		std::string pathStr = path.string();
 
+		/*
 		if (m_Set)
 		{
 			//m_Object.Destroy();
 			m_Set = false;
 		}
+		*/
 
 		if (m_ContextInitialized)
 			ECS::Storage::s_Host.UnloadAssemblyLoadContext(m_Context);
@@ -121,7 +125,7 @@ namespace Crystal
 		m_Object.InvokeMethod("SetUUID", (uint64_t)m_UUID);
 		m_Object.InvokeMethod("Init");
 
-		m_Set = true;
+		//m_Set = true;
 	}
 
 }

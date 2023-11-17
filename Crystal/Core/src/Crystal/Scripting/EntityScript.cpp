@@ -11,7 +11,9 @@
 
 namespace Crystal
 {
-
+	EntityScript::EntityScript()
+	{
+	}
 	EntityScript::EntityScript(std::filesystem::path path)
 	{
 		Load(path);
@@ -24,19 +26,17 @@ namespace Crystal
 
 	void EntityScript::SetDLL(std::filesystem::path path)
 	{
+		m_Path = path;
 		Load(path);
+
+		if (!m_Name.empty())
+			LoadClass();
 	}
 
 	void EntityScript::SetClass(const std::string& name)
 	{
 		m_Name = name;
-		/*
-		if (m_Assembly.GetLoadStatus() != Coral::AssemblyLoadStatus::Success)
-		{
-			CR_CORE_WARN("Tried to load a class before specifying file or failed to load file.");
-			return;
-		}
-		*/
+		LoadClass();
 	}
 
 	void EntityScript::OnCreate()
@@ -64,6 +64,7 @@ namespace Crystal
 
 	void EntityScript::OnUpdate(Timestep& ts)
 	{
+		/*
 		if (!m_Set)
 		{
 			if (!m_Name.empty())
@@ -74,19 +75,18 @@ namespace Crystal
 				return;
 			}
 		}
+		*/
 		if (ts == NULL) CR_CORE_WARN("Timestep = 0");
 		m_Object.InvokeMethod("OnUpdate", (float)ts);
 	}
 
 	void EntityScript::AddTagComponent()
 	{
-		// TODO(Jorben): Somehow remove queue's
 		m_Queue.TagComponent = true;
 	}
 
 	void EntityScript::AddTransformComponent()
 	{
-		// TODO(Jorben): Somehow remove queue's
 		m_Queue.TransformComponent = true;
 	}
 
@@ -97,7 +97,7 @@ namespace Crystal
 
 		if (m_Set)
 		{
-			m_Object.Destroy();
+			//m_Object.Destroy();
 			m_Set = false;
 		}
 
@@ -108,6 +108,9 @@ namespace Crystal
 		m_Context = ECS::Storage::s_Host.CreateAssemblyLoadContext(path.string() + std::to_string(UUIDGenerator::GenerateUUID())); 
 		m_ContextInitialized = true;
 		m_Assembly = m_Context.LoadAssembly(pathStr);
+
+		if (!m_Name.empty())
+			LoadClass();
 	}
 
 	void EntityScript::LoadClass()
@@ -116,6 +119,7 @@ namespace Crystal
 		m_Object = m_Type.CreateInstance();
 
 		m_Object.InvokeMethod("SetUUID", (uint64_t)m_UUID);
+		m_Object.InvokeMethod("Init");
 
 		m_Set = true;
 	}

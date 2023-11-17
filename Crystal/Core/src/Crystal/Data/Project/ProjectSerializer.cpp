@@ -128,7 +128,7 @@ namespace Crystal
 
 			auto& sc = *entity.GetComponent<ECS::ScriptComponent>();
 			emitter << YAML::Key << "Path" << sc.Path.string();
-			emitter << YAML::Key << "Class" << sc.Script.GetClass();
+			emitter << YAML::Key << "Class" << sc.Script->GetClass();
 
 			emitter << YAML::EndMap; // Renderer2DComponent
 		}
@@ -148,8 +148,9 @@ namespace Crystal
 		auto tagComponent = node["TagComponent"];
 		if (tagComponent)
 		{
-			ECS::TagComponent tag;
-			tag.Tag = tagComponent["Tag"].as<std::string>();
+			Ref<ECS::TagComponent> tag = CreateRef<ECS::TagComponent>();
+
+			tag->Tag = tagComponent["Tag"].as<std::string>();
 
 			entity.AddComponent<ECS::TagComponent>(tag);
 		}
@@ -158,10 +159,11 @@ namespace Crystal
 		auto transformComponent = node["TransformComponent"];
 		if (transformComponent)
 		{
-			ECS::TransformComponent transform;
-			transform.Position = transformComponent["Position"].as<glm::vec3>();
-			transform.Size = transformComponent["Size"].as<glm::vec3>();
-			transform.Rotation = transformComponent["Rotation"].as<float>();
+			Ref<ECS::TransformComponent> transform = CreateRef<ECS::TransformComponent>();
+
+			transform->Position = transformComponent["Position"].as<glm::vec3>();
+			transform->Size = transformComponent["Size"].as<glm::vec3>();
+			transform->Rotation = transformComponent["Rotation"].as<float>();
 
 			entity.AddComponent<ECS::TransformComponent>(transform);
 		}
@@ -170,13 +172,16 @@ namespace Crystal
 		auto renderer2DComponent = node["Renderer2DComponent"];
 		if (renderer2DComponent)
 		{
-			ECS::Renderer2DComponent r2d;
-			r2d.Enable = renderer2DComponent["Enable"].as<bool>();
-			if (renderer2DComponent["Texture"])
-				r2d.Texture = Texture2D::Create(renderer2DComponent["Texture"].as<std::string>());
+			Ref<ECS::Renderer2DComponent> r2d = CreateRef<ECS::Renderer2DComponent>();
 
-			r2d.Colour = renderer2DComponent["Colour"].as<glm::vec4>();
-			r2d.UseTexture = renderer2DComponent["UseTexture"].as<bool>();
+			r2d->Enable = renderer2DComponent["Enable"].as<bool>();
+			if (renderer2DComponent["Texture"])
+				r2d->Texture = Texture2D::Create(renderer2DComponent["Texture"].as<std::string>());
+			else
+				r2d->Texture = nullptr;
+
+			r2d->Colour = renderer2DComponent["Colour"].as<glm::vec4>();
+			r2d->UseTexture = renderer2DComponent["UseTexture"].as<bool>();
 
 			entity.AddComponent<ECS::Renderer2DComponent>(r2d);
 		}
@@ -185,18 +190,19 @@ namespace Crystal
 		auto scriptComponent = node["ScriptComponent"];
 		if (scriptComponent)
 		{
-			ECS::ScriptComponent sc;
-			sc.Path = scriptComponent["Path"].as<std::string>();
-			sc.Script.SetDLL(sc.Path);
-			sc.Script.SetClass(scriptComponent["Class"].as<std::string>());
-			sc.Script.SetUUID(entity.GetUUID());
+			Ref<ECS::ScriptComponent> sc = CreateRef<ECS::ScriptComponent>();
+
+			sc->Path = scriptComponent["Path"].as<std::string>();
+			sc->Script->SetUUID(entity.GetUUID());
+			sc->Script->SetDLL(sc->Path);
+			sc->Script->SetClass(scriptComponent["Class"].as<std::string>());
 
 			//Add components
 			if (tagComponent)
-				sc.Script.AddTagComponent();
+				sc->Script->AddTagComponent();
 
 			if (transformComponent)
-				sc.Script.AddTransformComponent();
+				sc->Script->AddTransformComponent();
 
 			entity.AddComponent<ECS::ScriptComponent>(sc);
 		}

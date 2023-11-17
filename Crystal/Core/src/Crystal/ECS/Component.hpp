@@ -19,7 +19,7 @@ namespace Crystal::ECS
 		virtual ~Component() = default;
     };
 
-	struct TagComponent
+	struct TagComponent : public Component
 	{
 		std::string Tag;
 
@@ -27,6 +27,8 @@ namespace Crystal::ECS
 		TagComponent(const TagComponent& other) = default;
 		TagComponent(const std::string& tag)
 			: Tag(tag) {}
+		virtual ~TagComponent() 
+		{ CR_CORE_TRACE("TagComponent"); }
 
 		operator std::string& () { return Tag; }
 		operator const std::string& () const { return Tag; }
@@ -39,13 +41,16 @@ namespace Crystal::ECS
 		TransformComponent(const TransformComponent& other) = default;
 		TransformComponent(const Vec3<float>& position, const Vec3<float>& size, float rotation)
 			: Position(position), Size(size), Rotation(rotation) {}
+		virtual ~TransformComponent() 
+		{ CR_CORE_TRACE("TransformComponent"); }
+
 
 		Vec3<float> Position = { 0.0f, 0.0f, 0.0f };
 		Vec3<float> Size = { 0.0f, 0.0f, 0.0f };
         float Rotation = 0.0f;
     };
 
-	struct Renderer2DComponent
+	struct Renderer2DComponent : public Component
 	{
 		bool Enable = true;
 		Vec4<float> Colour = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -62,17 +67,22 @@ namespace Crystal::ECS
 			: Texture(texture), UseTexture(true), UseColour(false) {}
 		Renderer2DComponent(Ref<Texture2D> texture, const Vec4<float>& colour)
 			: Texture(texture), Colour(colour), UseTexture(true), UseColour(false) {}
+		virtual ~Renderer2DComponent() 
+		{ CR_CORE_TRACE("Renderer2DComponent"); }
 	};
 
 	struct ScriptComponent : public Component
 	{
 		std::filesystem::path Path;
-		EntityScript Script;
+		Ref<EntityScript> Script;
 
-		ScriptComponent() = default;
+		ScriptComponent() 
+			: Script(CreateRef<EntityScript>()) {}
 		ScriptComponent(const ScriptComponent& other) = default;
 		ScriptComponent(const std::filesystem::path& path)
-			: Path(path), Script(path) {}
+			: Path(path), Script(CreateRef<EntityScript>(path)) {}
+		virtual ~ScriptComponent() 
+		{ CR_CORE_TRACE("ScriptComponent");  }
 	};
 
 	/*

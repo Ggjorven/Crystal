@@ -30,14 +30,14 @@ namespace Crystal
 		{
 			for (ECS::Entity& entity : m_Entities)
 			{
-				if (ECS::ScriptComponent* sc = entity.GetComponent<ECS::ScriptComponent>())
+				if (Ref<ECS::ScriptComponent> sc = entity.GetComponent<ECS::ScriptComponent>())
 				{
 					if (m_FirstUpdate)
 					{
-						sc->Script.OnCreate();
+						sc->Script->OnCreate();
 						m_FirstUpdate = false;
 					}
-					sc->Script.OnUpdate(ts);
+					sc->Script->OnUpdate(ts);
 				}
 			}
 			m_EditorCamera->OnUpdate(ts); // TODO(Jorben): Remove and replace with runtime camera
@@ -65,8 +65,8 @@ namespace Crystal
 		// TODO(Jorben): Add runtime camera
 		for (ECS::Entity& entity : m_Entities)
 		{
-			ECS::Renderer2DComponent* r2d = entity.GetComponent<ECS::Renderer2DComponent>();
-			ECS::TransformComponent* transform = entity.GetComponent<ECS::TransformComponent>();
+			Ref<ECS::Renderer2DComponent> r2d = entity.GetComponent<ECS::Renderer2DComponent>();
+			Ref<ECS::TransformComponent> transform = entity.GetComponent<ECS::TransformComponent>();
 			if (r2d && r2d->Enable && transform)
 			{
 				if (r2d->Texture && r2d->UseTexture)
@@ -82,13 +82,13 @@ namespace Crystal
 	{
 		for (ECS::Entity& entity : m_Entities)
 		{
-			ECS::Renderer2DComponent* r2d = entity.GetComponent<ECS::Renderer2DComponent>();
-			ECS::TransformComponent* transform = entity.GetComponent<ECS::TransformComponent>();
-			if (r2d && r2d->Enable && transform)
+			Ref<ECS::Renderer2DComponent> r2d = entity.GetComponent<ECS::Renderer2DComponent>();
+			Ref<ECS::TransformComponent> transform = entity.GetComponent<ECS::TransformComponent>();
+
+			if (r2d != nullptr && r2d->Enable && transform != nullptr)
 			{
 				if (r2d->Texture && r2d->UseTexture)
 				{
-
 					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), r2d->Texture, false, m_EditorCamera->GetCamera());
 				}
 				else

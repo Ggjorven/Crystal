@@ -4,13 +4,13 @@ Entities:
     TagComponent:
       Tag: Mario
     TransformComponent:
-      Position: [-33, -42, 0]
+      Position: [75.7059631, -11.2912102, 0]
       Size: [152, 147, 0]
       Rotation: 0
     Renderer2DComponent:
       Enable: true
-      Colour: [0.264705896, 1, 0, 1]
+      Colour: [0.782608688, 0.404064298, 0.404064298, 1]
       UseTexture: false
     ScriptComponent:
-      Path: ""
-      Class: ""
+      Path: F:\Code\C++\VS\Crystal\Crystalizer\Projects\TestProj\Scripts\bin\Release\Script.dll
+      Class: Test

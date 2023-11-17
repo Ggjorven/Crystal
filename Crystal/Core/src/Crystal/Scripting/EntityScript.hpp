@@ -30,7 +30,7 @@ namespace Crystal
 	class EntityScript
 	{
 	public:
-		EntityScript() = default;
+		EntityScript();
 		EntityScript(std::filesystem::path path);
 		virtual ~EntityScript();
 
@@ -44,7 +44,6 @@ namespace Crystal
 
 		std::string& GetClass() { return m_Name; }
 
-
 		//Components
 		void AddTagComponent();
 		void AddTransformComponent();
@@ -54,7 +53,9 @@ namespace Crystal
 		void LoadClass();
 
 	private:
+		std::filesystem::path m_Path;
 		std::string m_Name;
+
 		CR_UUID m_UUID = 0;
 		bool m_Set = false;
 
@@ -66,7 +67,7 @@ namespace Crystal
 		Coral::ManagedObject m_Object;
 
 		ComponentQueue m_Queue;
-
+		// TODO(Jorben): Add ValueField vector for C#
 	};
 
 }

@@ -7,50 +7,56 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Crystal;
-
-/*
-		public T GetComponent<T>() where T : Component, new()
-		{
-			Type componentType = typeof(T);
-
-			if (!HasComponent<T>())
-			{
-				if (m_ComponentCache.ContainsKey(componentType))
-					m_ComponentCache.Remove(componentType);
-
-				return null;
-			}
-
-			if (!m_ComponentCache.ContainsKey(componentType))
-			{
-				T component = new T { Entity = this };
-				m_ComponentCache.Add(componentType, component);
-				return component;
-			}
-
-			return m_ComponentCache[componentType] as T;
-		}
-*/
+using System.Reflection;
 
 namespace Crystal
 {
 
-    public class Entity
+    public abstract class Entity
     {
         public ulong ID = 0;
 
 		private Dictionary<Type, Component> m_Components = new Dictionary<Type, Component>();
 
-        
         public Entity(ulong id = 0) { ID = id; }
         public void SetUUID(ulong id) { ID = id; }
+
+        public void Init()
+        {
+            Console.WriteLine("Init method called");
+
+            var properties = this.GetType().GetFields(/*BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic*/);
+            //var properties = this.GetType().GetCustomAttributes(typeof(ValueFoe));
+
+            //Console.WriteLine(properties);
+
+            foreach (var property in properties)
+            {
+                //Console.WriteLine($"Property: {property.Name}, Type: {property.FieldType}");
+
+                var valueFieldAttribute = property.GetCustomAttribute<ValueField>();
+                if (valueFieldAttribute != null)
+                {
+                    Console.WriteLine($"Processing ValueField for property: {property.Name}");
+
+                    var value = property.GetValue(this);
+                    valueFieldAttribute.Process(value, property.Name, ID);
+                }
+            }
+        }
+
+
+
+
+        public abstract void OnCreate();
+		public abstract void OnUpdate(float deltaTime);
 
 		// Base function
 		public void AddComponent<T>(T component) where T : Component { m_Components[typeof(T)] = component; }
 		// TagComponent
 		public void AddComponent<TagC>(TagComponent component) where TagC : TagComponent
 		{
-			component.ID = ID;
+            component.ID = ID;
 
             m_Components[typeof(TagComponent)] = component;
 			unsafe

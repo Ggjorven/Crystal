@@ -48,11 +48,11 @@ namespace Crystal
 			//Naming
 			std::string name;
 			{
-				ECS::TagComponent* tag = entity.GetComponent<ECS::TagComponent>();
+				Ref<ECS::TagComponent> tag = entity.GetComponent<ECS::TagComponent>();
 				if (tag && !tag->Tag.empty())
-					name = "Entity - " + tag->Tag;
+					name = std::string("Entity - ") + std::string(tag->Tag);
 				else
-					name = "Entity - " + std::to_string(entity.GetUUID());
+					name = std::string("Entity - ") + std::to_string(entity.GetUUID());
 			}
 
 			//Create a selectable entity

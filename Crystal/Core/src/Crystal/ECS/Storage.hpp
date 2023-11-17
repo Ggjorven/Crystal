@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Crystal/Core/Core.hpp"
+#include "Crystal/Utils/Utils.hpp"
 
 #include "Crystal/Core/UUID.hpp"
 
@@ -31,16 +32,16 @@ namespace Crystal::ECS
         virtual ~Storage();
 
         template<typename ComponentType>
-        ComponentType* GetComponent(CR_UUID uuid)
+        Ref<ComponentType> GetComponent(CR_UUID uuid)
         {
-            //CR_CORE_ASSERT(std::is_base_of<Crystal::ECS::Component, ComponentType>::value, "T must be a subclass of Component");
+            static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be a subclass of Component");
 
             auto& componentMap = GetComponentsMap<ComponentType>();
             if (componentMap.find(uuid) != componentMap.end())
             {
                 try
                 {
-                    return &std::any_cast<ComponentType&>(componentMap[uuid]);
+                    return std::static_pointer_cast<ComponentType>(componentMap[uuid]);
                 }
                 catch (const std::bad_any_cast e)
                 {
@@ -52,8 +53,10 @@ namespace Crystal::ECS
         }
 
         template<typename ComponentType>
-        void AddComponent(CR_UUID uuid, const ComponentType& component)
+        void AddComponent(CR_UUID uuid, Ref<ComponentType>& component)
         {
+            static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be a subclass of Component");
+
             auto& componentMap = GetComponentsMap<ComponentType>();
             componentMap[uuid] = component;
         }
@@ -61,6 +64,8 @@ namespace Crystal::ECS
         template<typename ComponentType>
         void RemoveComponent(CR_UUID uuid)
         {
+            static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be a subclass of Component");
+
             auto& componentMap = GetComponentsMap<ComponentType>();
 
             auto it = componentMap.find(uuid);
@@ -74,13 +79,13 @@ namespace Crystal::ECS
 
     private:
         template<typename ComponentType>
-        std::unordered_map<CR_UUID, std::any>& GetComponentsMap()
+        std::unordered_map<CR_UUID, Ref<Component>>& GetComponentsMap()
         {
             return m_ComponentMaps[typeid(ComponentType)];
         }
 
     private:
-        std::unordered_map<std::type_index, std::unordered_map<CR_UUID, std::any>> m_ComponentMaps;
+        std::unordered_map<std::type_index, std::unordered_map<CR_UUID, Ref<Component>>> m_ComponentMaps;
 
         Coral::AssemblyLoadContext m_Context;
         Coral::ManagedAssembly m_Assembly;

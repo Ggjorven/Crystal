@@ -18,10 +18,10 @@ namespace Crystal::ECS
     {
     public:
         Entity(ECS::Storage& storage, const std::string& name = "Entity");
-        virtual ~Entity() = default;
+        virtual ~Entity();
 
         template <typename ComponentType>
-        inline void AddComponent(ComponentType component = ComponentType())
+        inline void AddComponent(Ref<ComponentType>& component/* = ComponentType()*/)
         {
             m_Storage.AddComponent<ComponentType>(m_UUID, component);
         }
@@ -33,7 +33,7 @@ namespace Crystal::ECS
         }
 
         template <typename ComponentType>
-        inline ComponentType* GetComponent()
+        inline Ref<ComponentType> GetComponent()
         {
             return m_Storage.GetComponent<ComponentType>(m_UUID);
         }

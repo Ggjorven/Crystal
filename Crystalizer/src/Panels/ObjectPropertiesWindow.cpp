@@ -42,23 +42,27 @@ namespace Crystal
 				{
 					if (!m_SelectedEntity->GetComponent<ECS::TagComponent>() && ImGui::MenuItem("Tag"))
 					{
-						m_SelectedEntity->AddComponent<ECS::TagComponent>();
+						Ref<ECS::TagComponent> tag = CreateRef<ECS::TagComponent>();
+						m_SelectedEntity->AddComponent<ECS::TagComponent>(tag);
 					}
 
 					if (!m_SelectedEntity->GetComponent<ECS::TransformComponent>() && ImGui::MenuItem("Transform"))
 					{
-						m_SelectedEntity->AddComponent<ECS::TransformComponent>();
+						Ref<ECS::TransformComponent> transform = CreateRef<ECS::TransformComponent>();
+						m_SelectedEntity->AddComponent<ECS::TransformComponent>(transform);
 					}
 
 					if (!m_SelectedEntity->GetComponent<ECS::Renderer2DComponent>() && ImGui::MenuItem("Renderer2D"))
 					{
-						m_SelectedEntity->AddComponent<ECS::Renderer2DComponent>();
+						Ref<ECS::Renderer2DComponent> r2d = CreateRef<ECS::Renderer2DComponent>();
+						m_SelectedEntity->AddComponent<ECS::Renderer2DComponent>(r2d);
 					}
 
 					if (!m_SelectedEntity->GetComponent<ECS::ScriptComponent>() && ImGui::MenuItem("Script"))
 					{
-						m_SelectedEntity->AddComponent<ECS::ScriptComponent>();
-						m_SelectedEntity->GetComponent<ECS::ScriptComponent>()->Script.SetUUID(m_SelectedEntity->GetUUID());
+						Ref<ECS::ScriptComponent> script = CreateRef<ECS::ScriptComponent>();
+						m_SelectedEntity->AddComponent<ECS::ScriptComponent>(script);
+						m_SelectedEntity->GetComponent<ECS::ScriptComponent>()->Script->SetUUID(m_SelectedEntity->GetUUID());
 					}
 					ImGui::EndMenu();
 				}
@@ -66,7 +70,7 @@ namespace Crystal
 				ImGui::EndPopup();
 			}
 
-			ECS::TagComponent* tag = m_SelectedEntity->GetComponent<ECS::TagComponent>();
+			Ref<ECS::TagComponent> tag = m_SelectedEntity->GetComponent<ECS::TagComponent>();
 			if (tag)
 			{
 				if (UI::BeginECSComponent("TagComponent", s_Icons[(int)Icon::Tag]))
@@ -81,7 +85,7 @@ namespace Crystal
 				}
 			}
 
-			ECS::TransformComponent* tc = m_SelectedEntity->GetComponent<ECS::TransformComponent>();
+			Ref<ECS::TransformComponent> tc = m_SelectedEntity->GetComponent<ECS::TransformComponent>();
 			if (tc)
 			{
 				if (UI::BeginECSComponent("TransformComponent", s_Icons[(int)Icon::Transform]))
@@ -97,7 +101,7 @@ namespace Crystal
 				}
 			}
 
-			ECS::Renderer2DComponent* r2d = m_SelectedEntity->GetComponent<ECS::Renderer2DComponent>();
+			Ref<ECS::Renderer2DComponent> r2d = m_SelectedEntity->GetComponent<ECS::Renderer2DComponent>();
 			if (r2d)
 			{
 				if (UI::BeginECSComponent("Renderer2DComponent", s_Icons[(int)Icon::Renderer2D])) // TODO(Jorben): Add right click enabled/disabled functionality
@@ -112,7 +116,7 @@ namespace Crystal
 					ImGui::ColorEdit4("Colour", r2d->Colour.GetData(), ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_NoOptions | ImGuiColorEditFlags_NoPicker | ImGuiColorEditFlags_NoTooltip);
 					UI::Tools::SetContextFontSize(0.0f);
 
-					if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+					if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 					{
 						ImGui::OpenPopup("ColorPickerPopup");
 					}
@@ -127,7 +131,7 @@ namespace Crystal
 				}
 			}
 
-			ECS::ScriptComponent* sc = m_SelectedEntity->GetComponent<ECS::ScriptComponent>();
+			Ref<ECS::ScriptComponent> sc = m_SelectedEntity->GetComponent<ECS::ScriptComponent>();
 			if (sc)
 			{
 				if (UI::BeginECSComponent("ScriptComponent", s_Icons[(int)Icon::Script])) // TODO(Jorben): Add right click enabled/disabled functionality
@@ -139,7 +143,7 @@ namespace Crystal
 					{
 						ImGui::SameLine();
 						if (ImGui::Button("Reload"))
-							sc->Script.SetDLL(sc->Path);
+							sc->Script->SetDLL(sc->Path);
 					}
 					else
 					{
@@ -155,7 +159,7 @@ namespace Crystal
 						if (!filename.empty())
 						{
 							sc->Path = filename;
-							sc->Script.SetDLL(filename);
+							sc->Script->SetDLL(filename);
 						}
 					}
 
@@ -163,11 +167,11 @@ namespace Crystal
 					ImGui::SameLine();
 
 					static char buffer[256];
-					strcpy_s(buffer, sizeof(buffer), sc->Script.GetClass().c_str());
+					strcpy_s(buffer, sizeof(buffer), sc->Script->GetClass().c_str());
 
 					ImGui::SetNextItemWidth(160);
 					if (ImGui::InputText("##ClassName", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
-						sc->Script.SetClass(buffer);
+						sc->Script->SetClass(buffer);
 				}
 			}
 		}

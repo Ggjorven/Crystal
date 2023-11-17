@@ -52,10 +52,10 @@ void ECSLayer::OnRender()
 
 	for (ECS::Entity& entity : m_Project->GetEntities())
 	{
-		ECS::Renderer2DComponent* r2d = entity.GetComponent<ECS::Renderer2DComponent>();
+		Ref<ECS::Renderer2DComponent> r2d = entity.GetComponent<ECS::Renderer2DComponent>();
 		if (r2d) // TODO(Jorben): Editor Camera
 		{
-			ECS::TransformComponent* transform = entity.GetComponent<ECS::TransformComponent>();
+			Ref<ECS::TransformComponent> transform = entity.GetComponent<ECS::TransformComponent>();
 
 			if (r2d->Texture) 
 				Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), r2d->Texture, false, m_Camera->GetCamera());

@@ -143,7 +143,7 @@ namespace Crystal
 					{
 						ImGui::SameLine();
 						if (ImGui::Button("Reload"))
-							sc->Script->SetDLL(sc->Path);
+							sc->Script->Reload();
 					}
 					else
 					{
@@ -172,6 +172,9 @@ namespace Crystal
 					ImGui::SetNextItemWidth(160);
 					if (ImGui::InputText("##ClassName", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
 						sc->Script->SetClass(buffer);
+
+					// Display ValueFields
+					sc->Script->DisplayValueFields();
 				}
 			}
 		}

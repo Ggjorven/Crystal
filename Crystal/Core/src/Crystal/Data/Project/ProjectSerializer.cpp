@@ -25,7 +25,7 @@ namespace Crystal
 		data << YAML::Key << "Entities";
 		data << YAML::Value << YAML::BeginSeq;
 
-		for (ECS::Entity& entity : m_Project->m_Entities)
+		for (Ref<ECS::Entity>& entity : m_Project->m_Entities)
 			SerializeEntity(data, entity);
 
 		data << YAML::EndSeq;
@@ -74,61 +74,57 @@ namespace Crystal
 		return *this;
 	}
 
-	void ProjectSerializer::SerializeEntity(YAML::Emitter& emitter, ECS::Entity& entity)
+	void ProjectSerializer::SerializeEntity(YAML::Emitter& emitter, Ref<ECS::Entity>& entity)
 	{
-		CR_UUID uuid = entity.GetUUID();
+		CR_UUID uuid = entity->GetUUID();
 
 		emitter << YAML::BeginMap; // Entity
 		emitter << YAML::Key << "Entity";
 		emitter << YAML::Value << uuid;
 
-		if (entity.GetComponent<ECS::TagComponent>())
+		if (auto tagC = entity->GetComponent<ECS::TagComponent>())
 		{
 			emitter << YAML::Key << "TagComponent";
 			emitter << YAML::BeginMap; // TagComponent
 
-			auto& tag = entity.GetComponent<ECS::TagComponent>()->Tag;
-			emitter << YAML::Key << "Tag" << YAML::Value << tag;
+			emitter << YAML::Key << "Tag" << YAML::Value << tagC->Tag;
 
 			emitter << YAML::EndMap; // TagComponent
 		}
 
-		if (entity.GetComponent<ECS::TransformComponent>())
+		if (auto transform = entity->GetComponent<ECS::TransformComponent>())
 		{
 			emitter << YAML::Key << "TransformComponent";
 			emitter << YAML::BeginMap; // TransformComponent
 
-			auto& transform = *entity.GetComponent<ECS::TransformComponent>();
-			emitter << YAML::Key << "Position" << transform.Position;
-			emitter << YAML::Key << "Size" << YAML::Value << transform.Size;
-			emitter << YAML::Key << "Rotation" << YAML::Value << transform.Rotation;
+			emitter << YAML::Key << "Position" << transform->Position;
+			emitter << YAML::Key << "Size" << YAML::Value << transform->Size;
+			emitter << YAML::Key << "Rotation" << YAML::Value << transform->Rotation;
 
 			emitter << YAML::EndMap; // TransformComponent
 		}
 
-		if (entity.GetComponent<ECS::Renderer2DComponent>())
+		if (auto r2d = entity->GetComponent<ECS::Renderer2DComponent>())
 		{
 			emitter << YAML::Key << "Renderer2DComponent";
 			emitter << YAML::BeginMap; // Renderer2DComponent
 
-			auto& r2d = *entity.GetComponent<ECS::Renderer2DComponent>();
-			emitter << YAML::Key << "Enable" << r2d.Enable;
-			if (r2d.Texture)
-				emitter << YAML::Key << "Texture" << r2d.Texture->GetPath();
-			emitter << YAML::Key << "Colour" << r2d.Colour;
-			emitter << YAML::Key << "UseTexture" << r2d.UseTexture;
+			emitter << YAML::Key << "Enable" << r2d->Enable;
+			if (r2d->Texture)
+				emitter << YAML::Key << "Texture" << r2d->Texture->GetPath();
+			emitter << YAML::Key << "Colour" << r2d->Colour;
+			emitter << YAML::Key << "UseTexture" << r2d->UseTexture;
 
 			emitter << YAML::EndMap; // Renderer2DComponent
 		}
 
-		if (entity.GetComponent<ECS::ScriptComponent>())
+		if (auto sc = entity->GetComponent<ECS::ScriptComponent>())
 		{
 			emitter << YAML::Key << "ScriptComponent";
 			emitter << YAML::BeginMap; // Renderer2DComponent
 
-			auto& sc = *entity.GetComponent<ECS::ScriptComponent>();
-			emitter << YAML::Key << "Path" << sc.Path.string();
-			emitter << YAML::Key << "Class" << sc.Script->GetClass();
+			emitter << YAML::Key << "Path" << sc->Path.string();
+			emitter << YAML::Key << "Class" << sc->Script->GetClass();
 
 			emitter << YAML::EndMap; // Renderer2DComponent
 		}
@@ -141,18 +137,18 @@ namespace Crystal
 		uint64_t uuid = node["Entity"].as<uint64_t>();
 
 		//Creation of the Entity
-		ECS::Entity entity = ECS::Entity::Create(m_Project->m_Storage);
-		entity.SetUUID(uuid);
+		Ref<ECS::Entity> entity = ECS::Entity::Create(m_Project->m_Storage);
+		entity->SetUUID(uuid);
+		m_Project->AddEntity(entity);
 
 		//TagComponent
 		auto tagComponent = node["TagComponent"];
 		if (tagComponent)
 		{
 			Ref<ECS::TagComponent> tag = CreateRef<ECS::TagComponent>();
+			entity->AddComponent<ECS::TagComponent>(tag);
 
 			tag->Tag = tagComponent["Tag"].as<std::string>();
-
-			entity.AddComponent<ECS::TagComponent>(tag);
 		}
 
 		//TransformComponent
@@ -160,12 +156,11 @@ namespace Crystal
 		if (transformComponent)
 		{
 			Ref<ECS::TransformComponent> transform = CreateRef<ECS::TransformComponent>();
+			entity->AddComponent<ECS::TransformComponent>(transform);
 
 			transform->Position = transformComponent["Position"].as<glm::vec3>();
 			transform->Size = transformComponent["Size"].as<glm::vec3>();
 			transform->Rotation = transformComponent["Rotation"].as<float>();
-
-			entity.AddComponent<ECS::TransformComponent>(transform);
 		}
 
 		//Renderer2DComponent
@@ -173,6 +168,7 @@ namespace Crystal
 		if (renderer2DComponent)
 		{
 			Ref<ECS::Renderer2DComponent> r2d = CreateRef<ECS::Renderer2DComponent>();
+			entity->AddComponent<ECS::Renderer2DComponent>(r2d);
 
 			r2d->Enable = renderer2DComponent["Enable"].as<bool>();
 			if (renderer2DComponent["Texture"])
@@ -182,8 +178,6 @@ namespace Crystal
 
 			r2d->Colour = renderer2DComponent["Colour"].as<glm::vec4>();
 			r2d->UseTexture = renderer2DComponent["UseTexture"].as<bool>();
-
-			entity.AddComponent<ECS::Renderer2DComponent>(r2d);
 		}
 
 		//ScriptComponent
@@ -191,9 +185,10 @@ namespace Crystal
 		if (scriptComponent)
 		{
 			Ref<ECS::ScriptComponent> sc = CreateRef<ECS::ScriptComponent>();
+			entity->AddComponent<ECS::ScriptComponent>(sc);
 
 			sc->Path = scriptComponent["Path"].as<std::string>();
-			sc->Script->SetUUID(entity.GetUUID());
+			sc->Script->SetUUID(entity->GetUUID());
 			sc->Script->SetDLL(sc->Path);
 			sc->Script->SetClass(scriptComponent["Class"].as<std::string>());
 
@@ -204,10 +199,7 @@ namespace Crystal
 			if (transformComponent)
 				sc->Script->AddTransformComponent();
 
-			entity.AddComponent<ECS::ScriptComponent>(sc);
 		}
-
-		m_Project->AddEntity(entity);
 	}
 
 }

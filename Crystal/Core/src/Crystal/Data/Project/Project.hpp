@@ -25,8 +25,9 @@ namespace Crystal
 		void OnRender();
 		void OnEvent(Event& e);
 
-		void AddEntity(ECS::Entity& entity) { m_Entities.emplace_back(entity); }
-		std::vector<ECS::Entity>& GetEntities() { return m_Entities; }
+		void AddEntity(Ref<ECS::Entity> entity) { m_Entities.emplace_back(entity); }
+		std::vector<Ref<ECS::Entity>>& GetEntities() { return m_Entities; }
+		Ref<ECS::Entity> GetEntityByUUID(uint64_t uuid);
 
 		ECS::Storage& GetStorage() { return m_Storage; }
 		std::string GetName() { return m_DebugName; }
@@ -48,7 +49,7 @@ namespace Crystal
 		std::string m_DebugName;
 
 		ECS::Storage m_Storage;
-		std::vector<ECS::Entity> m_Entities;
+		std::vector<Ref<ECS::Entity>> m_Entities;
 
 		Ref<EditorCamera> m_EditorCamera;
 

@@ -178,67 +178,67 @@ namespace Crystal::Wrapper
 	*/
 	void Component::ScriptComponent_AddValueField_Byte(uint64_t uuid, Coral::NativeString name, uint8_t byte)
 	{
-		CR_CORE_TRACE("{0}", __FUNCTION__);
+		Project::GetCurrentProject()->GetStorage().GetComponent<ECS::ScriptComponent>(uuid)->Script->AddValueField<uint8_t>(std::string(name), byte);
 	}
 
 	void Component::ScriptComponent_AddValueField_SByte(uint64_t uuid, Coral::NativeString name, int8_t sbyte)
 	{
-		CR_CORE_TRACE("{0}", __FUNCTION__);
+		Project::GetCurrentProject()->GetStorage().GetComponent<ECS::ScriptComponent>(uuid)->Script->AddValueField<int8_t>(std::string(name), sbyte);
 	}
 
 	void Component::ScriptComponent_AddValueField_Short(uint64_t uuid, Coral::NativeString name, int16_t shortVar)
 	{
-		CR_CORE_TRACE("{0}", __FUNCTION__);
+		Project::GetCurrentProject()->GetStorage().GetComponent<ECS::ScriptComponent>(uuid)->Script->AddValueField<int16_t>(std::string(name), shortVar);
 	}
 
 	void Component::ScriptComponent_AddValueField_UShort(uint64_t uuid, Coral::NativeString name, uint16_t ushortVar)
 	{
-		CR_CORE_TRACE("{0}", __FUNCTION__);
+		Project::GetCurrentProject()->GetStorage().GetComponent<ECS::ScriptComponent>(uuid)->Script->AddValueField<uint16_t>(std::string(name), ushortVar);
 	}
 
 	void Component::ScriptComponent_AddValueField_Int(uint64_t uuid, Coral::NativeString name, int32_t intVar)
 	{
-		CR_CORE_TRACE("{0}", __FUNCTION__);
+		Project::GetCurrentProject()->GetStorage().GetComponent<ECS::ScriptComponent>(uuid)->Script->AddValueField<int32_t>(std::string(name), intVar);
 	}
 
 	void Component::ScriptComponent_AddValueField_UInt(uint64_t uuid, Coral::NativeString name, uint32_t uintVar)
 	{
-		CR_CORE_TRACE("{0}", __FUNCTION__);
+		Project::GetCurrentProject()->GetStorage().GetComponent<ECS::ScriptComponent>(uuid)->Script->AddValueField<uint32_t>(std::string(name), uintVar);
 	}
 
 	void Component::ScriptComponent_AddValueField_Long(uint64_t uuid, Coral::NativeString name, int64_t longVar)
 	{
-		CR_CORE_TRACE("{0}", __FUNCTION__);
+		Project::GetCurrentProject()->GetStorage().GetComponent<ECS::ScriptComponent>(uuid)->Script->AddValueField<int64_t>(std::string(name), longVar);
 	}
 
 	void Component::ScriptComponent_AddValueField_ULong(uint64_t uuid, Coral::NativeString name, uint64_t ulongVar)
 	{
-		CR_CORE_TRACE("{0}", __FUNCTION__);
+		Project::GetCurrentProject()->GetStorage().GetComponent<ECS::ScriptComponent>(uuid)->Script->AddValueField<uint64_t>(std::string(name), ulongVar);
 	}
 
 	void Component::ScriptComponent_AddValueField_Float(uint64_t uuid, Coral::NativeString name, float floatVar)
 	{
-		CR_CORE_TRACE("{0} {1}, {2}, {3}", __FUNCTION__, uuid, std::string(name), floatVar);
+		Project::GetCurrentProject()->GetStorage().GetComponent<ECS::ScriptComponent>(uuid)->Script->AddValueField<float>(std::string(name), floatVar);
 	}
 
 	void Component::ScriptComponent_AddValueField_Double(uint64_t uuid, Coral::NativeString name, double doubleVar)
 	{
-		CR_CORE_TRACE("{0}", __FUNCTION__);
+		Project::GetCurrentProject()->GetStorage().GetComponent<ECS::ScriptComponent>(uuid)->Script->AddValueField<double>(std::string(name), doubleVar);
 	}
 
 	void Component::ScriptComponent_AddValueField_Char(uint64_t uuid, Coral::NativeString name, char charVar)
 	{
-		CR_CORE_TRACE("{0}", __FUNCTION__);
+		Project::GetCurrentProject()->GetStorage().GetComponent<ECS::ScriptComponent>(uuid)->Script->AddValueField<char>(std::string(name), charVar);
 	}
 
 	void Component::ScriptComponent_AddValueField_Bool(uint64_t uuid, Coral::NativeString name, bool boolVar)
 	{
-		CR_CORE_TRACE("{0}", __FUNCTION__);
+		Project::GetCurrentProject()->GetStorage().GetComponent<ECS::ScriptComponent>(uuid)->Script->AddValueField<bool>(std::string(name), boolVar);
 	}
 
 	void Component::ScriptComponent_AddValueField_String(uint64_t uuid, Coral::NativeString name, Coral::NativeString stringVar)
 	{
-		CR_CORE_TRACE("{0}", __FUNCTION__);
+		Project::GetCurrentProject()->GetStorage().GetComponent<ECS::ScriptComponent>(uuid)->Script->AddValueField<std::string>(std::string(name), std::string(stringVar));
 	}
 
 

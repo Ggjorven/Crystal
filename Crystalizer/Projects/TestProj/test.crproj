@@ -1,16 +1,6 @@
 Project: New
 Entities:
-  - Entity: 11900670760340589512
-    TagComponent:
-      Tag: Mario
-    TransformComponent:
-      Position: [75.7059631, -11.2912102, 0]
-      Size: [152, 147, 0]
-      Rotation: 0
-    Renderer2DComponent:
-      Enable: true
-      Colour: [0.782608688, 0.404064298, 0.404064298, 1]
-      UseTexture: false
+  - Entity: 7693685885325775613
     ScriptComponent:
       Path: F:\Code\C++\VS\Crystal\Crystalizer\Projects\TestProj\Scripts\bin\Release\Script.dll
       Class: Test

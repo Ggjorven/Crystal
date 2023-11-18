@@ -18,9 +18,9 @@ namespace Crystal::ECS
         //m_Storage.RemoveComponent<ECS::ScriptComponent>(m_UUID);
     }
 
-    Entity Entity::Create(ECS::Storage& storage, const std::string& name)
+    Ref<Entity> Entity::Create(ECS::Storage& storage, const std::string& name)
     {
-        return Entity(storage, name);
+        return CreateRef<Entity>(storage, name);
     }
 
     Entity& Entity::operator=(const Entity& other)

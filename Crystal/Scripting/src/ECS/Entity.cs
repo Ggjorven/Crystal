@@ -23,29 +23,18 @@ namespace Crystal
 
         public void Init()
         {
-            //Console.WriteLine("Init method called");
-
             var properties = this.GetType().GetFields(/*BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic*/);
-            //var properties = this.GetType().GetCustomAttributes(typeof(ValueFoe));
-
-            //Console.WriteLine(properties);
 
             foreach (var property in properties)
             {
-                //Console.WriteLine($"Property: {property.Name}, Type: {property.FieldType}");
-
                 var valueFieldAttribute = property.GetCustomAttribute<ValueField>();
                 if (valueFieldAttribute != null)
                 {
-                    Console.WriteLine($"Processing ValueField for property: {property.Name}");
-
                     var value = property.GetValue(this);
                     valueFieldAttribute.Process(value, property.Name, ID);
                 }
             }
         }
-
-
 
 
         public abstract void OnCreate();
@@ -102,7 +91,7 @@ namespace Crystal
 
 		public void AddTransformComponent()
 		{
-			TransformComponent transformComponent = new TransformComponent(ID);
+            TransformComponent transformComponent = new TransformComponent(ID);
 			m_Components[typeof(TransformComponent)] = transformComponent;
 		}
     }

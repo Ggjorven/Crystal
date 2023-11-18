@@ -28,14 +28,13 @@ namespace Crystal
 
 		else if (m_State == State::Runtime)
 		{
-			for (ECS::Entity& entity : m_Entities)
+			for (Ref<ECS::Entity>& entity : m_Entities)
 			{
-				if (Ref<ECS::ScriptComponent> sc = entity.GetComponent<ECS::ScriptComponent>())
+				if (Ref<ECS::ScriptComponent> sc = entity->GetComponent<ECS::ScriptComponent>())
 				{
 					if (m_FirstUpdate)
 					{
-						// TODO(Jorben): Run a function that sets all value field values
-						// ex. sc->Script->UpdateValueFieldValues();
+						sc->Script->UpdateValueFieldsValues();
 						sc->Script->OnCreate();
 						m_FirstUpdate = false;
 					}
@@ -62,13 +61,24 @@ namespace Crystal
 			m_EditorCamera->OnEvent(e); // TODO(Jorben): Replace editorcamera with runtime camera
 	}
 
+	Ref<ECS::Entity> Project::GetEntityByUUID(uint64_t uuid)
+	{
+		for (Ref<ECS::Entity>& entity : m_Entities)
+		{
+			if (entity->GetUUID() == uuid)
+				return entity;
+		}
+		CR_CORE_WARN("No entity with UUID ({0}) found in current project...", uuid);
+		return nullptr;
+	}
+
 	void Project::OnRenderRuntime()
 	{
 		// TODO(Jorben): Add runtime camera
-		for (ECS::Entity& entity : m_Entities)
+		for (Ref<ECS::Entity> entity : m_Entities)
 		{
-			Ref<ECS::Renderer2DComponent> r2d = entity.GetComponent<ECS::Renderer2DComponent>();
-			Ref<ECS::TransformComponent> transform = entity.GetComponent<ECS::TransformComponent>();
+			Ref<ECS::Renderer2DComponent> r2d = entity->GetComponent<ECS::Renderer2DComponent>();
+			Ref<ECS::TransformComponent> transform = entity->GetComponent<ECS::TransformComponent>();
 			if (r2d && r2d->Enable && transform)
 			{
 				if (r2d->Texture && r2d->UseTexture)
@@ -82,10 +92,10 @@ namespace Crystal
 
 	void Project::OnRenderEditor()
 	{
-		for (ECS::Entity& entity : m_Entities)
+		for (Ref<ECS::Entity> entity : m_Entities)
 		{
-			Ref<ECS::Renderer2DComponent> r2d = entity.GetComponent<ECS::Renderer2DComponent>();
-			Ref<ECS::TransformComponent> transform = entity.GetComponent<ECS::TransformComponent>();
+			Ref<ECS::Renderer2DComponent> r2d = entity->GetComponent<ECS::Renderer2DComponent>();
+			Ref<ECS::TransformComponent> transform = entity->GetComponent<ECS::TransformComponent>();
 
 			if (r2d != nullptr && r2d->Enable && transform != nullptr)
 			{

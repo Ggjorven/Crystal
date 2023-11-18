@@ -41,7 +41,7 @@ namespace Crystal::ECS
         inline void SetUUID(CR_UUID uuid) { m_UUID = uuid; }
         inline const CR_UUID GetUUID() const { return m_UUID; }
 
-        static Entity Create(ECS::Storage& storage, const std::string& name = "Entity");
+        static Ref<Entity> Create(ECS::Storage& storage, const std::string& name = "Entity");
 
         //Operators
         Entity& operator = (const Entity& other);

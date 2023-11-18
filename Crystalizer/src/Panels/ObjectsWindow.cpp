@@ -43,29 +43,29 @@ namespace Crystal
 			}
 		}
 
-		for (ECS::Entity& entity : m_Project->GetEntities())
+		for (Ref<ECS::Entity>& entity : m_Project->GetEntities())
 		{
 			//Naming
 			std::string name;
 			{
-				Ref<ECS::TagComponent> tag = entity.GetComponent<ECS::TagComponent>();
+				Ref<ECS::TagComponent> tag = entity->GetComponent<ECS::TagComponent>();
 				if (tag && !tag->Tag.empty())
 					name = std::string("Entity - ") + std::string(tag->Tag);
 				else
-					name = std::string("Entity - ") + std::to_string(entity.GetUUID());
+					name = std::string("Entity - ") + std::to_string(entity->GetUUID());
 			}
 
 			//Create a selectable entity
 			if (ImGui::Selectable(name.c_str(), false, ImGuiSelectableFlags_SpanAllColumns)) // TODO(Jorben): Make it so you can see that it's selected so replace 'false'
 			{
-				m_SelectedEntity = &entity;
+				m_SelectedEntity = entity;
 			}
 
 			//Check for right-click/delete
 			if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
 			{
 				showDelete = true;
-				deleteUUID = entity.GetUUID();
+				deleteUUID = entity->GetUUID();
 			}
 		}
 
@@ -77,7 +77,7 @@ namespace Crystal
 			{
 				if (ImGui::MenuItem("Entity"))
 				{
-					ECS::Entity e(m_Project->GetStorage(), "New");
+					Ref<ECS::Entity> e = ECS::Entity::Create(m_Project->GetStorage(), "New");
 					m_Project->AddEntity(e);
 				}
 
@@ -93,7 +93,7 @@ namespace Crystal
 				auto& entities = m_Project->GetEntities();
 				for (int i = 0; i < entities.size(); i++)
 				{
-					if (entities[i].GetUUID() == deleteUUID)
+					if (entities[i]->GetUUID() == deleteUUID)
 					{
 						entities.erase(entities.begin() + i);
 						break;

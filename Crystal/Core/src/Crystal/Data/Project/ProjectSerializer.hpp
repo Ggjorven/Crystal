@@ -23,7 +23,7 @@ namespace Crystal
 		ProjectSerializer& operator = (const ProjectSerializer& other);
 
 	private:
-		void SerializeEntity(YAML::Emitter& emitter, ECS::Entity& entity);
+		void SerializeEntity(YAML::Emitter& emitter, Ref<ECS::Entity>& entity);
 		void DeserializeEntity(YAML::detail::iterator_value& node);
 
 	private:

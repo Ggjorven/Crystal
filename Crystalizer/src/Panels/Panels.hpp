@@ -48,7 +48,7 @@ namespace Crystal
 		static std::array<Ref<Texture2D>, 4> s_Icons;
 		
 		Ref<Project>& m_Project;
-		ECS::Entity* m_SelectedEntity;
+		Ref<ECS::Entity> m_SelectedEntity;
 
 		Ref<Texture2D> m_CheckerboardTex;
 	};

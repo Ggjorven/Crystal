@@ -30,9 +30,12 @@ public:
 
 private:
 	void CreateNewProject();
+	void SaveProject();
 
 	void MenuBar();
 	void ViewPort();
+
+	bool KeyEvent(KeyPressedEvent& e);
 
 private:
 	std::filesystem::path m_Path = Utils::GetEnviromentVariable("CRYSTAL_DIR") + "/Crystalizer/Projects/TestProj/test.crproj";

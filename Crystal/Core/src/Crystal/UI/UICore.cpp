@@ -1,20 +1,47 @@
 #include "crpch.h"
 #include "UICore.hpp"
 
+#include "Crystal/Utils/Utils.hpp"
+
 #include <imgui.h>
 #include <imgui_internal.h>
 
 namespace Crystal::UI
 {
 
-	bool BeginECSComponent(const char* label, Ref<Texture2D> icon)
+	void Init()
+	{
+		std::string CrPath = Utils::GetEnviromentVariable("CRYSTAL_DIR");
+		s_ECSComponentDropdown = Texture2D::Create(CrPath + "\\Crystalizer\\assets\\textures\\icons\\3-dots.png"); // TODO(Jorben): Add an actual seperate texture
+	}
+
+	bool BeginECSComponent(const char* label, ComponentOptions& componentOptions, Ref<Texture2D> icon)
 	{
 		bool open = false;
 
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(20.0f, 4.0f));
 		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 2);
-		ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_FramePadding | ImGuiTreeNodeFlags_DefaultOpen;
 
+		ImVec2 startCursorPos = ImGui::GetCursorPos();
+
+		{
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 0.0f));
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 1.0f, 1.0f, 0.0f));
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 1.0f, 1.0f, 0.0f));
+
+			ImVec2 iconSize(16, 16);
+
+			ImGui::SetCursorPos(ImVec2(startCursorPos.x + ImGui::GetCurrentWindow()->Size.x - 40, startCursorPos.y + ImGui::GetStyle().FramePadding.y / 2.0f));
+			if (ImGui::Button(std::string(std::string("##") + std::string(label)).c_str(), iconSize))
+			{
+				CR_CORE_TRACE("AA");
+			}
+			ImGui::SetCursorPos(startCursorPos);
+
+			ImGui::PopStyleColor(3);
+		}
+
+		ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_FramePadding | ImGuiTreeNodeFlags_DefaultOpen;
 		if (ImGui::TreeNodeEx(label, treeNodeFlags))
 		{
 			open = true;
@@ -23,15 +50,20 @@ namespace Crystal::UI
 
 		if (icon)
 		{
-			ImVec2 cursorPos = ImGui::GetCursorPos();
 			ImVec2 iconSize(16, 16);
 
-			ImGui::SetCursorPos(ImVec2(cursorPos.x, cursorPos.y - (ImGui::GetStyle().FramePadding.y * 5.63f)));
+			ImGui::SetCursorPos(ImVec2(startCursorPos.x, startCursorPos.y + ImGui::GetStyle().FramePadding.y / 2.0f));
 			ImGui::Image((ImTextureID)icon->GetRendererID(), iconSize, { 0, 1 }, { 1, 0 });
 
-			ImGui::SetCursorPos(ImVec2(cursorPos.x, cursorPos.y));
+			ImGui::SetCursorPos(startCursorPos);
 		}
 
+		//Actual image of the button at the start
+		ImGui::SetCursorPos(ImVec2(startCursorPos.x + ImGui::GetCurrentWindow()->Size.x - 40, startCursorPos.y + ImGui::GetStyle().FramePadding.y / 2.0f));
+		ImGui::Image((ImTextureID)s_ECSComponentDropdown->GetRendererID(), ImVec2(16.f, 16.f), {0, 1}, {1, 0});
+		ImGui::SetCursorPos(startCursorPos);
+		
+		ImGui::SetCursorPos(ImVec2(startCursorPos.x, startCursorPos.y + (ImGui::GetStyle().FramePadding.y * 6.25f)));
 
 		ImGui::PopStyleVar(2);
 		return open;

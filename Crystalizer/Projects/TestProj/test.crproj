@@ -1,6 +1,16 @@
 Project: New
 Entities:
-  - Entity: 7693685885325775613
+  - Entity: 12006613840532822465
+    TagComponent:
+      Tag: " Ioiaeghoigaeh"
+    TransformComponent:
+      Position: [0, 0, 0]
+      Size: [100, 100, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Colour: [0.760869563, 0.0620274171, 0.0620274171, 1]
+      UseTexture: false
     ScriptComponent:
       Path: F:\Code\C++\VS\Crystal\Crystalizer\Projects\TestProj\Scripts\bin\Release\Script.dll
       Class: Test

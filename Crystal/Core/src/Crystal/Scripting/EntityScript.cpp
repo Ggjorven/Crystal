@@ -10,6 +10,7 @@
 #include "Crystal/Scripting/Wrapper/SetupInternalCalls.hpp"
 
 #include <imgui.h>
+#include <imgui_internal.h>
 
 namespace Crystal
 {
@@ -41,7 +42,7 @@ namespace Crystal
 	{
 		m_Name = name;
 
-		if (!m_Name.empty())
+		if (!m_Name.empty() && m_Assembly.GetLoadStatus() == Coral::AssemblyLoadStatus::Success)
 			LoadClass();
 	}
 
@@ -56,13 +57,33 @@ namespace Crystal
 
 	void EntityScript::DisplayValueFields()
 	{
+		float regionAvail = ImGui::GetContentRegionAvail().x;
+
+		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(56.f/255.f, 70.f/255.f, 71.f/255.f, 1.0f));
+		ImGui::BeginChild("Border", ImVec2(regionAvail, 100), true, ImGuiWindowFlags_None);
+		ImGui::PopStyleColor(1);
+
+		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(16.f/255.f, 22.f/255.f, 23.f/255.f, 1.0f));
+		ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPos().x + 5, ImGui::GetCursorPos().y + 5));
+		ImGui::BeginChild("Main", ImVec2(regionAvail - 10, 100 - 10), true, ImGuiWindowFlags_None);
+		ImGui::PopStyleColor(1);
+
+		ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPos().x + ImGui::GetCurrentWindow()->Size.x / 2.0f - 40, ImGui::GetCursorPos().y));
+		ImGui::Text("Valuefields: ");
+
 		// TODO(Jorben): Add all types.
 		for (std::pair<std::string, float>& pair : m_ValueFields.Floats)
 		{
+			ImGui::Dummy(ImVec2(3.0f, 0.0f));
+			ImGui::SameLine();
 			ImGui::Text(std::string(pair.first + std::string(":")).c_str());
 			ImGui::SameLine();
-			ImGui::DragFloat(std::string(std::string("##") + pair.first).c_str(), &pair.second, 0.5f);
+			ImGui::SetNextItemWidth(150.0f);
+			ImGui::DragFloat(std::string(std::string(" ##") + pair.first).c_str(), &pair.second, 0.5f);
 		}
+
+		ImGui::EndChild();
+		ImGui::EndChild();
 	}
 
 	void EntityScript::OnCreate()
@@ -89,7 +110,10 @@ namespace Crystal
 		std::string pathStr = path.string();
 
 		if (m_ContextInitialized)
+		{
+			m_Object.Destroy();
 			ECS::Storage::s_Host.UnloadAssemblyLoadContext(m_Context);
+		}
 		
 		m_Context = ECS::Storage::s_Host.CreateAssemblyLoadContext(path.string() + std::to_string(UUIDGenerator::GenerateUUID())); 
 		m_ContextInitialized = true;

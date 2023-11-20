@@ -33,25 +33,23 @@ namespace Crystal
 			m_LastMousePosition = Input::GetMousePosition();
 
 			//Update position
-			m_Camera->SetPosition({ m_DefaultPosition.x, m_DefaultPosition.y, m_Camera->GetPosition().z });
-			m_Position = { m_Camera->GetPosition().x, m_Camera->GetPosition().y };
-
-			return;
+			m_Zoom = 1.0f;
+			m_Position = { m_DefaultPosition.x, m_DefaultPosition.y };
+			m_Camera->SetPosition({ m_Position.x, m_Position.y, m_Camera->GetPosition().z });
 		}
 
 		if (Input::IsKeyPressed(m_MovementKey) && Input::IsMousePressed(CR_MOUSE_BUTTON_LEFT))
 		{
-
 			MousePosition mousePosition = Input::GetMousePosition();
 
 			auto xOffset = static_cast<float>(mousePosition.X - m_LastMousePosition.X);
 			auto yOffset = static_cast<float>(m_LastMousePosition.Y - mousePosition.Y);
 
 			//Update position
-			m_Camera->SetPosition({ m_Camera->GetPosition().x - xOffset * m_Zoom, m_Camera->GetPosition().y - yOffset * m_Zoom, m_Camera->GetPosition().z });
-			m_Position = { m_Camera->GetPosition().x, m_Camera->GetPosition().y };
+			m_Position = { m_Position.x - xOffset * m_Zoom, m_Position.y - yOffset * m_Zoom };
+			m_Camera->SetPosition({ m_Position.x, m_Position.y, m_Camera->GetPosition().z });
 		}
-
+		m_Camera->SetPosition(Vec3<float>(m_Position.x + (float)window.GetViewportWidth() / 2.0f, m_Position.y - (float)window.GetViewportHeight() / 2.0f, m_Camera->GetPosition().z));
 		m_LastMousePosition = Input::GetMousePosition();
 	}
 

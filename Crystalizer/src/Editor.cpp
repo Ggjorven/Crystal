@@ -77,12 +77,12 @@ DockSpace     ID=0x8B93E3BD Window=0xA787BDB4 Pos=216,258 Size=1280,701 Split=X
 	settings = ImGui::SaveIniSettingsToMemory();
 	io.WantSaveIniSettings = false;
 	
+	UI::Init();
 }
 
 void EditorLayer::OnDetach()
 {
-	ProjectSerializer serializer(m_Project);
-	serializer.Serialize(m_Path);
+	SaveProject();
 }
 
 void EditorLayer::OnUpdate(Timestep& ts)
@@ -115,6 +115,10 @@ void EditorLayer::OnImGuiRender()
 
 void EditorLayer::OnEvent(Event& e)
 {
+	EventHandler handler(e);
+
+	handler.Handle<KeyPressedEvent>(CR_BIND_EVENT_FN(EditorLayer::KeyEvent));
+	
 	m_Project->OnEvent(e);
 }
 
@@ -140,6 +144,12 @@ void EditorLayer::CreateNewProject()
 	m_Path = Utils::GetEnviromentVariable("CRYSTAL_DIR") + "\\Crystalizer\\Projects\\New-Project-" + random + "New-Project-" + random + ".crproj"; //New path
 
 	serializer = ProjectSerializer(m_Project);
+	serializer.Serialize(m_Path);
+}
+
+void EditorLayer::SaveProject()
+{
+	ProjectSerializer serializer(m_Project);
 	serializer.Serialize(m_Path);
 }
 
@@ -236,4 +246,12 @@ void EditorLayer::ViewPort()
 	ImGui::End();
 	ImGui::PopStyleVar(1);
 	Panels::EndColours();
+}
+
+bool EditorLayer::KeyEvent(KeyPressedEvent& e)
+{
+	if (e.GetKeyCode() == CR_KEY_S && Input::IsKeyPressed(CR_KEY_LEFT_CONTROL))
+		SaveProject();
+
+	return false;
 }

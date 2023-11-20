@@ -82,9 +82,9 @@ namespace Crystal
 			if (r2d && r2d->Enable && transform)
 			{
 				if (r2d->Texture && r2d->UseTexture)
-					Renderer2D::DrawQuad(glm::vec2(transform->Position.x, transform->Position.y), glm::vec2(transform->Size.x, transform->Size.y), r2d->Texture, false, m_EditorCamera->GetCamera());
+					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f * -1), r2d->Texture, false, m_EditorCamera->GetCamera());
 				else
-					Renderer2D::DrawQuad(glm::vec2(transform->Position.x, transform->Position.y), glm::vec2(transform->Size.x, transform->Size.y), r2d->Colour, false, m_EditorCamera->GetCamera());
+					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f * -1), r2d->Colour, false, m_EditorCamera->GetCamera());
 			}
 		}
 
@@ -96,17 +96,12 @@ namespace Crystal
 		{
 			Ref<ECS::Renderer2DComponent> r2d = entity->GetComponent<ECS::Renderer2DComponent>();
 			Ref<ECS::TransformComponent> transform = entity->GetComponent<ECS::TransformComponent>();
-
-			if (r2d != nullptr && r2d->Enable && transform != nullptr)
+			if (r2d && r2d->Enable && transform)
 			{
 				if (r2d->Texture && r2d->UseTexture)
-				{
-					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), r2d->Texture, false, m_EditorCamera->GetCamera());
-				}
+					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f * -1), r2d->Texture, false, m_EditorCamera->GetCamera());
 				else
-				{
-					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), r2d->Colour, false, m_EditorCamera->GetCamera());
-				}
+					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f * -1), r2d->Colour, false, m_EditorCamera->GetCamera());
 			}
 		}
 	}

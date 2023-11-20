@@ -21,7 +21,7 @@ namespace Crystal
 	void Panels::ObjectPropertiesWindow()
 	{
 		Panels::BeginColours();
-		ImGui::Begin("Properties");
+		ImGui::Begin("Properties", (bool*)0, ImGuiWindowFlags_NoScrollbar);
 
 		if (m_SelectedEntity)
 		{
@@ -73,7 +73,8 @@ namespace Crystal
 			Ref<ECS::TagComponent> tag = m_SelectedEntity->GetComponent<ECS::TagComponent>();
 			if (tag)
 			{
-				if (UI::BeginECSComponent("TagComponent", s_Icons[(int)Icon::Tag]))
+				UI::ComponentOptions co;
+				if (UI::BeginECSComponent("TagComponent", co, s_Icons[(int)Icon::Tag]))
 				{
 					ImGui::Text("Tag:");
 					ImGui::SameLine();
@@ -88,7 +89,8 @@ namespace Crystal
 			Ref<ECS::TransformComponent> tc = m_SelectedEntity->GetComponent<ECS::TransformComponent>();
 			if (tc)
 			{
-				if (UI::BeginECSComponent("TransformComponent", s_Icons[(int)Icon::Transform]))
+				UI::ComponentOptions co;
+				if (UI::BeginECSComponent("TransformComponent", co, s_Icons[(int)Icon::Transform]))
 				{
 					UI::Vector3("Position", tc->Position, Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
 					UI::Vector3("Size", tc->Size, Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
@@ -104,7 +106,8 @@ namespace Crystal
 			Ref<ECS::Renderer2DComponent> r2d = m_SelectedEntity->GetComponent<ECS::Renderer2DComponent>();
 			if (r2d)
 			{
-				if (UI::BeginECSComponent("Renderer2DComponent", s_Icons[(int)Icon::Renderer2D])) // TODO(Jorben): Add right click enabled/disabled functionality
+				UI::ComponentOptions co;
+				if (UI::BeginECSComponent("Renderer2DComponent", co, s_Icons[(int)Icon::Renderer2D])) // TODO(Jorben): Add right click enabled/disabled functionality
 				{
 					//ImGui::Checkbox("Enabled", &r2d->Enable);
 					TexturePanel("Texture", r2d->Texture, &r2d->UseTexture);
@@ -134,7 +137,8 @@ namespace Crystal
 			Ref<ECS::ScriptComponent> sc = m_SelectedEntity->GetComponent<ECS::ScriptComponent>();
 			if (sc)
 			{
-				if (UI::BeginECSComponent("ScriptComponent", s_Icons[(int)Icon::Script])) // TODO(Jorben): Add right click enabled/disabled functionality
+				UI::ComponentOptions co;
+				if (UI::BeginECSComponent("ScriptComponent", co, s_Icons[(int)Icon::Script])) // TODO(Jorben): Add right click enabled/disabled functionality
 				{
 					std::string path = sc->Path.filename().replace_extension("").string();
 					ImGui::BulletText(path.c_str());
@@ -175,6 +179,16 @@ namespace Crystal
 
 					// Display ValueFields
 					sc->Script->DisplayValueFields();
+				}
+
+				// Note(Jorben): Check if components have not been sent to the ScriptComponent
+				{
+					ComponentList& cl = sc->Script->GetComponents();
+					if (tag && !cl.TagComponent)
+						sc->Script->AddTagComponent();
+
+					if (tc && !cl.TransformComponent)
+						sc->Script->AddTransformComponent();
 				}
 			}
 		}

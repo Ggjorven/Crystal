@@ -8,7 +8,19 @@
 namespace Crystal::UI
 {
 
-	bool BeginECSComponent(const char* label, Ref<Texture2D> icon = nullptr);
+	struct ComponentOptions
+	{
+	public:
+		bool Remove = false;
+
+	public:
+		ComponentOptions() = default;
+	};
+
+	void Init();
+
+	bool BeginECSComponent(const char* label, ComponentOptions& componentOptions, Ref<Texture2D> icon = nullptr);
 	void Vector3(const char* label, Vec3<float>& value, const Vec4<float>& colourX, const Vec4<float>& colourY, const Vec4<float>& colourZ);
 
+	static Ref<Texture2D> s_ECSComponentDropdown = nullptr;
 }

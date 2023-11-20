@@ -103,6 +103,7 @@ namespace Crystal
 		// TODO(Jorben): Extra functionality (ex. Collision)
 
 		std::string& GetClass() { return m_Name; }
+		ComponentList& GetComponents() { return m_Components; }
 
 		//Components
 		void AddTagComponent() { m_Components.TagComponent = true; }

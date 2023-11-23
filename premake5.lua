@@ -39,6 +39,7 @@ group "Crystal"
 group ""
 
 group "Tools"
+	include "Crystalizer/Launcher"
 	include "Crystalizer"
 	include "Runtime"
 group ""

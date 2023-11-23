@@ -58,6 +58,12 @@ namespace Crystal
 						m_SelectedEntity->AddComponent<ECS::Renderer2DComponent>(r2d);
 					}
 
+					if (!m_SelectedEntity->GetComponent<ECS::ColliderComponent>() && ImGui::MenuItem("Collider"))
+					{
+						Ref<ECS::ColliderComponent> cc = CreateRef<ECS::ColliderComponent>();
+						m_SelectedEntity->AddComponent<ECS::ColliderComponent>(cc);
+					}
+
 					if (!m_SelectedEntity->GetComponent<ECS::ScriptComponent>() && ImGui::MenuItem("Script"))
 					{
 						Ref<ECS::ScriptComponent> script = CreateRef<ECS::ScriptComponent>();
@@ -111,9 +117,12 @@ namespace Crystal
 				{
 					//ImGui::Checkbox("Enabled", &r2d->Enable);
 					TexturePanel("Texture", r2d->Texture, &r2d->UseTexture);
-					ImGui::SameLine();
 
 					ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.f);
+					
+					ImGui::SameLine();
+					ImGui::Dummy(ImVec2(50.0f, 0.0f));
+					ImGui::SameLine();
 
 					UI::Tools::SetContextFontSize(2.f);
 					ImGui::ColorEdit4("Colour", r2d->Colour.GetData(), ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_NoOptions | ImGuiColorEditFlags_NoPicker | ImGuiColorEditFlags_NoTooltip);
@@ -131,6 +140,37 @@ namespace Crystal
 					}
 
 					ImGui::PopStyleVar(1);
+
+					ImGui::SameLine();
+					ImGui::Checkbox("Use", &r2d->UseColour);
+
+				}
+			}
+
+			Ref<ECS::ColliderComponent> col = m_SelectedEntity->GetComponent<ECS::ColliderComponent>();
+			if (col)
+			{
+				UI::ComponentOptions co;
+				if (UI::BeginECSComponent("ColliderComponent", co, s_Icons[(int)Icon::Renderer2D])) // TODO(Jorben): Add right click enabled/disabled functionality
+				{
+					static bool AABB = (col->AABB ? true : false);
+					//static bool ... = false;
+					ImGui::Dummy(ImVec2(10.0f, 0.0f));
+					ImGui::SameLine();
+					if (ImGui::RadioButton("AABB", AABB))
+					{
+						col->AABB = new AABBCollider();
+
+						AABB = true;
+					}
+
+					if (AABB)
+					{
+						// TODO(Jorben): Add position and linking to Transforms
+						//UI::Vector3("Position", col->AABB->GetPosition(), Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
+						//if (ImGui::Checkbox("##Linked1")) 
+						UI::Vector3("Size", col->AABB->GetSize(), Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
+					}
 				}
 			}
 

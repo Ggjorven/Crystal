@@ -24,6 +24,9 @@ namespace Crystal
 		uint32_t GetWidth() const override { return m_Data.Width; }
 		uint32_t GetHeight() const override { return m_Data.Height; }
 
+		Vec2<int> GetWindowPosition() const { Vec2<int> pos(0, 0); glfwGetWindowPos(m_Window, &pos.x, &pos.y); return pos; }
+		void SetWindowPosition(Vec2<int> pos) const { glfwSetWindowPos(m_Window, pos.x, pos.y); }
+
 		//Viewport
 		bool InView(MousePosition position) const override;
 

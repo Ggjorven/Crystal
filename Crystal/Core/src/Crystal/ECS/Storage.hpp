@@ -66,11 +66,15 @@ namespace Crystal::ECS
         {
             static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be a subclass of Component");
 
+            //CR_CORE_TRACE("Remove");
             auto& componentMap = GetComponentsMap<ComponentType>();
 
             auto it = componentMap.find(uuid);
             if (it != componentMap.end())
+            {
+                GetComponent<ComponentType>(uuid).reset();
                 componentMap.erase(it);
+            }
         }
 
     public:

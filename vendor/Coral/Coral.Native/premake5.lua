@@ -32,6 +32,11 @@ project "Coral.Native"
         "%{wks.location}/vendor/NetCore/7.0.7/"
     }
 
+    defines
+    {
+        "_CRT_SECURE_NO_WARNINGS"
+    }
+
     libdirs { "%{wks.location}/vendor/NetCore/7.0.7/" }
 
 	links
@@ -45,6 +50,11 @@ project "Coral.Native"
         symbols "On"
 
     filter { "configurations:Release" }
+        runtime "Release"
+        symbols "Off"
+        optimize "On"
+
+    filter { "configurations:Dist" }
         runtime "Release"
         symbols "Off"
         optimize "On"

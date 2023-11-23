@@ -30,6 +30,8 @@ namespace Crystal::ECS
 
     Storage::Storage()
     {
+        CR_CORE_TRACE("Storage");
+
         Coral::HostSettings settings;
         settings.MessageCallback = CoralMessageCallback;
         settings.CoralDirectory = Application::GetWorkingDirectory().string() + "\\";
@@ -47,6 +49,7 @@ namespace Crystal::ECS
 
     Storage::~Storage()
     {
+        CR_CORE_TRACE("~Storage");
         s_Host.UnloadAssemblyLoadContext(m_Context);
         s_Host.Shutdown();
     }

@@ -16,8 +16,9 @@ namespace Crystal
 	void RuntimeLayer::OnAttach()
 	{
 		ProjectSerializer serializer(m_Project);
-
 		serializer.Deserialize(m_Path);
+
+		m_Project->SetState(Project::State::Runtime);
 	}
 
 	void RuntimeLayer::OnDetach()
@@ -26,24 +27,14 @@ namespace Crystal
 
 	void RuntimeLayer::OnUpdate(Timestep& ts)
 	{
+		m_Project->OnUpdate(ts);
 	}
 
 	void RuntimeLayer::OnRender()
 	{
 		RendererCommand::Clear();
 
-		for (ECS::Entity& entity : m_Project->GetEntities())
-		{
-			ECS::Renderer2DComponent* r2d = entity.GetComponent<ECS::Renderer2DComponent>();
-			ECS::TransformComponent* transform = entity.GetComponent<ECS::TransformComponent>();
-			if (r2d && transform) // TODO(Jorben): Runtime Camera or something
-			{
-				if (r2d->Texture && r2d->Enable && r2d->UseTexture)
-					Renderer2D::DrawQuad(glm::vec2(transform->Position.x, transform->Position.y), glm::vec2(transform->Size.x, transform->Size.y), r2d->Texture, false);
-				else
-					Renderer2D::DrawQuad(glm::vec2(transform->Position.x, transform->Position.y), glm::vec2(transform->Size.x, transform->Size.y), r2d->Colour, false);
-			}
-		}
+		m_Project->OnRender();
 	}
 
 	void RuntimeLayer::OnImGuiRender()
@@ -52,6 +43,7 @@ namespace Crystal
 
 	void RuntimeLayer::OnEvent(Event& e)
 	{
+		m_Project->OnEvent(e);
 	}
 
 }

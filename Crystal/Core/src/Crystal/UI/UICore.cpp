@@ -80,7 +80,7 @@ namespace Crystal::UI
 		float spacingBase = 3.0f;
 		float extra = 12.0f;
 
-		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 4.0f);
 
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(colourX.x - 0.30f, colourX.y + 0.18f, colourX.z + 0.18f, colourX.w));
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(colourX.x, colourX.y, colourX.z, colourX.w));

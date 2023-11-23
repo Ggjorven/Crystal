@@ -49,7 +49,7 @@ namespace Crystal
 			m_Position = { m_Position.x - xOffset * m_Zoom, m_Position.y - yOffset * m_Zoom };
 			m_Camera->SetPosition({ m_Position.x, m_Position.y, m_Camera->GetPosition().z });
 		}
-		m_Camera->SetPosition(Vec3<float>(m_Position.x + (float)window.GetViewportWidth() / 2.0f, m_Position.y - (float)window.GetViewportHeight() / 2.0f, m_Camera->GetPosition().z));
+		m_Camera->SetPosition(Vec3<float>(m_Position.x + (float)window.GetViewportWidth() / 2.0f, m_Position.y + (float)window.GetViewportHeight() / 2.0f, m_Camera->GetPosition().z));
 		m_LastMousePosition = Input::GetMousePosition();
 	}
 

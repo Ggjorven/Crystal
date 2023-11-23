@@ -114,8 +114,19 @@ namespace Crystal
 				emitter << YAML::Key << "Texture" << r2d->Texture->GetPath();
 			emitter << YAML::Key << "Colour" << r2d->Colour;
 			emitter << YAML::Key << "UseTexture" << r2d->UseTexture;
+			emitter << YAML::Key << "UseColour" << r2d->UseColour;
 
 			emitter << YAML::EndMap; // Renderer2DComponent
+		}
+
+		if (auto cc = entity->GetComponent<ECS::ColliderComponent>())
+		{
+			emitter << YAML::Key << "ColliderComponent";
+			emitter << YAML::BeginMap; // ColliderComponent
+
+			emitter << YAML::Key << "AABB" << (cc->AABB ? true : false);
+
+			emitter << YAML::EndMap; // ColliderComponent
 		}
 
 		if (auto sc = entity->GetComponent<ECS::ScriptComponent>())
@@ -178,6 +189,17 @@ namespace Crystal
 
 			r2d->Colour = renderer2DComponent["Colour"].as<glm::vec4>();
 			r2d->UseTexture = renderer2DComponent["UseTexture"].as<bool>();
+			r2d->UseColour = renderer2DComponent["UseColour"].as<bool>();
+		}
+
+		//ColliderComponent
+		auto colliderComponent = node["ColliderComponent"];
+		if (colliderComponent)
+		{
+			Ref<ECS::ColliderComponent> cc = CreateRef<ECS::ColliderComponent>();
+			entity->AddComponent<ECS::ColliderComponent>(cc);
+
+			if (colliderComponent["AABB"].as<bool>()) cc->AABB = new AABBCollider();
 		}
 
 		//ScriptComponent

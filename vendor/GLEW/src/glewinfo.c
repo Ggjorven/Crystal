@@ -30,6 +30,9 @@
 ** THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#pragma warning(push)
+#pragma warning(disable : 4133)
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19029,3 +19032,5 @@ void glewDestroyContext ()
 }
 
 #endif /* __UNIX || (__APPLE__ && GLEW_APPLE_GLX) */
+
+#pragma warning(pop)

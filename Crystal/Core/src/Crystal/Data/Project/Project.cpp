@@ -15,7 +15,30 @@ namespace Crystal
 		s_CurrentProject = this;
 	}
 
-	Project::~Project() = default;
+	Project::~Project()
+	{
+		CR_CORE_TRACE("CCC");
+		for (Ref<ECS::Entity> entity : m_Entities)
+		{
+			//CR_CORE_TRACE("{0} has Script: {1}", entity->GetUUID(), (entity->GetComponent<ECS::ScriptComponent>() ? true : false));
+			//entity->GetComponent<ECS::TagComponent>().reset();
+			entity->RemoveComponent<ECS::TagComponent>();
+
+			//entity->GetComponent<ECS::TransformComponent>().reset();
+			entity->RemoveComponent<ECS::TransformComponent>();
+
+			//entity->GetComponent<ECS::Renderer2DComponent>().reset();
+			entity->RemoveComponent<ECS::Renderer2DComponent>();
+
+			//entity->GetComponent<ECS::ColliderComponent>().reset();
+			entity->RemoveComponent<ECS::ColliderComponent>();
+
+			//entity->GetComponent<ECS::ScriptComponent>().reset();
+			entity->RemoveComponent<ECS::ScriptComponent>();
+		}
+
+		//m_Storage.~Storage();
+	}
 
 	void Project::OnUpdate(Timestep& ts)
 	{
@@ -82,12 +105,14 @@ namespace Crystal
 			if (r2d && r2d->Enable && transform)
 			{
 				if (r2d->Texture && r2d->UseTexture)
-					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f * -1), r2d->Texture, false, m_EditorCamera->GetCamera());
+					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f), r2d->Texture, false, m_EditorCamera->GetCamera());
+				else if (r2d->UseColour)
+					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f), r2d->Colour, false, m_EditorCamera->GetCamera());
 				else
-					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f * -1), r2d->Colour, false, m_EditorCamera->GetCamera());
+					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f), Vec4<float>(1.0f, 1.0f, 1.0f, 1.0f), false, m_EditorCamera->GetCamera());
+
 			}
 		}
-
 	}
 
 	void Project::OnRenderEditor()
@@ -99,9 +124,11 @@ namespace Crystal
 			if (r2d && r2d->Enable && transform)
 			{
 				if (r2d->Texture && r2d->UseTexture)
-					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f * -1), r2d->Texture, false, m_EditorCamera->GetCamera());
+					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f), r2d->Texture, false, m_EditorCamera->GetCamera());
+				else if (r2d->UseColour)
+					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f), r2d->Colour, false, m_EditorCamera->GetCamera());
 				else
-					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f * -1), r2d->Colour, false, m_EditorCamera->GetCamera());
+					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f), Vec4<float>(1.0f, 1.0f, 1.0f, 1.0f), false, m_EditorCamera->GetCamera());
 			}
 		}
 	}

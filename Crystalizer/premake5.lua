@@ -41,6 +41,11 @@ project "Crystalizer"
 		"%{IncludeDir.Coral}",
 	}
 
+	disablewarnings
+	{
+		"4312"
+	}
+
 	libdirs { "%{wks.location}/vendor/NetCore/7.0.7/" }
 	
 	links
@@ -56,8 +61,8 @@ project "Crystalizer"
 		'{COPYFILE} "%{wks.location}/vendor/NetCore/7.0.7/nethost.dll" "%{cfg.targetdir}"',
         '{COPYFILE} "%{wks.location}/vendor/Coral/Coral.Managed/Coral.Managed.runtimeconfig.json" "%{cfg.targetdir}"',
 
-        '{COPYFILE} "%{wks.location}/bin/%{cfg.buildcfg}-%{cfg.system}-/Coral.Managed/Coral.Managed.dll" "%{cfg.targetdir}"',
-        '{COPYFILE} "%{wks.location}/bin/%{cfg.buildcfg}-%{cfg.system}-/Scripting-Engine/Scripting-Engine.dll" "%{cfg.targetdir}"'
+        '{COPYFILE} "%{wks.location}/bin/Release-%{cfg.system}-/Coral.Managed/Coral.Managed.dll" "%{cfg.targetdir}"',
+        '{COPYFILE} "%{wks.location}/bin/Release-%{cfg.system}-/Scripting-Engine/Scripting-Engine.dll" "%{cfg.targetdir}"'
     }
 
 	filter "system:windows"

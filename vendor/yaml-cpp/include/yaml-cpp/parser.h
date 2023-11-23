@@ -1,6 +1,9 @@
 #ifndef PARSER_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 #define PARSER_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 
+#pragma warning(push)
+#pragma warning(disable : 4251)
+
 #if defined(_MSC_VER) ||                                            \
     (defined(__GNUC__) && (__GNUC__ == 3 && __GNUC_MINOR__ >= 4) || \
      (__GNUC__ >= 4))  // GCC supports "pragma once" correctly since 3.4
@@ -86,5 +89,7 @@ class YAML_CPP_API Parser {
   std::unique_ptr<Directives> m_pDirectives;
 };
 }  // namespace YAML
+
+#pragma warning(pop)
 
 #endif  // PARSER_H_62B23520_7C8E_11DE_8A39_0800200C9A66

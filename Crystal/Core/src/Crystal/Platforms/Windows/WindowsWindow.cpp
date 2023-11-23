@@ -38,15 +38,8 @@ namespace Crystal
 
 	bool WindowsWindow::InView(MousePosition position) const
 	{
-		#ifndef CR_DIST
 		int padding = 5; // Pixels
 		int topPadding = 10; //Note(Jorben): Add an extra 10 pixels for the top so when used in the editor and you want to pick up an imgui window it works
-
-		#else // Note(Jorben): Turned off in Dist. Also changeable in debug and release of course.
-		int padding = 0;
-		int topPadding = 0;
-		#endif
-
 
 		if (position.X >= m_Data.ViewX + padding && position.X <= m_Data.ViewWidth + m_Data.ViewX - padding &&
 			position.Y >= m_Data.ViewY + padding + topPadding && position.Y <= m_Data.ViewHeight + m_Data.ViewY - padding)
@@ -78,6 +71,7 @@ namespace Crystal
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+		if (!properties.Decoration) glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
 
 		m_Window = glfwCreateWindow((int)properties.Width, (int)properties.Height, properties.Name.c_str(), nullptr, nullptr);
 		s_Instances++;
@@ -88,6 +82,9 @@ namespace Crystal
 		m_Context = GraphicsContext::Create(m_Window);
 		m_Context->Init();
 		//SetVSync(properties.VSync);
+
+		//Set window position
+		if (properties.CustomPos) glfwSetWindowPos(m_Window, properties.X, properties.Y);
 
 		//Event system
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)

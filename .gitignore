@@ -390,6 +390,10 @@ Crystal/Scripting/Scripting-Engine.csproj.user
 Crystalizer/Crystalizer.vcxproj
 Crystalizer/Crystalizer.vcxproj.filters
 Crystalizer/Crystalizer.vcxproj.user
+#Launcher
+Crystalizer/Launcher/Launcher.vcxproj
+Crystalizer/Launcher/Launcher.vcxproj.filters
+Crystalizer/Launcher/Launcher.vcxproj.user
 
 
 

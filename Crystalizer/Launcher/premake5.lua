@@ -1,38 +1,34 @@
-project "Physics"
-	kind "StaticLib"
+project "Launcher"
+	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++20"
-	staticruntime "On"
+	staticruntime "off"
+	
+	debuggertype "NativeWithManagedCore" -- for Coral
+	debugdir "$(TargetDir)"
 
 	architecture "x86_64"
 
 	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
-	pchheader "crpch.h"
-	pchsource "src/Crystal/crpch.cpp"
-
 	files
 	{
 		"src/**.h",
 		"src/**.hpp",
-		"src/**.cpp",
-	}
-
-	defines
-	{
-		"_CRT_SECURE_NO_WARNINGS",
-		"GLFW_INCLUDE_NONE",
-		"GLEW_STATIC"
+		"src/**.cpp"
 	}
 
 	includedirs
 	{
-		"%{wks.location}/Crystal/Core/src",
-
 		"src",
-		"src/Crystal",
+
+		"%{wks.location}/Crystal/Core/src",
+		"%{wks.location}/Crystal/Physics/src",
+		"%{wks.location}vendor",
+
 		"%{IncludeDir.GLEW}",
+		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.glm}",
@@ -40,13 +36,16 @@ project "Physics"
 		"%{IncludeDir.VulkanSDK}",
 		"%{IncludeDir.yaml}",
 		"%{IncludeDir.Coral}",
-
-		"%{wks.location}/vendor/NetCore/7.0.7/"
 	}
 
 	disablewarnings
 	{
 		"4312"
+	}
+
+	links
+	{
+		"Core"
 	}
 
 	filter "system:windows"
@@ -56,6 +55,7 @@ project "Physics"
 		defines
 		{
 			"CR_PLATFORM_WINDOWS",
+			"GLFW_INCLUDE_NONE",
 			"GLEW_STATIC"
 		}
 

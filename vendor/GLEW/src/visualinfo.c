@@ -28,7 +28,11 @@
 ** axbf     = # aux buffers
 ** dpth     = # bits of depth
 ** stcl     = # bits of stencil
+* 
 */
+
+#pragma warning(push)
+#pragma warning(disable : 4133)
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -1295,3 +1299,5 @@ GLboolean ParseArgs (int argc, char** argv)
   }
   return GL_FALSE;
 }
+
+#pragma warning(pop)

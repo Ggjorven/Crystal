@@ -1,16 +1,17 @@
 Project: New
 Entities:
-  - Entity: 12006613840532822465
+  - Entity: 3592375607070931751
     TagComponent:
-      Tag: " Ioiaeghoigaeh"
+      Tag: Greenbox
     TransformComponent:
-      Position: [0, 0, 0]
-      Size: [100, 100, 0]
+      Position: [64, 64, 0]
+      Size: [64, 64, 0]
       Rotation: 0
     Renderer2DComponent:
       Enable: true
-      Colour: [0.760869563, 0.0620274171, 0.0620274171, 1]
+      Colour: [0.0828804374, 0.663043499, 0.303594619, 1]
       UseTexture: false
+      UseColour: true
     ScriptComponent:
-      Path: F:\Code\C++\VS\Crystal\Crystalizer\Projects\TestProj\Scripts\bin\Release\Script.dll
+      Path: D:\Code\C++\VS\Crystal\Crystalizer\Projects\TestProj\Scripts\bin\Release\Script.dll
       Class: Test

@@ -49,6 +49,11 @@ project "Core"
 		"%{IncludeDir.Coral}"
 	}
 
+	disablewarnings
+	{
+		"4312"
+	}
+
     libdirs { "%{wks.location}/vendor/NetCore/7.0.7/" }
 
 	links

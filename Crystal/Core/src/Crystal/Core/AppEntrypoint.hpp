@@ -2,7 +2,7 @@
 
 extern Crystal::Application* Crystal::CreateApplication(int argc, char* argv[]);
 
-#if 1
+#ifndef CR_DIST
 int main(int argc, char* argv[])
 {
 	Crystal::Application* app = Crystal::CreateApplication(argc, argv);
@@ -11,6 +11,19 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-#else
+#elif defined(CR_DIST) && defined(CR_PLATFORM_WINDOWS)
+#include <Windows.h>
 
+int main(int argc, char* argv[])
+{
+    ShowWindow(GetConsoleWindow(), SW_HIDE);
+
+    Crystal::Application* app = Crystal::CreateApplication(argc, argv);
+    app->Run();
+    delete app;
+    return 0;
+}
+
+#else
+	#error No proper combination.
 #endif

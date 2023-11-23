@@ -9,6 +9,8 @@ project "Coral.Managed"
 	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
+    configurations { "Debug", "Release", "Dist" }
+
     propertytags 
     {
         { "AppendTargetFrameworkToOutputPath", "false" },
@@ -17,10 +19,26 @@ project "Coral.Managed"
 
     disablewarnings 
     {
-        "CS8500"
+        "CS8500",
+        "CS8602",
+        "CS8604"
     }
 
     files 
     {
         "Source/**.cs"
     }
+
+    filter { "configurations:Debug" }
+        runtime "Debug"
+        symbols "On"
+
+    filter { "configurations:Release" }
+        runtime "Release"
+        symbols "Off"
+        optimize "On"
+
+    filter { "configurations:Dist" }
+        runtime "Release"
+        symbols "Off"
+        optimize "On"

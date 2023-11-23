@@ -4,6 +4,7 @@
 #include <functional>
 
 #include "Crystal/Core/Core.hpp"
+#include "Crystal/Utils/CustomTypes.hpp"
 #include "Crystal/Core/Events/Event.hpp"
 
 namespace Crystal
@@ -18,6 +19,12 @@ namespace Crystal
 		std::string Name;
 		uint32_t Width;
 		uint32_t Height;
+
+		bool Decoration = true;
+
+		bool CustomPos = false;
+		uint32_t X;
+		uint32_t Y;
 
 		WindowProperties(std::string name = "Crystal Window", uint32_t width = 1280, uint32_t height = 720)
 			: Name(name), Width(width), Height(height)
@@ -35,7 +42,6 @@ namespace Crystal
 		uint32_t ViewY;
 		uint32_t ViewWidth;
 		uint32_t ViewHeight;
-		
 
 		bool Vsync = false;
 		EventCallBackFunction CallBack;
@@ -70,6 +76,9 @@ namespace Crystal
 		// Actual window size
 		virtual uint32_t GetWidth() const = 0;
 		virtual uint32_t GetHeight() const = 0;
+
+		virtual Vec2<int> GetWindowPosition() const = 0;
+		virtual void SetWindowPosition(Vec2<int> pos) const = 0;
 
 		// Viewport is different in editor compared to runtime
 		virtual void SetViewportX(uint32_t x) = 0;

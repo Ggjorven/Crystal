@@ -24,7 +24,9 @@ namespace Crystal
 
 	EntityScript::~EntityScript()
 	{
+		CR_CORE_TRACE("AAA");
 		m_Object.Destroy();
+		ECS::Storage::s_Host.UnloadAssemblyLoadContext(m_Context);
 	}
 
 	void EntityScript::Reload()
@@ -59,14 +61,12 @@ namespace Crystal
 	{
 		float regionAvail = ImGui::GetContentRegionAvail().x;
 
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(56.f/255.f, 70.f/255.f, 71.f/255.f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4((56.f - 42.f)/255.f, (70.f - 42.f)/255.f, (71.f - 42.f)/255.f, 1.0f));
 		ImGui::BeginChild("Border", ImVec2(regionAvail, 100), true, ImGuiWindowFlags_None);
 		ImGui::PopStyleColor(1);
 
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(16.f/255.f, 22.f/255.f, 23.f/255.f, 1.0f));
 		ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPos().x + 5, ImGui::GetCursorPos().y + 5));
 		ImGui::BeginChild("Main", ImVec2(regionAvail - 10, 100 - 10), true, ImGuiWindowFlags_None);
-		ImGui::PopStyleColor(1);
 
 		ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPos().x + ImGui::GetCurrentWindow()->Size.x / 2.0f - 40, ImGui::GetCursorPos().y));
 		ImGui::Text("Valuefields: ");

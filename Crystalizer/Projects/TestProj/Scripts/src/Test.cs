@@ -10,8 +10,8 @@ public class Test : Entity
 
     public override void OnCreate()
     {
-        GetComponent<TagComponent>().Tag = " Ioiaeghoigaeh";
-        GetComponent<TransformComponent>().SizeY = 1000.0f;
+        //GetComponent<TagComponent>().Tag = " Ioiaeghoigaeh";
+        //GetComponent<TransformComponent>().SizeY = 1000.0f;
     }
 
     public override void OnUpdate(float deltaTime)

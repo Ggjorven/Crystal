@@ -204,7 +204,7 @@ void EditorLayer::ViewPort()
 	if (size.x != 0 && size.y != 0) //Check if window is collapsed
 		m_FrameBuffer->Resize((uint32_t)size.x, (uint32_t)size.y);
 
-	ImGui::Image((void*)m_FrameBuffer->GetColorAttachmentRendererID(), size, { 0, 1 }, { 1, 0 });
+	ImGui::Image(reinterpret_cast<void*>(m_FrameBuffer->GetColorAttachmentRendererID()), size, { 0, 1 }, { 1, 0 });
 
 	//Update viewport size
 	Window& window = Application::Get().GetWindow();
@@ -222,21 +222,48 @@ void EditorLayer::ViewPort()
 
 	ImGui::SetCursorPos(ImVec2(ImGui::GetWindowSize().x / 2.0f - buttonSize.x, 6.0f));
 
-	if (ImGui::ImageButton((ImTextureID)Panels::s_ButtonTex->GetRendererID(), ImVec2(buttonSize.x, buttonSize.y), { 0, 1 }, { 1, 0 }))
+	if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(Panels::s_ButtonTex->GetRendererID()), ImVec2(buttonSize.x, buttonSize.y), { 0, 1 }, { 1, 0 }))
 	{
 		// TODO(Jorben): Add a better system for resetting the project
-		/*
-		ProjectSerializer serializer(m_Project);
+		// !TODO(Jorben): Add a completely different system. Important.
 		if (m_Running)
 		{
 			m_Project.reset();
 			m_Project = CreateRef<Project>();
+
+			ProjectSerializer serializer(m_Project);
+			serializer.Deserialize(m_Path);
+
+			m_Project.reset();
+			m_Project = CreateRef<Project>();
+
+			serializer = ProjectSerializer(m_Project);
 			serializer.Deserialize(m_Path);
 		}
 		else
 		{
+			ProjectSerializer serializer(m_Project);
 			serializer.Serialize(m_Path);
 		}
+		
+		/*
+		if (!file.empty())
+		{
+		m_Path = file;
+
+		m_Project.reset();
+		m_Project = CreateRef<Project>("New");
+
+		ProjectSerializer serializer(m_Project);
+		serializer.Deserialize(m_Path);
+		}
+
+
+
+		if (ImGui::MenuItem("Save project"))
+
+		ProjectSerializer serializer(m_Project);
+		serializer.Serialize(m_Path);
 		*/
 
 		m_Running = !m_Running;

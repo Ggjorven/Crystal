@@ -46,7 +46,7 @@ namespace Crystal
 	void Panels::TexturePanel(const std::string_view& name, Ref<Texture2D>& changeAbleTexture, bool* useTexture)
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10, 10));
-		ImGui::Image(changeAbleTexture ? (void*)changeAbleTexture->GetRendererID() : (void*)m_CheckerboardTex->GetRendererID(), ImVec2(32, 32), { 0, 1 }, { 1, 0 });
+		ImGui::Image(changeAbleTexture ? reinterpret_cast<void*>(changeAbleTexture->GetRendererID()) : reinterpret_cast<void*>(m_CheckerboardTex->GetRendererID()), ImVec2(32, 32), { 0, 1 }, { 1, 0 });
 		ImGui::PopStyleVar();
 
 		if (ImGui::IsItemHovered())
@@ -58,7 +58,7 @@ namespace Crystal
 				ImGui::PushTextWrapPos(ImGui::GetFontSize() * 17.5f);
 				ImGui::TextUnformatted(changeAbleTexture->GetPath().c_str());
 				ImGui::PopTextWrapPos();
-				ImGui::Image((void*)changeAbleTexture->GetRendererID(), ImVec2(192, 192), { 0, 1 }, { 1, 0 });
+				ImGui::Image(reinterpret_cast<void*>(changeAbleTexture->GetRendererID()), ImVec2(192, 192), { 0, 1 }, { 1, 0 });
 
 				ImGui::EndTooltip();
 			}

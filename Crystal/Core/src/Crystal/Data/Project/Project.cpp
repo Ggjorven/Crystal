@@ -53,15 +53,16 @@ namespace Crystal
 		{
 			for (Ref<ECS::Entity>& entity : m_Entities)
 			{
-				if (Ref<ECS::ScriptComponent> sc = entity->GetComponent<ECS::ScriptComponent>())
+				if (entity->HasComponent<ECS::ScriptComponent>())
 				{
+					auto& sc = entity->GetComponent<ECS::ScriptComponent>();
 					if (m_FirstUpdate)
 					{
-						sc->Script->UpdateValueFieldsValues();
-						sc->Script->OnCreate();
+						sc.Script->UpdateValueFieldsValues();
+						sc.Script->OnCreate();
 						m_FirstUpdate = false;
 					}
-					sc->Script->OnUpdate(ts);
+					sc.Script->OnUpdate(ts);
 				}
 			}
 			m_EditorCamera->OnUpdate(ts); // TODO(Jorben): Remove and replace with runtime camera
@@ -100,17 +101,17 @@ namespace Crystal
 		// TODO(Jorben): Add runtime camera
 		for (Ref<ECS::Entity> entity : m_Entities)
 		{
-			Ref<ECS::Renderer2DComponent> r2d = entity->GetComponent<ECS::Renderer2DComponent>();
-			Ref<ECS::TransformComponent> transform = entity->GetComponent<ECS::TransformComponent>();
-			if (r2d && r2d->Enable && transform)
+			if (entity->HasComponent<ECS::Renderer2DComponent>() && entity->HasComponent<ECS::TransformComponent>()) // Note(Jorben): Remove r2d.Enable maybe put it back sometime
 			{
-				if (r2d->Texture && r2d->UseTexture)
-					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f), r2d->Texture, false, m_EditorCamera->GetCamera());
-				else if (r2d->UseColour)
-					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f), r2d->Colour, false, m_EditorCamera->GetCamera());
-				else
-					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f), Vec4<float>(1.0f, 1.0f, 1.0f, 1.0f), false, m_EditorCamera->GetCamera());
+				auto& r2d = entity->GetComponent<ECS::Renderer2DComponent>();
+				auto& transform = entity->GetComponent<ECS::TransformComponent>();
 
+				if (r2d.Texture && r2d.UseTexture)
+					Renderer2D::DrawQuad(Vec2<float>(transform.Position.x, transform.Position.y), Vec2<float>(transform.Size.x, transform.Size.y), Vec2<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f), r2d.Texture, false, m_EditorCamera->GetCamera());
+				else if (r2d.UseColour)
+					Renderer2D::DrawQuad(Vec2<float>(transform.Position.x, transform.Position.y), Vec2<float>(transform.Size.x, transform.Size.y), Vec2<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f), r2d.Colour, false, m_EditorCamera->GetCamera());
+				else
+					Renderer2D::DrawQuad(Vec2<float>(transform.Position.x, transform.Position.y), Vec2<float>(transform.Size.x, transform.Size.y), Vec2<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f), Vec4<float>(1.0f, 1.0f, 1.0f, 1.0f), false, m_EditorCamera->GetCamera());
 			}
 		}
 	}
@@ -119,16 +120,17 @@ namespace Crystal
 	{
 		for (Ref<ECS::Entity> entity : m_Entities)
 		{
-			Ref<ECS::Renderer2DComponent> r2d = entity->GetComponent<ECS::Renderer2DComponent>();
-			Ref<ECS::TransformComponent> transform = entity->GetComponent<ECS::TransformComponent>();
-			if (r2d && r2d->Enable && transform)
+			if (entity->HasComponent<ECS::Renderer2DComponent>() && entity->HasComponent<ECS::TransformComponent>()) // Note(Jorben): Remove r2d.Enable maybe put it back sometime
 			{
-				if (r2d->Texture && r2d->UseTexture)
-					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f), r2d->Texture, false, m_EditorCamera->GetCamera());
-				else if (r2d->UseColour)
-					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f), r2d->Colour, false, m_EditorCamera->GetCamera());
+				auto& r2d = entity->GetComponent<ECS::Renderer2DComponent>();
+				auto& transform = entity->GetComponent<ECS::TransformComponent>();
+
+				if (r2d.Texture && r2d.UseTexture)
+					Renderer2D::DrawQuad(Vec2<float>(transform.Position.x, transform.Position.y), Vec2<float>(transform.Size.x, transform.Size.y), Vec2<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f), r2d.Texture, false, m_EditorCamera->GetCamera());
+				else if (r2d.UseColour)
+					Renderer2D::DrawQuad(Vec2<float>(transform.Position.x, transform.Position.y), Vec2<float>(transform.Size.x, transform.Size.y), Vec2<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f), r2d.Colour, false, m_EditorCamera->GetCamera());
 				else
-					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f), Vec4<float>(1.0f, 1.0f, 1.0f, 1.0f), false, m_EditorCamera->GetCamera());
+					Renderer2D::DrawQuad(Vec2<float>(transform.Position.x, transform.Position.y), Vec2<float>(transform.Size.x, transform.Size.y), Vec2<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f), Vec4<float>(1.0f, 1.0f, 1.0f, 1.0f), false, m_EditorCamera->GetCamera());
 			}
 		}
 	}

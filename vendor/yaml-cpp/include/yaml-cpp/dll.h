@@ -19,7 +19,7 @@
 #        define YAML_CPP_API __declspec(dllexport)
 #      else
          /* We are using this library */
-#        pragma message( "Defining YAML_CPP_API for DLL import" )
+//#        pragma message( "Defining YAML_CPP_API for DLL import" ) //ggjorven change
 #        define YAML_CPP_API __declspec(dllimport)
 #      endif
 #    endif

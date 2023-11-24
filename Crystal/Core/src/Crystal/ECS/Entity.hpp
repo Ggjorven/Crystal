@@ -21,9 +21,15 @@ namespace Crystal::ECS
         virtual ~Entity();
 
         template <typename ComponentType>
-        inline void AddComponent(Ref<ComponentType>& component/* = ComponentType()*/)
+        inline bool HasComponent()
         {
-            m_Storage.AddComponent<ComponentType>(m_UUID, component);
+            return m_Storage.HasComponent<ComponentType>(m_UUID);
+        }
+
+        template <typename ComponentType>
+        inline ComponentType& AddComponent(const ComponentType& component = ComponentType())
+        {
+            return m_Storage.AddComponent<ComponentType>(m_UUID, component);
         }
 
         template <typename ComponentType>
@@ -33,7 +39,7 @@ namespace Crystal::ECS
         }
 
         template <typename ComponentType>
-        inline Ref<ComponentType> GetComponent()
+        inline ComponentType& GetComponent()
         {
             return m_Storage.GetComponent<ComponentType>(m_UUID);
         }

@@ -16,8 +16,8 @@ namespace Crystal::ECS
     struct Component
     {
     public:
-		Component() = default;
-		virtual ~Component() = default;
+		Component();
+		virtual ~Component();
     };
 
 	struct TagComponent : public Component
@@ -26,14 +26,13 @@ namespace Crystal::ECS
 		std::string Tag;
 
 	public:
-		TagComponent() = default;
-		TagComponent(const TagComponent& other) = default;
-		TagComponent(const std::string& tag)
-			: Tag(tag) {}
-		virtual ~TagComponent() { }
+		TagComponent();
+		TagComponent(const TagComponent& other);
+		TagComponent(const std::string& tag);
+		virtual ~TagComponent();
 
-		operator std::string& () { return Tag; }
-		operator const std::string& () const { return Tag; }
+		operator std::string& ();
+		operator const std::string& () const;
 	};
 
     struct TransformComponent : public Component
@@ -44,11 +43,10 @@ namespace Crystal::ECS
 		float Rotation = 0.0f;
 
 	public:
-		TransformComponent() = default;
-		TransformComponent(const TransformComponent& other) = default;
-		TransformComponent(const Vec3<float>& position, const Vec3<float>& size, float rotation)
-			: Position(position), Size(size), Rotation(rotation) {}
-		virtual ~TransformComponent() {}
+		TransformComponent();
+		TransformComponent(const TransformComponent& other);
+		TransformComponent(const Vec3<float>& position, const Vec3<float>& size, float rotation);
+		virtual ~TransformComponent();
     };
 
 	struct Renderer2DComponent : public Component
@@ -62,15 +60,12 @@ namespace Crystal::ECS
 		bool UseColour = true;
 
 	public:
-		Renderer2DComponent() = default;
-		Renderer2DComponent(const Renderer2DComponent& other) = default;
-		Renderer2DComponent(const Vec4<float>& colour)
-			: Colour(colour), UseTexture(false), UseColour(true) {}
-		Renderer2DComponent(Ref<Texture2D> texture) 
-			: Texture(texture), UseTexture(true), UseColour(false) {}
-		Renderer2DComponent(Ref<Texture2D> texture, const Vec4<float>& colour)
-			: Texture(texture), Colour(colour), UseTexture(true), UseColour(false) {}
-		virtual ~Renderer2DComponent() { }
+		Renderer2DComponent();
+		Renderer2DComponent(const Renderer2DComponent& other);
+		Renderer2DComponent(const Vec4<float>& colour);
+		Renderer2DComponent(Ref<Texture2D> texture);
+		Renderer2DComponent(Ref<Texture2D> texture, const Vec4<float>& colour);
+		virtual ~Renderer2DComponent();
 	};
 
 	struct ColliderComponent : public Component
@@ -79,14 +74,11 @@ namespace Crystal::ECS
 		AABBCollider* AABB = nullptr;
 
 	public:
-		ColliderComponent() {}
-		ColliderComponent(const ColliderComponent& other) = default;
-		virtual ~ColliderComponent() { Clean(); }
+		ColliderComponent();
+		ColliderComponent(const ColliderComponent& other);
+		virtual ~ColliderComponent();
 
-		void Clean() const
-		{
-			if (AABB) delete AABB;
-		}
+		void Clean() const;
 	};
 
 	struct ScriptComponent : public Component
@@ -96,12 +88,10 @@ namespace Crystal::ECS
 		Ref<EntityScript> Script;
 
 	public:
-		ScriptComponent() 
-			: Script(CreateRef<EntityScript>()) {}
-		ScriptComponent(const ScriptComponent& other) = default;
-		ScriptComponent(const std::filesystem::path& path)
-			: Path(path), Script(CreateRef<EntityScript>(path)) {}
-		virtual ~ScriptComponent() { CR_CORE_TRACE("Script"); Script.reset(); }
+		ScriptComponent();
+		ScriptComponent(const ScriptComponent& other);
+		ScriptComponent(const std::filesystem::path& path);
+		virtual ~ScriptComponent();
 	};
 
 	/*

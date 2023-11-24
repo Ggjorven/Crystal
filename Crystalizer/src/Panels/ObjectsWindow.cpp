@@ -48,9 +48,9 @@ namespace Crystal
 			//Naming
 			std::string name;
 			{
-				Ref<ECS::TagComponent> tag = entity->GetComponent<ECS::TagComponent>();
-				if (tag && !tag->Tag.empty())
-					name = std::string("Entity - ") + std::string(tag->Tag);
+				auto& tag = entity->GetComponent<ECS::TagComponent>();
+				if (entity->HasComponent<ECS::TagComponent>() && !tag.Tag.empty())
+					name = std::string("Entity - ") + std::string(tag.Tag);
 				else
 					name = std::string("Entity - ") + std::to_string(entity->GetUUID());
 			}

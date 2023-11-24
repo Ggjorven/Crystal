@@ -82,60 +82,65 @@ namespace Crystal
 		emitter << YAML::Key << "Entity";
 		emitter << YAML::Value << uuid;
 
-		if (auto tagC = entity->GetComponent<ECS::TagComponent>())
+		if (entity->HasComponent<ECS::TagComponent>())
 		{
+			auto& tagC = entity->GetComponent<ECS::TagComponent>();
 			emitter << YAML::Key << "TagComponent";
 			emitter << YAML::BeginMap; // TagComponent
 
-			emitter << YAML::Key << "Tag" << YAML::Value << tagC->Tag;
+			emitter << YAML::Key << "Tag" << YAML::Value << tagC.Tag;
 
 			emitter << YAML::EndMap; // TagComponent
 		}
 
-		if (auto transform = entity->GetComponent<ECS::TransformComponent>())
+		if (entity->HasComponent<ECS::TransformComponent>())
 		{
+			auto& transform = entity->GetComponent<ECS::TransformComponent>();
 			emitter << YAML::Key << "TransformComponent";
 			emitter << YAML::BeginMap; // TransformComponent
 
-			emitter << YAML::Key << "Position" << transform->Position;
-			emitter << YAML::Key << "Size" << YAML::Value << transform->Size;
-			emitter << YAML::Key << "Rotation" << YAML::Value << transform->Rotation;
+			emitter << YAML::Key << "Position" << transform.Position;
+			emitter << YAML::Key << "Size" << YAML::Value << transform.Size;
+			emitter << YAML::Key << "Rotation" << YAML::Value << transform.Rotation;
 
 			emitter << YAML::EndMap; // TransformComponent
 		}
 
-		if (auto r2d = entity->GetComponent<ECS::Renderer2DComponent>())
+		if (entity->HasComponent<ECS::Renderer2DComponent>())
 		{
+			auto& r2d = entity->GetComponent<ECS::Renderer2DComponent>();
 			emitter << YAML::Key << "Renderer2DComponent";
 			emitter << YAML::BeginMap; // Renderer2DComponent
 
-			emitter << YAML::Key << "Enable" << r2d->Enable;
-			if (r2d->Texture)
-				emitter << YAML::Key << "Texture" << r2d->Texture->GetPath();
-			emitter << YAML::Key << "Colour" << r2d->Colour;
-			emitter << YAML::Key << "UseTexture" << r2d->UseTexture;
-			emitter << YAML::Key << "UseColour" << r2d->UseColour;
+			emitter << YAML::Key << "Enable" << r2d.Enable;
+			if (r2d.Texture)
+				emitter << YAML::Key << "Texture" << r2d.Texture->GetPath();
+			emitter << YAML::Key << "Colour" << r2d.Colour;
+			emitter << YAML::Key << "UseTexture" << r2d.UseTexture;
+			emitter << YAML::Key << "UseColour" << r2d.UseColour;
 
 			emitter << YAML::EndMap; // Renderer2DComponent
 		}
 
-		if (auto cc = entity->GetComponent<ECS::ColliderComponent>())
+		if (entity->HasComponent<ECS::ColliderComponent>())
 		{
+			auto& cc = entity->GetComponent<ECS::ColliderComponent>();
 			emitter << YAML::Key << "ColliderComponent";
 			emitter << YAML::BeginMap; // ColliderComponent
 
-			emitter << YAML::Key << "AABB" << (cc->AABB ? true : false);
+			emitter << YAML::Key << "AABB" << (cc.AABB ? true : false);
 
 			emitter << YAML::EndMap; // ColliderComponent
 		}
 
-		if (auto sc = entity->GetComponent<ECS::ScriptComponent>())
+		if (entity->HasComponent<ECS::ScriptComponent>())
 		{
+			auto& sc = entity->GetComponent<ECS::ScriptComponent>();
 			emitter << YAML::Key << "ScriptComponent";
 			emitter << YAML::BeginMap; // Renderer2DComponent
 
-			emitter << YAML::Key << "Path" << sc->Path.string();
-			emitter << YAML::Key << "Class" << sc->Script->GetClass();
+			emitter << YAML::Key << "Path" << sc.Path.string();
+			emitter << YAML::Key << "Class" << sc.Script->GetClass();
 
 			emitter << YAML::EndMap; // Renderer2DComponent
 		}
@@ -156,71 +161,66 @@ namespace Crystal
 		auto tagComponent = node["TagComponent"];
 		if (tagComponent)
 		{
-			Ref<ECS::TagComponent> tag = CreateRef<ECS::TagComponent>();
-			entity->AddComponent<ECS::TagComponent>(tag);
+			ECS::TagComponent& tag = entity->AddComponent<ECS::TagComponent>();
 
-			tag->Tag = tagComponent["Tag"].as<std::string>();
+			//ggjorven here
+			tag.Tag = tagComponent["Tag"].as<std::string>();
 		}
 
 		//TransformComponent
 		auto transformComponent = node["TransformComponent"];
 		if (transformComponent)
 		{
-			Ref<ECS::TransformComponent> transform = CreateRef<ECS::TransformComponent>();
-			entity->AddComponent<ECS::TransformComponent>(transform);
+			ECS::TransformComponent& transform = entity->AddComponent<ECS::TransformComponent>();
 
-			transform->Position = transformComponent["Position"].as<glm::vec3>();
-			transform->Size = transformComponent["Size"].as<glm::vec3>();
-			transform->Rotation = transformComponent["Rotation"].as<float>();
+			transform.Position = transformComponent["Position"].as<glm::vec3>();
+			transform.Size = transformComponent["Size"].as<glm::vec3>();
+			transform.Rotation = transformComponent["Rotation"].as<float>();
 		}
 
 		//Renderer2DComponent
 		auto renderer2DComponent = node["Renderer2DComponent"];
 		if (renderer2DComponent)
 		{
-			Ref<ECS::Renderer2DComponent> r2d = CreateRef<ECS::Renderer2DComponent>();
-			entity->AddComponent<ECS::Renderer2DComponent>(r2d);
+			ECS::Renderer2DComponent& r2d = entity->AddComponent<ECS::Renderer2DComponent>();
 
-			r2d->Enable = renderer2DComponent["Enable"].as<bool>();
+			r2d.Enable = renderer2DComponent["Enable"].as<bool>();
 			if (renderer2DComponent["Texture"])
-				r2d->Texture = Texture2D::Create(renderer2DComponent["Texture"].as<std::string>());
+				r2d.Texture = Texture2D::Create(renderer2DComponent["Texture"].as<std::string>());
 			else
-				r2d->Texture = nullptr;
+				r2d.Texture = nullptr;
 
-			r2d->Colour = renderer2DComponent["Colour"].as<glm::vec4>();
-			r2d->UseTexture = renderer2DComponent["UseTexture"].as<bool>();
-			r2d->UseColour = renderer2DComponent["UseColour"].as<bool>();
+			r2d.Colour = renderer2DComponent["Colour"].as<glm::vec4>();
+			r2d.UseTexture = renderer2DComponent["UseTexture"].as<bool>();
+			r2d.UseColour = renderer2DComponent["UseColour"].as<bool>();
 		}
 
 		//ColliderComponent
 		auto colliderComponent = node["ColliderComponent"];
 		if (colliderComponent)
 		{
-			Ref<ECS::ColliderComponent> cc = CreateRef<ECS::ColliderComponent>();
-			entity->AddComponent<ECS::ColliderComponent>(cc);
+			ECS::ColliderComponent& cc = entity->AddComponent<ECS::ColliderComponent>();
 
-			if (colliderComponent["AABB"].as<bool>()) cc->AABB = new AABBCollider();
+			if (colliderComponent["AABB"].as<bool>()) cc.AABB = new AABBCollider();
 		}
 
 		//ScriptComponent
 		auto scriptComponent = node["ScriptComponent"];
 		if (scriptComponent)
 		{
-			Ref<ECS::ScriptComponent> sc = CreateRef<ECS::ScriptComponent>();
-			entity->AddComponent<ECS::ScriptComponent>(sc);
+			ECS::ScriptComponent& sc = entity->AddComponent<ECS::ScriptComponent>();
 
-			sc->Path = scriptComponent["Path"].as<std::string>();
-			sc->Script->SetUUID(entity->GetUUID());
-			sc->Script->SetDLL(sc->Path);
-			sc->Script->SetClass(scriptComponent["Class"].as<std::string>());
+			sc.Path = scriptComponent["Path"].as<std::string>();
+			sc.Script->SetUUID(entity->GetUUID());
+			sc.Script->SetDLL(sc.Path);
+			sc.Script->SetClass(scriptComponent["Class"].as<std::string>());
 
 			//Add components
 			if (tagComponent)
-				sc->Script->AddTagComponent();
+				sc.Script->AddTagComponent();
 
 			if (transformComponent)
-				sc->Script->AddTransformComponent();
-
+				sc.Script->AddTransformComponent();
 		}
 	}
 

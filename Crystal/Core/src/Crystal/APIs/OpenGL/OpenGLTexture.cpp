@@ -59,6 +59,8 @@ namespace Crystal
 		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, dataFormat, GL_UNSIGNED_BYTE, m_Data);
+	
+		//glGenerateMipmap(GL_TEXTURE_2D);
 	}
 
 	OpenGLTexture2D::~OpenGLTexture2D()
@@ -73,11 +75,14 @@ namespace Crystal
 		CR_CORE_ASSERT(size == m_Width * m_Height * bpp, "Data must be entire texture!");
 
 		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
+
+		//glGenerateMipmap(GL_TEXTURE_2D);
 	}
 
 	void OpenGLTexture2D::UpdateSubTexture(int x, int y, int width, int height)
 	{
 		// TODO: maybe?
+		CR_CORE_ASSERT(false, "NOT SUPPORTED");
 	}
 
 	void OpenGLTexture2D::Bind(uint32_t slot) const

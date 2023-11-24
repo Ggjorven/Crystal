@@ -228,43 +228,13 @@ void EditorLayer::ViewPort()
 		// !TODO(Jorben): Add a completely different system. Important.
 		if (m_Running)
 		{
-			m_Project.reset();
-			m_Project = CreateRef<Project>();
 
-			ProjectSerializer serializer(m_Project);
-			serializer.Deserialize(m_Path);
-
-			m_Project.reset();
-			m_Project = CreateRef<Project>();
-
-			serializer = ProjectSerializer(m_Project);
-			serializer.Deserialize(m_Path);
 		}
 		else
 		{
 			ProjectSerializer serializer(m_Project);
 			serializer.Serialize(m_Path);
 		}
-		
-		/*
-		if (!file.empty())
-		{
-		m_Path = file;
-
-		m_Project.reset();
-		m_Project = CreateRef<Project>("New");
-
-		ProjectSerializer serializer(m_Project);
-		serializer.Deserialize(m_Path);
-		}
-
-
-
-		if (ImGui::MenuItem("Save project"))
-
-		ProjectSerializer serializer(m_Project);
-		serializer.Serialize(m_Path);
-		*/
 
 		m_Running = !m_Running;
 		Panels::SwitchButtons();

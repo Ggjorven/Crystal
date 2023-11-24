@@ -4,14 +4,25 @@ Entities:
     TagComponent:
       Tag: Greenbox
     TransformComponent:
-      Position: [64, 64, 0]
+      Position: [117.684479, 128.258698, 0]
       Size: [64, 64, 0]
       Rotation: 0
     Renderer2DComponent:
       Enable: true
+      Texture: F:\Code\C++\VS\Crystal\Crystalizer\assets\textures\Mario.png
       Colour: [0.0828804374, 0.663043499, 0.303594619, 1]
-      UseTexture: false
+      UseTexture: true
       UseColour: true
     ScriptComponent:
-      Path: D:\Code\C++\VS\Crystal\Crystalizer\Projects\TestProj\Scripts\bin\Release\Script.dll
+      Path: F:\Code\C++\VS\Crystal\Crystalizer\Projects\TestProj\Scripts\bin\Release\Script.dll
       Class: Test
+  - Entity: 13880776247202450900
+    TransformComponent:
+      Position: [64, 128, 0]
+      Size: [64, 64, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Colour: [0.186082169, 0.648411274, 0.760869563, 1]
+      UseTexture: false
+      UseColour: true

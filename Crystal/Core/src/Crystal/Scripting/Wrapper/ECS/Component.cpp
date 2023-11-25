@@ -14,7 +14,7 @@ namespace Crystal::Wrapper
 	{
 		if (Project::GetCurrentProject()->GetStorage().HasComponent<ECS::TagComponent>(uuid))
 		{
-			auto& tc = Project::GetCurrentProject()->GetStorage().AddComponent<ECS::TagComponent>(uuid);
+			ECS::TagComponent& tc = Project::GetCurrentProject()->GetStorage().AddComponent<ECS::TagComponent>(uuid);
 			tc.Tag = std::string(str);
 		}
 		else

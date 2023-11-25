@@ -24,7 +24,7 @@ namespace Crystal
 
 	EntityScript::~EntityScript()
 	{
-		CR_CORE_TRACE("AAA");
+		//CR_CORE_TRACE("AAA");
 		m_Object.Destroy();
 		ECS::Storage::s_Host.UnloadAssemblyLoadContext(m_Context);
 	}

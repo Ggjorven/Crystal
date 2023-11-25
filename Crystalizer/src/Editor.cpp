@@ -228,12 +228,11 @@ void EditorLayer::ViewPort()
 		// !TODO(Jorben): Add a completely different system. Important.
 		if (m_Running)
 		{
-
+			m_Project->ResetStorage();
 		}
 		else
 		{
-			ProjectSerializer serializer(m_Project);
-			serializer.Serialize(m_Path);
+			m_Project->CopyStorage();
 		}
 
 		m_Running = !m_Running;

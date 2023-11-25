@@ -32,6 +32,9 @@ namespace Crystal
 		ECS::Storage& GetStorage() { return m_Storage; }
 		std::string GetName() { return m_DebugName; }
 
+		void CopyStorage();
+		void ResetStorage();
+
 		static Project* GetCurrentProject() { return s_CurrentProject; }
 
 		enum class State
@@ -49,6 +52,8 @@ namespace Crystal
 		std::string m_DebugName;
 
 		ECS::Storage m_Storage;
+		ECS::Storage m_StorageCopy;
+
 		std::vector<Ref<ECS::Entity>> m_Entities;
 
 		Ref<EditorCamera> m_EditorCamera;

@@ -2,16 +2,16 @@ Project: New
 Entities:
   - Entity: 3592375607070931751
     TagComponent:
-      Tag: Greenbox
+      Tag: Greenboaa
     TransformComponent:
-      Position: [117.684479, 128.258698, 0]
+      Position: [128, 150.300003, 0]
       Size: [64, 64, 0]
       Rotation: 0
     Renderer2DComponent:
       Enable: true
       Texture: F:\Code\C++\VS\Crystal\Crystalizer\assets\textures\Mario.png
       Colour: [0.0828804374, 0.663043499, 0.303594619, 1]
-      UseTexture: true
+      UseTexture: false
       UseColour: true
     ScriptComponent:
       Path: F:\Code\C++\VS\Crystal\Crystalizer\Projects\TestProj\Scripts\bin\Release\Script.dll

@@ -17,7 +17,7 @@ namespace Crystal
 
 	Project::~Project()
 	{
-		CR_CORE_TRACE("CCC");
+		//CR_CORE_TRACE("CCC");
 		for (Ref<ECS::Entity> entity : m_Entities)
 		{
 			//CR_CORE_TRACE("{0} has Script: {1}", entity->GetUUID(), (entity->GetComponent<ECS::ScriptComponent>() ? true : false));
@@ -94,6 +94,16 @@ namespace Crystal
 		}
 		CR_CORE_WARN("No entity with UUID ({0}) found in current project...", uuid);
 		return nullptr;
+	}
+
+	void Project::CopyStorage()
+	{
+		m_StorageCopy = m_Storage;
+	}
+
+	void Project::ResetStorage()
+	{
+		m_Storage = m_StorageCopy;
 	}
 
 	void Project::OnRenderRuntime()

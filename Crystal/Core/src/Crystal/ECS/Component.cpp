@@ -6,12 +6,12 @@ namespace Crystal::ECS
 
 	Component::Component()
 	{
-		CR_CORE_TRACE("Component");
+		//CR_CORE_TRACE("Component");
 	}
 
 	Component::~Component()
 	{
-		CR_CORE_TRACE("~Component");
+		//CR_CORE_TRACE("~Component");
 	}
 
 
@@ -84,5 +84,5 @@ namespace Crystal::ECS
 	ScriptComponent::ScriptComponent(const std::filesystem::path& path)
 		: Path(path), Script(CreateRef<EntityScript>(path)) {}
 
-	ScriptComponent::~ScriptComponent() { CR_CORE_TRACE("Script"); Script.reset(); }
+	ScriptComponent::~ScriptComponent() { /*CR_CORE_TRACE("Script");*/ Script.reset(); }
 }

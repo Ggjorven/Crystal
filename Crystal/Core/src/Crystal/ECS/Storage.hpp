@@ -50,6 +50,7 @@ namespace Crystal::ECS
                 }
             }
 
+            // Note(Jorben): You should never use this...
             ComponentType temp = ComponentType();
             return temp;
         }

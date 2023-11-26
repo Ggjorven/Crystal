@@ -2,27 +2,65 @@ Project: New
 Entities:
   - Entity: 3592375607070931751
     TagComponent:
-      Tag: Greenboaa
+      Tag: Mario
     TransformComponent:
-      Position: [128, 150.300003, 0]
+      Position: [141.756714, 112.76709, 0]
       Size: [64, 64, 0]
       Rotation: 0
     Renderer2DComponent:
       Enable: true
       Texture: F:\Code\C++\VS\Crystal\Crystalizer\assets\textures\Mario.png
-      Colour: [0.0828804374, 0.663043499, 0.303594619, 1]
-      UseTexture: false
+      Colour: [0.935018897, 1, 0.402173936, 1]
+      UseTexture: true
       UseColour: true
     ScriptComponent:
       Path: F:\Code\C++\VS\Crystal\Crystalizer\Projects\TestProj\Scripts\bin\Release\Script.dll
       Class: Test
   - Entity: 13880776247202450900
+    TagComponent:
+      Tag: Floor
     TransformComponent:
-      Position: [64, 128, 0]
-      Size: [64, 64, 0]
+      Position: [0, 0, 0]
+      Size: [1631, 64, 0]
       Rotation: 0
     Renderer2DComponent:
       Enable: true
       Colour: [0.186082169, 0.648411274, 0.760869563, 1]
+      UseTexture: false
+      UseColour: true
+  - Entity: 2265741779693844136
+    TagComponent:
+      Tag: White
+    TransformComponent:
+      Position: [723, 175, 0]
+      Size: [64, 64, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Colour: [1, 1, 1, 1]
+      UseTexture: false
+      UseColour: true
+  - Entity: 9901833062000255716
+    TagComponent:
+      Tag: Red
+    TransformComponent:
+      Position: [106, 241, 0]
+      Size: [64, 64, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Colour: [0.885869563, 0.0818466544, 0.0818466544, 1]
+      UseTexture: false
+      UseColour: true
+  - Entity: 14618452480267289050
+    TagComponent:
+      Tag: Green
+    TransformComponent:
+      Position: [614, 322, 0]
+      Size: [64, 64, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Colour: [0.371104985, 0.815217376, 0.110763229, 1]
       UseTexture: false
       UseColour: true

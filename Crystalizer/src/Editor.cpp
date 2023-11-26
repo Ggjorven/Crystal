@@ -179,14 +179,25 @@ void EditorLayer::MenuBar()
 				ProjectSerializer serializer(m_Project);
 				serializer.Deserialize(m_Path);
 			}
-
 		}
 
 		if (ImGui::MenuItem("Save project"))
 		{
-			ProjectSerializer serializer(m_Project);
-			serializer.Serialize(m_Path);
+			SaveProject();
 		}
+		ImGui::EndMenu();
+	}
+
+	ImGui::Dummy(ImVec2(3.f, 0.0f));
+
+	if (ImGui::BeginMenu("Options"))
+	{
+		static bool wireFrame = false;
+		if (ImGui::Checkbox("Wireframe", &wireFrame))
+		{
+			RendererCommand::EnableWireFrame(wireFrame);
+		}
+
 		ImGui::EndMenu();
 	}
 
@@ -213,6 +224,7 @@ void EditorLayer::ViewPort()
 	ImVec2 mainViewportPos = ImGui::GetMainViewport()->Pos;
 	ImVec2 relativePos = { windowPos.x - mainViewportPos.x, windowPos.y - mainViewportPos.y };
 
+	// TODO(Jorben): When SceneRenderer is created, set ViewportWidth for separate renderers
 	window.SetViewportWidth((uint32_t)ImGui::GetWindowSize().x);
 	window.SetViewportHeight((uint32_t)ImGui::GetWindowSize().y);
 	window.SetViewportX((uint32_t)relativePos.x);

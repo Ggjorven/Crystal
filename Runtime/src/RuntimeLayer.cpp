@@ -19,6 +19,13 @@ namespace Crystal
 		serializer.Deserialize(m_Path);
 
 		m_Project->SetState(Project::State::Runtime);
+
+		Window& window = Application::Get().GetWindow();
+		window.SetVSync(true);
+
+		m_FrameBuffer = FrameBuffer::Create(window.GetWidth(), window.GetHeight(), FrameBufferFormat::RGBA8);
+		window.SetViewportX(0u);
+		window.SetViewportY(0u);
 	}
 
 	void RuntimeLayer::OnDetach()
@@ -28,13 +35,29 @@ namespace Crystal
 	void RuntimeLayer::OnUpdate(Timestep& ts)
 	{
 		m_Project->OnUpdate(ts);
+
+		//Update viewport size
+		Window& window = Application::Get().GetWindow();
+
+		// TODO(Jorben): When SceneRenderer is created, set ViewportWidth for separate renderers
+		window.SetViewportWidth(window.GetWidth());
+		window.SetViewportHeight(window.GetHeight());
+
+		m_FrameBuffer->Resize(window.GetWidth(), window.GetHeight());
 	}
 
 	void RuntimeLayer::OnRender()
 	{
+		const Window& window = Application::Get().GetWindow();
+		
+		m_FrameBuffer->Bind();
 		RendererCommand::Clear();
 
 		m_Project->OnRender();
+
+		m_FrameBuffer->Unbind();
+
+		RendererCommand::ReplaceFramebuffer(m_FrameBuffer);
 	}
 
 	void RuntimeLayer::OnImGuiRender()

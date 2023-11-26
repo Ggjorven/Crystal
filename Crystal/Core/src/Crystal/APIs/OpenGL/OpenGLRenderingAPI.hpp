@@ -18,7 +18,11 @@ namespace Crystal
 
 		void SetClearColour(const Vec4<float>& colour) override;
 		void SetViewPort(uint32_t x, uint32_t y, uint32_t width, uint32_t height) override;
+
 		void EnableDepth(bool enabled) override;
+		void EnableWireFrame(bool enabled) override;
+
+		void ReplaceFramebuffer(Ref<FrameBuffer>& framebuffer) override;
 
 		void DrawIndexed(const Ref<VertexArray>& vertexArray) override;
 		void DrawIndexed(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader) override;

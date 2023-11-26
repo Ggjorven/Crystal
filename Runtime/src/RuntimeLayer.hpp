@@ -26,5 +26,6 @@ namespace Crystal
 		std::filesystem::path m_Path = Utils::GetEnviromentVariable("CRYSTAL_DIR") + "/Crystalizer/Projects/TestProj/test.crproj";
 
 		Ref<Project> m_Project;
+		Ref<FrameBuffer> m_FrameBuffer = nullptr;
 	};
 }

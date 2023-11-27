@@ -155,6 +155,8 @@ void EditorLayer::SaveProject()
 {
 	ProjectSerializer serializer(m_Project);
 	serializer.Serialize(m_Path);
+
+	m_Project->SaveScene();
 }
 
 void EditorLayer::MenuBar()

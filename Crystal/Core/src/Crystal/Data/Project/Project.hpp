@@ -43,6 +43,8 @@ namespace Crystal
 		
 		void SetState(State state) { m_State = state; m_ActiveScene->SetState((int)state); }
 
+		void SaveScene() { m_ActiveScene->SaveScene(); }
+
 	private:
 		void LoadScene2D(std::filesystem::path path);
 		void LoadScene3D(std::filesystem::path path);

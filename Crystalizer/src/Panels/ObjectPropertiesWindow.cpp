@@ -172,6 +172,22 @@ namespace Crystal
 			if (m_SelectedEntity->HasComponent<ECS::ScriptComponent>())
 			{
 				auto& sc = m_SelectedEntity->GetComponent<ECS::ScriptComponent>();
+
+				// Note(Jorben): Check if components have not been sent to the ScriptComponent
+				// TODO(Jorben): Fix this
+				ComponentList& cl = sc.Script->GetComponents();
+				if (m_SelectedEntity->HasComponent<ECS::TagComponent>() && !cl.TagComponent)
+				{
+					sc.Script->AddTagComponent();
+					cl.TagComponent = true;
+				}
+
+				if (m_SelectedEntity->HasComponent<ECS::TransformComponent>() && !cl.TransformComponent)
+				{
+					sc.Script->AddTransformComponent();
+					cl.TransformComponent = true;
+				}
+
 				UI::ComponentOptions co;
 				if (UI::BeginECSComponent("ScriptComponent", co, s_Icons[(int)Icon::Script])) // TODO(Jorben): Add right click enabled/disabled functionality
 				{
@@ -214,16 +230,6 @@ namespace Crystal
 
 					// Display ValueFields
 					sc.Script->DisplayValueFields();
-				}
-
-				// Note(Jorben): Check if components have not been sent to the ScriptComponent
-				{
-					ComponentList& cl = sc.Script->GetComponents();
-					if (m_SelectedEntity->HasComponent<ECS::TagComponent>() && !cl.TagComponent)
-						sc.Script->AddTagComponent();
-
-					if (m_SelectedEntity->HasComponent<ECS::TransformComponent>() && !cl.TransformComponent)
-						sc.Script->AddTransformComponent();
 				}
 			}
 		}

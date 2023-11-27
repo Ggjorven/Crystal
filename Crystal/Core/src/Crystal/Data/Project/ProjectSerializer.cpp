@@ -27,12 +27,12 @@ namespace Crystal
 
 		for (auto& scenePath : m_Project->m_Scenes)
 		{
-			data << YAML::BeginMap; // Entity
+			data << YAML::BeginMap; // Scene
 			data << YAML::Key << "Scene";
 			data << YAML::Value << scenePath.string();
 		}
 
-		data << YAML::EndSeq;
+		//data << YAML::EndSeq;
 		data << YAML::EndMap;
 
 		std::ofstream file(path);
@@ -49,10 +49,18 @@ namespace Crystal
 
 	void ProjectSerializer::Deserialize(std::filesystem::path path)
 	{
-		int i = 0; // TEMP // REMOVE
 		CR_CORE_TRACE("Loading project: {0}", path.string());
 		
-		YAML::Node data = YAML::LoadFile(path.string());
+		YAML::Node data;
+		try
+		{
+			data = YAML::LoadFile(path.string());
+		}
+		catch (YAML::BadFile e)
+		{
+			CR_CORE_ERROR("Failed to load {0}", path.string());
+			return;
+		}
 
 		//Set scene name
 		if (data["Project"])
@@ -60,7 +68,6 @@ namespace Crystal
 		else
 			CR_CORE_WARN("No \"Project:\" tab found in {0}\n\tNot critical, just no data loaded and starting as a blank project.", path.string());
 
-		CR_CORE_TRACE("{0}", i++);
 
 		auto scenes = data["Scenes"];
 		if (scenes)
@@ -68,17 +75,12 @@ namespace Crystal
 			for (auto scene : scenes)
 			{
 				// TODO(Jorben): Add a way of saying a scene is 2D or 3D in YAML
-				CR_CORE_TRACE("{0}", i++);
-				
-				CR_CORE_TRACE("Scene: {0}", scene["Scene"].as<std::string>());
-				m_Project->m_Scenes.push_back(scene["Scene"].as<std::string>());
+				m_Project->m_Scenes.emplace_back(scene["Scene"].as<std::string>());
 			}
-			CR_CORE_TRACE("{0}", i++);
-			if (m_Project->m_Scenes.size() > 0) m_Project->LoadScene2D(m_Project->m_Scenes[0]);
-			else m_Project->m_ActiveScene = CreateRef<Scene2D>(); // TODO(Jorben): This doesn't make the program work
-			CR_CORE_TRACE("{0}", i++);
 		}
-		CR_CORE_TRACE("Finished scenes");
+		// TODO(Jorben): Add a way of saying a scene is 2D or 3D in YAML
+		if (m_Project->m_Scenes.size() > 0) m_Project->AddScene(m_Project->m_Scenes[0]);
+		else m_Project->m_ActiveScene = CreateRef<Scene2D>();
 		
 		std::stringstream ss;
 		ss << data;

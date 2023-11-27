@@ -9,14 +9,33 @@
 #include "Crystal/Renderer/Tools/SceneRenderer.hpp"
 #include "Crystal/Renderer/Tools/EditorCamera.hpp"
 
+#include <string>
+#include <filesystem>
+
 namespace Crystal
 {
 
 	class SceneSerializer;
+	class Project;
 
 	enum class SceneState
 	{
 		None = 0, Editor, Runtime
+	};
+
+	struct SceneProperties
+	{
+	public:
+		enum class Type
+		{
+			None = 0, _2D = 2, _3D = 3
+		};
+
+	public:
+		std::string Name = "None";
+		std::filesystem::path Path = "None";
+		Type SceneType = Type::None;
+
 	};
 
 	class Scene // TODO(Jorben): Add scene's instead of everything in Project
@@ -35,15 +54,20 @@ namespace Crystal
 
 		ECS::Storage& GetStorage() { return m_Storage; }
 		std::string& GetName() { return m_DebugName; }
+		const SceneProperties& GetProperties() { return m_Properties; }
 
+		void SetProperties(const SceneProperties& properties) { m_Properties = properties; }
 		void SetState(int state) { m_State = (SceneState)state; }
 
 		void CopyStorage() { m_StorageCopy = m_Storage; }
 		void ResetStorage() { m_Storage = m_StorageCopy; }
 
+		virtual void SaveScene() = 0;
+
 	protected:
 		std::string m_DebugName;
 		SceneState m_State = SceneState::None;
+		SceneProperties m_Properties;
 
 		ECS::Storage m_Storage;
 		ECS::Storage m_StorageCopy;
@@ -55,6 +79,7 @@ namespace Crystal
 		bool m_FirstUpdate = true;
 
 		//Friend classes to be able to use some private members/functions
+		friend class Project;
 		friend class SceneSerializer;
 	};
 
@@ -67,6 +92,8 @@ namespace Crystal
 		void OnUpdate(Timestep& ts) override;
 		void OnRender() override;
 		void OnEvent(Event& e) override;
+
+		void SaveScene() override;
 
 	private:
 		void OnRenderEditor();

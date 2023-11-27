@@ -15,6 +15,7 @@ namespace Crystal
 	class SceneSerializer
 	{
 	public:
+		SceneSerializer(Scene* scene);
 		SceneSerializer(Ref<Scene>& scene);
 		virtual ~SceneSerializer();
 
@@ -28,7 +29,8 @@ namespace Crystal
 		void DeserializeEntity(YAML::detail::iterator_value& node);
 
 	private:
-		Ref<Scene>& m_Scene;
+		Ref<Scene> m_Scene = nullptr;
+		Scene* m_PureScene = nullptr;
 	};
 
 }

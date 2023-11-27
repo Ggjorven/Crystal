@@ -1,6 +1,8 @@
 #include "crpch.h"
 #include "Scene.hpp"
 
+#include "SceneSerializer.hpp"
+
 namespace Crystal
 {
 
@@ -65,6 +67,13 @@ namespace Crystal
 
 	void Scene2D::OnEvent(Event& e)
 	{
+		m_EditorCamera->OnEvent(e);
+	}
+
+	void Scene2D::SaveScene()
+	{
+		SceneSerializer serializer((Scene*)this);
+		serializer.Serialize(m_Properties.Path);
 	}
 
 	void Scene2D::OnRenderEditor()

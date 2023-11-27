@@ -43,7 +43,8 @@ project "Crystalizer"
 
 	disablewarnings
 	{
-		"4312"
+		"4312",
+		"4996"
 	}
 
 	libdirs { "%{wks.location}/vendor/NetCore/7.0.7/" }
@@ -62,7 +63,7 @@ project "Crystalizer"
         '{COPYFILE} "%{wks.location}/vendor/Coral/Coral.Managed/Coral.Managed.runtimeconfig.json" "%{cfg.targetdir}"',
 
         '{COPYFILE} "%{wks.location}/bin/Release-%{cfg.system}-/Coral.Managed/Coral.Managed.dll" "%{cfg.targetdir}"',
-        '{COPYFILE} "%{wks.location}/bin/Release-%{cfg.system}-/Scripting-Engine/Scripting-Engine.dll" "%{cfg.targetdir}"'
+        '{COPYFILE} "%{wks.location}/bin/Release-%{cfg.system}-/Scripting-Engine/net7.0/Scripting-Engine.dll" "%{cfg.targetdir}"'
     }
 
 	filter "system:windows"

@@ -5,6 +5,10 @@
 
 namespace Crystal
 {
+	SceneSerializer::SceneSerializer(Scene* scene)
+		: m_PureScene(scene)
+	{
+	}
 
 	SceneSerializer::SceneSerializer(Ref<Scene>& scene)
 		: m_Scene(scene)
@@ -19,14 +23,18 @@ namespace Crystal
 	{
 		YAML::Emitter data;
 
+		Scene* scene = nullptr;
+		if (m_Scene) scene = m_Scene.get();
+		else scene = m_PureScene;
+
 		data << YAML::BeginMap;
 		data << YAML::Key << "Scene";
-		data << YAML::Value << m_Scene->GetName();
+		data << YAML::Value << scene->GetName();
 
 		data << YAML::Key << "Entities";
 		data << YAML::Value << YAML::BeginSeq;
 
-		for (Ref<ECS::Entity>& entity : m_Scene->m_Entities)
+		for (Ref<ECS::Entity>& entity : scene->m_Entities)
 			SerializeEntity(data, entity);
 
 		data << YAML::EndSeq;
@@ -48,11 +56,29 @@ namespace Crystal
 	{
 		CR_CORE_TRACE("Loading scene: {0}", path.string());
 
-		YAML::Node data = YAML::LoadFile(path.string());
+		YAML::Node data;
+
+		Scene* scene = nullptr;
+		if (m_Scene) scene = m_Scene.get();
+		else scene = m_PureScene;
+
+		try
+		{
+			data = YAML::LoadFile(path.string());
+		}
+		catch (YAML::BadFile e)
+		{
+			CR_CORE_ERROR("Failed to load {0}", path.string());
+			return;
+		}
 
 		//Set scene name
+		scene->m_Properties.Path = path;
 		if (data["Scene"])
-			m_Scene->m_DebugName = data["Scene"].as<std::string>();
+		{
+			scene->m_DebugName = data["Scene"].as<std::string>();
+			scene->m_Properties.Name = data["Scene"].as<std::string>();
+		}
 		else
 			CR_CORE_WARN("No \"Project:\" tab found in {0}\n\tNot critical, just no data loaded and starting as a blank project.", path.string());
 
@@ -153,10 +179,14 @@ namespace Crystal
 	{
 		uint64_t uuid = node["Entity"].as<uint64_t>();
 
+		Scene* scene = nullptr;
+		if (m_Scene) scene = m_Scene.get();
+		else scene = m_PureScene;
+
 		//Creation of the Entity
-		Ref<ECS::Entity> entity = ECS::Entity::Create(m_Scene->m_Storage);
+		Ref<ECS::Entity> entity = ECS::Entity::Create(scene->m_Storage);
 		entity->SetUUID(uuid);
-		m_Scene->AddEntity(entity);
+		scene->AddEntity(entity);
 
 		//TagComponent
 		auto tagComponent = node["TagComponent"];

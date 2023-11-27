@@ -1,3 +1,25 @@
 Scene: New
 Entities:
   - Entity: 1749095107536281061
+    TransformComponent:
+      Position: [0, 0, 0]
+      Size: [129, 110, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Colour: [0.739130437, 0.0923913047, 0.0923913047, 1]
+      UseTexture: false
+      UseColour: true
+    ScriptComponent:
+      Path: F:\Code\C++\VS\Crystal\Crystalizer\Projects\TestProj\Scripts\bin\Release\Script.dll
+      Class: Test
+  - Entity: 3499269710002527593
+    TransformComponent:
+      Position: [0, 177, 0]
+      Size: [88, 120, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Colour: [0.416978359, 0.885869563, 0.21183838, 1]
+      UseTexture: false
+      UseColour: true

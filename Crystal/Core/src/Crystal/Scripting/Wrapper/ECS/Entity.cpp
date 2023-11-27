@@ -9,13 +9,13 @@ namespace Crystal::Wrapper
 
 	void Entity::AddTagComponent(uint64_t uuid, Coral::NativeString tag)
 	{
-		auto& tagComponent = Project::GetCurrentProject()->GetStorage().AddComponent<ECS::TagComponent>(uuid);
+		auto& tagComponent = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::TagComponent>(uuid);
 		tagComponent.Tag = std::string(tag);
 	}
 
 	void Entity::AddTransformComponent(uint64_t uuid, Vec3<float> position, Vec3<float> size, float rotation)
 	{
-		auto& transformComponent = Project::GetCurrentProject()->GetStorage().AddComponent<ECS::TransformComponent>(uuid);
+		auto& transformComponent = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::TransformComponent>(uuid);
 		transformComponent.Position = position;
 		transformComponent.Size = size;
 		transformComponent.Rotation = rotation;

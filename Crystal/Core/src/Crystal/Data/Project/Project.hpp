@@ -6,11 +6,13 @@
 #include "Crystal/ECS/Entity.hpp"
 #include "Crystal/ECS/Storage.hpp"
 
+#include "Crystal/Data/Scene/Scene.hpp"
+
 #include "Crystal/Renderer/Tools/EditorCamera.hpp"
 
-#include <vector>
 #include <string>
-
+#include <vector>
+#include <filesystem>
 
 namespace Crystal
 {
@@ -25,45 +27,38 @@ namespace Crystal
 		void OnRender();
 		void OnEvent(Event& e);
 
-		void AddEntity(Ref<ECS::Entity> entity) { m_Entities.emplace_back(entity); }
-		std::vector<Ref<ECS::Entity>>& GetEntities() { return m_Entities; }
-		Ref<ECS::Entity> GetEntityByUUID(uint64_t uuid);
+		void AddScene(std::filesystem::path path);
 
-		ECS::Storage& GetStorage() { return m_Storage; }
-		std::string GetName() { return m_DebugName; }
+		Ref<Scene>& GetCurrentScene() { return m_ActiveScene; }
 
-		void CopyStorage();
-		void ResetStorage();
-
+		static void SetCurrentProject(Project* project) { s_CurrentProject = project; }
 		static Project* GetCurrentProject() { return s_CurrentProject; }
 
+		std::string GetName() { return m_DebugName; }
+		
 		enum class State
 		{
 			None = 0, Editor, Runtime
 		};
+		
+		void SetState(State state) { m_State = state; m_ActiveScene->SetState((int)state); }
 
-		void SetState(State state) { m_State = state; }
+	private:
+		void LoadScene2D(std::filesystem::path path);
+		void LoadScene3D(std::filesystem::path path);
 
-	protected:
-		void OnRenderRuntime();
-		void OnRenderEditor();
-
-	protected:
+	private:
 		std::string m_DebugName;
+		
+		static Project* s_CurrentProject;
 
-		ECS::Storage m_Storage;
-		ECS::Storage m_StorageCopy;
-
-		std::vector<Ref<ECS::Entity>> m_Entities;
+		std::vector<std::filesystem::path> m_Scenes;
+		Ref<Scene> m_ActiveScene;
 
 		Ref<EditorCamera> m_EditorCamera;
 
-		static Project* s_CurrentProject;
-
-		bool m_FirstUpdate = true;
 		State m_State = State::None;
 
-		//Friend classes to be able to use some private members/functions
 		friend class ProjectSerializer;
 	};
 

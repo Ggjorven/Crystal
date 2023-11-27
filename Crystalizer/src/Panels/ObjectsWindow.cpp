@@ -43,7 +43,7 @@ namespace Crystal
 			}
 		}
 
-		for (Ref<ECS::Entity>& entity : m_Project->GetEntities())
+		for (Ref<ECS::Entity>& entity : m_Project->GetCurrentScene()->GetEntities())
 		{
 			//Naming
 			std::string name;
@@ -77,8 +77,8 @@ namespace Crystal
 			{
 				if (ImGui::MenuItem("Entity"))
 				{
-					Ref<ECS::Entity> e = ECS::Entity::Create(m_Project->GetStorage(), "New");
-					m_Project->AddEntity(e);
+					Ref<ECS::Entity> e = ECS::Entity::Create(m_Project->GetCurrentScene()->GetStorage(), "New");
+					m_Project->GetCurrentScene()->AddEntity(e);
 				}
 
 				if (ImGui::MenuItem("Camera")) // TODO(Jorben): Actually create a camera
@@ -90,7 +90,7 @@ namespace Crystal
 
 			if (showDelete && ImGui::MenuItem(" Delete"))
 			{
-				auto& entities = m_Project->GetEntities();
+				auto& entities = m_Project->GetCurrentScene()->GetEntities();
 				for (int i = 0; i < entities.size(); i++)
 				{
 					if (entities[i]->GetUUID() == deleteUUID)

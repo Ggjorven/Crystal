@@ -15,6 +15,12 @@
 #include <memory>
 #include <optional>
 
+namespace Crystal
+{
+    class SceneRenderer2D;
+    class SceneRenderer3D;
+}
+
 namespace Crystal::ECS
 {
     class Storage
@@ -94,6 +100,9 @@ namespace Crystal::ECS
         static uint32_t s_StorageCount;
         static Coral::AssemblyLoadContext s_Context;
         static Coral::ManagedAssembly s_Assembly;
+
+        friend class SceneRenderer2D;
+        friend class SceneRenderer3D;
     };
 }
 

@@ -14,6 +14,10 @@ EditorLayer::EditorLayer(const ApplicationInfo& appInfo)
 	m_FrameBuffer = FrameBuffer::Create(window.GetWidth(), window.GetHeight(), FrameBufferFormat::RGBA8);
 
 	m_Project = CreateRef<Project>("New");
+	// TEMP // TODO(Jorben): Remove
+	//m_Project->AddScene("D:\\Code\\C++\\VS\\Crystal\\Crystalizer\\Projects\\TestProj\\Scenes\\test.crscene");
+	//SaveProject();
+
 	m_Panels = CreateRef<Panels>(m_Project);
 
 	if (appInfo.ArgCount > 1)
@@ -240,11 +244,11 @@ void EditorLayer::ViewPort()
 		// !TODO(Jorben): Add a completely different system. Important.
 		if (m_Running)
 		{
-			m_Project->ResetStorage();
+			m_Project->GetCurrentScene()->ResetStorage();
 		}
 		else
 		{
-			m_Project->CopyStorage();
+			m_Project->GetCurrentScene()->CopyStorage();
 		}
 
 		m_Running = !m_Running;

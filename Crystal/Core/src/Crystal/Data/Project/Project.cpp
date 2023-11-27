@@ -3,6 +3,8 @@
 
 #include "Crystal/Renderer/2D/Renderer2D.hpp"
 
+#include "Crystal/Data/Scene/SceneSerializer.hpp"
+
 namespace Crystal
 {
 
@@ -11,138 +13,62 @@ namespace Crystal
 	Project::Project(const std::string& debugName)
 		: m_DebugName(debugName)
 	{
-		m_EditorCamera = CreateRef<EditorCamera>();
-		s_CurrentProject = this;
+		Project::SetCurrentProject(this);
 	}
 
 	Project::~Project()
 	{
-		//CR_CORE_TRACE("CCC");
-		for (Ref<ECS::Entity> entity : m_Entities)
+		// TODO(Jorben): Fix this for all scenes and shit
+		if (m_Scenes.size() > 0)
 		{
-			//CR_CORE_TRACE("{0} has Script: {1}", entity->GetUUID(), (entity->GetComponent<ECS::ScriptComponent>() ? true : false));
-			//entity->GetComponent<ECS::TagComponent>().reset();
-			entity->RemoveComponent<ECS::TagComponent>();
-
-			//entity->GetComponent<ECS::TransformComponent>().reset();
-			entity->RemoveComponent<ECS::TransformComponent>();
-
-			//entity->GetComponent<ECS::Renderer2DComponent>().reset();
-			entity->RemoveComponent<ECS::Renderer2DComponent>();
-
-			//entity->GetComponent<ECS::ColliderComponent>().reset();
-			entity->RemoveComponent<ECS::ColliderComponent>();
-
-			//entity->GetComponent<ECS::ScriptComponent>().reset();
-			entity->RemoveComponent<ECS::ScriptComponent>();
+			SceneSerializer serializer(m_ActiveScene);
+			serializer.Serialize(m_Scenes[0]);
 		}
-
-		//m_Storage.~Storage();
 	}
 
 	void Project::OnUpdate(Timestep& ts)
 	{
-		// TODO(Jorben): Add runtime camera
-		if (m_State == State::Editor)
-		{
-			m_EditorCamera->OnUpdate(ts);
-			m_FirstUpdate = true;
-		}
-
-		else if (m_State == State::Runtime)
-		{
-			for (Ref<ECS::Entity>& entity : m_Entities)
-			{
-				if (entity->HasComponent<ECS::ScriptComponent>())
-				{
-					auto& sc = entity->GetComponent<ECS::ScriptComponent>();
-					if (m_FirstUpdate)
-					{
-						sc.Script->UpdateValueFieldsValues();
-						sc.Script->OnCreate();
-						m_FirstUpdate = false;
-					}
-					sc.Script->OnUpdate(ts);
-				}
-			}
-			m_EditorCamera->OnUpdate(ts); // TODO(Jorben): Remove and replace with runtime camera
-		}
+		m_ActiveScene->OnUpdate(ts);
 	}
 
 	void Project::OnRender()
 	{
-		if (m_State == State::Editor)
-			OnRenderEditor();
-		if (m_State == State::Runtime)
-			OnRenderRuntime();
+		m_ActiveScene->OnRender();
 	}
 
 	void Project::OnEvent(Event& e)
 	{
-		if (m_State == State::Editor)
-			m_EditorCamera->OnEvent(e);
-		else if (m_State == State::Runtime)
-			m_EditorCamera->OnEvent(e); // TODO(Jorben): Replace editorcamera with runtime camera
+		m_ActiveScene->OnEvent(e);
 	}
 
-	Ref<ECS::Entity> Project::GetEntityByUUID(uint64_t uuid)
+	void Project::AddScene(std::filesystem::path path)
 	{
-		for (Ref<ECS::Entity>& entity : m_Entities)
-		{
-			if (entity->GetUUID() == uuid)
-				return entity;
-		}
-		CR_CORE_WARN("No entity with UUID ({0}) found in current project...", uuid);
-		return nullptr;
+		CR_CORE_TRACE("AddScene");
+
+		// TODO(Jorben): Add a way to check which type of Scene it is (2D or 3D)
+		m_ActiveScene = CreateRef<Scene2D>();
+
+		SceneSerializer serializer(m_ActiveScene);
+		serializer.Deserialize(path);
+
+		m_Scenes.push_back(path);
 	}
 
-	void Project::CopyStorage()
+	void Project::LoadScene2D(std::filesystem::path path)
 	{
-		m_StorageCopy = m_Storage;
+		CR_CORE_TRACE("LoadScene2D");
+		m_ActiveScene = CreateRef<Scene2D>();
+
+		SceneSerializer serializer(m_ActiveScene);
+		serializer.Deserialize(path);
 	}
 
-	void Project::ResetStorage()
+	void Project::LoadScene3D(std::filesystem::path path) // TODO
 	{
-		m_Storage = m_StorageCopy;
-	}
+		//m_ActiveScene = CreateRef<Scene3D>();
 
-	void Project::OnRenderRuntime()
-	{
-		// TODO(Jorben): Add runtime camera
-		for (Ref<ECS::Entity> entity : m_Entities)
-		{
-			if (entity->HasComponent<ECS::Renderer2DComponent>() && entity->HasComponent<ECS::TransformComponent>()) // Note(Jorben): Remove r2d.Enable maybe put it back sometime
-			{
-				auto& r2d = entity->GetComponent<ECS::Renderer2DComponent>();
-				auto& transform = entity->GetComponent<ECS::TransformComponent>();
-
-				if (r2d.Texture && r2d.UseTexture)
-					Renderer2D::DrawQuad(Vec2<float>(transform.Position.x, transform.Position.y), Vec2<float>(transform.Size.x, transform.Size.y), Vec2<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f), r2d.Texture, false, m_EditorCamera->GetCamera());
-				else if (r2d.UseColour)
-					Renderer2D::DrawQuad(Vec2<float>(transform.Position.x, transform.Position.y), Vec2<float>(transform.Size.x, transform.Size.y), Vec2<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f), r2d.Colour, false, m_EditorCamera->GetCamera());
-				else
-					Renderer2D::DrawQuad(Vec2<float>(transform.Position.x, transform.Position.y), Vec2<float>(transform.Size.x, transform.Size.y), Vec2<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f), Vec4<float>(1.0f, 1.0f, 1.0f, 1.0f), false, m_EditorCamera->GetCamera());
-			}
-		}
-	}
-
-	void Project::OnRenderEditor()
-	{
-		for (Ref<ECS::Entity> entity : m_Entities)
-		{
-			if (entity->HasComponent<ECS::Renderer2DComponent>() && entity->HasComponent<ECS::TransformComponent>()) // Note(Jorben): Remove r2d.Enable maybe put it back sometime
-			{
-				auto& r2d = entity->GetComponent<ECS::Renderer2DComponent>();
-				auto& transform = entity->GetComponent<ECS::TransformComponent>();
-
-				if (r2d.Texture && r2d.UseTexture)
-					Renderer2D::DrawQuad(Vec2<float>(transform.Position.x, transform.Position.y), Vec2<float>(transform.Size.x, transform.Size.y), Vec2<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f), r2d.Texture, false, m_EditorCamera->GetCamera());
-				else if (r2d.UseColour)
-					Renderer2D::DrawQuad(Vec2<float>(transform.Position.x, transform.Position.y), Vec2<float>(transform.Size.x, transform.Size.y), Vec2<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f), r2d.Colour, false, m_EditorCamera->GetCamera());
-				else
-					Renderer2D::DrawQuad(Vec2<float>(transform.Position.x, transform.Position.y), Vec2<float>(transform.Size.x, transform.Size.y), Vec2<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f), Vec4<float>(1.0f, 1.0f, 1.0f, 1.0f), false, m_EditorCamera->GetCamera());
-			}
-		}
+		SceneSerializer serializer(m_ActiveScene);
+		serializer.Deserialize(path);
 	}
 
 }

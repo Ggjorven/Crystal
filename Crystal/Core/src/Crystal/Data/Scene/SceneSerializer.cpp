@@ -68,7 +68,7 @@ namespace Crystal
 		}
 		catch (YAML::BadFile e)
 		{
-			CR_CORE_ERROR("Failed to load {0}", path.string());
+			CR_CORE_ERROR("Failed to load {0}\n\t{1}", path.string(), e.what());
 			return;
 		}
 
@@ -89,8 +89,8 @@ namespace Crystal
 				DeserializeEntity(entity);
 		}
 
-		std::stringstream ss;
-		ss << data;
+		//std::stringstream ss;
+		//ss << data;
 	}
 
 	SceneSerializer& SceneSerializer::operator=(const SceneSerializer& other)

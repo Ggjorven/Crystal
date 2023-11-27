@@ -25,15 +25,14 @@ namespace Crystal
 		data << YAML::Key << "Scenes";
 		data << YAML::Value << YAML::BeginSeq;
 
-		for (auto& scenePath : m_Project->m_Scenes)
+		for (auto& sceneProperties : m_Project->m_Scenes)
 		{
 			data << YAML::BeginMap; // Scene
 			data << YAML::Key << "Scene";
-			data << YAML::Value << scenePath.string();
-		}
+			data << YAML::Value << sceneProperties.Path.string();
 
-		//data << YAML::EndSeq;
-		data << YAML::EndMap;
+			data << YAML::EndMap;
+		}
 
 		std::ofstream file(path);
 
@@ -75,11 +74,15 @@ namespace Crystal
 			for (auto scene : scenes)
 			{
 				// TODO(Jorben): Add a way of saying a scene is 2D or 3D in YAML
-				m_Project->m_Scenes.emplace_back(scene["Scene"].as<std::string>());
+				SceneProperties properties;
+				properties.Path = scene["Scene"].as<std::string>();
+
+				m_Project->m_Scenes.emplace_back(properties);
 			}
 		}
 		// TODO(Jorben): Add a way of saying a scene is 2D or 3D in YAML
-		if (m_Project->m_Scenes.size() > 0) m_Project->AddScene(m_Project->m_Scenes[0]);
+		// TODO(Jorben): Use the startproject defined in the .crproj file as the AddScene scene.
+		if (m_Project->m_Scenes.size() > 0) m_Project->AddScene(m_Project->m_Scenes[0].Path);
 		else m_Project->m_ActiveScene = CreateRef<Scene2D>();
 		
 		std::stringstream ss;

@@ -1,6 +1,8 @@
 Scene: New
 Entities:
   - Entity: 1749095107536281061
+    TagComponent:
+      Tag: Red
     TransformComponent:
       Position: [0, 0, 0]
       Size: [129, 110, 0]
@@ -14,8 +16,10 @@ Entities:
       Path: F:\Code\C++\VS\Crystal\Crystalizer\Projects\TestProj\Scripts\bin\Release\Script.dll
       Class: Test
   - Entity: 3499269710002527593
+    TagComponent:
+      Tag: Green
     TransformComponent:
-      Position: [0, 177, 0]
+      Position: [100, 163, 0]
       Size: [88, 120, 0]
       Rotation: 0
     Renderer2DComponent:

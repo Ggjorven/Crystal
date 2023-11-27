@@ -54,7 +54,7 @@ namespace Crystal
 		
 		static Project* s_CurrentProject;
 
-		std::vector<std::filesystem::path> m_Scenes;
+		std::vector<SceneProperties> m_Scenes;
 		Ref<Scene> m_ActiveScene;
 
 		Ref<EditorCamera> m_EditorCamera;

@@ -22,7 +22,7 @@ namespace Crystal
 		if (m_Scenes.size() > 0)
 		{
 			SceneSerializer serializer(m_ActiveScene);
-			serializer.Serialize(m_Scenes[0]);
+			serializer.Serialize(m_ActiveScene->GetProperties().Path);
 		}
 	}
 
@@ -53,12 +53,17 @@ namespace Crystal
 	{
 		//CR_CORE_TRACE("LoadScene2D");
 		m_ActiveScene = CreateRef<Scene2D>();
-		m_ActiveScene->m_Properties.Path = path;
+
+		SceneProperties properties;
+		properties.Path = path;
+		properties.SceneType = SceneProperties::Type::_2D;
+
+		m_ActiveScene->SetProperties(properties);
 
 		SceneSerializer serializer(m_ActiveScene);
 		serializer.Deserialize(path);
 
-		m_Scenes.push_back(path);
+		m_Scenes.push_back(properties);
 	}
 
 	void Project::LoadScene3D(std::filesystem::path path) // TODO

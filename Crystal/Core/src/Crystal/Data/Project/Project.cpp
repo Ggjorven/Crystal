@@ -41,37 +41,31 @@ namespace Crystal
 		m_ActiveScene->OnEvent(e);
 	}
 
-	void Project::AddScene(std::filesystem::path path)
+	void Project::AddScene(const SceneProperties& properties)
 	{
 		//CR_CORE_TRACE("AddScene");
 
 		// TODO(Jorben): Add a way to check which type of Scene it is (2D or 3D)
-		LoadScene2D(path);
+		// ^ TODO(Jorben): Implement using properties.SceneType _2D or _3D
+		LoadScene2D(properties);
 	}
 
-	void Project::LoadScene2D(std::filesystem::path path)
+	void Project::LoadScene2D(const SceneProperties& properties)
 	{
-		//CR_CORE_TRACE("LoadScene2D");
 		m_ActiveScene = CreateRef<Scene2D>();
-
-		SceneProperties properties;
-		properties.Path = path;
-		properties.SceneType = SceneProperties::Type::_2D;
-
 		m_ActiveScene->SetProperties(properties);
 
 		SceneSerializer serializer(m_ActiveScene);
-		serializer.Deserialize(path);
-
-		m_Scenes.push_back(properties);
+		serializer.Deserialize(properties.Path);
 	}
 
-	void Project::LoadScene3D(std::filesystem::path path) // TODO
+	void Project::LoadScene3D(const SceneProperties& properties) // TODO
 	{
+		CR_CORE_ASSERT(false, "Not supported.")
 		//m_ActiveScene = CreateRef<Scene3D>();
 
 		SceneSerializer serializer(m_ActiveScene);
-		serializer.Deserialize(path);
+		serializer.Deserialize(properties.Path);
 	}
 
 }

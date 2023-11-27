@@ -82,7 +82,10 @@ namespace Crystal
 		}
 		// TODO(Jorben): Add a way of saying a scene is 2D or 3D in YAML
 		// TODO(Jorben): Use the startproject defined in the .crproj file as the AddScene scene.
-		if (m_Project->m_Scenes.size() > 0) m_Project->AddScene(m_Project->m_Scenes[0].Path);
+		if (m_Project->m_Scenes.size() > 0)
+		{
+			m_Project->AddScene(m_Project->m_Scenes[0]);
+		}
 		else m_Project->m_ActiveScene = CreateRef<Scene2D>();
 		
 		std::stringstream ss;

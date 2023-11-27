@@ -27,7 +27,7 @@ namespace Crystal
 		void OnRender();
 		void OnEvent(Event& e);
 
-		void AddScene(std::filesystem::path path);
+		void AddScene(const SceneProperties& properties);
 
 		Ref<Scene>& GetCurrentScene() { return m_ActiveScene; }
 
@@ -46,8 +46,8 @@ namespace Crystal
 		void SaveScene() { m_ActiveScene->SaveScene(); }
 
 	private:
-		void LoadScene2D(std::filesystem::path path);
-		void LoadScene3D(std::filesystem::path path);
+		void LoadScene2D(const SceneProperties& properties);
+		void LoadScene3D(const SceneProperties& properties);
 
 	private:
 		std::string m_DebugName;

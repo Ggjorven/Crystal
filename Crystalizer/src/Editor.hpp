@@ -38,7 +38,7 @@ private:
 	bool KeyEvent(KeyPressedEvent& e);
 
 private:
-	std::filesystem::path m_Path = Utils::GetEnviromentVariable("CRYSTAL_DIR") + "/Crystalizer/Projects/TestProj/test.crproj";
+	std::filesystem::path m_Path = Utils::GetEnviromentVariable("CRYSTAL_DIR") + "\\Crystalizer\\Projects\\TestProj\\test.crproj";
 	bool m_Running = false;
 
 	Ref<Project> m_Project = nullptr;

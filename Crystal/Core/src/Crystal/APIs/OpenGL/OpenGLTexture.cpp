@@ -1,6 +1,8 @@
 #include "crpch.h"
 #include "OpenGLTexture.hpp"
 
+#include "Crystal/Data/Project/Project.hpp"
+
 #include <stb_image.h>
 
 namespace Crystal
@@ -67,6 +69,16 @@ namespace Crystal
 	{
 		//delete m_Data;
 		glDeleteTextures(1, &m_RendererID);
+	}
+
+	std::string OpenGLTexture2D::GetProjectRelativePath() const
+	{
+		std::filesystem::path projDir = Project::GetCurrentProject()->GetProjectDir();
+		std::filesystem::path assetDir = Project::GetCurrentProject()->GetAssetDir();
+
+		std::filesystem::path relPath = std::filesystem::relative(std::filesystem::path(m_Path), projDir / assetDir);
+
+		return relPath.string();
 	}
 
 	void OpenGLTexture2D::SetData(void* data, uint32_t size)

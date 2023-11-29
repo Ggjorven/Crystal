@@ -1,6 +1,8 @@
 #include "crpch.h"
 #include "SceneSerializer.hpp"
 
+#include "Crystal/Data/Project/Project.hpp"
+
 #include "Crystal/Utils/YamlUtils.hpp"
 
 namespace Crystal
@@ -30,6 +32,17 @@ namespace Crystal
 		data << YAML::BeginMap;
 		data << YAML::Key << "Scene";
 		data << YAML::Value << scene->GetName();
+
+		std::set<std::string> set = { };
+		for (auto& assembly : scene->GetStorage().s_AssemblyPaths)
+			set.insert(assembly.string());
+
+		std::vector<std::string> assemblies = { };
+		for (auto& item : set)
+			assemblies.emplace_back(item);
+		
+		data << YAML::Key << "Assemblies";
+		data << YAML::Value << assemblies;
 
 		data << YAML::Key << "Entities";
 		data << YAML::Value << YAML::BeginSeq;
@@ -81,6 +94,18 @@ namespace Crystal
 		}
 		else
 			CR_CORE_WARN("No \"Project:\" tab found in {0}\n\tNot critical, just no data loaded and starting as a blank project.", path.string());
+
+		if (data["Assemblies"])
+		{
+			std::vector<std::string> assemblies = data["Assemblies"].as<std::vector<std::string>>();
+			for (auto& assembly : assemblies)
+			{
+				std::filesystem::path projDir = Project::GetCurrentProject()->GetProjectDir();
+				std::filesystem::path scriptDir = Project::GetCurrentProject()->GetScriptsDir();
+				scene->GetStorage().AddPath(assembly);
+				scene->GetStorage().LoadAssembly(projDir / scriptDir / assembly);
+			}
+		}
 
 		auto entities = data["Entities"];
 		if (entities)
@@ -141,7 +166,7 @@ namespace Crystal
 
 			emitter << YAML::Key << "Enable" << r2d.Enable;
 			if (r2d.Texture)
-				emitter << YAML::Key << "Texture" << r2d.Texture->GetPath();
+				emitter << YAML::Key << "Texture" << r2d.Texture->GetProjectRelativePath();
 			emitter << YAML::Key << "Colour" << r2d.Colour;
 			emitter << YAML::Key << "UseTexture" << r2d.UseTexture;
 			emitter << YAML::Key << "UseColour" << r2d.UseColour;
@@ -166,7 +191,6 @@ namespace Crystal
 			emitter << YAML::Key << "ScriptComponent";
 			emitter << YAML::BeginMap; // Renderer2DComponent
 
-			emitter << YAML::Key << "Path" << sc.Path.string();
 			emitter << YAML::Key << "Class" << sc.Script->GetClass();
 
 			emitter << YAML::EndMap; // Renderer2DComponent
@@ -216,8 +240,13 @@ namespace Crystal
 			ECS::Renderer2DComponent& r2d = entity->AddComponent<ECS::Renderer2DComponent>();
 
 			r2d.Enable = renderer2DComponent["Enable"].as<bool>();
-			if (renderer2DComponent["Texture"])
-				r2d.Texture = Texture2D::Create(renderer2DComponent["Texture"].as<std::string>());
+			if (renderer2DComponent["Texture"] && !renderer2DComponent["Texture"].as<std::string>().empty())
+			{
+				std::filesystem::path projDir = Project::GetCurrentProject()->GetProjectDir();
+				std::filesystem::path assetDir = Project::GetCurrentProject()->GetAssetDir();
+
+				r2d.Texture = Texture2D::Create((projDir / assetDir / std::filesystem::path(renderer2DComponent["Texture"].as<std::string>())).string());
+			}
 			else
 				r2d.Texture = nullptr;
 
@@ -232,7 +261,7 @@ namespace Crystal
 		{
 			ECS::ColliderComponent& cc = entity->AddComponent<ECS::ColliderComponent>();
 
-			if (colliderComponent["AABB"].as<bool>()) cc.AABB = new AABBCollider();
+			if (colliderComponent["AABB"].as<bool>()) cc.AABB = CreateRef<AABBCollider>();
 		}
 
 		//ScriptComponent
@@ -241,9 +270,7 @@ namespace Crystal
 		{
 			ECS::ScriptComponent& sc = entity->AddComponent<ECS::ScriptComponent>();
 
-			sc.Path = scriptComponent["Path"].as<std::string>();
 			sc.Script->SetUUID(entity->GetUUID());
-			sc.Script->SetDLL(sc.Path);
 			sc.Script->SetClass(scriptComponent["Class"].as<std::string>());
 
 			//Add components

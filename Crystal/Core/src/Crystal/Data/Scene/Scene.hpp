@@ -72,7 +72,7 @@ namespace Crystal
 		ECS::Storage m_Storage;
 		ECS::Storage m_StorageCopy;
 
-		std::vector<Ref<ECS::Entity>> m_Entities;
+		std::vector<Ref<ECS::Entity>> m_Entities = { };
 
 		Ref<EditorCamera> m_EditorCamera;
 		
@@ -81,6 +81,7 @@ namespace Crystal
 		//Friend classes to be able to use some private members/functions
 		friend class Project;
 		friend class SceneSerializer;
+		friend class Storage;
 	};
 
 	class Scene2D : public Scene

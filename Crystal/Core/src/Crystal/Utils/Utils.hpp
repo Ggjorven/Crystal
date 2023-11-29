@@ -14,8 +14,8 @@ namespace Crystal
 	public:
 		
 		//These return empty strings if cancelled
-		static std::string OpenFile(const char* filter) { return s_Instance->OpenFileImplementation(filter); }
-		static std::string SaveFile(const char* filter) { return s_Instance->SaveFileImplementation(filter); }
+		static std::string OpenFile(const char* filter, const char* initDir = nullptr) { return s_Instance->OpenFileImplementation(filter, initDir); }
+		static std::string SaveFile(const char* filter, const char* initDir = nullptr) { return s_Instance->SaveFileImplementation(filter, initDir); }
 		
 		static float GetTime() { return s_Instance->GetTimeImplementation(); }
 
@@ -24,8 +24,8 @@ namespace Crystal
 		static Vec2<float> GetDisplaySize() { return Vec2<float>((float)GetSystemMetrics(SM_CXSCREEN), (float)GetSystemMetrics(SM_CYSCREEN)); }
 
 	private:
-		virtual std::string OpenFileImplementation(const char* filter) = 0;
-		virtual std::string SaveFileImplementation(const char* filter) = 0;
+		virtual std::string OpenFileImplementation(const char* filter, const char* initDir = nullptr) = 0;
+		virtual std::string SaveFileImplementation(const char* filter, const char* initDir = nullptr) = 0;
 
 		virtual float GetTimeImplementation() = 0;
 

@@ -91,8 +91,8 @@ void EditorLayer::OnDetach()
 
 void EditorLayer::OnUpdate(Timestep& ts)
 {
-	m_Project->OnUpdate(ts);
 	m_Project->SetState((m_Running ? Project::State::Runtime : Project::State::Editor));
+	m_Project->OnUpdate(ts);
 }
 
 void EditorLayer::OnRender()
@@ -115,6 +115,8 @@ void EditorLayer::OnImGuiRender()
 	ViewPort();
 	m_Panels->ObjectsWindow();
 	m_Panels->ObjectPropertiesWindow();
+
+	//ImGui::ShowStyleEditor();
 }
 
 void EditorLayer::OnEvent(Event& e)
@@ -187,10 +189,36 @@ void EditorLayer::MenuBar()
 			}
 		}
 
-		if (ImGui::MenuItem("Save project"))
+		if (ImGui::MenuItem("Save project", "Ctrl+S"))
 		{
 			SaveProject();
 		}
+		ImGui::EndMenu();
+	}
+
+	ImGui::Dummy(ImVec2(3.f, 0.0f));
+
+	if (ImGui::BeginMenu("Edit"))
+	{
+		if (ImGui::MenuItem("Add C# assembly"))
+		{
+			std::string file = Utils::OpenFile(".dll\0*.dll", Project::GetCurrentProject()->GetProjectDir().string().c_str());
+
+			if (!file.empty())
+			{
+				std::filesystem::path projDir = Project::GetCurrentProject()->GetProjectDir();
+				std::filesystem::path scriptDir = Project::GetCurrentProject()->GetScriptsDir();
+
+				Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddPath(std::filesystem::relative(file, projDir / scriptDir));
+				Project::GetCurrentProject()->GetCurrentScene()->GetStorage().LoadAssembly(file);
+			}
+		}
+
+		if (ImGui::MenuItem("Reload C# assembly"))
+		{
+			Project::GetCurrentProject()->GetCurrentScene()->GetStorage().ReloadAssemblies();
+		}
+
 		ImGui::EndMenu();
 	}
 
@@ -242,8 +270,6 @@ void EditorLayer::ViewPort()
 
 	if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(Panels::s_ButtonTex->GetRendererID()), ImVec2(buttonSize.x, buttonSize.y), { 0, 1 }, { 1, 0 }))
 	{
-		// TODO(Jorben): Add a better system for resetting the project
-		// !TODO(Jorben): Add a completely different system. Important.
 		if (m_Running)
 		{
 			m_Project->GetCurrentScene()->ResetStorage();
@@ -251,8 +277,8 @@ void EditorLayer::ViewPort()
 		else
 		{
 			m_Project->GetCurrentScene()->CopyStorage();
+			m_Project->GetCurrentScene()->GetStorage().ReloadAssemblies();
 		}
-
 		m_Running = !m_Running;
 		Panels::SwitchButtons();
 	}

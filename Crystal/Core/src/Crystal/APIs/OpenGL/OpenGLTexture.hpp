@@ -23,6 +23,7 @@ namespace Crystal
 
 		virtual uint32_t GetRendererID() const override { return m_RendererID; }
 		virtual const std::string& GetPath() const override { return m_Path; }
+		virtual std::string GetProjectRelativePath() const override;
 
 		virtual void SetData(void* data, uint32_t size) override;
 		virtual void UpdateSubTexture(int x, int y, int width, int height) override;

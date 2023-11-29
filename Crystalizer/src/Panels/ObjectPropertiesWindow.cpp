@@ -20,6 +20,13 @@ namespace Crystal
 
 	void Panels::ObjectPropertiesWindow()
 	{
+		if (m_StartUp)
+		{
+			if (m_Project->GetCurrentScene()->GetEntities().size() > 0) 
+				m_SelectedEntity = m_Project->GetCurrentScene()->GetEntities()[0];
+			m_StartUp = false;
+		}
+
 		Panels::BeginColours();
 		ImGui::Begin("Properties", (bool*)0, ImGuiWindowFlags_NoScrollbar);
 
@@ -154,7 +161,7 @@ namespace Crystal
 					ImGui::SameLine();
 					if (ImGui::RadioButton("AABB", AABB))
 					{
-						col.AABB = new AABBCollider();
+						col.AABB = CreateRef<AABBCollider>();
 
 						AABB = true;
 					}
@@ -191,40 +198,13 @@ namespace Crystal
 				UI::ComponentOptions co;
 				if (UI::BeginECSComponent("ScriptComponent", co, s_Icons[(int)Icon::Script])) // TODO(Jorben): Add right click enabled/disabled functionality
 				{
-					std::string path = sc.Path.filename().replace_extension("").string();
-					ImGui::BulletText(path.c_str());
-
-					if (!path.empty())
-					{
-						ImGui::SameLine();
-						if (ImGui::Button("Reload"))
-							sc.Script->Reload();
-					}
-					else
-					{
-						ImGui::SameLine();
-						ImGui::Dummy(ImVec2(16.f, 16.f));
-					}
-
-					ImGui::SameLine();
-					if (ImGui::Button("..."))
-					{
-						std::string filename = Utils::OpenFile("");
-
-						if (!filename.empty())
-						{
-							sc.Path = filename;
-							sc.Script->SetDLL(filename);
-						}
-					}
-
 					ImGui::BulletText("Class:");
 					ImGui::SameLine();
 
 					static char buffer[256];
 					strcpy_s(buffer, sizeof(buffer), sc.Script->GetClass().c_str());
 
-					ImGui::SetNextItemWidth(160);
+					ImGui::SetNextItemWidth(150);
 					if (ImGui::InputText("##ClassName", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
 						sc.Script->SetClass(buffer);
 

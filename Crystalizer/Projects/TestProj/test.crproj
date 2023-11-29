@@ -1,3 +1,7 @@
-Project: New
+Project: Test
+Directories:
+  - Assets: Assets
+  - Scenes: Scenes
+  - Scripts: Scripts
 Scenes:
-  - Scene: F:/Code/C++/VS/Crystal/Crystalizer/Projects/TestProj/Scenes/test.crscene
+  - Scene: test.crscene

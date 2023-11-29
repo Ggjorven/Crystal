@@ -17,6 +17,9 @@
 
 namespace Crystal
 {
+    class Scene;
+    class Scene2D;
+    class Scene3D;
     class SceneRenderer2D;
     class SceneRenderer3D;
 }
@@ -84,8 +87,15 @@ namespace Crystal::ECS
                 componentMap.erase(it);
         }
 
+        void AddPath(std::filesystem::path path) { s_AssemblyPaths.emplace_back(path); }
+        void LoadAssembly(std::filesystem::path path);
+        void ReloadAssemblies();
+
     public:
         static Coral::HostInstance s_Host;
+        static Coral::AssemblyLoadContext s_LoadContext;
+        static std::vector<Coral::ManagedAssembly> s_Assemblies;
+        static std::vector<std::filesystem::path> s_AssemblyPaths;
 
     private:
         template<typename ComponentType>
@@ -101,6 +111,9 @@ namespace Crystal::ECS
         static Coral::AssemblyLoadContext s_Context;
         static Coral::ManagedAssembly s_Assembly;
 
+        friend class Scene;
+        friend class Scene2D;
+        friend class Scene3D;
         friend class SceneRenderer2D;
         friend class SceneRenderer3D;
     };

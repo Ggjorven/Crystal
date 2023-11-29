@@ -50,9 +50,9 @@ namespace Crystal
 			{
 				auto& tag = entity->GetComponent<ECS::TagComponent>();
 				if (entity->HasComponent<ECS::TagComponent>() && !tag.Tag.empty())
-					name = std::string("Entity - ") + std::string(tag.Tag);
+					name = std::string(" ") + tag.Tag;
 				else
-					name = std::string("Entity - ") + std::to_string(entity->GetUUID());
+					name = std::string(" ") + std::to_string(entity->GetUUID());
 			}
 
 			//Create a selectable entity
@@ -72,13 +72,14 @@ namespace Crystal
 		//Actual pop-up
 		if (ImGui::BeginPopupContextItem("New Object"))
 		{
-
+			// New Object
 			if (ImGui::BeginMenu(" New        "))
 			{
 				if (ImGui::MenuItem("Entity"))
 				{
 					Ref<ECS::Entity> e = ECS::Entity::Create(m_Project->GetCurrentScene()->GetStorage(), "New");
 					m_Project->GetCurrentScene()->AddEntity(e);
+					m_SelectedEntity = e;
 				}
 
 				if (ImGui::MenuItem("Camera")) // TODO(Jorben): Actually create a camera
@@ -88,6 +89,7 @@ namespace Crystal
 				ImGui::EndMenu();
 			}
 
+			// Delete Object
 			if (showDelete && ImGui::MenuItem(" Delete"))
 			{
 				auto& entities = m_Project->GetCurrentScene()->GetEntities();

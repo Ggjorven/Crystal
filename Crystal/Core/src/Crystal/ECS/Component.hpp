@@ -72,7 +72,7 @@ namespace Crystal::ECS
 	struct ColliderComponent : public Component
 	{
 	public:
-		AABBCollider* AABB = nullptr;
+		Ref<AABBCollider> AABB;
 
 	public:
 		ColliderComponent();
@@ -85,13 +85,11 @@ namespace Crystal::ECS
 	struct ScriptComponent : public Component
 	{
 	public:
-		std::filesystem::path Path;
 		Ref<EntityScript> Script;
 
 	public:
 		ScriptComponent();
 		ScriptComponent(const ScriptComponent& other);
-		ScriptComponent(const std::filesystem::path& path);
 		virtual ~ScriptComponent();
 	};
 

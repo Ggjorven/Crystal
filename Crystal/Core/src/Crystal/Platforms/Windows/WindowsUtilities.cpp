@@ -11,18 +11,26 @@
 namespace Crystal
 {
 
-	std::string WindowsUtils::OpenFileImplementation(const char* filter)
+	std::string WindowsUtils::OpenFileImplementation(const char* filter, const char* initDir)
 	{
 		OPENFILENAMEA ofn;
 		CHAR szFile[260] = { 0 };
 		CHAR currentDir[256] = { 0 };
-		ZeroMemory(&ofn, sizeof(OPENFILENAME));
-		ofn.lStructSize = sizeof(OPENFILENAME);
+		ZeroMemory(&ofn, sizeof(OPENFILENAMEA));
+		ofn.lStructSize = sizeof(OPENFILENAMEA);
 		ofn.hwndOwner = glfwGetWin32Window((GLFWwindow*)Application::Get().GetWindow().GetNativeWindow());
 		ofn.lpstrFile = szFile;
 		ofn.nMaxFile = sizeof(szFile);
-		if (GetCurrentDirectoryA(256, currentDir))
+
+		if (initDir)
+		{
+			ofn.lpstrInitialDir = initDir;
+		}
+		else if (GetCurrentDirectoryA(256, currentDir))
+		{
 			ofn.lpstrInitialDir = currentDir;
+		}
+
 		ofn.lpstrFilter = filter;
 		ofn.nFilterIndex = 1;
 		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
@@ -33,18 +41,26 @@ namespace Crystal
 		return std::string();
 	}
 
-	std::string WindowsUtils::SaveFileImplementation(const char* filter)
+	std::string WindowsUtils::SaveFileImplementation(const char* filter, const char* initDir)
 	{
 		OPENFILENAMEA ofn;
 		CHAR szFile[260] = { 0 };
 		CHAR currentDir[256] = { 0 };
-		ZeroMemory(&ofn, sizeof(OPENFILENAME));
-		ofn.lStructSize = sizeof(OPENFILENAME);
+		ZeroMemory(&ofn, sizeof(OPENFILENAMEA));
+		ofn.lStructSize = sizeof(OPENFILENAMEA);
 		ofn.hwndOwner = glfwGetWin32Window((GLFWwindow*)Application::Get().GetWindow().GetNativeWindow());
 		ofn.lpstrFile = szFile;
 		ofn.nMaxFile = sizeof(szFile);
-		if (GetCurrentDirectoryA(256, currentDir))
+
+		if (initDir)
+		{
+			ofn.lpstrInitialDir = initDir;
+		}
+		else if (GetCurrentDirectoryA(256, currentDir))
+		{
 			ofn.lpstrInitialDir = currentDir;
+		}
+
 		ofn.lpstrFilter = filter;
 		ofn.nFilterIndex = 1;
 		ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR;

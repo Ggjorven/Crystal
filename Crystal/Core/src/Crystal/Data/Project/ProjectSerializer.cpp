@@ -22,6 +22,28 @@ namespace Crystal
 		data << YAML::Key << "Project";
 		data << YAML::Value << m_Project->GetName();
 
+		// Dirs
+		data << YAML::Key << "Directories";
+		data << YAML::Value << YAML::BeginSeq;
+
+		data << YAML::BeginMap;
+		data << YAML::Key << "Assets";
+		data << YAML::Value << m_Project->m_AssetDir.string();
+		data << YAML::EndMap;
+
+		data << YAML::BeginMap;
+		data << YAML::Key << "Scenes";
+		data << YAML::Value << m_Project->m_SceneDir.string();
+		data << YAML::EndMap;
+
+		data << YAML::BeginMap;
+		data << YAML::Key << "Scripts";
+		data << YAML::Value << m_Project->m_ScriptsDir.string();
+		data << YAML::EndMap;
+
+
+		data << YAML::EndSeq;
+
 		data << YAML::Key << "Scenes";
 		data << YAML::Value << YAML::BeginSeq;
 
@@ -33,6 +55,8 @@ namespace Crystal
 
 			data << YAML::EndMap;
 		}
+
+		data << YAML::EndSeq << YAML::EndMap;
 
 		std::ofstream file(path);
 
@@ -67,7 +91,26 @@ namespace Crystal
 		else
 			CR_CORE_WARN("No \"Project:\" tab found in {0}\n\tNot critical, just no data loaded and starting as a blank project.", path.string());
 
+		m_Project->m_ProjectDir = path.parent_path();
+		//Directories
+		auto directories = data["Directories"];
+		if (directories)
+		{
+			// TODO(Jorben): Add a better way to go though Directories
+			for (auto dir : directories)
+			{
+				auto assets = dir["Assets"];
+				if (assets) m_Project->m_AssetDir = std::filesystem::path(assets.as<std::string>());
 
+				auto scenes = dir["Scenes"];
+				if (scenes) m_Project->m_SceneDir = std::filesystem::path(scenes.as<std::string>());
+
+				auto scripts = dir["Scripts"];
+				if (scripts) m_Project->m_ScriptsDir = std::filesystem::path(scripts.as<std::string>());
+			}
+		}
+
+		//Scenes
 		auto scenes = data["Scenes"];
 		if (scenes)
 		{

@@ -65,11 +65,12 @@ namespace Crystal
 
 			if (ImGui::IsItemClicked()) //Open a new file/texture
 			{
-				std::string filename = Utils::OpenFile("");
+				std::filesystem::path filename = std::filesystem::path(Utils::OpenFile("", Project::GetCurrentProject()->GetProjectDir().string().c_str()));
 
 				if (!filename.empty())
 				{
-					changeAbleTexture.reset(); changeAbleTexture = Texture2D::Create(filename);
+					// TODO(Jorben): Make relative path with project dir and asset dir
+					changeAbleTexture.reset(); changeAbleTexture = Texture2D::Create(filename.string());
 				}
 			}
 		}

@@ -17,6 +17,7 @@ namespace Crystal
 
 		virtual uint32_t GetRendererID() const = 0;
 		virtual const std::string& GetPath() const = 0;
+		virtual std::string GetProjectRelativePath() const = 0;
 
 		virtual void SetData(void* data, uint32_t size) = 0;
 		virtual void UpdateSubTexture(int x, int y, int width, int height) = 0;

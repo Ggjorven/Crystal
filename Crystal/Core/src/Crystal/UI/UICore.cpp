@@ -1,6 +1,7 @@
 #include "crpch.h"
 #include "UICore.hpp"
 
+#include "Crystal/Core/UUID.hpp"
 #include "Crystal/Utils/Utils.hpp"
 
 #include <imgui.h>
@@ -69,6 +70,7 @@ namespace Crystal::UI
 		return open;
 	}
 
+	// TODO(Jorben): Fix the slider bugs with Transform/Collider Size/Position sliders
 	void Vector3(const char* label, Vec3<float>& value, const Vec4<float>& colourX, const Vec4<float>& colourY, const Vec4<float>& colourZ)
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(1.0f, 4.f));

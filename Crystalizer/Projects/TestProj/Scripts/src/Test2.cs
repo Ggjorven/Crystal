@@ -1,16 +1,16 @@
-using Coral.Managed.Interop;
+﻿using Coral.Managed.Interop;
 
 using System;
 using Crystal;
 
-public class Test : Entity
+public class Test2 : Entity
 {
     [ValueField]
     public float Speed = 1000.0f;
 
     public override void OnCreate()
     {
-        //Console.WriteLine("Test OnCreate");
+        //Console.WriteLine("Test2 OnCreate");
         //GetComponent<TagComponent>().Tag = " Ioiaeghoigaeh";
         //GetComponent<TransformComponent>().SizeY = 1000.0f;
     }
@@ -21,7 +21,7 @@ public class Test : Entity
         {
             TransformComponent transform = GetComponent<TransformComponent>();
 
-            if (Input.IsKeyPressed(KeyCode.W)) 
+            if (Input.IsKeyPressed(KeyCode.W))
                 transform.PosY += Speed * deltaTime;
 
             if (Input.IsKeyPressed(KeyCode.S))

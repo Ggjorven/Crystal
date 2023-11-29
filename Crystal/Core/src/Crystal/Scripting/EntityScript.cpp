@@ -7,6 +7,8 @@
 #include "Crystal/ECS/Component.hpp"
 #include "Crystal/ECS/Storage.hpp"
 
+#include "Crystal/Data/Project/Project.hpp"
+
 #include "Crystal/Scripting/Wrapper/SetupInternalCalls.hpp"
 
 #include <imgui.h>
@@ -17,34 +19,25 @@ namespace Crystal
 	EntityScript::EntityScript()
 	{
 	}
-	EntityScript::EntityScript(std::filesystem::path path)
-	{
-		Load(path);
-	}
 
 	EntityScript::~EntityScript()
 	{
-		//CR_CORE_TRACE("AAA");
 		m_Object.Destroy();
-		ECS::Storage::s_Host.UnloadAssemblyLoadContext(m_Context);
 	}
 
 	void EntityScript::Reload()
 	{
-		SetDLL(m_Path);
-	}
-
-	void EntityScript::SetDLL(std::filesystem::path path)
-	{
-		m_Path = path;
-		Load(path);
+		// Note(Jorben): For some reason reload crashed the program if 'm_Name' is not checked
+		if (m_Name == "1mAT3stN4meS01tD03sntCr4shForS0m3R34s0nH3lpM3") CR_CORE_TRACE("Name = {0}\n\tTo find out more information about this message look at EntityScript::Reload", m_Name);
+		if (!m_Name.empty())
+			LoadClass();
 	}
 
 	void EntityScript::SetClass(const std::string& name)
 	{
 		m_Name = name;
 
-		if (!m_Name.empty() && m_Assembly.GetLoadStatus() == Coral::AssemblyLoadStatus::Success)
+		if (!m_Name.empty())
 			LoadClass();
 	}
 
@@ -65,8 +58,10 @@ namespace Crystal
 		ImGui::BeginChild("Border", ImVec2(regionAvail, 100), true, ImGuiWindowFlags_None);
 		ImGui::PopStyleColor(1);
 
+		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.06f, 0.06f, 0.06f, 1.0f));
 		ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPos().x + 5, ImGui::GetCursorPos().y + 5));
 		ImGui::BeginChild("Main", ImVec2(regionAvail - 10, 100 - 10), true, ImGuiWindowFlags_None);
+		ImGui::PopStyleColor(1);
 
 		ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPos().x + ImGui::GetCurrentWindow()->Size.x / 2.0f - 40, ImGui::GetCursorPos().y));
 		ImGui::Text("Valuefields: ");
@@ -88,6 +83,7 @@ namespace Crystal
 
 	void EntityScript::OnCreate()
 	{
+		//CR_CORE_TRACE("OnCreate {0}", m_UUID);
 		//--Components--
 		if (m_Components.TagComponent)
 			m_Object.InvokeMethod("AddTagComponent");
@@ -104,36 +100,22 @@ namespace Crystal
 		m_Object.InvokeMethod("OnUpdate", (float)ts);
 	}
 
-	void EntityScript::Load(std::filesystem::path path)
-	{
-		// TODO(Jorben): Make the path variable be able to be absolute instead of this fixed path
-		std::string pathStr = path.string();
-
-		if (m_ContextInitialized)
-		{
-			m_Object.Destroy();
-			ECS::Storage::s_Host.UnloadAssemblyLoadContext(m_Context);
-		}
-		
-		m_Context = ECS::Storage::s_Host.CreateAssemblyLoadContext(path.string() + std::to_string(UUIDGenerator::GenerateUUID())); 
-		m_ContextInitialized = true;
-		m_Assembly = m_Context.LoadAssembly(pathStr);
-
-		if (!m_Name.empty())
-			LoadClass();
-	}
-
 	void EntityScript::LoadClass()
 	{
-		m_Type = m_Assembly.GetType(m_Name);
+		//CR_CORE_TRACE("LoadClass: {0}", m_Name);
+		auto& assemblies = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().s_Assemblies;
+		if (assemblies.size() > 0)
+		{
+			m_Type = assemblies[0].GetType(m_Name);
 
-		m_Object.Destroy();
-		m_Object = m_Type.CreateInstance();
+			m_Object.Destroy();
+			m_Object = m_Type.CreateInstance();
 
-		m_ValueFields.Clean();
+			m_ValueFields.Clean();
 
-		m_Object.InvokeMethod("SetUUID", (uint64_t)m_UUID);
-		m_Object.InvokeMethod("Init");
+			m_Object.InvokeMethod("SetUUID", (uint64_t)m_UUID);
+			m_Object.InvokeMethod("Init");
+		}
 	}
 
 }

@@ -67,22 +67,20 @@ namespace Crystal::ECS
 
 	ColliderComponent::~ColliderComponent()
 	{
-		Clean();
+		//Clean();
 	}
 
 	void ColliderComponent::Clean() const
 	{
-		if (AABB) delete AABB;
+		// TODO
+		//if (AABB.get()) AABB.reset();
 	}
 
 
-	ScriptComponent::ScriptComponent()
-		: Script(CreateRef<EntityScript>()) {}
+	ScriptComponent::ScriptComponent() 
+		: Script(CreateRef<EntityScript>()) { }
 
 	ScriptComponent::ScriptComponent(const ScriptComponent& other) = default;
 
-	ScriptComponent::ScriptComponent(const std::filesystem::path& path)
-		: Path(path), Script(CreateRef<EntityScript>(path)) {}
-
-	ScriptComponent::~ScriptComponent() { /*CR_CORE_TRACE("Script");*/ Script.reset(); }
+	ScriptComponent::~ScriptComponent() { }
 }

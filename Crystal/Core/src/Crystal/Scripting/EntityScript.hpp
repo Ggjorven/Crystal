@@ -58,13 +58,13 @@ namespace Crystal
 	{
 	public:
 		EntityScript();
-		EntityScript(std::filesystem::path path);
 		virtual ~EntityScript();
 
 		void Reload();
-		void SetDLL(std::filesystem::path path);
 		void SetClass(const std::string& name);
 		void SetUUID(CR_UUID uuid) { m_UUID = uuid; }
+
+		void DestroyObject() { m_Object.Destroy(); }
 
 		template<typename T>
 		void AddValueField(const std::string& name, T value);	
@@ -110,18 +110,12 @@ namespace Crystal
 		void AddTransformComponent() { m_Components.TransformComponent = true; }
 
 	private:
-		void Load(std::filesystem::path path);
 		void LoadClass();
 
 	private:
-		std::filesystem::path m_Path;
 		std::string m_Name;
 
 		CR_UUID m_UUID = 0;
-
-		bool m_ContextInitialized = false;
-		Coral::AssemblyLoadContext m_Context;
-		Coral::ManagedAssembly m_Assembly;
 
 		Coral::Type m_Type;
 		Coral::ManagedObject m_Object;

@@ -51,6 +51,8 @@ namespace Crystal
 		Ref<ECS::Entity> m_SelectedEntity;
 
 		Ref<Texture2D> m_CheckerboardTex;
+
+		bool m_StartUp = true;
 	};
 
 }

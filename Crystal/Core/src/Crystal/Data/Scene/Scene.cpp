@@ -39,20 +39,18 @@ namespace Crystal
 
 		else if (m_State == SceneState::Runtime)
 		{
-			for (Ref<ECS::Entity>& entity : m_Entities)
+			for (auto& sc : m_Storage.GetComponentsMap<ECS::ScriptComponent>())
 			{
-				if (entity->HasComponent<ECS::ScriptComponent>())
+				//CR_CORE_TRACE("{0}", sc.first);
+				auto scC = m_Storage.GetComponent<ECS::ScriptComponent>(sc.first);
+				if (m_FirstUpdate)
 				{
-					auto& sc = entity->GetComponent<ECS::ScriptComponent>();
-					if (m_FirstUpdate)
-					{
-						sc.Script->UpdateValueFieldsValues();
-						sc.Script->OnCreate();
-						m_FirstUpdate = false;
-					}
-					sc.Script->OnUpdate(ts);
+					scC.Script->UpdateValueFieldsValues();
+					scC.Script->OnCreate();
 				}
+				scC.Script->OnUpdate(ts);
 			}
+			m_FirstUpdate = false;
 			m_EditorCamera->OnUpdate(ts); // TODO(Jorben): Remove and replace with runtime camera
 		}
 	}

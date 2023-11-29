@@ -1,6 +1,8 @@
 #include "crpch.h"
 #include "Project.hpp"
 
+#include "Crystal/Core/Application.hpp"
+
 #include "Crystal/Renderer/2D/Renderer2D.hpp"
 
 #include "Crystal/Data/Scene/SceneSerializer.hpp"
@@ -18,12 +20,7 @@ namespace Crystal
 
 	Project::~Project()
 	{
-		// TODO(Jorben): Fix this for all scenes and shit
-		if (m_Scenes.size() > 0)
-		{
-			SceneSerializer serializer(m_ActiveScene);
-			serializer.Serialize(m_ActiveScene->GetProperties().Path);
-		}
+
 	}
 
 	void Project::OnUpdate(Timestep& ts)
@@ -56,7 +53,7 @@ namespace Crystal
 		m_ActiveScene->SetProperties(properties);
 
 		SceneSerializer serializer(m_ActiveScene);
-		serializer.Deserialize(properties.Path);
+		serializer.Deserialize(m_ProjectDir / m_SceneDir / properties.Path);
 	}
 
 	void Project::LoadScene3D(const SceneProperties& properties) // TODO

@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Test.cs" />
+    <Compile Include="src\Test2.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Crystal\Scripting\Scripting-Engine.csproj" />

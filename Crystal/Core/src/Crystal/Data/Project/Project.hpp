@@ -45,6 +45,11 @@ namespace Crystal
 
 		void SaveScene() { m_ActiveScene->SaveScene(); }
 
+		std::filesystem::path GetProjectDir() const { return m_ProjectDir; }
+		std::filesystem::path GetAssetDir() const { return m_AssetDir; }
+		std::filesystem::path GetSceneDir() const { return m_SceneDir; }
+		std::filesystem::path GetScriptsDir() const { return m_ScriptsDir; }
+
 	private:
 		void LoadScene2D(const SceneProperties& properties);
 		void LoadScene3D(const SceneProperties& properties);
@@ -58,6 +63,12 @@ namespace Crystal
 		Ref<Scene> m_ActiveScene;
 
 		Ref<EditorCamera> m_EditorCamera;
+
+		// Dirs
+		std::filesystem::path m_ProjectDir;
+		std::filesystem::path m_AssetDir;
+		std::filesystem::path m_SceneDir;
+		std::filesystem::path m_ScriptsDir;
 
 		State m_State = State::None;
 

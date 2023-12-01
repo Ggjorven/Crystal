@@ -114,8 +114,20 @@ namespace Crystal
 				DeserializeEntity(entity);
 		}
 
-		//std::stringstream ss;
-		//ss << data;
+
+		// Update ScriptComponent here
+		auto& storage = scene->m_Storage;
+		for (auto& sc : storage.GetComponentsMap<ECS::ScriptComponent>())
+		{
+			auto scC = storage.GetComponent<ECS::ScriptComponent>(sc.first);
+
+			// TODO(Jorben): Add all component here
+			if (storage.HasComponent<ECS::TagComponent>(sc.first))
+				scC.Script->AddTagComponent();
+
+			if (storage.HasComponent<ECS::TransformComponent>(sc.first))
+				scC.Script->AddTransformComponent();
+		}
 	}
 
 	SceneSerializer& SceneSerializer::operator=(const SceneSerializer& other)
@@ -272,13 +284,6 @@ namespace Crystal
 
 			sc.Script->SetUUID(entity->GetUUID());
 			sc.Script->SetClass(scriptComponent["Class"].as<std::string>());
-
-			//Add components
-			if (tagComponent)
-				sc.Script->AddTagComponent();
-
-			if (transformComponent)
-				sc.Script->AddTransformComponent();
 		}
 	}
 

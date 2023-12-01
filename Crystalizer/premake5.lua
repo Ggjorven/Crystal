@@ -57,15 +57,6 @@ project "Crystalizer"
 		"libnethost.lib"
 	}
 
-	postbuildcommands
-	{
-		'{COPYFILE} "%{wks.location}/vendor/NetCore/7.0.7/nethost.dll" "%{cfg.targetdir}"',
-        '{COPYFILE} "%{wks.location}/vendor/Coral/Coral.Managed/Coral.Managed.runtimeconfig.json" "%{cfg.targetdir}"',
-
-        '{COPYFILE} "%{wks.location}/bin/Release-%{cfg.system}-/Coral.Managed/Coral.Managed.dll" "%{cfg.targetdir}"',
-        '{COPYFILE} "%{wks.location}/bin/Release-%{cfg.system}-/Scripting-Engine/net7.0/Scripting-Engine.dll" "%{cfg.targetdir}"'
-    }
-
 	filter "system:windows"
 		systemversion "latest"
 		staticruntime "on"
@@ -82,12 +73,39 @@ project "Crystalizer"
 		runtime "Debug"
 		symbols "on"
 
+		postbuildcommands
+		{
+			'{COPYFILE} "%{wks.location}/vendor/NetCore/7.0.7/nethost.dll" "%{cfg.targetdir}"',
+			'{COPYFILE} "%{wks.location}/vendor/Coral/Coral.Managed/Coral.Managed.runtimeconfig.json" "%{cfg.targetdir}"',
+
+			'{COPYFILE} "%{wks.location}/bin/Debug-%{cfg.system}-/Coral.Managed/Coral.Managed.dll" "%{cfg.targetdir}"',
+			'{COPYFILE} "%{wks.location}/bin/Debug-%{cfg.system}-/Scripting-Engine/net7.0/Scripting-Engine.dll" "%{cfg.targetdir}"'
+    	}
+
 	filter "configurations:Release"
 		defines "CR_RELEASE"
 		runtime "Release"
 		optimize "on"
 
+		postbuildcommands
+		{
+			'{COPYFILE} "%{wks.location}/vendor/NetCore/7.0.7/nethost.dll" "%{cfg.targetdir}"',
+			'{COPYFILE} "%{wks.location}/vendor/Coral/Coral.Managed/Coral.Managed.runtimeconfig.json" "%{cfg.targetdir}"',
+
+			'{COPYFILE} "%{wks.location}/bin/Release-%{cfg.system}-/Coral.Managed/Coral.Managed.dll" "%{cfg.targetdir}"',
+			'{COPYFILE} "%{wks.location}/bin/Release-%{cfg.system}-/Scripting-Engine/net7.0/Scripting-Engine.dll" "%{cfg.targetdir}"'
+		}
+
 	filter "configurations:Dist"
 		defines "CR_DIST"
 		runtime "Release"
 		optimize "on"
+
+		postbuildcommands
+		{
+			'{COPYFILE} "%{wks.location}/vendor/NetCore/7.0.7/nethost.dll" "%{cfg.targetdir}"',
+			'{COPYFILE} "%{wks.location}/vendor/Coral/Coral.Managed/Coral.Managed.runtimeconfig.json" "%{cfg.targetdir}"',
+
+			'{COPYFILE} "%{wks.location}/bin/Release-%{cfg.system}-/Coral.Managed/Coral.Managed.dll" "%{cfg.targetdir}"',
+			'{COPYFILE} "%{wks.location}/bin/Release-%{cfg.system}-/Scripting-Engine/net7.0/Scripting-Engine.dll" "%{cfg.targetdir}"'
+		}

@@ -18,17 +18,20 @@ namespace Crystal
 {
 	EntityScript::EntityScript()
 	{
+		//CR_CORE_TRACE("ENTITYSCRIPT");
 	}
 
 	EntityScript::~EntityScript()
 	{
+		//CR_CORE_TRACE("~ENTITYSCRIPT");
 		m_Object.Destroy();
 	}
 
 	void EntityScript::Reload()
 	{
 		// Note(Jorben): For some reason reload crashed the program if 'm_Name' is not checked
-		if (m_Name == "1mAT3stN4meS01tD03sntCr4shForS0m3R34s0nH3lpM3") CR_CORE_TRACE("Name = {0}\n\tTo find out more information about this message look at EntityScript::Reload", m_Name);
+		if (m_Name == "1mAT3stN4meS01tD03sntCr4shForS0m3R34s0nH3lpM3") 
+			CR_CORE_TRACE("Name = {0}\n\tTo find out more information about this message look at EntityScript::Reload", m_Name);
 		if (!m_Name.empty())
 			LoadClass();
 	}
@@ -74,7 +77,10 @@ namespace Crystal
 			ImGui::Text(std::string(pair.first + std::string(":")).c_str());
 			ImGui::SameLine();
 			ImGui::SetNextItemWidth(150.0f);
-			ImGui::DragFloat(std::string(std::string(" ##") + pair.first).c_str(), &pair.second, 0.5f);
+			if (ImGui::DragFloat(std::string(std::string(" ##") + pair.first).c_str(), &pair.second, 0.5f))
+			{
+				m_Object.SetFieldValue(pair.first, pair.second);
+			}
 		}
 
 		ImGui::EndChild();
@@ -110,6 +116,8 @@ namespace Crystal
 
 			m_Object.Destroy();
 			m_Object = m_Type.CreateInstance();
+			
+			UpdateValueFieldsValues();
 
 			m_ValueFields.Clean();
 

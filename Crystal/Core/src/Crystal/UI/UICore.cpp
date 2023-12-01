@@ -35,7 +35,7 @@ namespace Crystal::UI
 			ImGui::SetCursorPos(ImVec2(startCursorPos.x + ImGui::GetCurrentWindow()->Size.x - 40, startCursorPos.y + ImGui::GetStyle().FramePadding.y / 2.0f));
 			if (ImGui::Button(std::string(std::string("##") + std::string(label)).c_str(), iconSize))
 			{
-				CR_CORE_TRACE("AA");
+				ImGui::OpenPopup((std::string("Options") + std::string(label)).c_str());
 			}
 			ImGui::SetCursorPos(startCursorPos);
 
@@ -67,6 +67,17 @@ namespace Crystal::UI
 		ImGui::SetCursorPos(ImVec2(startCursorPos.x, startCursorPos.y + (ImGui::GetStyle().FramePadding.y * 6.25f)));
 
 		ImGui::PopStyleVar(2);
+
+		if (ImGui::BeginPopup((std::string("Options") + std::string(label)).c_str()))
+		{
+			if (ImGui::MenuItem("Remove"))
+			{
+				componentOptions.Remove = true;
+			}
+
+			ImGui::EndPopup();
+		}
+
 		return open;
 	}
 

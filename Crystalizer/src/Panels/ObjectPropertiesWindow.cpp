@@ -18,6 +18,17 @@
 namespace Crystal
 {
 
+	template<typename T>
+	static void HandleComponentOptions(UI::ComponentOptions& co, CR_UUID uuid)
+	{
+		auto& scene = Project::GetCurrentProject()->GetCurrentScene();
+		if (co.Remove)
+		{
+			scene->GetStorage().RemoveComponent<T>(uuid);
+		}
+			
+	}
+
 	void Panels::ObjectPropertiesWindow()
 	{
 		if (m_StartUp)
@@ -92,6 +103,7 @@ namespace Crystal
 					if (ImGui::InputText("##TagInput", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
 						tag.Tag = buffer;
 				}
+				HandleComponentOptions<ECS::TagComponent>(co, m_SelectedEntity->GetUUID()); 
 			}
 
 			if (m_SelectedEntity->HasComponent<ECS::TransformComponent>())
@@ -109,6 +121,7 @@ namespace Crystal
 					ImGui::DragFloat("##Rotation", &tc->Rotation, 1.0f, 0.0f, 0.0f, "%.1f");
 					*/
 				}
+				HandleComponentOptions<ECS::TransformComponent>(co, m_SelectedEntity->GetUUID());
 			}
 
 			if (m_SelectedEntity->HasComponent<ECS::Renderer2DComponent>())
@@ -147,6 +160,7 @@ namespace Crystal
 					ImGui::Checkbox("Use", &r2d.UseColour);
 
 				}
+				HandleComponentOptions<ECS::Renderer2DComponent>(co, m_SelectedEntity->GetUUID());
 			}
 
 			if (m_SelectedEntity->HasComponent<ECS::ColliderComponent>())
@@ -169,11 +183,12 @@ namespace Crystal
 					if (AABB)
 					{
 						// TODO(Jorben): Add position and linking to Transforms
-						//UI::Vector3("Position", col->AABB->GetPosition(), Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
 						//if (ImGui::Checkbox("##Linked1")) 
+						UI::Vector3("Position", col.AABB->GetPosition(), Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
 						UI::Vector3("Size", col.AABB->GetSize(), Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
 					}
 				}
+				HandleComponentOptions<ECS::ColliderComponent>(co, m_SelectedEntity->GetUUID());
 			}
 
 			if (m_SelectedEntity->HasComponent<ECS::ScriptComponent>())
@@ -181,7 +196,6 @@ namespace Crystal
 				auto& sc = m_SelectedEntity->GetComponent<ECS::ScriptComponent>();
 
 				// Note(Jorben): Check if components have not been sent to the ScriptComponent
-				// TODO(Jorben): Fix this
 				ComponentList& cl = sc.Script->GetComponents();
 				if (m_SelectedEntity->HasComponent<ECS::TagComponent>() && !cl.TagComponent)
 				{
@@ -211,6 +225,7 @@ namespace Crystal
 					// Display ValueFields
 					sc.Script->DisplayValueFields();
 				}
+				HandleComponentOptions<ECS::ScriptComponent>(co, m_SelectedEntity->GetUUID());
 			}
 		}
 

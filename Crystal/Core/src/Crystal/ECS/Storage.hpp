@@ -18,6 +18,7 @@
 namespace Crystal
 {
     class Scene;
+    class SceneSerializer;
     class Scene2D;
     class Scene3D;
     class SceneRenderer2D;
@@ -116,6 +117,8 @@ namespace Crystal::ECS
         friend class Scene3D;
         friend class SceneRenderer2D;
         friend class SceneRenderer3D;
+
+        friend class SceneSerializer;
     };
 }
 

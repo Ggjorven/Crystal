@@ -276,8 +276,8 @@ void EditorLayer::ViewPort()
 		}
 		else
 		{
+			//m_Project->GetCurrentScene()->GetStorage().ReloadAssemblies();
 			m_Project->GetCurrentScene()->CopyStorage();
-			m_Project->GetCurrentScene()->GetStorage().ReloadAssemblies();
 		}
 		m_Running = !m_Running;
 		Panels::SwitchButtons();

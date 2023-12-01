@@ -83,7 +83,6 @@ namespace Crystal::ECS
         std::vector<std::filesystem::path> copy = s_AssemblyPaths;
         s_AssemblyPaths.clear();
 
-        // Note(Jorben): This is quite a wasteful loop but it makes it so there won't be a warning message about not freeing the object
         for (auto& script : GetComponentsMap<ECS::ScriptComponent>())
         {
             auto& scriptC = GetComponent<ECS::ScriptComponent>(script.first);

@@ -50,9 +50,9 @@ namespace Crystal
 			{
 				auto& tag = entity->GetComponent<ECS::TagComponent>();
 				if (entity->HasComponent<ECS::TagComponent>() && !tag.Tag.empty())
-					name = std::string(" ") + tag.Tag;
+					name = std::string("- ") + tag.Tag;
 				else
-					name = std::string(" ") + std::to_string(entity->GetUUID());
+					name = std::string("- ") + std::to_string(entity->GetUUID());
 			}
 
 			//Create a selectable entity

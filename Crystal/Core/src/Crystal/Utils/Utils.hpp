@@ -22,6 +22,7 @@ namespace Crystal
 		static std::string GetEnviromentVariable(const std::string& key);
 
 		static Vec2<float> GetDisplaySize() { return Vec2<float>((float)GetSystemMetrics(SM_CXSCREEN), (float)GetSystemMetrics(SM_CYSCREEN)); }
+		static std::string GetImGuiSettings();
 
 	private:
 		virtual std::string OpenFileImplementation(const char* filter, const char* initDir = nullptr) = 0;

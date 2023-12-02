@@ -21,6 +21,7 @@ namespace Crystal
 
 		void ObjectsWindow();
 		void ObjectPropertiesWindow();
+		void ProjectSettingsWindow(bool* projOpen);
 
 		void TexturePanel(const std::string_view& name, Ref<Texture2D>& changeAbleTexture, bool* useTexture = nullptr);
 		

@@ -224,16 +224,23 @@ void EditorLayer::MenuBar()
 
 	ImGui::Dummy(ImVec2(3.f, 0.0f));
 
+	static bool projSettings = false;
 	if (ImGui::BeginMenu("Options"))
 	{
-		static bool wireFrame = false;
-		if (ImGui::Checkbox("Wireframe", &wireFrame))
+		if (ImGui::MenuItem("Project Settings"))
 		{
-			RendererCommand::EnableWireFrame(wireFrame);
+			const Window& window = Application::Get().GetWindow();
+
+			ImGui::SetNextWindowSize(ImVec2(window.GetWidth() / 2.f, window.GetHeight() / 2.f));
+			ImGui::SetNextWindowPos(ImVec2(Utils::GetDisplaySize().x / 4.0f, Utils::GetDisplaySize().y / 4.0f));
+
+			projSettings = true;
 		}
 
 		ImGui::EndMenu();
 	}
+
+	if (projSettings) m_Panels->ProjectSettingsWindow(&projSettings);
 
 	ImGui::EndMainMenuBar();
 	Panels::EndColours();
@@ -276,7 +283,7 @@ void EditorLayer::ViewPort()
 		}
 		else
 		{
-			//m_Project->GetCurrentScene()->GetStorage().ReloadAssemblies();
+			m_Project->GetCurrentScene()->GetStorage().ReloadAssemblies();
 			m_Project->GetCurrentScene()->CopyStorage();
 		}
 		m_Running = !m_Running;

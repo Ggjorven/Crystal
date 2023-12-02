@@ -1,32 +1,32 @@
 Scene: New
 Assemblies:
-  - bin/Release/Script.dll
+  - bin\Release\Script.dll
 Entities:
   - Entity: 1749095107536281061
     TagComponent:
-      Tag: Red
+      Tag: Mario
     TransformComponent:
-      Position: [387, 366, 0]
+      Position: [619.461792, 451.30072, 0]
       Size: [129, 94, 0]
       Rotation: 0
     Renderer2DComponent:
       Enable: true
       Texture: Mario.png
-      Colour: [0.739130437, 0.0923913047, 0.0923913047, 1]
+      Colour: [0.115193762, 0.333310664, 0.423913062, 1]
       UseTexture: true
       UseColour: true
     ScriptComponent:
       Class: Test
   - Entity: 1677218766587689451
     TagComponent:
-      Tag: Box
+      Tag: Red
     TransformComponent:
       Position: [0, 0, 0]
       Size: [97, 158, 0]
       Rotation: 0
     Renderer2DComponent:
       Enable: true
-      Colour: [0.679347813, 0.0738421381, 0.0738421381, 1]
+      Colour: [0.456436872, 0.265565932, 0.603260875, 1]
       UseTexture: false
       UseColour: true
     ScriptComponent:

@@ -3,6 +3,9 @@
 
 #include <cstdlib>
 
+#include <imgui.h>
+#include <imgui_internal.h>
+
 #include "Crystal/Platforms/Windows/WindowsUtilities.hpp"
 
 namespace Crystal
@@ -18,6 +21,17 @@ namespace Crystal
 		if (val != nullptr)
 			return std::string(val);
 		return std::string("");
+	}
+
+	std::string Utils::GetImGuiSettings()
+	{
+		size_t size;
+		const char* data = ImGui::SaveIniSettingsToMemory(&size);
+
+		// Convert the memory buffer to a std::string
+		std::string iniSettings(data, size);
+
+		return iniSettings;
 	}
 
 }

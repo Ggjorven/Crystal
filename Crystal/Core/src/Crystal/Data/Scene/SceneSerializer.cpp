@@ -5,8 +5,11 @@
 
 #include "Crystal/Utils/YamlUtils.hpp"
 
+#include "Crystal/Renderer/RendererCommand.hpp"
+
 namespace Crystal
 {
+
 	SceneSerializer::SceneSerializer(Scene* scene)
 		: m_PureScene(scene)
 	{
@@ -43,6 +46,9 @@ namespace Crystal
 		
 		data << YAML::Key << "Assemblies";
 		data << YAML::Value << assemblies;
+
+		data << YAML::Key << "ClearColour";
+		data << YAML::Value << glm::vec4(scene->m_ClearColour);
 
 		data << YAML::Key << "Entities";
 		data << YAML::Value << YAML::BeginSeq;
@@ -105,6 +111,12 @@ namespace Crystal
 				scene->GetStorage().AddPath(assembly);
 				scene->GetStorage().LoadAssembly(projDir / scriptDir / assembly);
 			}
+		}
+
+		if (data["ClearColour"])
+		{
+			scene->m_ClearColour = data["ClearColour"].as<glm::vec4>();
+			RendererCommand::SetClearColour(scene->m_ClearColour);
 		}
 
 		auto entities = data["Entities"];

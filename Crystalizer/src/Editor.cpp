@@ -224,15 +224,26 @@ void EditorLayer::MenuBar()
 
 	ImGui::Dummy(ImVec2(3.f, 0.0f));
 
+	static bool sceneSettings = false;
 	static bool projSettings = false;
 	if (ImGui::BeginMenu("Options"))
 	{
+		if (ImGui::MenuItem("Scene Settings"))
+		{
+			const Window& window = Application::Get().GetWindow();
+
+			ImGui::SetNextWindowSize(ImVec2(window.GetWidth() / 2.f, window.GetHeight() / 2.f));
+			ImGui::SetNextWindowPos(ImVec2(400, 300));
+
+			sceneSettings = true;
+		}
+
 		if (ImGui::MenuItem("Project Settings"))
 		{
 			const Window& window = Application::Get().GetWindow();
 
 			ImGui::SetNextWindowSize(ImVec2(window.GetWidth() / 2.f, window.GetHeight() / 2.f));
-			ImGui::SetNextWindowPos(ImVec2(Utils::GetDisplaySize().x / 4.0f, Utils::GetDisplaySize().y / 4.0f));
+			ImGui::SetNextWindowPos(ImVec2(400, 300));
 
 			projSettings = true;
 		}
@@ -241,6 +252,7 @@ void EditorLayer::MenuBar()
 	}
 
 	if (projSettings) m_Panels->ProjectSettingsWindow(&projSettings);
+	if (sceneSettings) m_Panels->SceneSettingsWindow(&sceneSettings);
 
 	ImGui::EndMainMenuBar();
 	Panels::EndColours();

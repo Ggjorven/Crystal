@@ -16,6 +16,7 @@ namespace Crystal
 	private:
 		virtual std::string OpenFileImplementation(const char* filter, const char* initDir = nullptr) override;
 		virtual std::string SaveFileImplementation(const char* filter, const char* initDir = nullptr) override;
+		virtual std::string OpenDirectoryImplementation(const char* initDir = nullptr) override;
 
 		virtual float GetTimeImplementation() override;
 	};

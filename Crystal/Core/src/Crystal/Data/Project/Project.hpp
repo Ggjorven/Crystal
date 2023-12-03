@@ -50,6 +50,10 @@ namespace Crystal
 		std::filesystem::path GetSceneDir() const { return m_SceneDir; }
 		std::filesystem::path GetScriptsDir() const { return m_ScriptsDir; }
 
+		void SetAssetDir(const std::filesystem::path& path) { m_AssetDir = path; }
+		void SetSceneDir(const std::filesystem::path& path) { m_SceneDir = path; }
+		void SetScriptsDir(const std::filesystem::path& path) { m_ScriptsDir = path; }
+
 	private:
 		void LoadScene2D(const SceneProperties& properties);
 		void LoadScene3D(const SceneProperties& properties);

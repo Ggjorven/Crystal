@@ -4,6 +4,7 @@
 #include "Crystal/Core/Application.hpp"
 
 #include <commdlg.h>
+#include <Shlobj.h>
 #include <GLFW/glfw3.h>
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
@@ -77,6 +78,67 @@ namespace Crystal
 	float WindowsUtils::GetTimeImplementation()
 	{
 		return (float)glfwGetTime();
+	}
+
+	std::string WindowsUtils::OpenDirectoryImplementation(const char* initDir)
+	{
+		IFileOpenDialog* fileDialog;
+		if (SUCCEEDED(CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&fileDialog))))
+		{
+			DWORD options;
+			if (SUCCEEDED(fileDialog->GetOptions(&options)))
+			{
+				fileDialog->SetOptions(options | FOS_PICKFOLDERS);
+			}
+
+			if (initDir)
+			{
+				int wideStrLen = MultiByteToWideChar(CP_UTF8, 0, initDir, -1, NULL, 0);
+				if (wideStrLen > 0)
+				{
+					std::wstring wideInitDir(wideStrLen, L'\0');
+					MultiByteToWideChar(CP_UTF8, 0, initDir, -1, &wideInitDir[0], wideStrLen);
+
+					IShellItem* initialDirItem;
+					if (SUCCEEDED(SHCreateItemFromParsingName(wideInitDir.c_str(), NULL, IID_PPV_ARGS(&initialDirItem))))
+					{
+						fileDialog->SetFolder(initialDirItem);
+						initialDirItem->Release();
+					}
+				}
+			}
+
+			if (SUCCEEDED(fileDialog->Show(NULL)))
+			{
+				IShellItem* resultItem;
+				if (SUCCEEDED(fileDialog->GetResult(&resultItem)))
+				{
+					PWSTR path;
+					if (SUCCEEDED(resultItem->GetDisplayName(SIGDN_FILESYSPATH, &path)))
+					{
+						// Convert wide string to narrow string
+						int narrowStrLen = WideCharToMultiByte(CP_UTF8, 0, path, -1, NULL, 0, NULL, NULL);
+						if (narrowStrLen > 0)
+						{
+							std::string narrowPath(narrowStrLen, '\0');
+							WideCharToMultiByte(CP_UTF8, 0, path, -1, &narrowPath[0], narrowStrLen, NULL, NULL);
+
+							CoTaskMemFree(path);
+							resultItem->Release();
+
+							return narrowPath;
+						}
+					}
+
+					CoTaskMemFree(path);
+					resultItem->Release();
+				}
+			}
+
+			fileDialog->Release();
+		}
+
+		return std::string();
 	}
 
 }

@@ -38,7 +38,7 @@ namespace Crystal
 
 	};
 
-	class Scene // TODO(Jorben): Add scene's instead of everything in Project
+	class Scene
 	{
 	public:
 		Scene(const std::string& debugName = "") : m_DebugName(debugName) { m_EditorCamera = CreateRef<EditorCamera>(); }
@@ -55,6 +55,8 @@ namespace Crystal
 		ECS::Storage& GetStorage() { return m_Storage; }
 		std::string& GetName() { return m_DebugName; }
 		const SceneProperties& GetProperties() { return m_Properties; }
+
+		Vec4<float>& GetClearColour() { return m_ClearColour; }
 
 		void SetProperties(const SceneProperties& properties) { m_Properties = properties; }
 		void SetState(int state) { m_State = (SceneState)state; }
@@ -77,6 +79,8 @@ namespace Crystal
 		Ref<EditorCamera> m_EditorCamera;
 		
 		bool m_FirstUpdate = true;
+
+		Vec4<float> m_ClearColour = { 0.0f, 0.0f, 0.0f, 1.0f };
 
 		//Friend classes to be able to use some private members/functions
 		friend class Project;

@@ -13,7 +13,7 @@ Entities:
     Renderer2DComponent:
       Enable: true
       Texture: Mario.png
-      Colour: [0.115193762, 0.333310664, 0.423913062, 1]
+      Colour: [1, 0, 0, 1]
       UseTexture: true
       UseColour: false
     ScriptComponent:

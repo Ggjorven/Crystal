@@ -42,9 +42,28 @@ namespace Crystal
         internal static unsafe delegate*<ulong, float> TransformComponent_GetSizeZ;
         internal static unsafe delegate*<ulong, float> TransformComponent_GetRotation;
 
-        // ScriptComponent
-        /// EntityScript // TODO(Jorben): Fix these functions from crashing <summary>
+        // Renderer2DComponent
+        internal static unsafe delegate*<ulong, NativeString, void> Renderer2DComponent_SetTexturePath;
 
+        internal static unsafe delegate*<ulong, bool, void> Renderer2DComponent_SetUseColour;
+        internal static unsafe delegate*<ulong, bool, void> Renderer2DComponent_SetUseTexture;
+
+        internal static unsafe delegate*<ulong, float, void> Renderer2DComponent_SetColourR;
+        internal static unsafe delegate*<ulong, float, void> Renderer2DComponent_SetColourG;
+        internal static unsafe delegate*<ulong, float, void> Renderer2DComponent_SetColourB;
+        internal static unsafe delegate*<ulong, float, void> Renderer2DComponent_SetColourA;
+
+        internal static unsafe delegate*<ulong, NativeString> Renderer2DComponent_GetTexturePath;
+
+        internal static unsafe delegate*<ulong, bool> Renderer2DComponent_GetUseColour;
+        internal static unsafe delegate*<ulong, bool> Renderer2DComponent_GetUseTexture;
+
+        internal static unsafe delegate*<ulong, float> Renderer2DComponent_GetColourR;
+        internal static unsafe delegate*<ulong, float> Renderer2DComponent_GetColourG;
+        internal static unsafe delegate*<ulong, float> Renderer2DComponent_GetColourB;
+        internal static unsafe delegate*<ulong, float> Renderer2DComponent_GetColourA;
+
+        // ScriptComponent
         internal static unsafe delegate*<ulong, NativeString, byte, void> ScriptComponent_AddValueField_Byte;
         internal static unsafe delegate*<ulong, NativeString, sbyte, void> ScriptComponent_AddValueField_SByte;
         internal static unsafe delegate*<ulong, NativeString, short, void> ScriptComponent_AddValueField_Short;

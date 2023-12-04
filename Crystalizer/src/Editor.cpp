@@ -5,6 +5,7 @@
 #include <imgui_internal.h>
 
 #include <string>
+#include <fstream>
 
 EditorLayer::EditorLayer(const ApplicationInfo& appInfo)
 {
@@ -142,21 +143,38 @@ bool EditorLayer::InWindow(ImVec2 windowPos, ImVec2 windowSize, MousePosition mo
 void EditorLayer::CreateNewProject()
 {
 	//Save
-	ProjectSerializer serializer(m_Project);
-	serializer.Serialize(m_Path);
+	SaveProject();
 
-	//New
-	m_Project.reset();
-	m_Project = CreateRef<Project>("New");
-	std::string random = std::to_string(UUIDGenerator::GenerateUUID());
-	m_Path = Utils::GetEnviromentVariable("CRYSTAL_DIR") + "\\Crystalizer\\Projects\\New-Project-" + random + "New-Project-" + random + ".crproj"; //New path
+	std::string path = Utils::SaveFile(".crproj\0*.crproj\0All Files\0*.*\0", Project::GetCurrentProject()->GetProjectDir().parent_path().string().c_str());
+	if (!path.empty())
+	{
+		//New
+		m_Project.reset();
+		m_Project = CreateRef<Project>("New");
 
-	serializer = ProjectSerializer(m_Project);
-	serializer.Serialize(m_Path);
+		std::ofstream outFile(path);
+		outFile << " " << std::endl;
+
+		m_Path = std::filesystem::path(path);
+
+		ProjectSerializer serializer(m_Project);
+		serializer.Serialize(m_Path);
+
+
+		serializer.Deserialize(m_Path);
+	}
 }
 
 void EditorLayer::SaveProject()
 {
+	if (m_Running)
+	{
+		m_Project->GetCurrentScene()->ResetStorage();
+
+		m_Running = false;
+		Panels::SwitchButtons();
+	}
+
 	ProjectSerializer serializer(m_Project);
 	serializer.Serialize(m_Path);
 
@@ -177,7 +195,7 @@ void EditorLayer::MenuBar()
 
 		if (ImGui::MenuItem("Open project"))
 		{
-			std::string file = Utils::OpenFile("");
+			std::string file = Utils::OpenFile(".crproj\0*.crproj\0All Files\0*.*\0", Project::GetCurrentProject()->GetProjectDir().parent_path().string().c_str());
 
 			if (!file.empty())
 			{

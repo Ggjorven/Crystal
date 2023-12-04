@@ -39,17 +39,17 @@ namespace Crystal
 
     public class Vec4<T>
     {
-        public T X;
-        public T Y;
-        public T Z;
-        public T W;
+        public T R;
+        public T G;
+        public T B;
+        public T A;
 
-        public Vec4(T x, T y, T z, T w)
+        public Vec4(T r, T g, T b, T a)
         {
-            X = x;
-            Y = y;
-            Z = z;
-            W = w;
+            R = r;
+            G = g;
+            B = b;
+            A = a;
         }
     }
 

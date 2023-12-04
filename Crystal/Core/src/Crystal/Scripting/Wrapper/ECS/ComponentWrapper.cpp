@@ -166,6 +166,144 @@ namespace Crystal::Wrapper
 	}
 
 	/*
+		Renderer2DComponent
+	*/
+	void Component::Renderer2DComponent_SetUseColour(uint64_t uuid, bool enabled)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::Renderer2DComponent>(uuid))
+		{
+			auto& r2d = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::Renderer2DComponent>(uuid);
+			r2d.UseColour = enabled;
+		}
+		else
+		{
+			auto& newR2d = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::Renderer2DComponent>(uuid);
+			newR2d.UseColour = enabled;
+		}
+	}
+
+	void Component::Renderer2DComponent_SetUseTexture(uint64_t uuid, bool enabled)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::Renderer2DComponent>(uuid))
+		{
+			auto& r2d = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::Renderer2DComponent>(uuid);
+			r2d.UseTexture = enabled;
+		}
+		else
+		{
+			auto& newR2d = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::Renderer2DComponent>(uuid);
+			newR2d.UseTexture = enabled;
+		}
+	}
+
+	void Component::Renderer2DComponent_SetColourR(uint64_t uuid, float colR)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::Renderer2DComponent>(uuid))
+		{
+			auto& r2d = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::Renderer2DComponent>(uuid);
+			r2d.Colour.R = colR;
+		}
+		else
+		{
+			auto& newR2d = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::Renderer2DComponent>(uuid);
+			newR2d.Colour.R = colR;
+		}
+	}
+
+	void Component::Renderer2DComponent_SetColourG(uint64_t uuid, float colG)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::Renderer2DComponent>(uuid))
+		{
+			auto& r2d = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::Renderer2DComponent>(uuid);
+			r2d.Colour.G = colG;
+		}
+		else
+		{
+			auto& newR2d = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::Renderer2DComponent>(uuid);
+			newR2d.Colour.G = colG;
+		}
+	}
+
+	void Component::Renderer2DComponent_SetColourB(uint64_t uuid, float colB)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::Renderer2DComponent>(uuid))
+		{
+			auto& r2d = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::Renderer2DComponent>(uuid);
+			r2d.Colour.B = colB;
+		}
+		else
+		{
+			auto& newR2d = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::Renderer2DComponent>(uuid);
+			newR2d.Colour.B = colB;
+		}
+	}
+
+	void Component::Renderer2DComponent_SetColourA(uint64_t uuid, float colA)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::Renderer2DComponent>(uuid))
+		{
+			auto& r2d = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::Renderer2DComponent>(uuid);
+			r2d.Colour.A = colA;
+		}
+		else
+		{
+			auto& newR2d = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::Renderer2DComponent>(uuid);
+			newR2d.Colour.A = colA;
+		}
+	}
+
+	void Component::Renderer2DComponent_SetTexturePath(uint64_t uuid, Coral::NativeString path)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::Renderer2DComponent>(uuid))
+		{
+			auto& r2d = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::Renderer2DComponent>(uuid);
+			std::filesystem::path relPath = Project::GetCurrentProject()->GetProjectDir() / Project::GetCurrentProject()->GetAssetDir() / std::filesystem::path(std::string(path));
+			r2d.Texture = Texture2D::Create(relPath.string());
+		}
+		else
+		{
+			auto& r2d = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::Renderer2DComponent>(uuid);
+			std::filesystem::path relPath = Project::GetCurrentProject()->GetProjectDir() / Project::GetCurrentProject()->GetAssetDir() / std::filesystem::path(std::string(path));
+			r2d.Texture = Texture2D::Create(relPath.string());
+		}
+	}
+
+	bool Component::Renderer2DComponent_GetUseColour(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::Renderer2DComponent>(uuid).UseColour;
+	}
+
+	bool Component::Renderer2DComponent_GetUseTexture(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::Renderer2DComponent>(uuid).UseTexture;
+	}
+
+	Coral::NativeString Component::Renderer2DComponent_GetTexturePath(uint64_t uuid)
+	{
+		return Coral::NativeString(Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::Renderer2DComponent>(uuid).Texture->GetPath());
+	}
+
+	float Component::Renderer2DComponent_GetColourR(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::Renderer2DComponent>(uuid).Colour.R;
+	}
+
+	float Component::Renderer2DComponent_GetColourG(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::Renderer2DComponent>(uuid).Colour.G;
+	}
+
+	float Component::Renderer2DComponent_GetColourB(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::Renderer2DComponent>(uuid).Colour.B;
+	}
+
+	float Component::Renderer2DComponent_GetColourA(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::Renderer2DComponent>(uuid).Colour.A;
+	}
+
+	/*
 		ScriptComponent
 	*/
 	void Component::ScriptComponent_AddValueField_Byte(uint64_t uuid, Coral::NativeString name, uint8_t byte)

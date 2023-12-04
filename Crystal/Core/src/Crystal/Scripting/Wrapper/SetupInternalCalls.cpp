@@ -51,6 +51,29 @@ namespace Crystal::Wrapper
 
 		assembly.AddInternalCall("Crystal.InternalCalls", "TransformComponent_GetRotation", reinterpret_cast<void*>(&Component::TransformComponent_GetRotation));
 
+		// Renderer2DComponent
+		/// Setters
+		CR_ADD_INTERNAL("Renderer2DComponent_SetTexturePath", &Component::Renderer2DComponent_SetTexturePath);
+
+		CR_ADD_INTERNAL("Renderer2DComponent_SetUseColour", &Component::Renderer2DComponent_SetUseColour);
+		CR_ADD_INTERNAL("Renderer2DComponent_SetUseTexture", &Component::Renderer2DComponent_SetUseTexture);
+
+		CR_ADD_INTERNAL("Renderer2DComponent_SetColourR", &Component::Renderer2DComponent_SetColourR);
+		CR_ADD_INTERNAL("Renderer2DComponent_SetColourG", &Component::Renderer2DComponent_SetColourG);
+		CR_ADD_INTERNAL("Renderer2DComponent_SetColourB", &Component::Renderer2DComponent_SetColourB);
+		CR_ADD_INTERNAL("Renderer2DComponent_SetColourA", &Component::Renderer2DComponent_SetColourA);
+		 
+		/// Getters
+		CR_ADD_INTERNAL("Renderer2DComponent_GetTexturePath", &Component::Renderer2DComponent_GetTexturePath);
+
+		CR_ADD_INTERNAL("Renderer2DComponent_GetUseColour", &Component::Renderer2DComponent_GetUseColour);
+		CR_ADD_INTERNAL("Renderer2DComponent_GetUseTexture", &Component::Renderer2DComponent_GetUseTexture);
+
+		CR_ADD_INTERNAL("Renderer2DComponent_GetColourR", &Component::Renderer2DComponent_GetColourR);
+		CR_ADD_INTERNAL("Renderer2DComponent_GetColourG", &Component::Renderer2DComponent_GetColourG);
+		CR_ADD_INTERNAL("Renderer2DComponent_GetColourB", &Component::Renderer2DComponent_GetColourB);
+		CR_ADD_INTERNAL("Renderer2DComponent_GetColourA", &Component::Renderer2DComponent_GetColourA);
+
 		// ScriptComponent
 		/// Setters
 		CR_ADD_INTERNAL("ScriptComponent_AddValueField_Byte", &Component::ScriptComponent_AddValueField_Byte);

@@ -78,23 +78,57 @@ namespace Crystal
         }
     }
 
-    public class Renderer2DComponent : Component // TODO(Jorben): Add it
+    public class Renderer2DComponent : Component
     {
         public Renderer2DComponent() : base(0) { }
         public Renderer2DComponent(ulong entityID) : base(entityID) { }
 
-        //public Texture2D Texture
+        unsafe public Texture2D GetTexture()
+        {
+            Texture2D texture = new Texture2D("");
+            texture.Path = InternalCalls.Renderer2DComponent_GetTexturePath(ID)!;
+
+            return texture;
+        }
+        unsafe public void SetTexture(Texture2D texture)
+        {
+            InternalCalls.Renderer2DComponent_SetTexturePath(ID, texture.Path);
+        }
+
+        unsafe public bool GetUseTexture()
+        {
+            return InternalCalls.Renderer2DComponent_GetUseTexture(ID);
+        }
+        unsafe public void SetUseTexture(bool enabled)
+        {
+            InternalCalls.Renderer2DComponent_SetUseTexture(ID, enabled);
+        }
+
+        unsafe public bool GetUseColour()
+        {
+            return InternalCalls.Renderer2DComponent_GetUseColour(ID);
+        }
+        unsafe public void SetUseColour(bool enabled)
+        {
+            InternalCalls.Renderer2DComponent_SetUseColour(ID, enabled);
+        }
+
         unsafe public Vec4<float> GetColour()
         {
             Vec4<float> colour = new Vec4<float>(0.0f, 0.0f, 0.0f, 0.0f);
-
-            // ... Internalcalls
+            colour.R = InternalCalls.Renderer2DComponent_GetColourR(ID);
+            colour.G = InternalCalls.Renderer2DComponent_GetColourG(ID);
+            colour.B = InternalCalls.Renderer2DComponent_GetColourB(ID);
+            colour.A = InternalCalls.Renderer2DComponent_GetColourA(ID);
 
             return colour;
         }
         unsafe public void SetColour(Vec4<float> colour)
         {
-            // ... InternalCalls
+            InternalCalls.Renderer2DComponent_SetColourR(ID, colour.R);
+            InternalCalls.Renderer2DComponent_SetColourG(ID, colour.G);
+            InternalCalls.Renderer2DComponent_SetColourB(ID, colour.B);
+            InternalCalls.Renderer2DComponent_SetColourA(ID, colour.A);
         }
     }
 

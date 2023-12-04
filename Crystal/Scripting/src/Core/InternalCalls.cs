@@ -58,5 +58,12 @@ namespace Crystal
         internal static unsafe delegate*<ulong, NativeString, char, void> ScriptComponent_AddValueField_Char;
         internal static unsafe delegate*<ulong, NativeString, bool, void> ScriptComponent_AddValueField_Bool;
         internal static unsafe delegate*<ulong, NativeString, NativeString, void> ScriptComponent_AddValueField_String;
+
+        /// Entity functions
+        internal static unsafe delegate*<ulong, bool> HasComponent_TagComponent;
+        internal static unsafe delegate*<ulong, bool> HasComponent_TransformComponent;
+        internal static unsafe delegate*<ulong, bool> HasComponent_Renderer2DComponent;
+        internal static unsafe delegate*<ulong, bool> HasComponent_ScriptComponent;
+        internal static unsafe delegate*<ulong, bool> HasComponent_ColliderComponent;
     }
 }

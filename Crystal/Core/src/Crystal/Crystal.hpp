@@ -69,8 +69,6 @@
 
 //Scripting folder
 #include "Crystal/Scripting/EntityScript.hpp"
-	//Wrapper
-	#include "Crystal/Scripting/Wrapper/ECS/Component.hpp"
 
 //UI folder
 #include "Crystal/UI/UICore.hpp"

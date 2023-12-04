@@ -67,10 +67,35 @@ namespace Crystal
 
 		public bool HasComponent<T>() where T : Component
 		{
-			if (m_Components.ContainsKey(typeof(T)))
-				return true;
+            unsafe
+            {
+                if (typeof(T) == typeof(TagComponent))
+                {
+                    return InternalCalls.HasComponent_TagComponent(ID);
+                }
 
-            Console.WriteLine("False");
+                if (typeof(T) == typeof(TransformComponent))
+                {
+                    return InternalCalls.HasComponent_TransformComponent(ID);
+                }
+
+                /* // TODO(Jorben): Add all components
+                if (typeof(T) == typeof())
+                {
+                    return InternalCalls.HasComponent_TagComponent(ID);
+                }
+
+                if (typeof(T) == typeof(TagComponent))
+                {
+                    return InternalCalls.HasComponent_TagComponent(ID);
+                }
+
+                if (typeof(T) == typeof(TagComponent))
+                {
+                    return InternalCalls.HasComponent_TagComponent(ID);
+                }
+                */
+            }
 			return false;
 		}
 
@@ -78,7 +103,7 @@ namespace Crystal
         {
 			if (HasComponent<T>())
             {
-                T component = (T)m_Components[typeof(T)];
+                T component = new T();
                 component.ID = ID;
 
                 return component;

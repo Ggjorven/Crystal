@@ -1,5 +1,5 @@
 #include "crpch.h"
-#include "Component.hpp"
+#include "ComponentWrapper.hpp"
 
 #include "Crystal/Data/Project/Project.hpp"
 #include "Crystal/ECS/Storage.hpp"

@@ -3,8 +3,8 @@
 
 #include "Crystal/Core/Events/Input/Input.hpp"
 
-#include "Crystal/Scripting/Wrapper/ECS/Entity.hpp"
-#include "Crystal/Scripting/Wrapper/ECS/Component.hpp"
+#include "Crystal/Scripting/Wrapper/ECS/EntityWrapper.hpp"
+#include "Crystal/Scripting/Wrapper/ECS/ComponentWrapper.hpp"
 
 #include "Crystal/Scripting/Wrapper/Data/Scene/SceneWrapper.hpp"
 
@@ -66,6 +66,18 @@ namespace Crystal::Wrapper
 		CR_ADD_INTERNAL("ScriptComponent_AddValueField_Char", &Component::ScriptComponent_AddValueField_Char);
 		CR_ADD_INTERNAL("ScriptComponent_AddValueField_Bool", &Component::ScriptComponent_AddValueField_Bool);
 		CR_ADD_INTERNAL("ScriptComponent_AddValueField_String", &Component::ScriptComponent_AddValueField_String);
+
+		/// Entity
+		CR_ADD_INTERNAL("HasComponent_TagComponent", &Entity::HasComponent_TagComponent);
+		CR_ADD_INTERNAL("HasComponent_TransformComponent", &Entity::HasComponent_TransformComponent);
+		CR_ADD_INTERNAL("HasComponent_Renderer2DComponent", &Entity::HasComponent_Renderer2DComponent);
+		CR_ADD_INTERNAL("HasComponent_ScriptComponent", &Entity::HasComponent_ScriptComponent);
+		CR_ADD_INTERNAL("HasComponent_ColliderComponent", &Entity::HasComponent_ColliderComponent);
+
+
+
+
+
 
 		assembly.UploadInternalCalls();
 	}

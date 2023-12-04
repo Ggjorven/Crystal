@@ -86,7 +86,7 @@ DockSpace     ID=0x8B93E3BD Window=0xA787BDB4 Pos=216,258 Size=1280,701 Split=X
 
 void EditorLayer::OnDetach()
 {
-	SaveProject();
+	//SaveProject();
 }
 
 void EditorLayer::OnUpdate(Timestep& ts)
@@ -115,6 +115,7 @@ void EditorLayer::OnImGuiRender()
 	ViewPort();
 	m_Panels->ObjectsWindow();
 	m_Panels->ObjectPropertiesWindow();
+	// TODO(Jorben): Add Assets/Scenes/etc browser
 
 	//ImGui::ShowStyleEditor();
 }
@@ -124,6 +125,7 @@ void EditorLayer::OnEvent(Event& e)
 	EventHandler handler(e);
 
 	handler.Handle<KeyPressedEvent>(CR_BIND_EVENT_FN(EditorLayer::KeyEvent));
+	handler.Handle<WindowCloseEvent>(CR_BIND_EVENT_FN(EditorLayer::WindowClose));
 	
 	m_Project->OnEvent(e);
 }
@@ -254,8 +256,8 @@ void EditorLayer::MenuBar()
 	if (projSettings) m_Panels->ProjectSettingsWindow(&projSettings);
 	if (sceneSettings) m_Panels->SceneSettingsWindow(&sceneSettings);
 
-	ImGui::EndMainMenuBar();
 	Panels::EndColours();
+	ImGui::EndMainMenuBar();
 }
 
 void EditorLayer::ViewPort()
@@ -302,15 +304,22 @@ void EditorLayer::ViewPort()
 		Panels::SwitchButtons();
 	}
 
-	ImGui::End();
-	ImGui::PopStyleVar(1);
 	Panels::EndColours();
+	ImGui::PopStyleVar(1);
+	ImGui::End();
 }
 
 bool EditorLayer::KeyEvent(KeyPressedEvent& e)
 {
 	if (e.GetKeyCode() == CR_KEY_S && Input::IsKeyPressed(CR_KEY_LEFT_CONTROL))
 		SaveProject();
+
+	return false;
+}
+
+bool EditorLayer::WindowClose(WindowCloseEvent& e)
+{
+	SaveProject();
 
 	return false;
 }

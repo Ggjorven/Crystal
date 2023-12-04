@@ -2,9 +2,16 @@
 #include "Scene.hpp"
 
 #include "SceneSerializer.hpp"
+#include "Scene.hpp"
 
 namespace Crystal
 {
+
+	Scene::Scene(const std::string& debugName) 
+		: m_DebugName(debugName), m_SceneID(UUIDGenerator::GenerateUUID())
+	{
+		m_EditorCamera = CreateRef<EditorCamera>();
+	}
 
 	Ref<ECS::Entity> Scene::GetEntityByUUID(uint64_t uuid)
 	{

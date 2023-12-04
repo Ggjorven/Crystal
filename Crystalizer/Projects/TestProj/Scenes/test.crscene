@@ -12,7 +12,7 @@ Entities:
       Rotation: 0
     Renderer2DComponent:
       Enable: true
-      Texture: ..\Assets\Mario.png
+      Texture: Mario.png
       Colour: [0.115193762, 0.333310664, 0.423913062, 1]
       UseTexture: true
       UseColour: false
@@ -27,9 +27,9 @@ Entities:
       Rotation: 0
     Renderer2DComponent:
       Enable: true
-      Texture: ..\Assets\Mario.png
+      Texture: Mario.png
       Colour: [0.407608688, 0.120394811, 0.0354442261, 1]
       UseTexture: false
       UseColour: true
     ScriptComponent:
-      Class: Test
+      Class: Test2

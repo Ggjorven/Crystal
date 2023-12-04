@@ -197,13 +197,13 @@ namespace Crystal
 
 				// Note(Jorben): Check if components have not been sent to the ScriptComponent
 				ComponentList& cl = sc.Script->GetComponents();
-				if (m_SelectedEntity->HasComponent<ECS::TagComponent>() && !cl.TagComponent)
+				if (!cl.TagComponent && m_SelectedEntity->HasComponent<ECS::TagComponent>())
 				{
 					sc.Script->AddTagComponent();
 					cl.TagComponent = true;
 				}
 
-				if (m_SelectedEntity->HasComponent<ECS::TransformComponent>() && !cl.TransformComponent)
+				if (!cl.TransformComponent && m_SelectedEntity->HasComponent<ECS::TransformComponent>())
 				{
 					sc.Script->AddTransformComponent();
 					cl.TransformComponent = true;
@@ -229,8 +229,8 @@ namespace Crystal
 			}
 		}
 
-		ImGui::End();
 		Panels::EndColours();
+		ImGui::End();
 	}
 
 }

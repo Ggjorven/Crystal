@@ -3,7 +3,7 @@ using Coral.Managed.Interop;
 using System;
 using Crystal;
 
-public class Test : Entity
+public class Test : Entity // "Mario"
 {
     [ValueField]
     public float Speed = 1000.0f;

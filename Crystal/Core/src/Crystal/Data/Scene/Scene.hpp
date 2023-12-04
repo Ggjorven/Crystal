@@ -41,7 +41,7 @@ namespace Crystal
 	class Scene
 	{
 	public:
-		Scene(const std::string& debugName = "") : m_DebugName(debugName) { m_EditorCamera = CreateRef<EditorCamera>(); }
+		Scene(const std::string& debugName = "");
 		virtual ~Scene() = default;
 
 		virtual void OnUpdate(Timestep& ts) = 0;
@@ -56,6 +56,8 @@ namespace Crystal
 		std::string& GetName() { return m_DebugName; }
 		const SceneProperties& GetProperties() { return m_Properties; }
 
+		CR_UUID GetSceneID() const { return m_SceneID; }
+
 		Vec4<float>& GetClearColour() { return m_ClearColour; }
 
 		void SetProperties(const SceneProperties& properties) { m_Properties = properties; }
@@ -67,6 +69,7 @@ namespace Crystal
 		virtual void SaveScene() = 0;
 
 	protected:
+		CR_UUID m_SceneID;
 		std::string m_DebugName;
 		SceneState m_State = SceneState::None;
 		SceneProperties m_Properties;

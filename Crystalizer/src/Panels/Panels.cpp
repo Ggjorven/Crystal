@@ -47,7 +47,7 @@ namespace Crystal
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10, 10));
 		ImGui::Image(changeAbleTexture ? reinterpret_cast<void*>(changeAbleTexture->GetRendererID()) : reinterpret_cast<void*>(m_CheckerboardTex->GetRendererID()), ImVec2(32, 32), { 0, 1 }, { 1, 0 });
-		ImGui::PopStyleVar();
+		ImGui::PopStyleVar(1);
 
 		if (ImGui::IsItemHovered())
 		{
@@ -69,7 +69,6 @@ namespace Crystal
 
 				if (!filename.empty())
 				{
-					// TODO(Jorben): Make relative path with project dir and asset dir
 					changeAbleTexture.reset(); changeAbleTexture = Texture2D::Create(filename.string());
 				}
 			}

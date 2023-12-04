@@ -106,7 +106,7 @@ namespace Crystal
 			ImGui::EndMenu();
 		}
 
-		ImGui::End();
 		Panels::EndColours();
+		ImGui::End();
 	}
 }

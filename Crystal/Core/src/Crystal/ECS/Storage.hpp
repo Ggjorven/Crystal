@@ -23,6 +23,11 @@ namespace Crystal
     class Scene3D;
     class SceneRenderer2D;
     class SceneRenderer3D;
+
+    namespace Wrapper
+    {
+        class Scene;
+    }
 }
 
 namespace Crystal::ECS
@@ -119,6 +124,8 @@ namespace Crystal::ECS
         friend class SceneRenderer3D;
 
         friend class SceneSerializer;
+
+        friend class Crystal::Wrapper::Scene;
     };
 }
 

@@ -36,6 +36,7 @@ private:
 	void ViewPort();
 
 	bool KeyEvent(KeyPressedEvent& e);
+	bool WindowClose(WindowCloseEvent& e);
 
 private:
 	std::filesystem::path m_Path = Utils::GetEnviromentVariable("CRYSTAL_DIR") + "\\Crystalizer\\Projects\\TestProj\\test.crproj";

@@ -6,9 +6,10 @@
 #include "Crystal/Scripting/Wrapper/ECS/Entity.hpp"
 #include "Crystal/Scripting/Wrapper/ECS/Component.hpp"
 
+#include "Crystal/Scripting/Wrapper/Data/Scene/SceneWrapper.hpp"
+
 #define CR_ADD_INTERNAL(name, functionPtr) \
     assembly.AddInternalCall("Crystal.InternalCalls", name, reinterpret_cast<void*>(functionPtr))
-
 
 namespace Crystal::Wrapper
 {
@@ -25,6 +26,8 @@ namespace Crystal::Wrapper
 		assembly.AddInternalCall("Crystal.InternalCalls", "TagComponent_SetTag", reinterpret_cast<void*>(&Component::TagComponent_SetTag));
 		/// Getters
 		assembly.AddInternalCall("Crystal.InternalCalls", "TagComponent_GetTag", reinterpret_cast<void*>(&Component::TagComponent_GetTag));
+
+		CR_ADD_INTERNAL("GetUUIDByTag", &Scene::GetUUIDByTag);
 
 		// TransformComponent
 		/// Setters

@@ -31,7 +31,7 @@ namespace Crystal
                 if (valueFieldAttribute != null)
                 {
                     var value = property.GetValue(this);
-                    valueFieldAttribute.Process(value, property.Name, ID);
+                    valueFieldAttribute.Process(value!, property.Name, ID);
                 }
             }
         }
@@ -70,13 +70,19 @@ namespace Crystal
 			if (m_Components.ContainsKey(typeof(T)))
 				return true;
 
+            Console.WriteLine("False");
 			return false;
 		}
 
         public T GetComponent<T>() where T : Component, new()
         {
 			if (HasComponent<T>())
-				return (T)m_Components[typeof(T)];
+            {
+                T component = (T)m_Components[typeof(T)];
+                component.ID = ID;
+
+                return component;
+            }
 
             return new T();
         }

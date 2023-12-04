@@ -1,6 +1,6 @@
 Project: Test
 Directories:
-  - Assets: abc
+  - Assets: Assets
   - Scenes: Scenes
   - Scripts: Scripts
 Scenes:

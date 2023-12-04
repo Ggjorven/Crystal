@@ -42,6 +42,7 @@ namespace Crystal
 
 		// Base function
 		public void AddComponent<T>(T component) where T : Component { m_Components[typeof(T)] = component; }
+
 		// TagComponent
 		public void AddComponent<TagC>(TagComponent component) where TagC : TagComponent
 		{
@@ -54,18 +55,42 @@ namespace Crystal
 			}
         }
 
+        // TransformComponent
 		public void AddComponent<TransformC>(TransformComponent component) where TransformC : TransformComponent
 		{
             component.ID = ID;
 
-            m_Components[typeof(TagComponent)] = component;
+            m_Components[typeof(TransformComponent)] = component;
             unsafe
             {
                 //InternalCalls.AddTransformComponent(ID, component.Tag); // TODO
             }
         }
 
-		public bool HasComponent<T>() where T : Component
+        // Renderer2DComponent
+        public void AddComponent<Renderer2DC>(Renderer2DComponent component) where Renderer2DC : Renderer2DComponent
+        {
+            component.ID = ID;
+
+            m_Components[typeof(Renderer2DComponent)] = component;
+            unsafe
+            {
+                //InternalCalls.AddRenderer2DComponent(ID, component.Tag); // TODO
+            }
+        }
+
+        public void AddComponent<ColliderC>(ColliderComponent component) where ColliderC : ColliderComponent
+        {
+            component.ID = ID;
+
+            m_Components[typeof(ColliderComponent)] = component;
+            unsafe
+            {
+                //InternalCalls.AddRenderer2DComponent(ID, component.Tag); // TODO
+            }
+        }
+
+        public bool HasComponent<T>() where T : Component
 		{
             unsafe
             {
@@ -79,52 +104,44 @@ namespace Crystal
                     return InternalCalls.HasComponent_TransformComponent(ID);
                 }
 
+                if (typeof(T) == typeof(Renderer2DComponent))
+                {
+                    return InternalCalls.HasComponent_Renderer2DComponent(ID);
+                }
+
+                if (typeof(T) == typeof(ColliderComponent))
+                {
+                    return InternalCalls.HasComponent_ColliderComponent(ID);
+                }
+
                 /* // TODO(Jorben): Add all components
-                if (typeof(T) == typeof())
-                {
-                    return InternalCalls.HasComponent_TagComponent(ID);
-                }
-
-                if (typeof(T) == typeof(TagComponent))
-                {
-                    return InternalCalls.HasComponent_TagComponent(ID);
-                }
-
                 if (typeof(T) == typeof(TagComponent))
                 {
                     return InternalCalls.HasComponent_TagComponent(ID);
                 }
                 */
             }
-			return false;
+            return false;
 		}
 
         public T GetComponent<T>() where T : Component, new()
         {
 			if (HasComponent<T>())
             {
-                T component = new T();
-                component.ID = ID;
+                // TODO(Jorben): Make this not create a new Component every frame.
+                if (m_Components.ContainsKey(typeof(T)))
+                {
+                    return (T)m_Components[typeof(T)];
+                }
 
-                return component;
+                m_Components[typeof(T)] = new T();
+                m_Components[typeof(T)].ID = ID;
+
+                return (T)m_Components[typeof(T)];
             }
 
             return new T();
         }
-
-		//-------Components---------
-		// Note(Jorben): Purposefully not using AddComponent<> since that also adds it to the engine's memory but that's where this function was called from.
-		public void AddTagComponent()
-		{
-			TagComponent tagComponent = new TagComponent(ID);
-			m_Components[typeof(TagComponent)] = tagComponent;
-		}
-
-		public void AddTransformComponent()
-		{
-            TransformComponent transformComponent = new TransformComponent(ID);
-			m_Components[typeof(TransformComponent)] = transformComponent;
-		}
     }
 
 }

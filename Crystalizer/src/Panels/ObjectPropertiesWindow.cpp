@@ -195,20 +195,6 @@ namespace Crystal
 			{
 				auto& sc = m_SelectedEntity->GetComponent<ECS::ScriptComponent>();
 
-				// Note(Jorben): Check if components have not been sent to the ScriptComponent
-				ComponentList& cl = sc.Script->GetComponents();
-				if (!cl.TagComponent && m_SelectedEntity->HasComponent<ECS::TagComponent>())
-				{
-					sc.Script->AddTagComponent();
-					cl.TagComponent = true;
-				}
-
-				if (!cl.TransformComponent && m_SelectedEntity->HasComponent<ECS::TransformComponent>())
-				{
-					sc.Script->AddTransformComponent();
-					cl.TransformComponent = true;
-				}
-
 				UI::ComponentOptions co;
 				if (UI::BeginECSComponent("ScriptComponent", co, s_Icons[(int)Icon::Script])) // TODO(Jorben): Add right click enabled/disabled functionality
 				{

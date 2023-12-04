@@ -89,14 +89,6 @@ namespace Crystal
 
 	void EntityScript::OnCreate()
 	{
-		//CR_CORE_TRACE("OnCreate {0}", m_UUID);
-		//--Components--
-		if (m_Components.TagComponent)
-			m_Object.InvokeMethod("AddTagComponent");
-
-		if (m_Components.TransformComponent)
-			m_Object.InvokeMethod("AddTransformComponent");
-
 		m_Object.InvokeMethod("OnCreate");
 
 	}

@@ -1,13 +1,13 @@
 Scene: New
 Assemblies:
   - bin\Release\Script.dll
-ClearColour: [0, 0, 0, 1]
+ClearColour: [0.0706985742, 0.512462616, 0.694690228, 1]
 Entities:
   - Entity: 1749095107536281061
     TagComponent:
       Tag: Mario
     TransformComponent:
-      Position: [619.461792, 451.30072, 0]
+      Position: [64, 64, 0]
       Size: [64, 64, 0]
       Rotation: 0
     Renderer2DComponent:
@@ -28,7 +28,7 @@ Entities:
     Renderer2DComponent:
       Enable: true
       Texture: Mario.png
-      Colour: [0.407608688, 0.120394811, 0.0354442261, 1]
+      Colour: [0.619565248, 0.24276796, 0.131320879, 1]
       UseTexture: false
       UseColour: true
     ScriptComponent:

@@ -125,21 +125,6 @@ namespace Crystal
 			for (auto entity : entities)
 				DeserializeEntity(entity);
 		}
-
-
-		// Update ScriptComponent here
-		auto& storage = scene->m_Storage;
-		for (auto& sc : storage.GetComponentsMap<ECS::ScriptComponent>())
-		{
-			auto scC = storage.GetComponent<ECS::ScriptComponent>(sc.first);
-
-			// TODO(Jorben): Add all component here
-			if (storage.HasComponent<ECS::TagComponent>(sc.first))
-				scC.Script->AddTagComponent();
-
-			if (storage.HasComponent<ECS::TransformComponent>(sc.first))
-				scC.Script->AddTransformComponent();
-		}
 	}
 
 	SceneSerializer& SceneSerializer::operator=(const SceneSerializer& other)

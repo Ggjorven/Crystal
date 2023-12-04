@@ -20,37 +20,39 @@ public class Test2 : Entity // "Red"
         if (HasComponent<TransformComponent>())
         {
             TransformComponent transform = GetComponent<TransformComponent>();
+            Vec3<float> position = transform.GetPosition();
 
             if (Input.IsKeyPressed(KeyCode.Up))
-                transform.PosY += Speed * deltaTime;
+                position.Y += Speed * deltaTime;
 
             if (Input.IsKeyPressed(KeyCode.Down))
-                transform.PosY -= Speed * deltaTime;
+                position.Y -= Speed * deltaTime;
 
             if (Input.IsKeyPressed(KeyCode.Right))
-                transform.PosX += Speed * deltaTime;
+                position.X += Speed * deltaTime;
 
             if (Input.IsKeyPressed(KeyCode.Left))
-                transform.PosX -= Speed * deltaTime;
+                position.X -= Speed * deltaTime;
 
             if (Input.IsKeyPressed(KeyCode.Escape))
                 Console.WriteLine("ESCAPED");
 
             Test test = Scene.GetEntityByTag<Test>("Mario");
-            //Console.WriteLine(test.ID);
-
             TransformComponent marioTransform = test.GetComponent<TransformComponent>();
 
-            Console.WriteLine(marioTransform.PosX + ", " + transform.PosX);
+            Console.WriteLine(position.X + ", " + marioTransform.GetPosition().X);
 
-            if (marioTransform.PosX < transform.PosX)
+            if (position.X < marioTransform.GetPosition().X)
             {
-                Console.WriteLine("Less");
+                //Console.WriteLine("Less");
             }
             else
             {
-                Console.WriteLine("More");
+                //Console.WriteLine("More");
             }
+
+            //Update position
+            transform.SetPosition(position);
         }
 
     }

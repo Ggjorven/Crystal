@@ -48,6 +48,8 @@ namespace Crystal
 		virtual void OnRender() = 0;
 		virtual void OnEvent(Event& e) = 0;
 
+		void UpdateCollisions();
+
 		virtual void AddEntity(Ref<ECS::Entity> entity) { m_Entities.emplace_back(entity); }
 		virtual std::vector<Ref<ECS::Entity>>& GetEntities() { return m_Entities; }
 		virtual Ref<ECS::Entity> GetEntityByUUID(uint64_t uuid);
@@ -67,6 +69,9 @@ namespace Crystal
 		void ResetStorage() { m_Storage = m_StorageCopy; }
 
 		virtual void SaveScene() = 0;
+
+	protected:
+		void UpdateAABB(CR_UUID uuid);
 
 	protected:
 		CR_UUID m_SceneID;

@@ -99,7 +99,7 @@ namespace Crystal
 			scene->m_Properties.Name = data["Scene"].as<std::string>();
 		}
 		else
-			CR_CORE_WARN("No \"Project:\" tab found in {0}\n\tNot critical, just no data loaded and starting as a blank project.", path.string());
+			CR_CORE_WARN("No \"Scene:\" tab found in {0}\n\tNot critical, just no data loaded and starting as a blank scene.", path.string());
 
 		if (data["Assemblies"])
 		{

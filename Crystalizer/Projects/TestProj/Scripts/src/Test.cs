@@ -55,10 +55,10 @@ public class Test : Entity // "Mario"
 
             // Update colour
             r2d.SetColour(colour);
-            r2d.SetUseColour(false);
+            r2d.SetUseColour(true);
 
             r2d.SetTexture(texture);
-            r2d.SetUseTexture(true);
+            r2d.SetUseTexture(false);
         }
     }
 }

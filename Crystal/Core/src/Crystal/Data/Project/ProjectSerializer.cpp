@@ -129,7 +129,19 @@ namespace Crystal
 		{
 			m_Project->AddScene(m_Project->m_Scenes[0]);
 		}
-		else m_Project->m_ActiveScene = CreateRef<Scene2D>();
+		else
+		{
+			std::ofstream file(m_Project->GetProjectDir() / m_Project->GetSceneDir() / std::filesystem::path("New.crscene"));
+			file << " " << std::endl;
+			file.close();
+
+			SceneProperties properties;
+			properties.Path = m_Project->GetProjectDir() / m_Project->GetSceneDir() / std::filesystem::path("New.crscene");
+
+			m_Project->m_Scenes.emplace_back(properties);
+
+			m_Project->AddScene(m_Project->m_Scenes[0]);
+		}
 		
 		std::stringstream ss;
 		ss << data;

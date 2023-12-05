@@ -13,6 +13,71 @@ namespace Crystal
 		m_EditorCamera = CreateRef<EditorCamera>();
 	}
 
+	void Scene::UpdateCollisions()
+	{
+		// TODO(Jorben): Make collisions more efficient
+		std::vector<std::pair<CR_UUID, CR_UUID>> checked = { };
+
+		for (auto& coll1 : m_Storage.GetComponentsMap<ECS::ColliderComponent>())
+		{
+			for (auto& coll2 : m_Storage.GetComponentsMap<ECS::ColliderComponent>())
+			{
+				if ((coll1.first == coll2.first))
+					continue;
+
+				auto& colC1 = m_Storage.GetComponent<ECS::ColliderComponent>(coll1.first);
+				auto& colC2 = m_Storage.GetComponent<ECS::ColliderComponent>(coll2.first);
+				// AABB
+				if (colC1.AABB && colC2.AABB)
+				{
+					UpdateAABB(coll1.first);
+					UpdateAABB(coll2.first);
+
+					ECS::ColliderComponent* smallest = nullptr;
+					ECS::ColliderComponent* other = nullptr;
+					CR_UUID smallID = 0;
+					CR_UUID otherID = 0;
+
+					if (colC1.AABB->GetPosition().X < colC2.AABB->GetPosition().X)
+					{
+						smallest = &colC1; other = &colC2;
+						smallID = coll1.first; otherID = coll2.first;
+					}
+					else
+					{
+						smallest = &colC2; other = &colC1;
+						smallID = coll2.first; otherID = coll1.first;
+					}
+
+					// Check if already checked
+					auto pair = std::make_pair(smallID, otherID);
+					bool stop = false;
+					for (auto& item : checked)
+					{
+						if (item == pair)
+						{
+							stop = true;
+							break;
+						}
+					}
+					if (stop) continue;
+
+					// TODO(Jorben): Use some kind of origin system
+					if (smallest->AABB->GetPosition().X + smallest->AABB->GetSize().X > other->AABB->GetPosition().X)
+					{
+						if (!(smallest->AABB->GetPosition().Y + smallest->AABB->GetSize().Y <= other->AABB->GetPosition().Y) && !(other->AABB->GetPosition().Y + other->AABB->GetSize().Y <= smallest->AABB->GetPosition().Y)) 
+						{
+							CR_CORE_TRACE("Collision");
+						}
+					}
+
+					checked.push_back(pair);
+				
+				}
+			}
+		}
+	}
+
 	Ref<ECS::Entity> Scene::GetEntityByUUID(uint64_t uuid)
 	{
 		for (Ref<ECS::Entity>& entity : m_Entities)
@@ -22,6 +87,21 @@ namespace Crystal
 		}
 		CR_CORE_WARN("No entity with UUID ({0}) found in current Scene...", uuid);
 		return nullptr;
+	}
+
+	void Scene::UpdateAABB(CR_UUID uuid)
+	{
+		auto& col = m_Storage.GetComponent<ECS::ColliderComponent>(uuid);
+		if (m_Storage.HasComponent<ECS::TransformComponent>(uuid))
+		{
+			auto& transform = m_Storage.GetComponent<ECS::TransformComponent>(uuid);
+
+			if (col.AABB->LinkedPosition())
+				col.AABB->SetPosition(transform.Position);
+
+			if (col.AABB->LinkedSize())
+				col.AABB->SetSize(transform.Size);
+		}
 	}
 
 
@@ -46,10 +126,12 @@ namespace Crystal
 
 		else if (m_State == SceneState::Runtime)
 		{
+			if (!m_FirstUpdate) Scene::UpdateCollisions();
+
 			for (auto& sc : m_Storage.GetComponentsMap<ECS::ScriptComponent>())
 			{
 				//CR_CORE_TRACE("{0}", sc.first);
-				auto scC = m_Storage.GetComponent<ECS::ScriptComponent>(sc.first);
+				auto& scC = m_Storage.GetComponent<ECS::ScriptComponent>(sc.first);
 				if (m_FirstUpdate)
 				{
 					scC.Script->UpdateValueFieldsValues();

@@ -30,6 +30,7 @@ public:
 
 private:
 	void CreateNewProject();
+	void OpenProject(std::filesystem::path path);
 	void SaveProject();
 
 	void MenuBar();

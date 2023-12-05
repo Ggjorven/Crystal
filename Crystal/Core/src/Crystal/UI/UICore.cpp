@@ -135,7 +135,7 @@ namespace Crystal::UI
 		ImGui::DragFloat((std::string("##Z") + std::string(label)).c_str(), &value.z, dragSpeed, 0.0f, 0.0f, "%.1f", ImGuiSliderFlags_None);
 
 		ImGui::SameLine();
-		ImGui::Text((std::string("<- ") + std::string(label)).c_str());
+		ImGui::Text((std::string("<- ") + std::string(label).erase(std::string(label).find("##"))).c_str());
 
 		ImGui::PopStyleColor(3);
 

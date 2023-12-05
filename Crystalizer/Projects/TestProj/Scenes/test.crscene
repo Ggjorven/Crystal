@@ -1,7 +1,7 @@
 Scene: New
 Assemblies:
   - bin\Release\Script.dll
-ClearColour: [0.0706985742, 0.512462616, 0.694690228, 1]
+ClearColour: [0.141279683, 0.555002928, 0.725663722, 1]
 Entities:
   - Entity: 1749095107536281061
     TagComponent:
@@ -13,9 +13,11 @@ Entities:
     Renderer2DComponent:
       Enable: true
       Texture: Mario.png
-      Colour: [1, 0, 0, 1]
+      Colour: [0.42621693, 0.706521749, 0.532854676, 1]
       UseTexture: true
-      UseColour: false
+      UseColour: true
+    ColliderComponent:
+      AABB: true
     ScriptComponent:
       Class: Test
   - Entity: 1677218766587689451
@@ -28,8 +30,23 @@ Entities:
     Renderer2DComponent:
       Enable: true
       Texture: Mario.png
-      Colour: [0.619565248, 0.24276796, 0.131320879, 1]
+      Colour: [0.581521749, 0.142426103, 0.0568879843, 1]
       UseTexture: false
       UseColour: true
     ScriptComponent:
       Class: Test2
+  - Entity: 8246586645339211354
+    TagComponent:
+      Tag: a
+    TransformComponent:
+      Position: [586, 248, 0]
+      Size: [233, 128, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Texture: ..\..\..\assets\textures\QuestionBlock.png
+      Colour: [0.875, 0.788006544, 0.147418469, 1]
+      UseTexture: true
+      UseColour: true
+    ColliderComponent:
+      AABB: true

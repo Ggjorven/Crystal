@@ -7,6 +7,8 @@
 #include <string>
 #include <fstream>
 
+#include <shellapi.h> // TODO(Jorben): Make not windows dependant
+
 EditorLayer::EditorLayer(const ApplicationInfo& appInfo)
 {
 	Window& window = Application::Get().GetWindow();
@@ -15,10 +17,6 @@ EditorLayer::EditorLayer(const ApplicationInfo& appInfo)
 	m_FrameBuffer = FrameBuffer::Create(window.GetWidth(), window.GetHeight(), FrameBufferFormat::RGBA8);
 
 	m_Project = CreateRef<Project>("New");
-	// TEMP // TODO(Jorben): Remove
-	//m_Project->AddScene("D:\\Code\\C++\\VS\\Crystal\\Crystalizer\\Projects\\TestProj\\Scenes\\test.crscene");
-	//SaveProject();
-
 	m_Panels = CreateRef<Panels>(m_Project);
 
 	if (appInfo.ArgCount > 1)
@@ -142,27 +140,31 @@ bool EditorLayer::InWindow(ImVec2 windowPos, ImVec2 windowSize, MousePosition mo
 
 void EditorLayer::CreateNewProject()
 {
-	//Save
-	SaveProject();
-
 	std::string path = Utils::SaveFile(".crproj\0*.crproj\0All Files\0*.*\0", Project::GetCurrentProject()->GetProjectDir().parent_path().string().c_str());
 	if (!path.empty())
 	{
-		//New
-		m_Project.reset();
-		m_Project = CreateRef<Project>("New");
-
 		std::ofstream outFile(path);
 		outFile << " " << std::endl;
 
-		m_Path = std::filesystem::path(path);
-
-		ProjectSerializer serializer(m_Project);
-		serializer.Serialize(m_Path);
-
-
-		serializer.Deserialize(m_Path);
+		OpenProject(std::filesystem::path(path));
 	}
+}
+
+void EditorLayer::OpenProject(std::filesystem::path path)
+{
+#if defined(CR_DIST) // TODO(Jorben): Change this for distribution
+	std::string CRPath = Utils::GetEnviromentVariable("CRYSTAL_DIR") + std::string("\\bin\\Dist-windows-x86_64\\Crystalizer\\Crystalizer.exe");
+#elif defined(CR_RELEASE)
+	std::string CRPath = Utils::GetEnviromentVariable("CRYSTAL_DIR") + std::string("\\bin\\Release-windows-x86_64\\Crystalizer\\Crystalizer.exe");
+#elif defined(CR_DEBUG)
+	std::string CRPath = Utils::GetEnviromentVariable("CRYSTAL_DIR") + std::string("\\bin\\Debug-windows-x86_64\\Crystalizer\\Crystalizer.exe");
+#else
+	#error No proper configuration selected.
+#endif
+
+	ShellExecuteA(NULL, "open", CRPath.c_str(), path.string().c_str(), NULL, SW_SHOWDEFAULT);
+
+	Application::Get().DispatchEvent<WindowCloseEvent>();
 }
 
 void EditorLayer::SaveProject()
@@ -188,24 +190,18 @@ void EditorLayer::MenuBar()
 
 	if (ImGui::BeginMenu("File"))
 	{
-		if (ImGui::MenuItem("New project"))
+		if (ImGui::MenuItem("New project", "Ctrl+N"))
 		{
 			CreateNewProject();
 		}
 
-		if (ImGui::MenuItem("Open project"))
+		if (ImGui::MenuItem("Open project", "Ctrl+O"))
 		{
-			std::string file = Utils::OpenFile(".crproj\0*.crproj\0All Files\0*.*\0", Project::GetCurrentProject()->GetProjectDir().parent_path().string().c_str());
+			std::string file = Utils::OpenFile(".crproj\0*.crproj\0All Files\0*.*\0", m_Project->GetProjectDir().parent_path().string().c_str());
 
 			if (!file.empty())
 			{
-				m_Path = file;
-
-				m_Project.reset();
-				m_Project = CreateRef<Project>("New");
-
-				ProjectSerializer serializer(m_Project);
-				serializer.Deserialize(m_Path);
+				OpenProject(std::filesystem::path(file));
 			}
 		}
 
@@ -222,21 +218,21 @@ void EditorLayer::MenuBar()
 	{
 		if (ImGui::MenuItem("Add C# assembly"))
 		{
-			std::string file = Utils::OpenFile(".dll\0*.dll", Project::GetCurrentProject()->GetProjectDir().string().c_str());
+			std::string file = Utils::OpenFile(".dll\0*.dll", m_Project->GetProjectDir().string().c_str());
 
 			if (!file.empty())
 			{
-				std::filesystem::path projDir = Project::GetCurrentProject()->GetProjectDir();
-				std::filesystem::path scriptDir = Project::GetCurrentProject()->GetScriptsDir();
+				std::filesystem::path projDir = m_Project->GetProjectDir();
+				std::filesystem::path scriptDir = m_Project->GetScriptsDir();
 
-				Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddPath(std::filesystem::relative(file, projDir / scriptDir));
-				Project::GetCurrentProject()->GetCurrentScene()->GetStorage().LoadAssembly(file);
+				m_Project->GetCurrentScene()->GetStorage().AddPath(std::filesystem::relative(file, projDir / scriptDir));
+				m_Project->GetCurrentScene()->GetStorage().LoadAssembly(file);
 			}
 		}
 
 		if (ImGui::MenuItem("Reload C# assembly"))
 		{
-			Project::GetCurrentProject()->GetCurrentScene()->GetStorage().ReloadAssemblies();
+			m_Project->GetCurrentScene()->GetStorage().ReloadAssemblies();
 		}
 
 		ImGui::EndMenu();
@@ -329,7 +325,17 @@ void EditorLayer::ViewPort()
 
 bool EditorLayer::KeyEvent(KeyPressedEvent& e)
 {
-	if (e.GetKeyCode() == CR_KEY_S && Input::IsKeyPressed(CR_KEY_LEFT_CONTROL))
+	if (e.GetKeyCode() == CR_KEY_N && Input::IsKeyPressed(CR_KEY_LEFT_CONTROL))
+		CreateNewProject();
+	else if (e.GetKeyCode() == CR_KEY_O && Input::IsKeyPressed(CR_KEY_LEFT_CONTROL))
+	{
+		std::string file = Utils::OpenFile(".crproj\0*.crproj\0All Files\0*.*\0", m_Project->GetProjectDir().parent_path().string().c_str());
+		if (!file.empty())
+		{
+			OpenProject(std::filesystem::path(file));
+		}
+	}
+	else if (e.GetKeyCode() == CR_KEY_S && Input::IsKeyPressed(CR_KEY_LEFT_CONTROL))
 		SaveProject();
 
 	return false;

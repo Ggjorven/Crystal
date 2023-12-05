@@ -112,8 +112,8 @@ namespace Crystal
 				UI::ComponentOptions co;
 				if (UI::BeginECSComponent("TransformComponent", co, s_Icons[(int)Icon::Transform]))
 				{
-					UI::Vector3("Position", tc.Position, Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
-					UI::Vector3("Size", tc.Size, Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
+					UI::Vector3("Position##Transform", tc.Position, Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
+					UI::Vector3("Size##Transform", tc.Size, Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
 					/* // TODO(Jorben): Add rotation back here and add it in Renderer2D
 					ImGui::Text("Rotation: ");
 					ImGui::SameLine();
@@ -169,23 +169,31 @@ namespace Crystal
 				UI::ComponentOptions co;
 				if (UI::BeginECSComponent("ColliderComponent", co, s_Icons[(int)Icon::Renderer2D])) // TODO(Jorben): Add right click enabled/disabled functionality
 				{
-					static bool AABB = (col.AABB ? true : false);
-					//static bool ... = false;
 					ImGui::Dummy(ImVec2(10.0f, 0.0f));
 					ImGui::SameLine();
+					bool AABB = (col.AABB ? true : false);
 					if (ImGui::RadioButton("AABB", AABB))
 					{
 						col.AABB = CreateRef<AABBCollider>();
-
-						AABB = true;
 					}
 
 					if (AABB)
 					{
 						// TODO(Jorben): Add position and linking to Transforms
-						//if (ImGui::Checkbox("##Linked1")) 
-						UI::Vector3("Position", col.AABB->GetPosition(), Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
-						UI::Vector3("Size", col.AABB->GetSize(), Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
+						if (ImGui::Checkbox("Position", &col.AABB->LinkedPosition()))
+						{
+							if (col.AABB->LinkedPosition() && m_SelectedEntity->HasComponent<ECS::TransformComponent>())
+								col.AABB->SetPosition(m_SelectedEntity->GetComponent<ECS::TransformComponent>().Position);
+						}
+						ImGui::SameLine();
+						if (ImGui::Checkbox("Size", &col.AABB->LinkedSize()))
+						{
+							if (col.AABB->LinkedSize() && m_SelectedEntity->HasComponent<ECS::TransformComponent>())
+								col.AABB->SetSize(m_SelectedEntity->GetComponent<ECS::TransformComponent>().Size);
+						}
+
+						UI::Vector3("Position##AABB", col.AABB->GetPosition(), Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
+						UI::Vector3("Size##AABB", col.AABB->GetSize(), Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
 					}
 				}
 				HandleComponentOptions<ECS::ColliderComponent>(co, m_SelectedEntity->GetUUID());

@@ -49,7 +49,7 @@ namespace Crystal
 		inline Window& GetWindow() { return *m_Window; }
 
 		template<typename TEvent>
-		inline void DispatchEvent(TEvent e) { static_assert(std::is_base_of<Event, TEvent>::value); OnEvent(e); }
+		inline void DispatchEvent(TEvent e = TEvent()) { static_assert(std::is_base_of<Event, TEvent>::value); OnEvent(e); }
 
 		inline static Application& Get() { return *s_Instance; }
 		inline static std::filesystem::path GetWorkingDirectory() { return std::filesystem::path(s_Instance->m_AppInfo.Args[0]).parent_path(); }

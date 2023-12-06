@@ -1,7 +1,7 @@
 Scene: New
 Assemblies:
   - bin\Release\Script.dll
-ClearColour: [0.141176477, 0.556862772, 0.725490212, 0]
+ClearColour: [0.141176477, 0.556862772, 0.725490212, 1]
 Entities:
   - Entity: 1677218766587689451
     TagComponent:
@@ -22,13 +22,11 @@ Entities:
         Size-Link: true
         Position: [0, 0, 0]
         Size: [1536, 64, 0]
-    ScriptComponent:
-      Class: Test2
   - Entity: 8246586645339211354
     TagComponent:
       Tag: a
     TransformComponent:
-      Position: [586, 248, 0]
+      Position: [586, 256, 0]
       Size: [233, 128, 0]
       Rotation: 0
     Renderer2DComponent:
@@ -41,7 +39,7 @@ Entities:
       AABB:
         Position-Link: true
         Size-Link: true
-        Position: [586, 248, 0]
+        Position: [586, 256, 0]
         Size: [233, 128, 0]
   - Entity: 1749095107536281061
     TagComponent:
@@ -60,7 +58,25 @@ Entities:
       AABB:
         Position-Link: true
         Size-Link: true
-        Position: [813.496277, 376, 0]
+        Position: [412.526855, 64, 0]
         Size: [64, 64, 0]
     ScriptComponent:
       Class: Test
+  - Entity: 10619718177593762474
+    TransformComponent:
+      Position: [323, 256, 0]
+      Size: [128, 64, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Colour: [0.619565248, 0.361901075, 0.0808128789, 1]
+      UseTexture: false
+      UseColour: true
+    ColliderComponent:
+      AABB:
+        Position-Link: true
+        Size-Link: true
+        Position: [1002.77905, 206.706482, 0]
+        Size: [128, 64, 0]
+    ScriptComponent:
+      Class: Test2

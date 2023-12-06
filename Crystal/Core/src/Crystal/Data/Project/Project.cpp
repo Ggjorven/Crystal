@@ -25,6 +25,8 @@ namespace Crystal
 
 	void Project::OnUpdate(Timestep& ts)
 	{
+		m_ActiveScene->SetState((int)m_State);
+
 		m_ActiveScene->OnUpdate(ts);
 	}
 

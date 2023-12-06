@@ -7,22 +7,24 @@ using System.Threading.Tasks.Dataflow;
 public class Test : Entity // "Mario"
 {
     [ValueField]
-    public float Speed = 1000.0f;
+    public float Speed = 550.0f;
 
     [ValueField]
     public float Gravity = 9.81f;
 
     [ValueField]
-    public float YVelocityMax = 9.81f;
+    public float JumpHeight = 990.0f;
+
+    [ValueField]
+    public float YVelocityMax = -1000.0f;
+
     public float YVelocity = 0.0f;
 
-    public bool CanJump = true; // TODO
+    public bool CanJump = true; 
     
     public override void OnCreate()
     {
-        //Console.WriteLine("Test OnCreate");
-        //GetComponent<TagComponent>().Tag = " Ioiaeghoigaeh";
-        //GetComponent<TransformComponent>().SizeY = 1000.0f;
+
     }
 
     public override void OnUpdate(float deltaTime)
@@ -32,10 +34,9 @@ public class Test : Entity // "Mario"
             TransformComponent transform = GetComponent<TransformComponent>();
             Vec3<float> position = transform.GetPosition();
 
-            if (Input.IsKeyPressed(KeyCode.W))
+            if (Input.IsKeyPressed(KeyCode.W) && CanJump)
             {
-                position.Y += Speed * deltaTime;
-                YVelocity = 0.0f;
+                YVelocity = JumpHeight;
             }
 
             if (Input.IsKeyPressed(KeyCode.S))
@@ -47,17 +48,14 @@ public class Test : Entity // "Mario"
             if (Input.IsKeyPressed(KeyCode.A))
                 position.X -= Speed * deltaTime;
 
-            if (Input.IsKeyPressed(KeyCode.Escape))
-                Console.WriteLine("ESCAPED");
-
             // Update position
-            YVelocity += Gravity;
-            YVelocity = Math.Min(YVelocity, YVelocityMax);
+            YVelocity -= Gravity;
+            YVelocity = Math.Clamp(YVelocity, YVelocityMax, 5000.0f);
 
-            //Console.WriteLine(YVelocity);
-
-            position.Y -= YVelocity * deltaTime;
+            position.Y += YVelocity * deltaTime;
             transform.SetPosition(position);
+
+            CanJump = false;
         }
 
         if (HasComponent<Renderer2DComponent>())
@@ -83,8 +81,6 @@ public class Test : Entity // "Mario"
 
     public override void OnCollision(Entity other)
     {
-        //Console.WriteLine("C# Collision with " + other.ID);
-        
         if (HasComponent<TransformComponent>() && other.HasComponent<TransformComponent>())
         {
             TransformComponent myTC = GetComponent<TransformComponent>();
@@ -93,39 +89,37 @@ public class Test : Entity // "Mario"
             var myProps = GetCollisionProperties();
             var otherProps = other.GetCollisionProperties();
 
-            if (myProps.Side == CollisionProperties.CollisionSide.Right)
+            switch (myProps.Side)
             {
-                //Console.WriteLine("Mario right");
-                Vec3<float> newPos = myTC.GetPosition();
-                newPos.X = otherTC.GetPosition().X - myTC.GetSize().X;
+                case CollisionProperties.CollisionSide.Right:
+                    Vec3<float> newPos = myTC.GetPosition();
+                    newPos.X = otherTC.GetPosition().X - myTC.GetSize().X;
+                    myTC.SetPosition(newPos);
+                    break;
 
-                myTC.SetPosition(newPos);
-            }
-            else if (myProps.Side == CollisionProperties.CollisionSide.Left)
-            {
-                //Console.WriteLine("Mario left");
-                Vec3<float> newPos = myTC.GetPosition();
-                newPos.X = otherTC.GetPosition().X + otherTC.GetSize().X;
+                case CollisionProperties.CollisionSide.Left:
+                    newPos = myTC.GetPosition();
+                    newPos.X = otherTC.GetPosition().X + otherTC.GetSize().X;
+                    myTC.SetPosition(newPos);
+                    break;
 
-                myTC.SetPosition(newPos);
-            }
-            else if (myProps.Side == CollisionProperties.CollisionSide.Top)
-            {
-                //Console.WriteLine("Mario top");
-                Vec3<float> newPos = myTC.GetPosition();
-                newPos.Y = otherTC.GetPosition().Y - myTC.GetSize().Y;
-                YVelocity = 0.0f;
+                case CollisionProperties.CollisionSide.Top:
+                    newPos = myTC.GetPosition();
+                    newPos.Y = otherTC.GetPosition().Y - myTC.GetSize().Y;
 
-                myTC.SetPosition(newPos);
-            }
-            else if (myProps.Side == CollisionProperties.CollisionSide.Bottom)
-            {
-                //Console.WriteLine("Mario bottom");
-                Vec3<float> newPos = myTC.GetPosition();
-                newPos.Y = otherTC.GetPosition().Y + otherTC.GetSize().Y;
-                YVelocity = 0.0f;
+                    if (YVelocity > 0.0f)
+                        YVelocity = 0.0f;
 
-                myTC.SetPosition(newPos);
+                    myTC.SetPosition(newPos);
+                    break;
+
+                case CollisionProperties.CollisionSide.Bottom:
+                    newPos = myTC.GetPosition();
+                    newPos.Y = otherTC.GetPosition().Y + otherTC.GetSize().Y;
+                    YVelocity = 0.0f;
+                    CanJump = true;
+                    myTC.SetPosition(newPos);
+                    break;
             }
         }
     }

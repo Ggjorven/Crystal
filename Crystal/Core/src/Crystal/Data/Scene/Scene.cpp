@@ -167,18 +167,20 @@ namespace Crystal
 	void Scene2D::OnUpdate(Timestep& ts)
 	{
 		// TODO(Jorben): Add runtime camera
-		if (m_State == SceneState::Editor)
+		switch (m_State)
+		{
+
+		case SceneState::Editor:
 		{
 			m_EditorCamera->OnUpdate(ts);
 			m_FirstUpdate = true;
+			break;
 		}
 
-		else if (m_State == SceneState::Runtime)
+		case SceneState::Runtime:
 		{
-
 			for (auto& sc : m_Storage.GetComponentsMap<ECS::ScriptComponent>())
 			{
-				//CR_CORE_TRACE("{0}", sc.first);
 				auto& scC = m_Storage.GetComponent<ECS::ScriptComponent>(sc.first);
 				if (m_FirstUpdate)
 				{
@@ -192,15 +194,23 @@ namespace Crystal
 
 			m_FirstUpdate = false;
 			m_EditorCamera->OnUpdate(ts); // TODO(Jorben): Remove and replace with runtime camera
+			break;
+		}
+
 		}
 	}
 
 	void Scene2D::OnRender()
 	{
-		if (m_State == SceneState::Editor)
+		switch (m_State)
+		{
+		case SceneState::Editor:
 			OnRenderEditor();
-		if (m_State == SceneState::Runtime)
+			break;
+		case SceneState::Runtime:
 			OnRenderRuntime();
+			break;
+		}
 	}
 
 	void Scene2D::OnEvent(Event& e)

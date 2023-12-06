@@ -12,11 +12,12 @@ using System.Reflection;
 namespace Crystal
 {
 
-    public abstract class Entity
+    public class Entity
     {
         public ulong ID = 0;
 
 		private Dictionary<Type, Component> m_Components = new Dictionary<Type, Component>();
+        private CollisionProperties m_CollisionProperties = new CollisionProperties();
 
         public Entity(ulong id = 0) { ID = id; }
         public void SetUUID(ulong id) { ID = id; }
@@ -37,8 +38,10 @@ namespace Crystal
         }
 
 
-        public abstract void OnCreate();
-		public abstract void OnUpdate(float deltaTime);
+        virtual public void OnCreate() { }
+		virtual public void OnUpdate(float deltaTime) { }
+
+        virtual public void OnCollision(Entity other) { }
 
 		// Base function
 		public void AddComponent<T>(T component) where T : Component { m_Components[typeof(T)] = component; }
@@ -141,6 +144,29 @@ namespace Crystal
             }
 
             return new T();
+        }
+
+        public void SetLastCollision(CollisionProperties properties) { m_CollisionProperties = properties; }
+        public CollisionProperties GetCollisionProperties() { return m_CollisionProperties; }
+
+        public void OnCollisionInternal(ulong target, int typeOne, int sideOne, int typeTwo, int sideTwo)
+        {
+            Entity e = new Entity();
+            e.SetUUID(target);
+
+            CollisionProperties twoProperties = new CollisionProperties();
+            twoProperties.Type = (CollisionProperties.CollisionType)typeTwo;
+            twoProperties.Side = (CollisionProperties.CollisionSide)sideTwo;
+            e.SetLastCollision(twoProperties);
+
+            CollisionProperties oneProperties = new CollisionProperties();
+            oneProperties.Type = (CollisionProperties.CollisionType)typeOne;
+            oneProperties.Side = (CollisionProperties.CollisionSide)sideOne;
+            SetLastCollision(oneProperties);
+
+
+
+            OnCollision(e);
         }
     }
 

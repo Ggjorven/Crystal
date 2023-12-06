@@ -33,28 +33,12 @@ namespace Crystal
 					UpdateAABB(coll1.first);
 					UpdateAABB(coll2.first);
 
-					ECS::ColliderComponent* smallest = nullptr;
-					ECS::ColliderComponent* other = nullptr;
-					CR_UUID smallID = 0;
-					CR_UUID otherID = 0;
-
-					if (colC1.AABB->GetPosition().X < colC2.AABB->GetPosition().X)
-					{
-						smallest = &colC1; other = &colC2;
-						smallID = coll1.first; otherID = coll2.first;
-					}
-					else
-					{
-						smallest = &colC2; other = &colC1;
-						smallID = coll2.first; otherID = coll1.first;
-					}
-
 					// Check if already checked
-					auto pair = std::make_pair(smallID, otherID);
+					auto pair = std::make_pair(coll1.first, coll2.first);
 					bool stop = false;
 					for (auto& item : checked)
 					{
-						if (item == pair)
+						if (item == pair || (item == std::make_pair(pair.second, pair.first)))
 						{
 							stop = true;
 							break;
@@ -63,16 +47,81 @@ namespace Crystal
 					if (stop) continue;
 
 					// TODO(Jorben): Use some kind of origin system
-					if (smallest->AABB->GetPosition().X + smallest->AABB->GetSize().X > other->AABB->GetPosition().X)
+					const auto& oneAABB = colC1.AABB;
+					const auto& twoAABB = colC2.AABB;
+
+					const float oneRight = oneAABB->GetPosition().X + oneAABB->GetSize().X;
+					const float twoLeft = twoAABB->GetPosition().X;
+
+					const float oneLeft = oneAABB->GetPosition().X;
+					const float twoRight = twoAABB->GetPosition().X + twoAABB->GetSize().X;
+
+					const float oneTop = oneAABB->GetPosition().Y;
+					const float twoBottom = twoAABB->GetPosition().Y + twoAABB->GetSize().Y;
+
+					const float oneBottom = oneAABB->GetPosition().Y + oneAABB->GetSize().Y;
+					const float twoTop = twoAABB->GetPosition().Y;
+
+					if (oneRight > twoLeft && oneLeft < twoRight &&
+						oneBottom > twoTop && oneTop < twoBottom)
 					{
-						if (!(smallest->AABB->GetPosition().Y + smallest->AABB->GetSize().Y <= other->AABB->GetPosition().Y) && !(other->AABB->GetPosition().Y + other->AABB->GetSize().Y <= smallest->AABB->GetPosition().Y)) 
+						// Collision detected
+						CollisionProperties oneProperties; oneProperties.Type = CollisionProperties::CollisionType::AABB;
+						CollisionProperties twoProperties; twoProperties.Type = CollisionProperties::CollisionType::AABB;
+
+						float horizontalDistance = std::min(oneRight - twoLeft, twoRight - oneLeft);
+						float verticalDistance = std::min(oneBottom - twoTop, twoBottom - oneTop);
+
+						if (horizontalDistance < verticalDistance)
 						{
-							CR_CORE_TRACE("Collision");
+							// Collision is horizontal
+							// TODO(Jorben): Make collisions based on the options so left = right for the other
+							if (oneRight < twoRight && oneLeft < twoLeft)
+							{
+								//CR_CORE_TRACE("Collision on the left side");
+								oneProperties.Side = CollisionProperties::CollisionSide::Left;
+								twoProperties.Side = CollisionProperties::CollisionSide::Right;
+							}
+							else if (oneRight > twoRight && oneLeft > twoLeft)
+							{
+								//CR_CORE_TRACE("Collision on the right side");
+								oneProperties.Side = CollisionProperties::CollisionSide::Right;
+								twoProperties.Side = CollisionProperties::CollisionSide::Left;
+							}
+						}
+						else
+						{
+							// Collision is vertical
+							if (oneBottom < twoBottom && oneTop < twoTop)
+							{
+								//CR_CORE_TRACE("Collision on the bottom side");
+								oneProperties.Side = CollisionProperties::CollisionSide::Bottom;
+								twoProperties.Side = CollisionProperties::CollisionSide::Top;
+							}
+							else if (oneBottom > twoBottom && oneTop > twoTop)
+							{
+								//CR_CORE_TRACE("Collision on the top side");
+								oneProperties.Side = CollisionProperties::CollisionSide::Top;
+								twoProperties.Side = CollisionProperties::CollisionSide::Bottom;
+							}
+						}
+
+						// Call OnCollision for the one entity
+						if (m_Storage.HasComponent<ECS::ScriptComponent>(coll1.first))
+						{
+							auto& sc = m_Storage.GetComponent<ECS::ScriptComponent>(coll1.first);
+							sc.Script->OnCollision(coll2.first, twoProperties, oneProperties);
+						}
+
+						// Call OnCollision for the two entity
+						if (m_Storage.HasComponent<ECS::ScriptComponent>(coll2.first))
+						{
+							auto& sc = m_Storage.GetComponent<ECS::ScriptComponent>(coll2.first);
+							sc.Script->OnCollision(coll1.first, oneProperties, twoProperties);
 						}
 					}
 
 					checked.push_back(pair);
-				
 				}
 			}
 		}
@@ -126,7 +175,6 @@ namespace Crystal
 
 		else if (m_State == SceneState::Runtime)
 		{
-			if (!m_FirstUpdate) Scene::UpdateCollisions();
 
 			for (auto& sc : m_Storage.GetComponentsMap<ECS::ScriptComponent>())
 			{
@@ -139,6 +187,9 @@ namespace Crystal
 				}
 				scC.Script->OnUpdate(ts);
 			}
+
+			Scene::UpdateCollisions();
+
 			m_FirstUpdate = false;
 			m_EditorCamera->OnUpdate(ts); // TODO(Jorben): Remove and replace with runtime camera
 		}

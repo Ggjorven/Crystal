@@ -37,20 +37,6 @@ public class Test2 : Entity // "Red"
             if (Input.IsKeyPressed(KeyCode.Escape))
                 Console.WriteLine("ESCAPED");
 
-            Test test = Scene.GetEntityByTag<Test>("Mario");
-            TransformComponent marioTransform = test.GetComponent<TransformComponent>();
-
-            Console.WriteLine(position.X + ", " + marioTransform.GetPosition().X);
-
-            if (position.X < marioTransform.GetPosition().X)
-            {
-                //Console.WriteLine("Less");
-            }
-            else
-            {
-                //Console.WriteLine("More");
-            }
-
             //Update position
             transform.SetPosition(position);
         }

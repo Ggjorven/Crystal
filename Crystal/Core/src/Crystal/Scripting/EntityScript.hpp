@@ -3,6 +3,8 @@
 #include "Crystal/Core/Core.hpp"
 #include "Crystal/Core/UUID.hpp"
 
+#include "Crystal/ECS/ColliderComponents.hpp"
+
 #include <Coral/HostInstance.hpp>
 #include <Coral/GC.hpp>
 #include <Coral/NativeArray.hpp>
@@ -91,6 +93,7 @@ namespace Crystal
 		void OnCreate();
 		void OnUpdate(Timestep& ts);
 		// TODO(Jorben): Extra functionality (ex. Collision)
+		void OnCollision(CR_UUID target, const CollisionProperties& one, const CollisionProperties& two);
 
 		std::string& GetClass() { return m_Name; }
 

@@ -1,25 +1,8 @@
 Scene: New
 Assemblies:
   - bin\Release\Script.dll
-ClearColour: [0.141279683, 0.555002928, 0.725663722, 1]
+ClearColour: [0.141176477, 0.556862772, 0.725490212, 0]
 Entities:
-  - Entity: 1749095107536281061
-    TagComponent:
-      Tag: Mario
-    TransformComponent:
-      Position: [64, 64, 0]
-      Size: [64, 64, 0]
-      Rotation: 0
-    Renderer2DComponent:
-      Enable: true
-      Texture: Mario.png
-      Colour: [0.42621693, 0.706521749, 0.532854676, 1]
-      UseTexture: true
-      UseColour: true
-    ColliderComponent:
-      AABB: true
-    ScriptComponent:
-      Class: Test
   - Entity: 1677218766587689451
     TagComponent:
       Tag: Red
@@ -33,6 +16,12 @@ Entities:
       Colour: [0.581521749, 0.142426103, 0.0568879843, 1]
       UseTexture: false
       UseColour: true
+    ColliderComponent:
+      AABB:
+        Position-Link: true
+        Size-Link: true
+        Position: [0, 0, 0]
+        Size: [1536, 64, 0]
     ScriptComponent:
       Class: Test2
   - Entity: 8246586645339211354
@@ -49,4 +38,29 @@ Entities:
       UseTexture: true
       UseColour: true
     ColliderComponent:
-      AABB: true
+      AABB:
+        Position-Link: true
+        Size-Link: true
+        Position: [586, 248, 0]
+        Size: [233, 128, 0]
+  - Entity: 1749095107536281061
+    TagComponent:
+      Tag: Mario
+    TransformComponent:
+      Position: [64, 64, 0]
+      Size: [64, 64, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Texture: Mario.png
+      Colour: [0.42621693, 0.706521749, 0.532854676, 1]
+      UseTexture: true
+      UseColour: true
+    ColliderComponent:
+      AABB:
+        Position-Link: true
+        Size-Link: true
+        Position: [813.496277, 376, 0]
+        Size: [64, 64, 0]
+    ScriptComponent:
+      Class: Test

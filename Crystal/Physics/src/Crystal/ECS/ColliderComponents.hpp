@@ -6,6 +6,24 @@
 namespace Crystal
 {
 
+	struct CollisionProperties
+	{
+	public:
+		enum class CollisionType
+		{
+			None = 0, AABB
+		};
+
+		enum class CollisionSide
+		{
+			None = 0, Right, Left, Top, Bottom
+		};
+	public:
+		CollisionType Type = CollisionType::None;
+		CollisionSide Side = CollisionSide::None;
+
+	};
+
 	class AABBCollider
 	{
 	public:

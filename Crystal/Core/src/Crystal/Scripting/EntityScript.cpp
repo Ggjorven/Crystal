@@ -90,12 +90,17 @@ namespace Crystal
 	void EntityScript::OnCreate()
 	{
 		m_Object.InvokeMethod("OnCreate");
-
 	}
 
 	void EntityScript::OnUpdate(Timestep& ts)
 	{
 		m_Object.InvokeMethod("OnUpdate", (float)ts);
+	}
+
+	void EntityScript::OnCollision(CR_UUID target, const CollisionProperties& one, const CollisionProperties& two)
+	{
+		//CR_CORE_TRACE("OnCollision C++");
+		m_Object.InvokeMethod("OnCollisionInternal", (uint64_t)target, (int)one.Type, (int)one.Side, (int)two.Type, (int)two.Side);
 	}
 
 	void EntityScript::LoadClass()

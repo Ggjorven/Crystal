@@ -189,7 +189,18 @@ namespace Crystal
 			emitter << YAML::Key << "ColliderComponent";
 			emitter << YAML::BeginMap; // ColliderComponent
 
-			emitter << YAML::Key << "AABB" << (cc.AABB ? true : false);
+			if (cc.AABB)
+			{
+				emitter << YAML::Key << "AABB";
+				emitter << YAML::BeginMap; //AABB
+
+				emitter << YAML::Key << "Position-Link" << cc.AABB->LinkedPosition();
+				emitter << YAML::Key << "Size-Link" << cc.AABB->LinkedSize();
+				emitter << YAML::Key << "Position" << glm::vec3(cc.AABB->GetPosition());
+				emitter << YAML::Key << "Size" << glm::vec3(cc.AABB->GetSize());
+
+				emitter << YAML::EndMap; //AABB
+			}
 
 			emitter << YAML::EndMap; // ColliderComponent
 		}
@@ -270,7 +281,16 @@ namespace Crystal
 		{
 			ECS::ColliderComponent& cc = entity->AddComponent<ECS::ColliderComponent>();
 
-			if (colliderComponent["AABB"].as<bool>()) cc.AABB = CreateRef<AABBCollider>();
+			auto AABB = colliderComponent["AABB"];
+			if (AABB)
+			{
+				cc.AABB = CreateRef<AABBCollider>();
+
+				cc.AABB->SetPostionLinked(AABB["Position-Link"].as<bool>());
+				cc.AABB->SetSizeLinked(AABB["Size-Link"].as<bool>());
+				cc.AABB->SetPosition(AABB["Position"].as<glm::vec3>());
+				cc.AABB->SetSize(AABB["Size"].as<glm::vec3>());
+			}
 		}
 
 		//ScriptComponent

@@ -56,7 +56,8 @@ namespace Crystal
 		void SetClass(const std::string& name);
 		void SetUUID(CR_UUID uuid) { m_UUID = uuid; }
 
-		void DestroyObject() { m_Object.Destroy(); }
+		void CleanValueFields() { m_ValueFields.Clean(); }
+		void DestroyObject();
 
 		template<typename T>
 		void AddValueField(const std::string& name, T value);	

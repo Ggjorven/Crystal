@@ -58,7 +58,7 @@ Entities:
       AABB:
         Position-Link: true
         Size-Link: true
-        Position: [412.526855, 64, 0]
+        Position: [227.552582, 64, 0]
         Size: [64, 64, 0]
     ScriptComponent:
       Class: Test
@@ -76,7 +76,27 @@ Entities:
       AABB:
         Position-Link: true
         Size-Link: true
-        Position: [1002.77905, 206.706482, 0]
+        Position: [323, 256, 0]
         Size: [128, 64, 0]
     ScriptComponent:
       Class: Test2
+  - Entity: 16473418162316240639
+    TagComponent:
+      Tag: Spider
+    TransformComponent:
+      Position: [136, 467, 0]
+      Size: [85, 42, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Colour: [0.853260875, 0.0602847449, 0.0602847449, 1]
+      UseTexture: false
+      UseColour: true
+    ColliderComponent:
+      AABB:
+        Position-Link: true
+        Size-Link: true
+        Position: [136, 467, 0]
+        Size: [85, 42, 0]
+    ScriptComponent:
+      Class: Spider

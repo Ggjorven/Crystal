@@ -1,8 +1,5 @@
-using Coral.Managed.Interop;
-
 using System;
 using Crystal;
-using System.Threading.Tasks.Dataflow;
 
 public class Test : Entity // "Mario"
 {
@@ -10,17 +7,19 @@ public class Test : Entity // "Mario"
     public float Speed = 550.0f;
 
     [ValueField]
-    public float Gravity = 9.81f;
+    public float Gravity = 3000.0f;
 
     [ValueField]
-    public float JumpHeight = 990.0f;
+    public float JumpHeight = 1450.0f;
 
     [ValueField]
-    public float YVelocityMax = -1000.0f;
+    public float YVelocityMax = -2000.0f;
 
     public float YVelocity = 0.0f;
 
-    public bool CanJump = true; 
+    public bool CanJump = true;
+
+    public float Timer = 0.0f;
     
     public override void OnCreate()
     {
@@ -29,10 +28,25 @@ public class Test : Entity // "Mario"
 
     public override void OnUpdate(float deltaTime)
     {
+        if (deltaTime > 0.1f)
+            deltaTime = 0.1f;
+
         if (HasComponent<TransformComponent>())
         {
             TransformComponent transform = GetComponent<TransformComponent>();
             Vec3<float> position = transform.GetPosition();
+
+            if (transform.GetSize().Y == 128.0f)
+            {
+                if (Timer < 5.0f)
+                    Timer += deltaTime;
+                else
+                    transform.SetSize(new Vec3<float>(transform.GetSize().X, 64.0f, 0.0f));
+            }
+            else
+            {
+                Timer = 0.0f;
+            }
 
             if (Input.IsKeyPressed(KeyCode.W) && CanJump)
             {
@@ -49,33 +63,13 @@ public class Test : Entity // "Mario"
                 position.X -= Speed * deltaTime;
 
             // Update position
-            YVelocity -= Gravity;
+            YVelocity -= Gravity * deltaTime;
             YVelocity = Math.Clamp(YVelocity, YVelocityMax, 5000.0f);
 
             position.Y += YVelocity * deltaTime;
             transform.SetPosition(position);
 
             CanJump = false;
-        }
-
-        if (HasComponent<Renderer2DComponent>())
-        {
-            Renderer2DComponent r2d = GetComponent<Renderer2DComponent>();
-            
-            Vec4<float> colour = r2d.GetColour();
-            colour.R = 1.0f;
-            colour.G = 0.0f;
-            colour.B = 0.0f;
-            colour.A = 1.0f;
-
-            Texture2D texture = new Texture2D("minion.png");
-
-            // Update colour
-            //r2d.SetColour(colour);
-            //r2d.SetUseColour(true);
-
-            //r2d.SetTexture(texture);
-            //r2d.SetUseTexture(false);
         }
     }
 

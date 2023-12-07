@@ -92,6 +92,20 @@ void EditorLayer::OnUpdate(Timestep& ts)
 {
 	m_Project->SetState((m_Running ? Project::State::Runtime : Project::State::Editor));
 	m_Project->OnUpdate(ts);
+
+	// AutoSave
+	if (!m_Running)
+	{
+		if (m_AutoSaveTimer < CR_AUTOSAVE_INTERVAL)
+		{
+			m_AutoSaveTimer = m_AutoSaveTimer + ts;
+		}
+		else
+		{
+			SaveProject();
+			m_AutoSaveTimer = 0.0f;
+		}
+	}
 }
 
 void EditorLayer::OnRender()

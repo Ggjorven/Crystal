@@ -60,7 +60,7 @@ namespace Crystal
 
             return pos;
         }
-        unsafe void SetSize(Vec3<float> size)
+        unsafe public void SetSize(Vec3<float> size)
         {
             InternalCalls.TransformComponent_SetSizeX(ID, size.X);
             InternalCalls.TransformComponent_SetSizeY(ID, size.Y);

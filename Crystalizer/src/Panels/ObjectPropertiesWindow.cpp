@@ -192,6 +192,16 @@ namespace Crystal
 								col.AABB->SetSize(m_SelectedEntity->GetComponent<ECS::TransformComponent>().Size);
 						}
 
+						/*
+						ImGui::Dummy(10.0f, 0.0f);
+						ImGui::SameLine();
+						static bool a = false;
+						if (ImGui::Checkbox("Visualize", &a))
+						{
+							//Renderer
+						}
+						*/
+
 						UI::Vector3("Position##AABB", col.AABB->GetPosition(), Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
 						UI::Vector3("Size##AABB", col.AABB->GetSize(), Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
 					}

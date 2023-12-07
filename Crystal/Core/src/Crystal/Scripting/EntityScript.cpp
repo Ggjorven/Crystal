@@ -44,6 +44,12 @@ namespace Crystal
 			LoadClass();
 	}
 
+	void EntityScript::DestroyObject()
+	{
+		CleanValueFields(); // Note(Jorben): May need to remove, since it can be annoying
+		m_Object.Destroy();
+	}
+
 	void EntityScript::UpdateValueFieldsValues()
 	{
 		// TODO(Jorben): Add all types.
@@ -110,8 +116,15 @@ namespace Crystal
 		if (assemblies.size() > 0)
 		{
 			m_Type = assemblies[0].GetType(m_Name);
+			if (m_Type.GetFullName().empty())
+			{
+				CR_CORE_WARN("Type by name: {0} doesn't exist.", m_Name);
+				return;
+			}
 
 			m_Object.Destroy();
+
+			// TODO(Jorben): Add a way of indicating that a type doesn't exist
 			m_Object = m_Type.CreateInstance();
 			
 			UpdateValueFieldsValues();

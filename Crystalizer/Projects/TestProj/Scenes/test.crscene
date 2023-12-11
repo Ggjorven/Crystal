@@ -1,7 +1,7 @@
 Scene: New
 Assemblies:
   - bin\Release\Script.dll
-ClearColour: [0.141176477, 0.556862772, 0.725490212, 1]
+ClearColour: [0.14308092, 0.719987035, 0.769911528, 1]
 Entities:
   - Entity: 1677218766587689451
     TagComponent:
@@ -58,7 +58,7 @@ Entities:
       AABB:
         Position-Link: true
         Size-Link: true
-        Position: [227.552582, 64, 0]
+        Position: [526.892212, 384, 0]
         Size: [64, 64, 0]
     ScriptComponent:
       Class: Test
@@ -84,7 +84,7 @@ Entities:
     TagComponent:
       Tag: Spider
     TransformComponent:
-      Position: [136, 467, 0]
+      Position: [136, 459, 0]
       Size: [85, 42, 0]
       Rotation: 0
     Renderer2DComponent:
@@ -96,7 +96,7 @@ Entities:
       AABB:
         Position-Link: true
         Size-Link: true
-        Position: [136, 467, 0]
+        Position: [136, 459, 0]
         Size: [85, 42, 0]
     ScriptComponent:
       Class: Spider

@@ -85,13 +85,20 @@ namespace Crystal
 			return;
 		}
 
+		m_Project->m_ProjectDir = path.parent_path();
+
 		//Set scene name
 		if (data["Project"])
 			m_Project->m_DebugName = data["Project"].as<std::string>();
 		else
+		{
 			CR_CORE_WARN("No \"Project:\" tab found in {0}\n\tNot critical, just no data loaded and starting as a blank project.", path.string());
 
-		m_Project->m_ProjectDir = path.parent_path();
+			m_Project->m_AssetDir = m_Project->m_ProjectDir / std::filesystem::path("Assets");
+			m_Project->m_SceneDir = m_Project->m_ProjectDir / std::filesystem::path("Scenes");
+			m_Project->m_ScriptsDir = m_Project->m_ProjectDir / std::filesystem::path("Scripts");
+		}
+
 		//Directories
 		auto directories = data["Directories"];
 		if (directories)

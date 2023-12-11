@@ -45,6 +45,7 @@ private:
 private:
 	std::filesystem::path m_Path = Utils::GetEnviromentVariable("CRYSTAL_DIR") + "\\Crystalizer\\Projects\\TestProj\\test.crproj";
 	bool m_Running = false;
+
 	Timestep m_AutoSaveTimer = 0.0f;
 
 	Ref<Project> m_Project = nullptr;

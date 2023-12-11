@@ -12,7 +12,7 @@
 EditorLayer::EditorLayer(const ApplicationInfo& appInfo)
 {
 	Window& window = Application::Get().GetWindow();
-	window.SetVSync(true);
+	//window.SetVSync(true);
 
 	m_FrameBuffer = FrameBuffer::Create(window.GetWidth(), window.GetHeight(), FrameBufferFormat::RGBA8);
 
@@ -20,7 +20,13 @@ EditorLayer::EditorLayer(const ApplicationInfo& appInfo)
 	m_Panels = CreateRef<Panels>(m_Project);
 
 	if (appInfo.ArgCount > 1)
+	{
+		//CR_CORE_TRACE("{0}, \n\t{1}", appInfo.Args[0], appInfo.Args[1]);
+
 		m_Path = std::filesystem::path(appInfo.Args[0]).parent_path() / std::filesystem::path(appInfo.Args[1]);
+	}
+
+	//CR_CORE_TRACE("{0}", m_Path.string());
 }
 
 EditorLayer::~EditorLayer() = default;
@@ -152,22 +158,30 @@ bool EditorLayer::InWindow(ImVec2 windowPos, ImVec2 windowSize, MousePosition mo
 	return false;
 }
 
-void EditorLayer::CreateNewProject()
+void EditorLayer::CreateNewProject() // TODO(Jorben): Fix...
 {
-	std::string path = Utils::SaveFile(".crproj\0*.crproj\0All Files\0*.*\0", Project::GetCurrentProject()->GetProjectDir().parent_path().string().c_str());
+	std::string path = Utils::OpenDirectory(Project::GetCurrentProject()->GetProjectDir().parent_path().string().c_str());
 	if (!path.empty())
 	{
-		std::ofstream outFile(path);
+		std::filesystem::path projPath = std::filesystem::path(path) / std::filesystem::path("new.crproj");
+		//CR_CORE_TRACE("proj {0}", projPath.string());
+
+		std::ofstream outFile(projPath);
 		outFile << " " << std::endl;
 
-		OpenProject(std::filesystem::path(path));
+		Utils::CreateADirectory((std::filesystem::path(path) / std::filesystem::path("Assets")).string().c_str());
+		Utils::CreateADirectory((std::filesystem::path(path) / std::filesystem::path("Scenes")).string().c_str());
+		Utils::CreateADirectory((std::filesystem::path(path) / std::filesystem::path("Scripts")).string().c_str());
+
+		OpenProject(projPath);
 	}
 }
 
 void EditorLayer::OpenProject(std::filesystem::path path)
 {
-#if defined(CR_DIST) // TODO(Jorben): Change this for distribution
+#if defined(CR_DIST) // TODO(Jorben): Change this for distribution ... also the Crystalizer/Projects path
 	std::string CRPath = Utils::GetEnviromentVariable("CRYSTAL_DIR") + std::string("\\bin\\Dist-windows-x86_64\\Crystalizer\\Crystalizer.exe");
+
 #elif defined(CR_RELEASE)
 	std::string CRPath = Utils::GetEnviromentVariable("CRYSTAL_DIR") + std::string("\\bin\\Release-windows-x86_64\\Crystalizer\\Crystalizer.exe");
 #elif defined(CR_DEBUG)
@@ -176,7 +190,14 @@ void EditorLayer::OpenProject(std::filesystem::path path)
 	#error No proper configuration selected.
 #endif
 
-	ShellExecuteA(NULL, "open", CRPath.c_str(), path.string().c_str(), NULL, SW_SHOWDEFAULT);
+	//std::filesystem::path projsPath = std::filesystem::path(Utils::GetEnviromentVariable("CRYSTAL_DIR")) / std::filesystem::path("Crystalizer/Projects/");
+
+	CR_CORE_TRACE("{0}", CRPath);
+	CR_CORE_TRACE("{0}", path.string());
+	CR_CORE_TRACE("{0}", path.parent_path().string());
+	//CR_CORE_TRACE("{0}", projsPath.string());
+
+	ShellExecuteA(NULL, "open", CRPath.c_str(), path.string().c_str(), path.string().c_str(), SW_SHOWDEFAULT);
 
 	Application::Get().DispatchEvent<WindowCloseEvent>();
 }

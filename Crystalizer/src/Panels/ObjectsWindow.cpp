@@ -20,6 +20,9 @@ namespace Crystal
 		Panels::BeginColours();
 		ImGui::Begin("Objects");
 
+		std::string fps = std::string("FPS: ") + std::to_string((int32_t)Application::Get().GetWindow().GetFPS());
+		ImGui::Text(fps.c_str());
+
 		static bool showDelete = false;
 		static CR_UUID deleteUUID = 0;
 

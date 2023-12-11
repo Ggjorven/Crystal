@@ -6,6 +6,8 @@
 
 #include "Renderer/GraphicsContext.hpp"
 
+#define CR_FPS_UPDATE_INTERVAL 0.5f
+
 namespace Crystal
 {
 
@@ -42,6 +44,7 @@ namespace Crystal
 		void SetViewportWidth(uint32_t width) override { m_Data.ViewWidth = width; }
 		void SetViewportHeight(uint32_t height) override { m_Data.ViewHeight = height; }
 
+		float GetFPS() const override { return m_FPS; }
 
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override { return m_Data.Vsync; }
@@ -61,6 +64,8 @@ namespace Crystal
 		GLFWwindow* m_Window;
 		Scope<GraphicsContext> m_Context;
 		WindowData m_Data;
+
+		float m_FPS = 0.0f;
 
 	};
 }

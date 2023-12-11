@@ -30,6 +30,7 @@ Crystal::Application* Crystal::CreateApplication(int argc, char* argv[])
 	appInfo.WindowProperties.Name = "Window";
 	appInfo.WindowProperties.Width = 1280;
 	appInfo.WindowProperties.Height = 720;
+	appInfo.WindowProperties.VSync = false;
 
 	appInfo.ArgCount = argc;
 	appInfo.Args = argv;

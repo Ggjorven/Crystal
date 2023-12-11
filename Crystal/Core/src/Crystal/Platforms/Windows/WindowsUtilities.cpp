@@ -141,4 +141,17 @@ namespace Crystal
 		return std::string();
 	}
 
+	void WindowsUtils::CreateDirectoryImplementation(const char* path)
+	{
+		// Convert narrow-char string to wide-char string
+		wchar_t widePath[MAX_PATH];
+		mbstowcs(widePath, path, MAX_PATH);
+
+		if (CreateDirectory(widePath, NULL) || ERROR_ALREADY_EXISTS == GetLastError()) 
+		{
+			return;
+		}
+		CR_CORE_ERROR("Failed to create directory: {0}", path);
+	}
+
 }

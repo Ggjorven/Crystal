@@ -20,7 +20,7 @@ public class Test : Entity // "Mario"
     public bool CanJump = true;
 
     public float Timer = 0.0f;
-    
+
     public override void OnCreate()
     {
 
@@ -64,13 +64,14 @@ public class Test : Entity // "Mario"
 
             // Update position
             YVelocity -= Gravity * deltaTime;
-            YVelocity = Math.Clamp(YVelocity, YVelocityMax, 5000.0f);
+            //YVelocity = Math.Clamp(YVelocity, YVelocityMax, 5000.0f);
 
             position.Y += YVelocity * deltaTime;
             transform.SetPosition(position);
 
             CanJump = false;
         }
+        //Console.WriteLine(YVelocity);
     }
 
     public override void OnCollision(Entity other)

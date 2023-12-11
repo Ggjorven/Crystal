@@ -1,0 +1,7 @@
+Project: New
+Directories:
+  - Assets: Assets
+  - Scenes: Scenes
+  - Scripts: Scripts
+Scenes:
+  - Scene: test.crscene

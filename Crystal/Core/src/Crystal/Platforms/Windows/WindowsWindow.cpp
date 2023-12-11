@@ -7,6 +7,8 @@
 
 #include "Crystal/Core/Events/Input/Input.hpp"
 
+#include "Crystal/Utils/Utils.hpp"
+
 namespace Crystal
 {
 
@@ -29,6 +31,29 @@ namespace Crystal
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
+
+		//FPS
+		static float lastTime = Utils::GetTime();
+		static float timer = 0.0f;
+		static int32_t tempFPS = 0;
+
+		float currentTime = Utils::GetTime();
+		float dt = currentTime - lastTime;
+
+		if (timer < CR_FPS_UPDATE_INTERVAL)
+		{
+			tempFPS++;
+			timer += dt;
+		}
+		else
+		{
+			m_FPS = (float)tempFPS / CR_FPS_UPDATE_INTERVAL;
+			timer = 0.0f;
+			tempFPS = 0;
+		}
+
+		lastTime = currentTime;
+		//CR_CORE_TRACE("cur {0}, last {1}, temp {2}, FPS {3}, timer {4}, dt {5}", currentTime, lastTime, tempFPS, m_FPS, timer, dt);
 	}
 
 	void WindowsWindow::OnRender()
@@ -81,7 +106,7 @@ namespace Crystal
 		//Graphics context init 
 		m_Context = GraphicsContext::Create(m_Window);
 		m_Context->Init();
-		//SetVSync(properties.VSync);
+		SetVSync(properties.VSync);
 
 		//Set window position
 		if (properties.CustomPos) glfwSetWindowPos(m_Window, properties.X, properties.Y);

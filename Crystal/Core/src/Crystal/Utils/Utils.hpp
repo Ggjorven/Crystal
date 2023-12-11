@@ -16,6 +16,9 @@ namespace Crystal
 		//These return empty strings if cancelled
 		static std::string OpenFile(const char* filter, const char* initDir = nullptr) { return s_Instance->OpenFileImplementation(filter, initDir); }
 		static std::string SaveFile(const char* filter, const char* initDir = nullptr) { return s_Instance->SaveFileImplementation(filter, initDir); }
+
+		static void CreateADirectory(const char* path) { s_Instance->CreateDirectoryImplementation(path); }
+
 		static std::string OpenDirectory(const char* initDir = nullptr) { return s_Instance->OpenDirectoryImplementation(initDir); }
 		
 		static float GetTime() { return s_Instance->GetTimeImplementation(); }
@@ -28,7 +31,10 @@ namespace Crystal
 	private:
 		virtual std::string OpenFileImplementation(const char* filter, const char* initDir = nullptr) = 0;
 		virtual std::string SaveFileImplementation(const char* filter, const char* initDir = nullptr) = 0;
+
 		virtual std::string OpenDirectoryImplementation(const char* initDir = nullptr) = 0;
+
+		virtual void CreateDirectoryImplementation(const char* path) = 0;
 
 		virtual float GetTimeImplementation() = 0;
 

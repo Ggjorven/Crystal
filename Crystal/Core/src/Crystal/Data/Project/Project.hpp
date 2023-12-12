@@ -30,6 +30,7 @@ namespace Crystal
 		void AddScene(const SceneProperties& properties);
 
 		Ref<Scene>& GetCurrentScene() { return m_ActiveScene; }
+		std::vector<SceneProperties> GetScenes() const { return m_Scenes; }
 
 		static void SetCurrentProject(Project* project) { s_CurrentProject = project; }
 		static Project* GetCurrentProject() { return s_CurrentProject; }
@@ -44,6 +45,8 @@ namespace Crystal
 		void SetState(State state) { m_State = state; m_ActiveScene->SetState((int)state); }
 
 		void SaveScene() { m_ActiveScene->SaveScene(); }
+
+		void SetScene(const SceneProperties& props);
 
 		std::filesystem::path GetProjectDir() const { return m_ProjectDir; }
 		std::filesystem::path GetAssetDir() const { return m_AssetDir; }

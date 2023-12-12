@@ -5,3 +5,4 @@ Directories:
   - Scripts: Scripts
 Scenes:
   - Scene: test.crscene
+  - Scene: New.crscene

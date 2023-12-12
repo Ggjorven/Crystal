@@ -15,12 +15,13 @@ namespace Crystal
 	Project::Project(const std::string& debugName)
 		: m_DebugName(debugName)
 	{
+		CR_CORE_TRACE("Project");
 		Project::SetCurrentProject(this);
 	}
 
 	Project::~Project()
 	{
-
+		CR_CORE_TRACE("~Project");
 	}
 
 	void Project::OnUpdate(Timestep& ts)
@@ -49,8 +50,16 @@ namespace Crystal
 		LoadScene2D(properties);
 	}
 
+	void Project::SetScene(const SceneProperties& props)
+	{
+		// TODO(Jorben): Add a way to check which type of Scene it is (2D or 3D)
+		// ^ TODO(Jorben): Implement using properties.SceneType _2D or _3D
+		LoadScene2D(props);
+	}
+
 	void Project::LoadScene2D(const SceneProperties& properties)
 	{
+		//m_ActiveScene.reset();
 		m_ActiveScene = CreateRef<Scene2D>();
 		m_ActiveScene->SetProperties(properties);
 

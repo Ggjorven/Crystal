@@ -21,6 +21,8 @@ namespace Crystal
 
 		void ObjectsWindow();
 		void ObjectPropertiesWindow();
+		void ContentBrowserWindow();
+
 		void ProjectSettingsWindow(bool* projOpen);
 		void SceneSettingsWindow(bool* sceneOpen);
 

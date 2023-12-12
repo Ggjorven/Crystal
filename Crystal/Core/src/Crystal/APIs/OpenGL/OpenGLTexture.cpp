@@ -30,7 +30,8 @@ namespace Crystal
 		stbi_set_flip_vertically_on_load(1);
 
 		m_Data = stbi_load(path.c_str(), &width, &height, &channels, 0);
-		CR_CORE_ASSERT(m_Data, "Failed to load image!");
+		// Note(Jorben): When this issue arises make sure CRYSTAL_DIR is set.
+		CR_CORE_ASSERT(m_Data, "Failed to load image: {0}", path);
 		m_Width = width;
 		m_Height = height;
 

@@ -42,7 +42,7 @@ namespace Crystal
 	{
 	public:
 		Scene(const std::string& debugName = "");
-		virtual ~Scene() = default;
+		virtual ~Scene();
 
 		virtual void OnUpdate(Timestep& ts) = 0;
 		virtual void OnRender() = 0;

@@ -33,8 +33,10 @@ namespace Crystal
 	{
 		if (m_StartUp)
 		{
-			if (m_Project->GetCurrentScene()->GetEntities().size() > 0) 
+			if (m_Project->GetCurrentScene()->GetEntities().size() > 0)
 				m_SelectedEntity = m_Project->GetCurrentScene()->GetEntities()[0];
+			else
+				m_SelectedEntity = nullptr;
 			m_StartUp = false;
 		}
 

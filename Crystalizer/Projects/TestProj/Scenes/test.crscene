@@ -45,7 +45,7 @@ Entities:
     TagComponent:
       Tag: Mario
     TransformComponent:
-      Position: [64, 64, 0]
+      Position: [718.801636, 384, 0]
       Size: [64, 64, 0]
       Rotation: 0
     Renderer2DComponent:
@@ -58,7 +58,7 @@ Entities:
       AABB:
         Position-Link: true
         Size-Link: true
-        Position: [526.892212, 384, 0]
+        Position: [718.801636, 384, 0]
         Size: [64, 64, 0]
     ScriptComponent:
       Class: Test

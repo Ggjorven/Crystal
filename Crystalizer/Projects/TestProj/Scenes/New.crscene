@@ -1,6 +1,6 @@
 Scene: ""
 Assemblies:
-  []
+  - bin\Release\Script.dll
 ClearColour: [0, 0, 0, 1]
 Entities:
   []

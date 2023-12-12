@@ -39,7 +39,7 @@ namespace Crystal::ECS
 
     Storage::Storage()
     {
-        //CR_CORE_TRACE("Storage");
+        CR_CORE_TRACE("Storage");
         if (s_StorageCount == 0u)
         {
             Coral::HostSettings settings;
@@ -56,12 +56,17 @@ namespace Crystal::ECS
 
             Wrapper::Setup::Run(s_Assembly);
         }
+        else
+        {
+            s_Host.UnloadAssemblyLoadContext(s_LoadContext);
+            s_LoadContext = s_Host.CreateAssemblyLoadContext("Crystal-" + std::to_string(UUIDGenerator::GenerateUUID()));
+        }
         ++s_StorageCount;
     }
 
     Storage::~Storage()
     {
-        //CR_CORE_TRACE("~Storage");
+        CR_CORE_TRACE("~Storage");
         --s_StorageCount;
 
         if (s_StorageCount == 0u)

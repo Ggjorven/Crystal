@@ -1,4 +1,4 @@
-Scene: New
+Scene: Mario
 Assemblies:
   - bin\Release\Script.dll
 ClearColour: [0.14308092, 0.719987035, 0.769911528, 1]
@@ -45,7 +45,7 @@ Entities:
     TagComponent:
       Tag: Mario
     TransformComponent:
-      Position: [718.801636, 384, 0]
+      Position: [718.801636, 64, 0]
       Size: [64, 64, 0]
       Rotation: 0
     Renderer2DComponent:
@@ -58,7 +58,7 @@ Entities:
       AABB:
         Position-Link: true
         Size-Link: true
-        Position: [718.801636, 384, 0]
+        Position: [718.801636, 64, 0]
         Size: [64, 64, 0]
     ScriptComponent:
       Class: Test

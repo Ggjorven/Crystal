@@ -1,8 +1,10 @@
 #include "crpch.h"
 #include "Scene.hpp"
 
-#include "SceneSerializer.hpp"
-#include "Scene.hpp"
+#include "Crystal/Data/Scene/SceneSerializer.hpp"
+#include "Crystal/Data/Scene/Scene.hpp"
+
+#include "Crystal/Data/Project/Project.hpp"
 
 namespace Crystal
 {
@@ -10,13 +12,13 @@ namespace Crystal
 	Scene::Scene(const std::string& debugName) 
 		: m_DebugName(debugName), m_SceneID(UUIDGenerator::GenerateUUID())
 	{
-		CR_CORE_TRACE("Scene");
+		//CR_CORE_TRACE("Scene");
 		m_EditorCamera = CreateRef<EditorCamera>();
 	}
 
 	Scene::~Scene()
 	{
-		CR_CORE_TRACE("~Scene");
+		//CR_CORE_TRACE("~Scene");
 	}
 
 	void Scene::UpdateCollisions()
@@ -226,8 +228,10 @@ namespace Crystal
 
 	void Scene2D::SaveScene()
 	{
+		auto proj = Project::GetCurrentProject();
+
 		SceneSerializer serializer((Scene*)this);
-		serializer.Serialize(m_Properties.Path);
+		serializer.Serialize(proj->GetProjectDir() / proj->GetSceneDir() / m_Properties.Path);
 	}
 
 	void Scene2D::OnRenderEditor()

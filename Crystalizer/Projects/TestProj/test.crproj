@@ -4,5 +4,11 @@ Directories:
   - Scenes: Scenes
   - Scripts: Scripts
 Scenes:
-  - Scene: test.crscene
-  - Scene: New.crscene
+  - Scene:
+      Name: Mario
+      Path: test.crscene
+      Type: 2D
+  - Scene:
+      Name: New
+      Path: New.crscene
+      Type: 2D

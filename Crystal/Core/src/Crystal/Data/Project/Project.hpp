@@ -27,7 +27,11 @@ namespace Crystal
 		void OnRender();
 		void OnEvent(Event& e);
 
-		void AddScene(const SceneProperties& properties);
+		void AddScene(const SceneProperties& properties) { m_Scenes.push_back(properties); }
+		void SetScene(const SceneProperties& properties);
+
+		// Mostly used by C# scripting
+		void SetSceneBasedOnName(const std::string& name);
 
 		Ref<Scene>& GetCurrentScene() { return m_ActiveScene; }
 		std::vector<SceneProperties> GetScenes() const { return m_Scenes; }
@@ -46,8 +50,6 @@ namespace Crystal
 
 		void SaveScene() { m_ActiveScene->SaveScene(); }
 
-		void SetScene(const SceneProperties& props);
-
 		std::filesystem::path GetProjectDir() const { return m_ProjectDir; }
 		std::filesystem::path GetAssetDir() const { return m_AssetDir; }
 		std::filesystem::path GetSceneDir() const { return m_SceneDir; }
@@ -56,6 +58,8 @@ namespace Crystal
 		void SetAssetDir(const std::filesystem::path& path) { m_AssetDir = path; }
 		void SetSceneDir(const std::filesystem::path& path) { m_SceneDir = path; }
 		void SetScriptsDir(const std::filesystem::path& path) { m_ScriptsDir = path; }
+
+		bool SettingNewScene() const { return m_SetNewScene; }
 
 	private:
 		void LoadScene2D(const SceneProperties& properties);
@@ -70,6 +74,9 @@ namespace Crystal
 		Ref<Scene> m_ActiveScene;
 
 		Ref<EditorCamera> m_EditorCamera;
+
+		bool m_SetNewScene = false;
+		SceneProperties m_NewSceneProperties = { };
 
 		// Dirs
 		std::filesystem::path m_ProjectDir;

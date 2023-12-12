@@ -1,5 +1,7 @@
 #include "Panels.hpp"
 
+#include <fstream>
+
 namespace Crystal
 {
 
@@ -18,17 +20,34 @@ namespace Crystal
 				m_StartUp = true;
 
 				m_Project->SetScene(scene);
-				CR_CORE_TRACE("--Scene--");
-				CR_CORE_TRACE("Name: {0}", scene.Name);
-				CR_CORE_TRACE("Path: {0}", scene.Path.string());
-				CR_CORE_TRACE("Type: {0}", (int)scene.SceneType);
+				//CR_CORE_TRACE("--Scene--");
+				//CR_CORE_TRACE("Name: {0}", scene.Name);
+				//CR_CORE_TRACE("Path: {0}", scene.Path.string());
+				//CR_CORE_TRACE("Type: {0}", (int)scene.SceneType);
 			}
 			ImGui::SameLine();
 		}
 
-		if (ImGui::Button("Add New Scene"))
+		if (ImGui::Button("Add New Scene", ImVec2(128.f, 32.f)))
 		{
-			//m_Project->SetScene()
+			// Create scene
+			auto path = m_Project->GetProjectDir() / m_Project->GetSceneDir() / std::filesystem::path(std::string("new") + std::to_string(m_Project->GetScenes().size()) + std::string(".crscene"));
+			
+			std::ofstream file(path);
+			file << " " << std::endl;
+			file.close();
+
+			// TODO(Jorben): Add a way to choose between 2D and 3D
+			SceneProperties props;
+			props.Name = std::string("New") + std::to_string(m_Project->GetScenes().size());
+			props.Path = path;
+			props.SceneType = SceneProperties::Type::_2D;
+
+			m_Project->SaveScene();
+			m_StartUp = true;
+
+			m_Project->AddScene(props);
+			m_Project->SetScene(props);
 		}
 
 		Panels::EndColours();

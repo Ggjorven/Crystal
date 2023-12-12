@@ -14,14 +14,16 @@ namespace Crystal
         // ---Core---
         internal static unsafe delegate*<int, bool> Input_IsKeyPressed;
 
+        // ---Scene---
+        internal static unsafe delegate*<NativeString, ulong> GetUUIDByTag;
+        internal static unsafe delegate*<NativeString, void> SetSceneByName;
+        
         // ---ECS---
         // TagComponent
         internal static unsafe delegate*<ulong, NativeString, void> AddTagComponent;
 
         internal static unsafe delegate*<ulong, NativeString, void> TagComponent_SetTag;
         internal static unsafe delegate*<ulong, NativeString> TagComponent_GetTag;
-
-        internal static unsafe delegate*<NativeString, ulong> GetUUIDByTag;
 
         // TransformComponent
         internal static unsafe delegate*<ulong, void> AddTransformComponent;

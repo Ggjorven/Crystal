@@ -30,5 +30,7 @@ public class Spider : Entity
 
             tc.SetSize(size);
         }
+
+        Scene.SetSceneByName("New");
     }
 }

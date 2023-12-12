@@ -17,6 +17,8 @@
 
 namespace Crystal
 {
+    class Project;
+
     class Scene;
     class SceneSerializer;
     class Scene2D;
@@ -97,6 +99,8 @@ namespace Crystal::ECS
         void LoadAssembly(std::filesystem::path path);
         void ReloadAssemblies();
 
+        void DestroyObjects();
+
     public:
         static Coral::HostInstance s_Host;
         static Coral::AssemblyLoadContext s_LoadContext;
@@ -116,6 +120,8 @@ namespace Crystal::ECS
         static uint32_t s_StorageCount;
         static Coral::AssemblyLoadContext s_Context;
         static Coral::ManagedAssembly s_Assembly;
+
+        friend class Project;
 
         friend class Scene;
         friend class Scene2D;

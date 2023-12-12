@@ -63,7 +63,7 @@ namespace Crystal
 
 		if (file.good())
 		{
-			CR_CORE_TRACE("Adding data to file {0}: \n{1}", path.string(), data.c_str());
+			//CR_CORE_TRACE("Adding data to file {0}: \n{1}", path.string(), data.c_str());
 			file << data.c_str();
 			file.close();
 		}
@@ -92,11 +92,11 @@ namespace Crystal
 		}
 
 		//Set scene name
-		scene->m_Properties.Path = path;
+		//scene->m_Properties.Path = path;
 		if (data["Scene"])
 		{
 			scene->m_DebugName = data["Scene"].as<std::string>();
-			scene->m_Properties.Name = data["Scene"].as<std::string>();
+			//scene->m_Properties.Name = data["Scene"].as<std::string>();
 		}
 		else
 			CR_CORE_WARN("No \"Scene:\" tab found in {0}\n\tNot critical, just no data loaded and starting as a blank scene.", path.string());

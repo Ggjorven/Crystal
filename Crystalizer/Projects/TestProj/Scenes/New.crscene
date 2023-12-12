@@ -3,4 +3,17 @@ Assemblies:
   - bin\Release\Script.dll
 ClearColour: [0, 0, 0, 1]
 Entities:
-  []
+  - Entity: 479195368307513496
+    TagComponent:
+      Tag: A
+    TransformComponent:
+      Position: [64, 64, 0]
+      Size: [64, 64, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Colour: [1, 1, 1, 1]
+      UseTexture: false
+      UseColour: true
+    ScriptComponent:
+      Class: Test2

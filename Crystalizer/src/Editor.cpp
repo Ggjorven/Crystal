@@ -39,6 +39,7 @@ void EditorLayer::OnAttach()
 		serializer.Deserialize(m_Path);
 	}
 	
+	
 	const char* settings = R"(
 [Window][DockSpaceViewport_11111111]
 Pos=0,19
@@ -52,29 +53,36 @@ Collapsed=0
 
 [Window][Viewport]
 Pos=333,19
-Size=947,701
+Size=947,541
 Collapsed=0
-DockId=0x00000002,0
+DockId=0x00000005,0
 
 [Window][Objects]
 Pos=0,19
-Size=331,372
+Size=331,226
 Collapsed=0
 DockId=0x00000003,0
 
 [Window][Properties]
-Pos=0,393
-Size=331,327
+Pos=0,247
+Size=331,473
 Collapsed=0
 DockId=0x00000004,0
 
-[Docking][Data]
-DockSpace     ID=0x8B93E3BD Window=0xA787BDB4 Pos=216,258 Size=1280,701 Split=X
-  DockNode    ID=0x00000001 Parent=0x8B93E3BD SizeRef=331,701 Split=Y Selected=0x967E7699
-    DockNode  ID=0x00000003 Parent=0x00000001 SizeRef=223,372 Selected=0x967E7699
-    DockNode  ID=0x00000004 Parent=0x00000001 SizeRef=223,327 HiddenTabBar=1 Selected=0x199AB496
-  DockNode    ID=0x00000002 Parent=0x8B93E3BD SizeRef=947,701 CentralNode=1 HiddenTabBar=1 Selected=0x13926F0B
+[Window][Content Browser]
+Pos=333,562
+Size=947,158
+Collapsed=0
+DockId=0x00000006,0
 
+[Docking][Data]
+DockSpace     ID=0x8B93E3BD Window=0xA787BDB4 Pos=112,154 Size=1280,701 Split=X
+  DockNode    ID=0x00000001 Parent=0x8B93E3BD SizeRef=331,701 Split=Y Selected=0x967E7699
+    DockNode  ID=0x00000003 Parent=0x00000001 SizeRef=223,226 Selected=0x967E7699
+    DockNode  ID=0x00000004 Parent=0x00000001 SizeRef=223,473 HiddenTabBar=1 Selected=0x199AB496
+  DockNode    ID=0x00000002 Parent=0x8B93E3BD SizeRef=947,701 Split=Y Selected=0x13926F0B
+    DockNode  ID=0x00000005 Parent=0x00000002 SizeRef=947,541 CentralNode=1 HiddenTabBar=1 Selected=0x13926F0B
+    DockNode  ID=0x00000006 Parent=0x00000002 SizeRef=947,158 Selected=0xBF096F38
 	)";
 
 	ImGuiIO& io = ImGui::GetIO();
@@ -85,7 +93,7 @@ DockSpace     ID=0x8B93E3BD Window=0xA787BDB4 Pos=216,258 Size=1280,701 Split=X
 
 	settings = ImGui::SaveIniSettingsToMemory();
 	io.WantSaveIniSettings = false;
-	
+
 	UI::Init();
 }
 
@@ -96,6 +104,11 @@ void EditorLayer::OnDetach()
 
 void EditorLayer::OnUpdate(Timestep& ts)
 {
+	if (m_Project->SettingNewScene())
+	{
+		m_Panels->SetStartUp(true);
+	}
+
 	m_Project->SetState((m_Running ? Project::State::Runtime : Project::State::Editor));
 	m_Project->OnUpdate(ts);
 
@@ -341,12 +354,21 @@ void EditorLayer::ViewPort()
 
 	if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(Panels::s_ButtonTex->GetRendererID()), ImVec2(buttonSize.x, buttonSize.y), { 0, 1 }, { 1, 0 }))
 	{
+		static SceneProperties startScene;
 		if (m_Running)
 		{
 			m_Project->GetCurrentScene()->ResetStorage();
+
+			if (startScene != m_Project->GetCurrentScene()->GetProperties())
+			{
+				m_Panels->SetStartUp(true);
+				m_Project->SetScene(startScene);
+			}
 		}
 		else
 		{
+			startScene = m_Project->GetCurrentScene()->GetProperties();
+
 			m_Project->GetCurrentScene()->GetStorage().ReloadAssemblies();
 			m_Project->GetCurrentScene()->CopyStorage();
 		}

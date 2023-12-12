@@ -39,7 +39,7 @@ namespace Crystal::ECS
 
     Storage::Storage()
     {
-        CR_CORE_TRACE("Storage");
+        //CR_CORE_TRACE("Storage");
         if (s_StorageCount == 0u)
         {
             Coral::HostSettings settings;
@@ -66,8 +66,11 @@ namespace Crystal::ECS
 
     Storage::~Storage()
     {
-        CR_CORE_TRACE("~Storage");
+        //CR_CORE_TRACE("~Storage");
         --s_StorageCount;
+
+        s_Assemblies.clear();
+        s_AssemblyPaths.clear();
 
         if (s_StorageCount == 0u)
         {
@@ -110,6 +113,15 @@ namespace Crystal::ECS
         {
             auto& scriptC = GetComponent<ECS::ScriptComponent>(script.first);
             scriptC.Script->Reload();
+        }
+    }
+
+    void Storage::DestroyObjects()
+    {
+        for (auto& script : GetComponentsMap<ECS::ScriptComponent>())
+        {
+            auto& scriptC = GetComponent<ECS::ScriptComponent>(script.first);
+            scriptC.Script->DestroyObject();
         }
     }
 

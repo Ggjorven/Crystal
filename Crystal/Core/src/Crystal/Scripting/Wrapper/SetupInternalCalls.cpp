@@ -19,6 +19,10 @@ namespace Crystal::Wrapper
 		// ---Core---
 		CR_ADD_INTERNAL("Input_IsKeyPressed", &Input::IsKeyPressed);
 
+		// ---Scene---
+		CR_ADD_INTERNAL("GetUUIDByTag", &Scene::GetUUIDByTag);
+		CR_ADD_INTERNAL("SetSceneByName", &Scene::SetSceneByName);
+
 		// ---ECS---
 		// TagComponent
 		assembly.AddInternalCall("Crystal.InternalCalls", "AddTagComponent", reinterpret_cast<void*>(&Entity::AddTagComponent));
@@ -26,8 +30,6 @@ namespace Crystal::Wrapper
 		assembly.AddInternalCall("Crystal.InternalCalls", "TagComponent_SetTag", reinterpret_cast<void*>(&Component::TagComponent_SetTag));
 		/// Getters
 		assembly.AddInternalCall("Crystal.InternalCalls", "TagComponent_GetTag", reinterpret_cast<void*>(&Component::TagComponent_GetTag));
-
-		CR_ADD_INTERNAL("GetUUIDByTag", &Scene::GetUUIDByTag);
 
 		// TransformComponent
 		/// Setters

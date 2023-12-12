@@ -33,6 +33,8 @@ namespace Crystal
 		static void BeginColours();
 		static void EndColours();
 
+		void SetStartUp(bool enabled) { m_StartUp = enabled; }
+
 	public:
 		static Ref<Texture2D> s_ButtonTex;
 

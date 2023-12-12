@@ -31,6 +31,11 @@ namespace Crystal
 			None = 0, _2D = 2, _3D = 3
 		};
 
+		bool operator!=(const SceneProperties& properties) const
+		{
+			return (Name != properties.Name || Path != properties.Path || SceneType != properties.SceneType);
+		}
+
 	public:
 		std::string Name = "None";
 		std::filesystem::path Path = "None";
@@ -56,6 +61,7 @@ namespace Crystal
 
 		ECS::Storage& GetStorage() { return m_Storage; }
 		std::string& GetName() { return m_DebugName; }
+
 		const SceneProperties& GetProperties() { return m_Properties; }
 
 		CR_UUID GetSceneID() const { return m_SceneID; }

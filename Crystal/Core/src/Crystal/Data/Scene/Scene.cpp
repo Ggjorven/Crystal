@@ -6,24 +6,25 @@
 
 #include "Crystal/Data/Project/Project.hpp"
 
+#include <psapi.h>
+#include <iostream>
+
 namespace Crystal
 {
 
 	Scene::Scene(const std::string& debugName) 
 		: m_DebugName(debugName), m_SceneID(UUIDGenerator::GenerateUUID())
 	{
-		//CR_CORE_TRACE("Scene");
 		m_EditorCamera = CreateRef<EditorCamera>();
 	}
 
 	Scene::~Scene()
 	{
-		//CR_CORE_TRACE("~Scene");
 	}
 
 	void Scene::UpdateCollisions()
 	{
-		// TODO(Jorben): Make collisions more efficient
+		// Note(Jorben): Probably not the most efficient way to check collisions
 		std::vector<std::pair<CR_UUID, CR_UUID>> checked = { };
 
 		for (auto& coll1 : m_Storage.GetComponentsMap<ECS::ColliderComponent>())

@@ -15,13 +15,11 @@ namespace Crystal
 	Project::Project(const std::string& debugName)
 		: m_DebugName(debugName)
 	{
-		//CR_CORE_TRACE("Project");
 		Project::SetCurrentProject(this);
 	}
 
 	Project::~Project()
 	{
-		//CR_CORE_TRACE("~Project");
 	}
 
 	void Project::OnUpdate(Timestep& ts)
@@ -39,9 +37,6 @@ namespace Crystal
 
 		m_ActiveScene->SetState((int)m_State);
 		m_ActiveScene->OnUpdate(ts);
-
-		// Test // Remove
-		//CR_CORE_TRACE("Size: {0}", m_ActiveScene->GetStorage().GetComponentsMap<ECS::TagComponent>().size());
 	}
 
 	void Project::OnRender()
@@ -89,7 +84,6 @@ namespace Crystal
 
 	void Project::LoadScene2D(const SceneProperties& properties)
 	{
-		//m_ActiveScene.reset();
 		m_ActiveScene = CreateRef<Scene2D>();
 		m_ActiveScene->SetProperties(properties);
 

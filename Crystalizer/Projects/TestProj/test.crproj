@@ -12,3 +12,11 @@ Scenes:
       Name: New
       Path: New.crscene
       Type: 2D
+  - Scene:
+      Name: New2
+      Path: E:\Code\C++\VS\Crystal\Crystalizer\Projects\TestProj\Scenes\new2.crscene
+      Type: 2D
+  - Scene:
+      Name: New3
+      Path: E:\Code\C++\VS\Crystal\Crystalizer\Projects\TestProj\Scenes\new3.crscene
+      Type: 2D

@@ -68,7 +68,7 @@ namespace Crystal
 
 	OpenGLTexture2D::~OpenGLTexture2D()
 	{
-		//delete m_Data;
+		stbi_image_free((void*)m_Data);
 		glDeleteTextures(1, &m_RendererID);
 	}
 

@@ -35,7 +35,7 @@ public class Test2 : Entity // "Red"
                 position.X -= Speed * deltaTime;
 
             if (Input.IsKeyPressed(KeyCode.Escape))
-                Console.WriteLine("ESCAPED");
+                Scene.SetSceneByName("Mario");
 
             //Update position
             transform.SetPosition(position);

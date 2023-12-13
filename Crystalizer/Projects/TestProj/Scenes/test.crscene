@@ -20,8 +20,10 @@ Entities:
       AABB:
         Position-Link: true
         Size-Link: true
-        Position: [0, 0, 0]
+        Position: [0, -438.262665, 0]
         Size: [1536, 64, 0]
+    ScriptComponent:
+      Class: Test
   - Entity: 8246586645339211354
     TagComponent:
       Tag: a
@@ -61,8 +63,10 @@ Entities:
         Position: [718.801636, 64, 0]
         Size: [64, 64, 0]
     ScriptComponent:
-      Class: Test
+      Class: ""
   - Entity: 10619718177593762474
+    TagComponent:
+      Tag: Block
     TransformComponent:
       Position: [323, 256, 0]
       Size: [128, 64, 0]
@@ -78,8 +82,6 @@ Entities:
         Size-Link: true
         Position: [323, 256, 0]
         Size: [128, 64, 0]
-    ScriptComponent:
-      Class: Test2
   - Entity: 16473418162316240639
     TagComponent:
       Tag: Spider

@@ -39,7 +39,6 @@ namespace Crystal::ECS
 
     Storage::Storage()
     {
-        //CR_CORE_TRACE("Storage");
         if (s_StorageCount == 0u)
         {
             Coral::HostSettings settings;
@@ -49,8 +48,8 @@ namespace Crystal::ECS
             s_Host = Coral::HostInstance();
             s_Host.Initialize(settings);
 
-            s_Context = s_Host.CreateAssemblyLoadContext("Crystal-" + std::to_string(UUIDGenerator::GenerateUUID()));
-            s_LoadContext = s_Host.CreateAssemblyLoadContext("Crystal-" + std::to_string(UUIDGenerator::GenerateUUID()));
+            s_Context = s_Host.CreateAssemblyLoadContext("Crystal-Engine");
+            s_LoadContext = s_Host.CreateAssemblyLoadContext("Crystal-Assemblies");
 
             s_Assembly = s_Context.LoadAssembly((Application::GetWorkingDirectory().string() + "\\Scripting-Engine.dll"));
 
@@ -59,18 +58,19 @@ namespace Crystal::ECS
         else
         {
             s_Host.UnloadAssemblyLoadContext(s_LoadContext);
-            s_LoadContext = s_Host.CreateAssemblyLoadContext("Crystal-" + std::to_string(UUIDGenerator::GenerateUUID()));
+            s_LoadContext = s_Host.CreateAssemblyLoadContext("Crystal-Assemblies");
         }
         ++s_StorageCount;
     }
 
     Storage::~Storage()
     {
-        //CR_CORE_TRACE("~Storage");
         --s_StorageCount;
 
         s_Assemblies.clear();
         s_AssemblyPaths.clear();
+
+        m_ComponentMaps.clear();
 
         if (s_StorageCount == 0u)
         {
@@ -99,7 +99,7 @@ namespace Crystal::ECS
 
         // Reload context
         s_Host.UnloadAssemblyLoadContext(s_LoadContext);
-        s_LoadContext = s_Host.CreateAssemblyLoadContext("Crystal-" + std::to_string(UUIDGenerator::GenerateUUID()));
+        s_LoadContext = s_Host.CreateAssemblyLoadContext("Crystal-Assemblies");
 
         for (auto& path : copy)
         {

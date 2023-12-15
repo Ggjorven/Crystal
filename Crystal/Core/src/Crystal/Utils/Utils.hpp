@@ -20,6 +20,8 @@ namespace Crystal
 		static void CreateADirectory(const char* path) { s_Instance->CreateDirectoryImplementation(path); }
 
 		static std::string OpenDirectory(const char* initDir = nullptr) { return s_Instance->OpenDirectoryImplementation(initDir); }
+
+		static void ReplaceBackSlashes(std::string& path);
 		
 		static float GetTime() { return s_Instance->GetTimeImplementation(); }
 

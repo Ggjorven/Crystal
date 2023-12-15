@@ -88,7 +88,7 @@ namespace Crystal
 		catch (YAML::BadFile e)
 		{
 			CR_CORE_ERROR("Failed to load {0}\n\t{1}", path.string(), e.what());
-			return;
+			//return;
 		}
 
 		//Set scene name
@@ -116,6 +116,11 @@ namespace Crystal
 		if (data["ClearColour"])
 		{
 			scene->m_ClearColour = data["ClearColour"].as<glm::vec4>();
+			RendererCommand::SetClearColour(scene->m_ClearColour);
+		}
+		else
+		{
+			scene->m_ClearColour = { 0.0f, 0.0f, 0.0f, 1.0f };
 			RendererCommand::SetClearColour(scene->m_ClearColour);
 		}
 

@@ -15,11 +15,14 @@ namespace Crystal
 	Project::Project(const std::string& debugName)
 		: m_DebugName(debugName)
 	{
+		//CR_CORE_TRACE("Project");
 		Project::SetCurrentProject(this);
 	}
 
 	Project::~Project()
 	{
+		m_ActiveScene.reset();
+		//CR_CORE_TRACE("~Project");
 	}
 
 	void Project::OnUpdate(Timestep& ts)
@@ -66,6 +69,8 @@ namespace Crystal
 
 		default:
 			CR_CORE_WARN("No scene type selected, {0}\n\tLoading the scene as a 2D scene.", props.Path.string());
+			props.SceneType = SceneProperties::Type::_2D;
+			LoadScene2D(props);
 			break;
 		}
 	}

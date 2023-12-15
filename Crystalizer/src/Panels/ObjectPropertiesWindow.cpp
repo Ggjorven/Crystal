@@ -31,6 +31,9 @@ namespace Crystal
 
 	void Panels::ObjectPropertiesWindow()
 	{
+		Panels::BeginColours();
+		ImGui::Begin("Properties", (bool*)0, ImGuiWindowFlags_NoScrollbar);
+
 		if (m_StartUp)
 		{
 			if (m_Project->GetCurrentScene()->GetEntities().size() > 0)
@@ -39,9 +42,6 @@ namespace Crystal
 				m_SelectedEntity = nullptr;
 			m_StartUp = false;
 		}
-
-		Panels::BeginColours();
-		ImGui::Begin("Properties", (bool*)0, ImGuiWindowFlags_NoScrollbar);
 
 		if (m_SelectedEntity)
 		{

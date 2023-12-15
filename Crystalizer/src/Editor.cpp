@@ -6,6 +6,7 @@
 
 #include <string>
 #include <fstream>
+#include <cstdio>
 
 #include <shellapi.h> // TODO(Jorben): Make not windows dependant
 
@@ -175,18 +176,33 @@ bool EditorLayer::InWindow(ImVec2 windowPos, ImVec2 windowSize, MousePosition mo
 void EditorLayer::CreateNewProject() // TODO(Jorben): Fix...
 {
 	std::string path = Utils::OpenDirectory(Project::GetCurrentProject()->GetProjectDir().parent_path().string().c_str());
+	Utils::ReplaceBackSlashes(path);
+
 	if (!path.empty())
 	{
-		std::filesystem::path projPath = std::filesystem::path(path) / std::filesystem::path("new.crproj");
-		//CR_CORE_TRACE("proj {0}", projPath.string());
+		std::filesystem::path newPath = std::filesystem::relative(std::filesystem::path(path), Application::Get().GetWorkingDirectory());
 
+		std::filesystem::path projPath = newPath / "new.crproj";
+		m_Path = projPath;
+
+		// Create the parent directories if they don't exist
+		std::filesystem::create_directories(projPath.parent_path());
 		std::ofstream outFile(projPath);
-		outFile << " " << std::endl;
 
-		Utils::CreateADirectory((std::filesystem::path(path) / std::filesystem::path("Assets")).string().c_str());
-		Utils::CreateADirectory((std::filesystem::path(path) / std::filesystem::path("Scenes")).string().c_str());
-		Utils::CreateADirectory((std::filesystem::path(path) / std::filesystem::path("Scripts")).string().c_str());
+		if (outFile.good() && outFile.is_open())
+		{
+			outFile << "Project: Empty" << std::endl;
+			outFile.close();
+		}
+		else
+		{
+			CR_CORE_ERROR("Error: Unable to open file for writing. {0}, \t{1}", projPath.string(), std::strerror(errno));
+		}
 
+		if (!std::filesystem::create_directory(newPath / "Assets")) CR_CORE_ERROR("Failed to create Assets folder.");
+		if (!std::filesystem::create_directory(newPath / "Scenes")) CR_CORE_ERROR("Failed to create Scenes folder.");
+		if (!std::filesystem::create_directory(newPath / "Scripts")) CR_CORE_ERROR("Failed to create Scripts folder.");
+		
 		OpenProject(projPath);
 	}
 }
@@ -211,9 +227,23 @@ void EditorLayer::OpenProject(std::filesystem::path path)
 	CR_CORE_TRACE("{0}", path.parent_path().string());
 	//CR_CORE_TRACE("{0}", projsPath.string());
 
-	ShellExecuteA(NULL, "open", CRPath.c_str(), path.string().c_str(), path.string().c_str(), SW_SHOWDEFAULT);
+	m_Project.reset();
+	//m_Project = nullptr;
+	//delete m_Project.get();
 
-	Application::Get().DispatchEvent<WindowCloseEvent>();
+	m_Panels->SetStartUp(true);
+
+	m_Project = CreateRef<Project>("");
+	if (!path.empty())
+	{
+		ProjectSerializer serializer(m_Project);
+		serializer.Deserialize(path);
+	}
+
+
+	//ShellExecuteA(NULL, "open", CRPath.c_str(), path.string().c_str(), path.string().c_str(), SW_SHOWDEFAULT);
+
+	//Application::Get().DispatchEvent<WindowCloseEvent>();
 }
 
 void EditorLayer::SaveProject()

@@ -107,10 +107,6 @@ namespace Crystal
 		else
 		{
 			CR_CORE_WARN("No \"Project:\" tab found in {0}\n\tNot critical, just no data loaded and starting as a blank project.", path.string());
-
-			m_Project->m_AssetDir = m_Project->m_ProjectDir / std::filesystem::path("Assets");
-			m_Project->m_SceneDir = m_Project->m_ProjectDir / std::filesystem::path("Scenes");
-			m_Project->m_ScriptsDir = m_Project->m_ProjectDir / std::filesystem::path("Scripts");
 		}
 
 		//Directories
@@ -129,6 +125,12 @@ namespace Crystal
 				auto scripts = dir["Scripts"];
 				if (scripts) m_Project->m_ScriptsDir = std::filesystem::path(scripts.as<std::string>());
 			}
+		}
+		else
+		{
+			m_Project->m_AssetDir = std::filesystem::path("Assets");
+			m_Project->m_SceneDir = std::filesystem::path("Scenes");
+			m_Project->m_ScriptsDir = std::filesystem::path("Scripts");
 		}
 
 		//Scenes
@@ -167,7 +169,7 @@ namespace Crystal
 			file.close();
 
 			SceneProperties properties;
-			properties.Path = m_Project->GetProjectDir() / m_Project->GetSceneDir() / std::filesystem::path("New.crscene");
+			properties.Path = std::filesystem::path("New.crscene");
 
 			m_Project->m_Scenes.emplace_back(properties);
 

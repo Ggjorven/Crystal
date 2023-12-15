@@ -15,11 +15,13 @@ namespace Crystal
 	Scene::Scene(const std::string& debugName) 
 		: m_DebugName(debugName), m_SceneID(UUIDGenerator::GenerateUUID())
 	{
+		//CR_CORE_TRACE("Scene");
 		m_EditorCamera = CreateRef<EditorCamera>();
 	}
 
 	Scene::~Scene()
 	{
+		//CR_CORE_TRACE("~Scene");
 	}
 
 	void Scene::UpdateCollisions()

@@ -39,6 +39,7 @@ namespace Crystal::ECS
 
     Storage::Storage()
     {
+        //CR_CORE_TRACE("Storage");
         if (s_StorageCount == 0u)
         {
             Coral::HostSettings settings;
@@ -65,6 +66,7 @@ namespace Crystal::ECS
 
     Storage::~Storage()
     {
+        //CR_CORE_TRACE("~Storage");
         --s_StorageCount;
 
         s_Assemblies.clear();
@@ -74,6 +76,8 @@ namespace Crystal::ECS
 
         if (s_StorageCount == 0u)
         {
+            //CR_CORE_TRACE("~Storage - Shutdown");
+            s_Host.UnloadAssemblyLoadContext(s_LoadContext);
             s_Host.UnloadAssemblyLoadContext(s_Context);
             s_Host.Shutdown();
         }

@@ -31,7 +31,8 @@ namespace Crystal
 		if (ImGui::Button("Add New Scene", ImVec2(128.f, 32.f)))
 		{
 			// Create scene
-			auto path = m_Project->GetProjectDir() / m_Project->GetSceneDir() / std::filesystem::path(std::string("new") + std::to_string(m_Project->GetScenes().size()) + std::string(".crscene"));
+			auto name = std::filesystem::path(std::string("new") + std::to_string(m_Project->GetScenes().size()) + std::string(".crscene"));
+			auto path = m_Project->GetProjectDir() / m_Project->GetSceneDir() / name;
 			
 			std::ofstream file(path);
 			file << " " << std::endl;
@@ -40,7 +41,7 @@ namespace Crystal
 			// TODO(Jorben): Add a way to choose between 2D and 3D
 			SceneProperties props;
 			props.Name = std::string("New") + std::to_string(m_Project->GetScenes().size());
-			props.Path = path;
+			props.Path = name;
 			props.SceneType = SceneProperties::Type::_2D;
 
 			m_Project->SaveScene();

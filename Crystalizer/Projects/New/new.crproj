@@ -1,14 +1,10 @@
-Project: ""
+Project: Empty
 Directories:
   - Assets: Assets
   - Scenes: Scenes
   - Scripts: Scripts
 Scenes:
   - Scene:
-      Name: Mario
-      Path: test.crscene
-      Type: 2D
-  - Scene:
-      Name: New
+      Name: None
       Path: New.crscene
-      Type: 2D
+      Type: ""

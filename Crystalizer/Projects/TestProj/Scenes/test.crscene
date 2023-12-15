@@ -20,10 +20,8 @@ Entities:
       AABB:
         Position-Link: true
         Size-Link: true
-        Position: [0, -438.262665, 0]
+        Position: [0, 0, 0]
         Size: [1536, 64, 0]
-    ScriptComponent:
-      Class: Test
   - Entity: 8246586645339211354
     TagComponent:
       Tag: a
@@ -47,7 +45,7 @@ Entities:
     TagComponent:
       Tag: Mario
     TransformComponent:
-      Position: [718.801636, 64, 0]
+      Position: [921.981567, 64, 0]
       Size: [64, 64, 0]
       Rotation: 0
     Renderer2DComponent:
@@ -60,10 +58,10 @@ Entities:
       AABB:
         Position-Link: true
         Size-Link: true
-        Position: [718.801636, 64, 0]
+        Position: [460.473267, -4212.03662, 0]
         Size: [64, 64, 0]
     ScriptComponent:
-      Class: ""
+      Class: Test
   - Entity: 10619718177593762474
     TagComponent:
       Tag: Block
@@ -102,3 +100,57 @@ Entities:
         Size: [85, 42, 0]
     ScriptComponent:
       Class: Spider
+  - Entity: 1274940641989774339
+    TagComponent:
+      Tag: Block Uno
+    TransformComponent:
+      Position: [991, 323, 0]
+      Size: [64, 64, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Colour: [1, 1, 1, 1]
+      UseTexture: false
+      UseColour: true
+    ColliderComponent:
+      AABB:
+        Position-Link: true
+        Size-Link: true
+        Position: [991, 323, 0]
+        Size: [64, 64, 0]
+  - Entity: 3497717989552599625
+    TagComponent:
+      Tag: Block Dos
+    TransformComponent:
+      Position: [1055, 323, 0]
+      Size: [64, 64, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Colour: [0.688234627, 0.788043499, 0.214142248, 1]
+      UseTexture: false
+      UseColour: true
+    ColliderComponent:
+      AABB:
+        Position-Link: true
+        Size-Link: true
+        Position: [1055, 323, 0]
+        Size: [64, 64, 0]
+  - Entity: 14792056956162892602
+    TagComponent:
+      Tag: Block Tres
+    TransformComponent:
+      Position: [1055, 387, 0]
+      Size: [64, 64, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Colour: [0.158553883, 0.334028602, 0.663043499, 1]
+      UseTexture: false
+      UseColour: true
+    ColliderComponent:
+      AABB:
+        Position-Link: true
+        Size-Link: true
+        Position: [1055, 387, 0]
+        Size: [64, 64, 0]

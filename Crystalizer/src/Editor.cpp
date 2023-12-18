@@ -1,10 +1,12 @@
 #include "Editor.hpp"
 
 #include "Crystal/Utils/CustomTypes.hpp"
+#include "Crystal/Renderer/ComputeShader.hpp"
 
 #include <imgui_internal.h>
 
 #include <string>
+#include <iostream>
 #include <fstream>
 #include <cstdio>
 
@@ -96,6 +98,57 @@ DockSpace     ID=0x8B93E3BD Window=0xA787BDB4 Pos=112,154 Size=1280,701 Split=X
 	io.WantSaveIniSettings = false;
 
 	UI::Init();
+
+
+
+	// Test
+	// Test
+	std::string data = R"(
+#version 430
+
+// Input data
+layout(local_size_x = 1) in;
+layout(std430, binding = 0) buffer DataBlock {
+    float data[];
+};
+
+// Output data
+layout(std430, binding = 1) buffer ResultBlock {
+    float result[];
+};
+
+void main() {
+    int index = int(gl_GlobalInvocationID.x);
+    result[index] = data[index] * 10.0f;
+}
+)";
+
+	Ref<ComputeShader<float, float>> computeShader = CreateComputeShader<float, float>(data);
+	computeShader->SetGroupSize(5, 1, 1);  // Set according to the input size
+
+
+	std::vector<float> inputData = { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f };
+	computeShader->SetInputBuffer(inputData);
+	computeShader->CreateOutputBuffer(inputData.size());
+
+	computeShader->Bind();
+	computeShader->Dispatch(5, 1, 1, 5 * sizeof(float));
+	computeShader->UnBind();
+
+	// Print the results
+	std::cout << "Input: ";
+	for (float value : inputData) {
+		std::cout << value << " ";
+	}
+	std::cout << std::endl;
+
+	auto results = computeShader->GetResults();
+	std::cout << "Results: ";
+	for (float value : results) {
+		std::cout << value << " ";
+	}
+	std::cout << std::endl;
+
 }
 
 void EditorLayer::OnDetach()

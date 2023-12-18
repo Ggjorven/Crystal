@@ -52,7 +52,7 @@ namespace Crystal
 		m_ActiveScene->OnEvent(e);
 	}
 
-	void Project::SetScene(const SceneProperties& props)
+	void Project::SetScene(SceneProperties& props)
 	{
 		if (m_ActiveScene) 
 			m_ActiveScene->GetStorage().DestroyObjects();

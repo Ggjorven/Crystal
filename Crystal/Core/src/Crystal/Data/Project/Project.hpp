@@ -28,7 +28,7 @@ namespace Crystal
 		void OnEvent(Event& e);
 
 		void AddScene(const SceneProperties& properties) { m_Scenes.push_back(properties); }
-		void SetScene(const SceneProperties& properties);
+		void SetScene(SceneProperties& properties);
 
 		// Mostly used by C# scripting
 		void SetSceneBasedOnName(const std::string& name);

@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 
 #include <string>
+#include <vector>
 #include <filesystem>
 
 namespace Crystal

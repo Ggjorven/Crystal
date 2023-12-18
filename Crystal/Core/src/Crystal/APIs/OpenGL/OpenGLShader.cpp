@@ -135,6 +135,8 @@ namespace Crystal
 		return location;
 	}
 
+
+
 	//===============================
 	//--------Shader Source----------
 	//===============================
@@ -498,4 +500,5 @@ namespace Crystal
 		CR_CORE_ASSERT(false, "Unable to recognize shader type.");
 		return ShaderSource("", "");
 	}
+
 }

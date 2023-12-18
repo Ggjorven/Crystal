@@ -12,6 +12,8 @@
 namespace Crystal
 {
 
+	class Shader;
+
 	class RenderingAPI
 	{
 	public:

@@ -55,7 +55,7 @@ namespace Crystal
 		switch (Renderer::GetAPI())
 		{
 		case RenderingAPI::API::None: CR_CORE_ASSERT(false, "RenderingAPI::None is currently not supported!"); return nullptr;
-		case RenderingAPI::API::OpenGL: CreateScope<OpenGLShader>(path);
+		case RenderingAPI::API::OpenGL: CreateRef<OpenGLShader>(path);
 		}
 
 		CR_CORE_ASSERT(false, "Unknown RenderingAPI!");
@@ -67,7 +67,7 @@ namespace Crystal
 		switch (Renderer::GetAPI())
 		{
 		case RenderingAPI::API::None: CR_CORE_ASSERT(false, "RenderingAPI::None is currently not supported!"); return nullptr;
-		case RenderingAPI::API::OpenGL: return CreateScope<OpenGLShader>(name, vertexSource, fragmentSource);
+		case RenderingAPI::API::OpenGL: return CreateRef<OpenGLShader>(name, vertexSource, fragmentSource);
 		}
 
 		CR_CORE_ASSERT(false, "Unknown RenderingAPI!");

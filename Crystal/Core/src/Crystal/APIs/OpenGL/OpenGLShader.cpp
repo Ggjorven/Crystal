@@ -16,6 +16,11 @@ namespace Crystal
 		m_RendererID = Create(vertexSource, fragmentSource);
 	}
 
+	OpenGLShader::~OpenGLShader()
+	{
+		glDeleteProgram(m_RendererID);
+	}
+
 	void OpenGLShader::Bind() const
 	{
 		glUseProgram(m_RendererID);
@@ -30,6 +35,12 @@ namespace Crystal
 	{
 		GLint location = GetUniformLocation(name);
 		glUniform1i(location, value);
+	}
+
+	void OpenGLShader::SetUniformFloat(const std::string& name, float value)
+	{
+		GLint location = GetUniformLocation(name);
+		glUniform1f(location, value);
 	}
 
 	void OpenGLShader::SetUniformFloat2(const std::string& name, const Vec2<float>& value)
@@ -498,7 +509,7 @@ namespace Crystal
 		}
 
 		CR_CORE_ASSERT(false, "Unable to recognize shader type.");
-		return ShaderSource("", "");
+		return ShaderSource("", "", "");
 	}
 
 }

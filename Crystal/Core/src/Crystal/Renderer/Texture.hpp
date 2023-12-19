@@ -2,6 +2,10 @@
 
 #include "Crystal/Core/Core.hpp"
 
+#include <vector>
+
+#include <glm/glm.hpp>
+
 namespace Crystal
 {
 	
@@ -20,6 +24,7 @@ namespace Crystal
 		virtual std::string GetProjectRelativePath() const = 0;
 
 		virtual void SetData(void* data, uint32_t size) = 0;
+		virtual void SetData(const std::vector<glm::vec4>& data) = 0;
 		virtual void UpdateSubTexture(int x, int y, int width, int height) = 0;
 
 		virtual void Bind(uint32_t slot = 0) const = 0;

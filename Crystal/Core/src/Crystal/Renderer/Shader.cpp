@@ -10,11 +10,11 @@ namespace Crystal
 	Scope<ShaderLib> ShaderLib::s_Instance = ShaderLib::Create();
 
 
-	ShaderSource Shader::Read(const std::string& filepath)
+	ShaderSource Shader::Read(std::filesystem::path filepath)
 	{
 		enum class ShaderType
 		{
-			None = -1, Vertex = 0, Fragment = 1
+			None = -1, Vertex = 0, Fragment = 1, Compute = 2
 		};
 
 		ShaderSource source;
@@ -22,9 +22,9 @@ namespace Crystal
 
 		std::ifstream file(filepath);
 		std::string line;
-		std::stringstream ss[2];
+		std::stringstream ss[3];
 
-		while (getline(file, line))
+		while (std::getline(file, line))
 		{
 
 			if (line.find("#shader") != std::string::npos)
@@ -37,6 +37,10 @@ namespace Crystal
 				{
 					type = ShaderType::Fragment; continue;
 				}
+				if (line.find("compute") != std::string::npos)
+				{
+					type = ShaderType::Compute; continue;
+				}
 			}
 
 			ss[(int)type] << line << "\n";
@@ -44,6 +48,7 @@ namespace Crystal
 
 		source.VertexSource = ss[(int)ShaderType::Vertex].str();
 		source.FragmentSource = ss[(int)ShaderType::Fragment].str();
+		source.ComputeSource = ss[(int)ShaderType::Compute].str();
 
 		return source;
 	}

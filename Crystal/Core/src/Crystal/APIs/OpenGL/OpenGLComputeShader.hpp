@@ -3,10 +3,11 @@
 #include "Crystal/Core/Core.hpp"
 
 #include <GL/glew.h>
-
-#include "Crystal/Renderer/ComputeShader.hpp"
+#include <glm/gtc/type_ptr.hpp>
 
 #include <unordered_map>
+
+#include "Crystal/Renderer/ComputeShader.hpp"
 
 namespace Crystal
 {
@@ -16,10 +17,10 @@ namespace Crystal
 	{
 	public:
 		OpenGLComputeShader(std::filesystem::path path)
+			: OpenGLComputeShader(Shader::Read(path).ComputeSource)
 		{
-			// TODO(Jorben): Add this function
-			// ...
 		}
+
 		OpenGLComputeShader(const std::string& source)
 		{
 			CompileShader(source.c_str());
@@ -36,12 +37,33 @@ namespace Crystal
 		void Bind() const override { glUseProgram(m_ComputeProgram); }
 		void UnBind() const override { glUseProgram(0); }
 
+		void SetInputBuffer(void* data, size_t size) override
+		{
+			DeleteInputBuffer();
+			CreateInputBuffer(size, data, GL_DYNAMIC_COPY);
+
+			m_InputData = std::vector<Input>((Input*)data, (Input*)data + size);
+		}
+
 		void SetInputBuffer(const std::vector<Input>& input) override
 		{
 			DeleteInputBuffer();
 			CreateInputBuffer(input.size() * sizeof(Input), input.data(), GL_DYNAMIC_COPY);
 
 			m_InputData = input;
+		}
+
+		void UpdateInputBuffer(void* data, size_t size) override
+		{
+			if (!m_InputBuffer)
+			{
+				CR_CORE_ERROR("Input buffer not initialized. Call SetInputBuffer first.");
+				return;
+			}
+
+			CreateInputBuffer(size, data, GL_DYNAMIC_COPY);
+
+			m_InputData = std::vector<Input>((Input*)data, (Input*)data + size);
 		}
 
 		void UpdateInputBuffer(const std::vector<Input>& input) override
@@ -99,6 +121,41 @@ namespace Crystal
 			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 		}
 
+		void SetUniformInt1(const std::string& name, int value) override
+		{
+			GLint location = GetUniformLocation(name);
+			glUniform1i(location, value);
+		}
+
+		void SetUniformFloat(const std::string& name, float value) override
+		{
+			GLint location = GetUniformLocation(name);
+			glUniform1f(location, value);
+		}
+
+		void SetUniformFloat2(const std::string& name, const Vec2<float>& value) override
+		{
+			GLint location = GetUniformLocation(name);
+			glUniform2f(location, value.x, value.y);
+		}
+
+		void SetUniformFloat3(const std::string& name, const Vec3<float>& value) override
+		{
+			GLint location = GetUniformLocation(name);
+			glUniform3f(location, value.x, value.y, value.z);
+		}
+
+		void SetUniformFloat4(const std::string& name, const Vec4<float>& value) override
+		{
+			GLint location = GetUniformLocation(name);
+			glUniform4f(location, value.r, value.g, value.b, value.a);
+		}
+
+		void SetUniformMat4(const std::string& name, const glm::mat4& value) override
+		{
+			GLint location = GetUniformLocation(name);
+			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+		}
 
 		std::vector<Output> GetResults() override
 		{
@@ -160,6 +217,19 @@ namespace Crystal
 			//glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 		}
 
+		GLint GetUniformLocation(const std::string& name)
+		{
+			Bind(); //So you don't have to explicitly do it yourself
+
+			//TODO cache
+			GLint location = glGetUniformLocation(m_ComputeProgram, name.c_str());
+
+			if (location == -1)
+				CR_CORE_ASSERT(false, "Uniform does not exist.", name); // Note(Jorben): If you recieve this error the shader is probably not bound.
+
+			return location;
+		}
+
 		void DeleteInputBuffer()
 		{
 			glDeleteBuffers(1, &m_InputBuffer);
@@ -184,6 +254,8 @@ namespace Crystal
 		int32_t m_WorkgroupSizeX = 1;
 		int32_t m_WorkgroupSizeY = 1;
 		int32_t m_WorkgroupSizeZ = 1;
+
+		// TODO(Jorben): Add shader cache
 	};
 
 }

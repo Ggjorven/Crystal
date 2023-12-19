@@ -68,7 +68,7 @@ namespace Crystal
 
 	OpenGLTexture2D::~OpenGLTexture2D()
 	{
-		stbi_image_free((void*)m_Data);
+		if (m_Data) stbi_image_free((void*)m_Data);
 		glDeleteTextures(1, &m_RendererID);
 	}
 
@@ -88,9 +88,35 @@ namespace Crystal
 		CR_CORE_ASSERT(size == m_Width * m_Height * bpp, "Data must be entire texture!");
 
 		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
-
+		//m_Data = (unsigned char*)data;
 		//glGenerateMipmap(GL_TEXTURE_2D);
 	}
+
+	void OpenGLTexture2D::SetData(const std::vector<glm::vec4>& data)
+	{
+		glBindTexture(GL_TEXTURE_2D, m_RendererID);
+
+		// Set texture parameters (you may customize these based on your needs)
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		// Assuming m_DataFormat is GL_RGBA and m_InternalFormat is GL_RGBA8
+		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_FLOAT, data.data());
+
+		// Verify OpenGL errors after glTexImage2D
+		GLenum error = glGetError();
+		if (error != GL_NO_ERROR) {
+			CR_CORE_ERROR("glTexImage2D: OpenGL error: {0}", error);
+		}
+
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
+
 
 	void OpenGLTexture2D::UpdateSubTexture(int x, int y, int width, int height)
 	{

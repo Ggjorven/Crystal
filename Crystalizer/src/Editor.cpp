@@ -99,56 +99,66 @@ DockSpace     ID=0x8B93E3BD Window=0xA787BDB4 Pos=112,154 Size=1280,701 Split=X
 
 	UI::Init();
 
-
-
 	// Test
-	// Test
-	std::string data = R"(
-#version 430
+	m_Texture = Texture2D::Create(512, 512);
+	m_Texture->Bind(0);
 
-// Input data
-layout(local_size_x = 1) in;
-layout(std430, binding = 0) buffer DataBlock {
-    float data[];
+	// Example data creation
+	std::vector<glm::vec4> textureData(512 * 512, glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));  // Adjust based on your data format
+	//texture->SetData(textureData.data(), sizeof(float) * textureData.size());
+
+	// Define compute shader source code
+	std::string computeShaderSource = R"(
+    #version 430
+
+layout(set = 0, binding = 0) buffer InputBuffer {
+    vec4 inputData[];
 };
 
-// Output data
-layout(std430, binding = 1) buffer ResultBlock {
-    float result[];
+layout(set = 0, binding = 1) buffer OutputBuffer {
+    vec4 outputData[];
 };
+
+layout(local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
 
 void main() {
-    int index = int(gl_GlobalInvocationID.x);
-    result[index] = data[index] * 10.0f;
+    uint index = gl_GlobalInvocationID.x;
+
+    if (index < inputData.length()) {
+        vec3 color = inputData[index].rgb;
+
+        // Calculate the center of the image along the Y-axis
+        float centerY = float(inputData.length()) / 2.0;
+
+        // Define the thickness of the red line
+        float lineLength = 512.0;
+
+        // Check if the current pixel is within the line
+        if (abs(float(index) - centerY) < lineLength) {
+            color = vec3(1.0, 0.0, 0.0); // Set the color to red
+        }
+
+        outputData[index] = vec4(color, inputData[index].a);
+    }
 }
+
+
 )";
 
-	Ref<ComputeShader<float, float>> computeShader = CreateComputeShader<float, float>(data);
-	computeShader->SetGroupSize(5, 1, 1);  // Set according to the input size
+	// Create and use the compute shader
+	Ref<ComputeShader<glm::vec4, glm::vec4>> computeShader = CreateComputeShader<glm::vec4, glm::vec4>(computeShaderSource);
+	computeShader->SetGroupSize(1, 1, 1); // Adjust according to your input size
+	computeShader->CreateOutputBuffer(textureData.size() * sizeof(glm::vec4));
 
+	//computeShader->SetUniformFloat("time", 100.0f);
 
-	std::vector<float> inputData = { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f };
-	computeShader->SetInputBuffer(inputData);
-	computeShader->CreateOutputBuffer(inputData.size());
-
+	// Bind the compute shader
 	computeShader->Bind();
-	computeShader->Dispatch(5, 1, 1, 5 * sizeof(float));
+	computeShader->SetInputBuffer(textureData);
+	computeShader->Dispatch(textureData.size(), 1, 1, sizeof(glm::vec4) * textureData.size());
+	std::vector<glm::vec4> results = computeShader->GetResults(); // Assuming each element represents RGBA
+	m_Texture->SetData(results);
 	computeShader->UnBind();
-
-	// Print the results
-	std::cout << "Input: ";
-	for (float value : inputData) {
-		std::cout << value << " ";
-	}
-	std::cout << std::endl;
-
-	auto results = computeShader->GetResults();
-	std::cout << "Results: ";
-	for (float value : results) {
-		std::cout << value << " ";
-	}
-	std::cout << std::endl;
-
 }
 
 void EditorLayer::OnDetach()
@@ -187,6 +197,7 @@ void EditorLayer::OnRender()
 	RendererCommand::Clear();
 
 	m_Project->OnRender();
+	Renderer2D::DrawQuad({ 100.0f, 100.0f }, { 512.f, 512.f }, m_Texture, false, m_Project->GetCurrentScene()->GetEditorCamera()->GetCamera());
 
 	m_FrameBuffer->Unbind();
 }

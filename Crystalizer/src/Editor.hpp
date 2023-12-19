@@ -52,4 +52,6 @@ private:
 	Ref<FrameBuffer> m_FrameBuffer = nullptr;
 
 	Ref<Panels> m_Panels = nullptr;
+
+	Ref<Texture2D> m_Texture = nullptr;
 };

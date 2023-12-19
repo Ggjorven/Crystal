@@ -65,6 +65,7 @@ namespace Crystal
 		const SceneProperties& GetProperties() { return m_Properties; }
 
 		CR_UUID GetSceneID() const { return m_SceneID; }
+		Ref<EditorCamera> GetEditorCamera() { return m_EditorCamera; }
 
 		Vec4<float>& GetClearColour() { return m_ClearColour; }
 

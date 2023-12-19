@@ -73,8 +73,6 @@ namespace Crystal
 		std::vector<SceneProperties> m_Scenes;
 		Ref<Scene> m_ActiveScene;
 
-		Ref<EditorCamera> m_EditorCamera;
-
 		bool m_SetNewScene = false;
 		SceneProperties m_NewSceneProperties = { };
 

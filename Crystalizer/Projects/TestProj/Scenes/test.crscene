@@ -58,7 +58,7 @@ Entities:
       AABB:
         Position-Link: true
         Size-Link: true
-        Position: [291.722717, 639.602051, 0]
+        Position: [406.015594, 320, 0]
         Size: [64, 64, 0]
     ScriptComponent:
       Class: Test

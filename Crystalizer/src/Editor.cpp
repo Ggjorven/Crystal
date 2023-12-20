@@ -252,27 +252,7 @@ void EditorLayer::CreateNewProject() // TODO(Jorben): Fix...
 
 void EditorLayer::OpenProject(std::filesystem::path path)
 {
-#if defined(CR_DIST) // TODO(Jorben): Change this for distribution ... also the Crystalizer/Projects path
-	std::string CRPath = Utils::GetEnviromentVariable("CRYSTAL_DIR") + std::string("\\bin\\Dist-windows-x86_64\\Crystalizer\\Crystalizer.exe");
-
-#elif defined(CR_RELEASE)
-	std::string CRPath = Utils::GetEnviromentVariable("CRYSTAL_DIR") + std::string("\\bin\\Release-windows-x86_64\\Crystalizer\\Crystalizer.exe");
-#elif defined(CR_DEBUG)
-	std::string CRPath = Utils::GetEnviromentVariable("CRYSTAL_DIR") + std::string("\\bin\\Debug-windows-x86_64\\Crystalizer\\Crystalizer.exe");
-#else
-	#error No proper configuration selected.
-#endif
-
-	//std::filesystem::path projsPath = std::filesystem::path(Utils::GetEnviromentVariable("CRYSTAL_DIR")) / std::filesystem::path("Crystalizer/Projects/");
-
-	CR_CORE_TRACE("{0}", CRPath);
-	CR_CORE_TRACE("{0}", path.string());
-	CR_CORE_TRACE("{0}", path.parent_path().string());
-	//CR_CORE_TRACE("{0}", projsPath.string());
-
 	m_Project.reset();
-	//m_Project = nullptr;
-	//delete m_Project.get();
 
 	m_Panels->SetStartUp(true);
 
@@ -282,11 +262,6 @@ void EditorLayer::OpenProject(std::filesystem::path path)
 		ProjectSerializer serializer(m_Project);
 		serializer.Deserialize(path);
 	}
-
-
-	//ShellExecuteA(NULL, "open", CRPath.c_str(), path.string().c_str(), path.string().c_str(), SW_SHOWDEFAULT);
-
-	//Application::Get().DispatchEvent<WindowCloseEvent>();
 }
 
 void EditorLayer::SaveProject()

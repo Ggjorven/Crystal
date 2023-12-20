@@ -99,66 +99,35 @@ DockSpace     ID=0x8B93E3BD Window=0xA787BDB4 Pos=112,154 Size=1280,701 Split=X
 
 	UI::Init();
 
-	// Test
+	// TODO(Jorben): Remove this test
+	/*
+	std::string source = R"(
+	#version 430
+
+	layout (binding = 0, rgba8) readonly uniform image2D inputTexture;
+	layout (binding = 1, rgba8) writeonly uniform image2D outputTexture;
+
+	layout(local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
+
+	void main() {
+		ivec2 texelCoord = ivec2(gl_GlobalInvocationID.xy);
+		vec4 color = imageLoad(inputTexture, texelCoord);
+
+		// Perform your computation here
+		// For simplicity, let's just invert the color
+		color = vec4(1.0) - color;
+
+		imageStore(outputTexture, texelCoord, color);
+	}
+
+	)";
+
 	m_Texture = Texture2D::Create(512, 512);
-	m_Texture->Bind(0);
-
-	// Example data creation
-	std::vector<glm::vec4> textureData(512 * 512, glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));  // Adjust based on your data format
-	//texture->SetData(textureData.data(), sizeof(float) * textureData.size());
-
-	// Define compute shader source code
-	std::string computeShaderSource = R"(
-    #version 430
-
-layout(set = 0, binding = 0) buffer InputBuffer {
-    vec4 inputData[];
-};
-
-layout(set = 0, binding = 1) buffer OutputBuffer {
-    vec4 outputData[];
-};
-
-layout(local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
-
-void main() {
-    uint index = gl_GlobalInvocationID.x;
-
-    if (index < inputData.length()) {
-        vec3 color = inputData[index].rgb;
-
-        // Calculate the center of the image along the Y-axis
-        float centerY = float(inputData.length()) / 2.0;
-
-        // Define the thickness of the red line
-        float lineLength = 512.0;
-
-        // Check if the current pixel is within the line
-        if (abs(float(index) - centerY) < lineLength) {
-            color = vec3(1.0, 0.0, 0.0); // Set the color to red
-        }
-
-        outputData[index] = vec4(color, inputData[index].a);
-    }
-}
-
-
-)";
-
-	// Create and use the compute shader
-	Ref<ComputeShader<glm::vec4, glm::vec4>> computeShader = CreateComputeShader<glm::vec4, glm::vec4>(computeShaderSource);
-	computeShader->SetGroupSize(1, 1, 1); // Adjust according to your input size
-	computeShader->CreateOutputBuffer(textureData.size() * sizeof(glm::vec4));
-
-	//computeShader->SetUniformFloat("time", 100.0f);
-
-	// Bind the compute shader
-	computeShader->Bind();
-	computeShader->SetInputBuffer(textureData);
-	computeShader->Dispatch(textureData.size(), 1, 1, sizeof(glm::vec4) * textureData.size());
-	std::vector<glm::vec4> results = computeShader->GetResults(); // Assuming each element represents RGBA
-	m_Texture->SetData(results);
-	computeShader->UnBind();
+	m_Texture->SetData(std::vector<glm::vec4>(512 * 512, glm::vec4(0.7f, 0.0f, 0.0f, 0.5f)));
+	
+	m_ComputeShader = CreateComputeShader<float, float>(source);
+	m_ComputeShader->SetGroupSize(m_Texture->GetWidth(), m_Texture->GetHeight(), 1);
+	*/
 }
 
 void EditorLayer::OnDetach()
@@ -189,6 +158,15 @@ void EditorLayer::OnUpdate(Timestep& ts)
 			m_AutoSaveTimer = 0.0f;
 		}
 	}
+	/* Test
+	m_Texture->BindToImageUnit(0, Texture::ManipMode::Read);
+	m_Texture->BindToImageUnit(1, Texture::ManipMode::Write);
+	m_ComputeShader->Bind();
+	m_ComputeShader->Dispatch(1, 1, 1);
+	m_Texture->UnBindFromImageUnit(0, Texture::ManipMode::Read);
+	m_Texture->UnBindFromImageUnit(1, Texture::ManipMode::Write);
+	m_ComputeShader->UnBind();
+	*/
 }
 
 void EditorLayer::OnRender()
@@ -197,7 +175,8 @@ void EditorLayer::OnRender()
 	RendererCommand::Clear();
 
 	m_Project->OnRender();
-	Renderer2D::DrawQuad({ 100.0f, 100.0f }, { 512.f, 512.f }, m_Texture, false, m_Project->GetCurrentScene()->GetEditorCamera()->GetCamera());
+
+	//Renderer2D::DrawQuad({ 100.0f, 100.0f }, { 512.f, 512.f }, m_Texture, false, m_Project->GetCurrentScene()->GetEditorCamera()->GetCamera());
 
 	m_FrameBuffer->Unbind();
 }

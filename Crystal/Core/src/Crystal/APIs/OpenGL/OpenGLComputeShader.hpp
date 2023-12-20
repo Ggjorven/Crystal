@@ -96,29 +96,37 @@ namespace Crystal
 			m_WorkgroupSizeZ = z;
 		}
 
-		void Dispatch(int32_t groupsX, int32_t groupsY, int32_t groupsZ, size_t outputSize) override
+		void Dispatch(int32_t groupsX = 1, int32_t groupsY = 1, int32_t groupsZ = 1, size_t outputSize = (size_t)0) override
 		{
-			Input* data_ptr = (Input*)glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, sizeof(Input) * m_InputData.size(),
-				GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
-			std::copy(m_InputData.begin(), m_InputData.end(), data_ptr);
-			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
+			
+			if (m_InputBuffer)
+			{
+				Input* data_ptr = (Input*)glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, sizeof(Input) * m_InputData.size(),
+					GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+				std::copy(m_InputData.begin(), m_InputData.end(), data_ptr);
+				glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 
-			// Bind the input buffer to a specific binding point if needed
-			glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_InputBuffer);
-			glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, m_OutputBuffer);
+				glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_InputBuffer);
+			}
 
-			glDispatchCompute(groupsX * m_WorkgroupSizeX, groupsY * m_WorkgroupSizeY, groupsZ * m_WorkgroupSizeZ);
+			if (m_OutputBuffer) glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, m_OutputBuffer);
 
-			glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+			glDispatchCompute(m_WorkgroupSizeX / groupsX, m_WorkgroupSizeY / groupsY, m_WorkgroupSizeZ / groupsZ);
+
+			glMemoryBarrier(GL_ALL_BARRIER_BITS);
+			glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
 
 			// Map the output data buffer and read the result
-			Output* result_ptr = (Output*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
+			if (m_OutputBuffer)
+			{
+				Output* result_ptr = (Output*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
 
-			// Copy the result to m_OutputData
-			m_OutputData.resize(outputSize / sizeof(Output));
-			std::copy(result_ptr, result_ptr + (outputSize / sizeof(Output)), m_OutputData.begin());
+				// Copy the result to m_OutputData
+				m_OutputData.resize(outputSize / sizeof(Output));
+				std::copy(result_ptr, result_ptr + (outputSize / sizeof(Output)), m_OutputData.begin());
 
-			glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
+				glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
+			}
 		}
 
 		void SetUniformInt1(const std::string& name, int value) override

@@ -96,27 +96,12 @@ namespace Crystal
 	{
 		glBindTexture(GL_TEXTURE_2D, m_RendererID);
 
-		// Set texture parameters (you may customize these based on your needs)
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-		// Assuming m_DataFormat is GL_RGBA and m_InternalFormat is GL_RGBA8
 		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_FLOAT, data.data());
-
-		// Verify OpenGL errors after glTexImage2D
-		GLenum error = glGetError();
-		if (error != GL_NO_ERROR) {
-			CR_CORE_ERROR("glTexImage2D: OpenGL error: {0}", error);
-		}
 
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
-
-
 
 	void OpenGLTexture2D::UpdateSubTexture(int x, int y, int width, int height)
 	{
@@ -127,5 +112,58 @@ namespace Crystal
 	void OpenGLTexture2D::Bind(uint32_t slot) const
 	{
 		glBindTextureUnit(slot, m_RendererID);
+	}
+
+	void OpenGLTexture2D::BindToImageUnit(uint32_t unit, Texture::ManipMode mode) const
+	{
+		GLenum glMode = 0;
+		
+		switch (mode)
+		{
+		case ManipMode::Read:
+			glMode = GL_READ_ONLY;
+			break;
+
+		case ManipMode::Write:
+			glMode = GL_WRITE_ONLY;
+			break;
+
+		case ManipMode::ReadWrite:
+			glMode = GL_READ_WRITE;
+			break;
+
+		default:
+			CR_CORE_WARN("Invalid Manipulation Mode selected!");
+			glMode = GL_READ_WRITE;
+			break;
+		}
+
+		glBindImageTexture(unit, m_RendererID, 0, GL_FALSE, 0, glMode, m_InternalFormat);
+	}
+	void OpenGLTexture2D::UnBindFromImageUnit(uint32_t unit, Texture::ManipMode mode) const
+	{
+		GLenum glMode = 0;
+
+		switch (mode)
+		{
+		case ManipMode::Read:
+			glMode = GL_READ_ONLY;
+			break;
+
+		case ManipMode::Write:
+			glMode = GL_WRITE_ONLY;
+			break;
+
+		case ManipMode::ReadWrite:
+			glMode = GL_READ_WRITE;
+			break;
+
+		default:
+			CR_CORE_WARN("Invalid Manipulation Mode selected!");
+			glMode = GL_READ_WRITE;
+			break;
+		}
+
+		glBindImageTexture(unit, 0, 0, GL_FALSE, 0, glMode, m_InternalFormat);
 	}
 }

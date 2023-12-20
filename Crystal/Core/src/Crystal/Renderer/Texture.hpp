@@ -28,6 +28,13 @@ namespace Crystal
 		virtual void UpdateSubTexture(int x, int y, int width, int height) = 0;
 
 		virtual void Bind(uint32_t slot = 0) const = 0;
+
+		enum class ManipMode
+		{
+			None = -1, Read, Write, ReadWrite
+		};
+		virtual void BindToImageUnit(uint32_t unit = 0, ManipMode mode = ManipMode::ReadWrite) const = 0;
+		virtual void UnBindFromImageUnit(uint32_t unit = 0, ManipMode mode = ManipMode::ReadWrite) const = 0;
 	};
 
 	class Texture2D : public Texture

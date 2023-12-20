@@ -53,5 +53,7 @@ private:
 
 	Ref<Panels> m_Panels = nullptr;
 
+	// Test space
 	Ref<Texture2D> m_Texture = nullptr;
+	Ref<ComputeShader<float, float>> m_ComputeShader = nullptr;
 };

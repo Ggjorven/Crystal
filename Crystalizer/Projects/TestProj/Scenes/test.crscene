@@ -13,7 +13,7 @@ Entities:
     Renderer2DComponent:
       Enable: true
       Texture: Mario.png
-      Colour: [0.581521749, 0.142426103, 0.0568879843, 1]
+      Colour: [0.581521749, 0.227964193, 0.0568879843, 1]
       UseTexture: false
       UseColour: true
     ColliderComponent:
@@ -58,7 +58,7 @@ Entities:
       AABB:
         Position-Link: true
         Size-Link: true
-        Position: [460.473267, -4212.03662, 0]
+        Position: [291.722717, 639.602051, 0]
         Size: [64, 64, 0]
     ScriptComponent:
       Class: Test

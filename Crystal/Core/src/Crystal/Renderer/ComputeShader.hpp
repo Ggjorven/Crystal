@@ -40,7 +40,7 @@ namespace Crystal
 
 		virtual void SetGroupSize(int32_t x, int32_t y, int32_t z) = 0;
 
-		virtual void Dispatch(int32_t groupsX, int32_t groupsY, int32_t groupsZ, size_t outputSize) = 0;
+		virtual void Dispatch(int32_t groupsX = 1, int32_t groupsY = 1, int32_t groupsZ = 1, size_t outputSize = (size_t)0) = 0;
 
 		virtual std::vector<Output> GetResults() = 0;
 	};

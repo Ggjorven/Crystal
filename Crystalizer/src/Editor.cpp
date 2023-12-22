@@ -100,25 +100,29 @@ DockSpace     ID=0x8B93E3BD Window=0xA787BDB4 Pos=112,154 Size=1280,701 Split=X
 	UI::Init();
 
 	// TODO(Jorben): Remove this test
-	/*
 	std::string source = R"(
 	#version 430
+
+	layout(local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
 
 	layout (binding = 0, rgba8) readonly uniform image2D inputTexture;
 	layout (binding = 1, rgba8) writeonly uniform image2D outputTexture;
 
-	layout(local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
+	uniform float time;
 
 	void main() {
-		ivec2 texelCoord = ivec2(gl_GlobalInvocationID.xy);
-		vec4 color = imageLoad(inputTexture, texelCoord);
+		ivec2 texSize = imageSize(outputTexture);
+		ivec2 texCoords = ivec2(gl_GlobalInvocationID.xy);
 
-		// Perform your computation here
-		// For simplicity, let's just invert the color
-		color = vec4(1.0) - color;
+		if (texCoords.x >= texSize.x || texCoords.y >= texSize.y)
+			return;
 
-		imageStore(outputTexture, texelCoord, color);
+		float noise = fract(sin(dot(texCoords.xy + time, vec2(12.9898,78.233))) * 43758.5453);
+		float color = step(0.5, noise); // black and white threshold
+
+		imageStore(outputTexture, texCoords, vec4(color, color, color, 1.0));
 	}
+
 
 	)";
 
@@ -127,7 +131,6 @@ DockSpace     ID=0x8B93E3BD Window=0xA787BDB4 Pos=112,154 Size=1280,701 Split=X
 	
 	m_ComputeShader = CreateComputeShader<float, float>(source);
 	m_ComputeShader->SetGroupSize(m_Texture->GetWidth(), m_Texture->GetHeight(), 1);
-	*/
 }
 
 void EditorLayer::OnDetach()
@@ -144,6 +147,7 @@ void EditorLayer::OnUpdate(Timestep& ts)
 
 	m_Project->SetState((m_Running ? Project::State::Runtime : Project::State::Editor));
 	m_Project->OnUpdate(ts);
+	if (!m_Running) m_SelectionManager.OnUpdate(ts);
 
 	// AutoSave
 	if (!m_Running)
@@ -158,10 +162,14 @@ void EditorLayer::OnUpdate(Timestep& ts)
 			m_AutoSaveTimer = 0.0f;
 		}
 	}
-	/* Test
+
+	/*
+	static float timer = (float)ts;
+	timer += (float)ts;
 	m_Texture->BindToImageUnit(0, Texture::ManipMode::Read);
 	m_Texture->BindToImageUnit(1, Texture::ManipMode::Write);
 	m_ComputeShader->Bind();
+	m_ComputeShader->SetUniformFloat("time", timer);
 	m_ComputeShader->Dispatch(1, 1, 1);
 	m_Texture->UnBindFromImageUnit(0, Texture::ManipMode::Read);
 	m_Texture->UnBindFromImageUnit(1, Texture::ManipMode::Write);
@@ -175,8 +183,9 @@ void EditorLayer::OnRender()
 	RendererCommand::Clear();
 
 	m_Project->OnRender();
-
+	
 	//Renderer2D::DrawQuad({ 100.0f, 100.0f }, { 512.f, 512.f }, m_Texture, false, m_Project->GetCurrentScene()->GetEditorCamera()->GetCamera());
+	if (!m_Running) m_SelectionManager.OnRender();
 
 	m_FrameBuffer->Unbind();
 }
@@ -205,6 +214,7 @@ void EditorLayer::OnEvent(Event& e)
 	handler.Handle<WindowCloseEvent>(CR_BIND_EVENT_FN(EditorLayer::WindowClose));
 	
 	m_Project->OnEvent(e);
+	if (!m_Running) m_SelectionManager.OnEvent(e);
 }
 
 bool EditorLayer::InWindow(ImVec2 windowPos, ImVec2 windowSize, MousePosition mousePosition)

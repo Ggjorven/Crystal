@@ -34,11 +34,16 @@ namespace Crystal
 		static void EndColours();
 
 		void SetStartUp(bool enabled) { m_StartUp = enabled; }
+		void SetSelectedEntity(Ref<ECS::Entity> entity) { m_SelectedEntity = entity; }
+
+		static Panels* Get() { return s_Instance; }
 
 	public:
 		static Ref<Texture2D> s_ButtonTex;
 
 	private:
+		static Panels* s_Instance;
+
 		enum class ButtonState
 		{
 			None = 0, Play, Pause

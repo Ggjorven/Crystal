@@ -58,7 +58,7 @@ Entities:
       AABB:
         Position-Link: true
         Size-Link: true
-        Position: [406.015594, 320, 0]
+        Position: [705.25415, 384, 0]
         Size: [64, 64, 0]
     ScriptComponent:
       Class: Test
@@ -89,7 +89,7 @@ Entities:
       Rotation: 0
     Renderer2DComponent:
       Enable: true
-      Colour: [0.853260875, 0.0602847449, 0.0602847449, 1]
+      Colour: [0.482630789, 0.853260875, 0.0602847449, 1]
       UseTexture: false
       UseColour: true
     ColliderComponent:

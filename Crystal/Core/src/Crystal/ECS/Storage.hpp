@@ -101,18 +101,17 @@ namespace Crystal::ECS
 
         void DestroyObjects();
 
-    public:
-        static Coral::HostInstance s_Host;
-        static Coral::AssemblyLoadContext s_LoadContext;
-        static std::vector<Coral::ManagedAssembly> s_Assemblies;
-        static std::vector<std::filesystem::path> s_AssemblyPaths;
-
-    private:
         template<typename ComponentType>
         std::unordered_map<CR_UUID, std::any>& GetComponentsMap()
         {
             return m_ComponentMaps[typeid(ComponentType)];
         }
+
+    public:
+        static Coral::HostInstance s_Host;
+        static Coral::AssemblyLoadContext s_LoadContext;
+        static std::vector<Coral::ManagedAssembly> s_Assemblies;
+        static std::vector<std::filesystem::path> s_AssemblyPaths;
 
     private:
         std::unordered_map<std::type_index, std::unordered_map<CR_UUID, std::any>> m_ComponentMaps;

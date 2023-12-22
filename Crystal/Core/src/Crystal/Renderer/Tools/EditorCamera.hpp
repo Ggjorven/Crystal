@@ -23,6 +23,7 @@ namespace Crystal
 
 		Ref<OrthoGraphicCamera>& GetCamera() { return m_Camera; }
 		glm::vec2 GetPosition() const { return m_Position; }
+		float GetZoom() const { return m_Zoom; }
 
 		void SetMovementKey(int key) { m_MovementKey = key; }
 		//void SetMovementSpeed(float speed) { m_MovementSpeed = speed; }

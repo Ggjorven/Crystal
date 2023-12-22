@@ -15,5 +15,29 @@ Entities:
       Colour: [1, 1, 1, 1]
       UseTexture: false
       UseColour: true
+    ColliderComponent:
+      AABB:
+        Position-Link: true
+        Size-Link: true
+        Position: [279, 174.96582, 0]
+        Size: [64, 64, 0]
     ScriptComponent:
       Class: Test2
+  - Entity: 10272180211859151652
+    TagComponent:
+      Tag: New
+    TransformComponent:
+      Position: [343, 146, 0]
+      Size: [64, 64, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Colour: [0.619565248, 0.218868166, 0.218868166, 1]
+      UseTexture: false
+      UseColour: true
+    ColliderComponent:
+      AABB:
+        Position-Link: true
+        Size-Link: true
+        Position: [343, 146, 0]
+        Size: [64, 64, 0]

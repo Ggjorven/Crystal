@@ -1,5 +1,7 @@
 #include "Panels.hpp"
 
+#include "Utils/SelectionManager.hpp"
+
 #include <fstream>
 
 namespace Crystal
@@ -18,6 +20,7 @@ namespace Crystal
 			{
 				m_Project->SaveScene();
 				m_StartUp = true;
+				SelectionManager::Get()->ResetSelected();
 
 				m_Project->SetScene(scene);
 				//CR_CORE_TRACE("--Scene--");

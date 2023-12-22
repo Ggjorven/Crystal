@@ -71,6 +71,8 @@ namespace Crystal
 				deleteUUID = entity->GetUUID();
 			}
 		}
+		// TODO(Jorben) Add a better way to set the selected entity
+		SelectionManager::Get()->SetSelected(m_SelectedEntity);
 
 		//Actual pop-up
 		if (ImGui::BeginPopupContextItem("New Object"))

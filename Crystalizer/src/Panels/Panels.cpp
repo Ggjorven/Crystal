@@ -15,6 +15,8 @@
 namespace Crystal
 {
 
+	Panels* Panels::s_Instance = nullptr;
+
 	Ref<Texture2D> Panels::s_ButtonTex = nullptr;
 
 	Panels::ButtonState Panels::s_ButtonState = Panels::ButtonState::Play;
@@ -25,6 +27,8 @@ namespace Crystal
 	Panels::Panels(Ref<Project>& project)
 		: m_Project(project), m_SelectedEntity(nullptr)
 	{
+		s_Instance = this;
+
 		std::string path = Utils::GetEnviromentVariable("CRYSTAL_DIR");
 		m_CheckerboardTex = Texture2D::Create(path + "\\Crystalizer\\assets\\textures\\Checkerboard.tga");
 
@@ -41,6 +45,7 @@ namespace Crystal
 
 	Panels::~Panels()
 	{
+		s_Instance = nullptr;
 	}
 
 	void Panels::TexturePanel(const std::string_view& name, Ref<Texture2D>& changeAbleTexture, bool* useTexture)

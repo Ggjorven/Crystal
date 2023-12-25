@@ -188,6 +188,22 @@ namespace Crystal
 			emitter << YAML::EndMap; // Renderer2DComponent
 		}
 
+		if (entity->HasComponent<ECS::Renderer3DComponent>())
+		{
+			auto& r2d = entity->GetComponent<ECS::Renderer3DComponent>();
+			emitter << YAML::Key << "Renderer3DComponent";
+			emitter << YAML::BeginMap; // Renderer3DComponent
+
+			emitter << YAML::Key << "Enable" << r2d.Enable;
+			if (r2d.Texture)
+				emitter << YAML::Key << "Texture" << r2d.Texture->GetProjectRelativePath();
+			emitter << YAML::Key << "Colour" << r2d.Colour;
+			emitter << YAML::Key << "UseTexture" << r2d.UseTexture;
+			emitter << YAML::Key << "UseColour" << r2d.UseColour;
+
+			emitter << YAML::EndMap; // Renderer3DComponent
+		}
+
 		if (entity->HasComponent<ECS::ColliderComponent>())
 		{
 			auto& cc = entity->GetComponent<ECS::ColliderComponent>();
@@ -278,6 +294,28 @@ namespace Crystal
 			r2d.Colour = renderer2DComponent["Colour"].as<glm::vec4>();
 			r2d.UseTexture = renderer2DComponent["UseTexture"].as<bool>();
 			r2d.UseColour = renderer2DComponent["UseColour"].as<bool>();
+		}
+
+		//Renderer3DComponent
+		auto renderer3DComponent = node["Renderer3DComponent"];
+		if (renderer3DComponent)
+		{
+			ECS::Renderer3DComponent& r3d = entity->AddComponent<ECS::Renderer3DComponent>();
+
+			r3d.Enable = renderer3DComponent["Enable"].as<bool>();
+			if (renderer3DComponent["Texture"] && !renderer3DComponent["Texture"].as<std::string>().empty())
+			{
+				std::filesystem::path projDir = Project::GetCurrentProject()->GetProjectDir();
+				std::filesystem::path assetDir = Project::GetCurrentProject()->GetAssetDir();
+
+				r3d.Texture = Texture2D::Create((projDir / assetDir / std::filesystem::path(renderer3DComponent["Texture"].as<std::string>())).string());
+			}
+			else
+				r3d.Texture = nullptr;
+
+			r3d.Colour = renderer3DComponent["Colour"].as<glm::vec4>();
+			r3d.UseTexture = renderer3DComponent["UseTexture"].as<bool>();
+			r3d.UseColour = renderer3DComponent["UseColour"].as<bool>();
 		}
 
 		//ColliderComponent

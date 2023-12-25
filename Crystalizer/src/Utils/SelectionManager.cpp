@@ -58,7 +58,7 @@ namespace Crystal
 		return false;
 	}
 
-	void SelectionManager::HandleSelection()
+	void SelectionManager::HandleSelection() // TODO(Jorben): Fix zoom && add 3D support
 	{
 		// Get viewport position and size
 		float viewportX = (float)Application::Get().GetWindow().GetViewportX();
@@ -66,8 +66,8 @@ namespace Crystal
 		float viewportHeight = (float)Application::Get().GetWindow().GetViewportHeight();
 
 		// Get camera position and zoom
-		auto cameraPosition = Project::GetCurrentProject()->GetCurrentScene()->GetEditorCamera()->GetPosition();
-		float zoom = Project::GetCurrentProject()->GetCurrentScene()->GetEditorCamera()->GetZoom();
+		auto cameraPosition = Project::GetCurrentProject()->GetCurrentScene()->GetEditorCamera2D()->GetPosition();
+		float zoom = Project::GetCurrentProject()->GetCurrentScene()->GetEditorCamera2D()->GetZoom();
 
 		// Get mouse position and adjust it relative to the viewport
 		MousePosition rawPosition = Input::GetMousePosition();
@@ -104,7 +104,7 @@ namespace Crystal
 	{
 		constexpr const float Size = 4.f;
 
-		Ref<OrthoGraphicCamera>& camera = Project::GetCurrentProject()->GetCurrentScene()->GetEditorCamera()->GetCamera();
+		Ref<OrthoGraphicCamera>& camera = Project::GetCurrentProject()->GetCurrentScene()->GetEditorCamera2D()->GetCamera();
 
 		// Left
 		Renderer2D::DrawQuad(Vec2<float>(position.x - Size, position.y - Size), Vec2<float>(Size, size.y + (Size * 2.0f)), Vec2<float>(Size / 2.0f, ( size.y + (Size * 2.0f)) / 2.0f), Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), false, camera);

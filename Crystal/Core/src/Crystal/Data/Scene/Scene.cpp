@@ -16,7 +16,7 @@ namespace Crystal
 		: m_DebugName(debugName), m_SceneID(UUIDGenerator::GenerateUUID())
 	{
 		//CR_CORE_TRACE("Scene");
-		m_EditorCamera = CreateRef<EditorCamera>();
+		m_EditorCamera2D = CreateRef<EditorCamera2D>();
 	}
 
 	Scene::~Scene()
@@ -167,7 +167,7 @@ namespace Crystal
 
 
 	Scene2D::Scene2D(const std::string& debugName)
-		: Scene(debugName), m_Renderer(m_Storage, m_EditorCamera->GetCamera())
+		: Scene(debugName), m_Renderer(m_Storage, m_EditorCamera2D->GetCamera())
 	{
 	}
 
@@ -183,7 +183,7 @@ namespace Crystal
 
 		case SceneState::Editor:
 		{
-			m_EditorCamera->OnUpdate(ts);
+			m_EditorCamera2D->OnUpdate(ts);
 			m_FirstUpdate = true;
 			break;
 		}
@@ -204,7 +204,7 @@ namespace Crystal
 			Scene::UpdateCollisions();
 
 			m_FirstUpdate = false;
-			m_EditorCamera->OnUpdate(ts); // TODO(Jorben): Remove and replace with runtime camera
+			m_EditorCamera2D->OnUpdate(ts); // TODO(Jorben): Remove and replace with runtime camera
 			break;
 		}
 
@@ -226,7 +226,7 @@ namespace Crystal
 
 	void Scene2D::OnEvent(Event& e)
 	{
-		m_EditorCamera->OnEvent(e);
+		m_EditorCamera2D->OnEvent(e);
 	}
 
 	void Scene2D::SaveScene()
@@ -245,7 +245,93 @@ namespace Crystal
 	void Scene2D::OnRenderRuntime()
 	{
 		// TODO(Jorben): Add runtime kind of camera
-		m_Renderer.RenderScene(m_EditorCamera->GetCamera());
+		m_Renderer.RenderScene(m_EditorCamera2D->GetCamera());
+	}
+
+	Scene3D::Scene3D(const std::string& debugName) // TODO(Jorben): Add Renderer2D too
+		: Scene(debugName), m_EditorCamera3D(CreateRef<EditorCamera3D>()), m_Renderer(m_Storage)
+	{
+		m_Renderer.SetCamera(m_EditorCamera3D->GetCamera());
+	}
+
+	Scene3D::~Scene3D()
+	{
+	}
+
+	void Scene3D::OnUpdate(Timestep& ts)
+	{
+		// TODO(Jorben): Add runtime camera
+		switch (m_State)
+		{
+
+		case SceneState::Editor:
+		{
+			m_EditorCamera2D->OnUpdate(ts);
+			m_EditorCamera3D->OnUpdate(ts);
+			m_FirstUpdate = true;
+			break;
+		}
+
+		case SceneState::Runtime:
+		{
+			for (auto& sc : m_Storage.GetComponentsMap<ECS::ScriptComponent>())
+			{
+				auto& scC = m_Storage.GetComponent<ECS::ScriptComponent>(sc.first);
+				if (m_FirstUpdate)
+				{
+					scC.Script->UpdateValueFieldsValues();
+					scC.Script->OnCreate();
+				}
+				scC.Script->OnUpdate(ts);
+			}
+
+			Scene::UpdateCollisions();
+
+			m_FirstUpdate = false;
+			m_EditorCamera3D->OnUpdate(ts); // TODO(Jorben): Remove and replace with runtime camera
+			m_EditorCamera3D->OnUpdate(ts); // TODO(Jorben): Remove and replace with runtime camera
+			break;
+		}
+
+		}
+	}
+
+	void Scene3D::OnRender()
+	{
+		switch (m_State)
+		{
+		case SceneState::Editor:
+			OnRenderEditor();
+			break;
+		case SceneState::Runtime:
+			OnRenderRuntime();
+			break;
+		}
+	}
+
+	void Scene3D::OnEvent(Event& e)
+	{
+		m_EditorCamera2D->OnEvent(e);
+		m_EditorCamera3D->OnEvent(e);
+	}
+
+	void Scene3D::SaveScene()
+	{
+		auto proj = Project::GetCurrentProject();
+
+		SceneSerializer serializer((Scene*)this);
+		serializer.Serialize(proj->GetProjectDir() / proj->GetSceneDir() / m_Properties.Path);
+	}
+
+	void Scene3D::OnRenderEditor()
+	{
+		m_Renderer.RenderScene();
+	}
+
+	void Scene3D::OnRenderRuntime()
+	{
+		// TODO(Jorben): Add runtime kind of camera
+		m_Renderer.RenderScene(m_EditorCamera3D->GetCamera());
 	}
 
 }

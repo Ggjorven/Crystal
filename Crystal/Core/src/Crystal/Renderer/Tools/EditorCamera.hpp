@@ -6,17 +6,18 @@
 #include "Crystal/Core/Events/Codes/KeyCodes.hpp"
 
 #include "Crystal/Renderer/2D/OrthoGraphicCamera.hpp"
+#include "Crystal/Renderer/3D/PerspectiveCamera.hpp"
 
 #include <glm/glm.hpp>
 
 namespace Crystal
 {
 
-	class EditorCamera
+	class EditorCamera2D
 	{
 	public:
-		EditorCamera();
-		virtual ~EditorCamera();
+		EditorCamera2D();
+		virtual ~EditorCamera2D();
 
 		void OnUpdate(Timestep& ts);
 		void OnEvent(Event& e);
@@ -41,6 +42,30 @@ namespace Crystal
 		float m_Zoom = 1.0f;
 		//float m_MovementSpeed = 400.0f
 		MousePosition m_LastMousePosition;
+	};
+
+	class EditorCamera3D
+	{
+	public:
+		EditorCamera3D();
+		virtual ~EditorCamera3D();
+
+		void OnUpdate(Timestep& ts);
+		void OnEvent(Event& e);
+
+		inline Ref<PerspectiveCamera>& GetCamera() { return m_Camera; }
+
+	private:
+		bool MousePressedEvent(MouseButtonPressedEvent& e);
+		bool KeyEvent(KeyPressedEvent& e);
+
+	private:
+		Ref<PerspectiveCamera> m_Camera;
+		MousePosition m_LastMousePosition;
+		bool m_FirstUpdate = true;
+
+		float m_MovementSpeed;
+		float m_MouseSensitivity;
 	};
 
 }

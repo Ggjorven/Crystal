@@ -61,6 +61,22 @@ namespace Crystal::ECS
 	Renderer2DComponent::~Renderer2DComponent() { }
 
 
+	Renderer3DComponent::Renderer3DComponent() = default;
+
+	Renderer3DComponent::Renderer3DComponent(const Renderer3DComponent& other) = default;
+
+	Renderer3DComponent::Renderer3DComponent(const Vec4<float>& colour)
+		: Colour(colour), UseTexture(false), UseColour(true) {}
+
+	Renderer3DComponent::Renderer3DComponent(Ref<Texture2D> texture)
+		: Texture(texture), UseTexture(true), UseColour(false) {}
+
+	Renderer3DComponent::Renderer3DComponent(Ref<Texture2D> texture, const Vec4<float>& colour)
+		: Texture(texture), Colour(colour), UseTexture(true), UseColour(false) {}
+
+	Renderer3DComponent::~Renderer3DComponent() { }
+
+
 	ColliderComponent::ColliderComponent() = default;
 
 	ColliderComponent::ColliderComponent(const ColliderComponent& other) = default;

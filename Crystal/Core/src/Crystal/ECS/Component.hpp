@@ -69,6 +69,26 @@ namespace Crystal::ECS
 		virtual ~Renderer2DComponent();
 	};
 
+	// TODO(Jorben): Add like different types/models
+	struct Renderer3DComponent : public Component
+	{
+	public:
+		bool Enable = true;
+		Vec4<float> Colour = { 1.0f, 1.0f, 1.0f, 1.0f };
+		Ref<Texture2D> Texture = nullptr;
+
+		bool UseTexture = false;
+		bool UseColour = true;
+
+	public:
+		Renderer3DComponent();
+		Renderer3DComponent(const Renderer3DComponent& other);
+		Renderer3DComponent(const Vec4<float>& colour);
+		Renderer3DComponent(Ref<Texture2D> texture);
+		Renderer3DComponent(Ref<Texture2D> texture, const Vec4<float>& colour);
+		virtual ~Renderer3DComponent();
+	};
+
 	struct ColliderComponent : public Component
 	{
 	public:

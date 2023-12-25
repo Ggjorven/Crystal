@@ -1,0 +1,28 @@
+Scene: ""
+Assemblies:
+  []
+ClearColour: [0, 0, 0, 1]
+Entities:
+  - Entity: 7294843200858172364
+    TagComponent:
+      Tag: ""
+    TransformComponent:
+      Position: [0, 0, 0]
+      Size: [2, 2, 2]
+      Rotation: 0
+    Renderer3DComponent:
+      Enable: true
+      Texture: ..\..\..\assets\textures\Mario.png
+      Colour: [0.75, 0.19972828, 0.19972828, 1]
+      UseTexture: false
+      UseColour: true
+  - Entity: 7312158401741766665
+    TransformComponent:
+      Position: [2, 0, 2]
+      Size: [1, 1, 1]
+      Rotation: 0
+    Renderer3DComponent:
+      Enable: true
+      Colour: [1, 1, 1, 1]
+      UseTexture: false
+      UseColour: true

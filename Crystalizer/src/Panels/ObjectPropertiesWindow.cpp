@@ -70,9 +70,14 @@ namespace Crystal
 						m_SelectedEntity->AddComponent<ECS::TransformComponent>();
 					}
 
-					if (!m_SelectedEntity->HasComponent<ECS::Renderer2DComponent>() && ImGui::MenuItem("Renderer2D"))
+					if (!m_SelectedEntity->HasComponent<ECS::Renderer2DComponent>() && m_Project->GetCurrentScene()->GetProperties().SceneType == SceneProperties::Type::_2D && ImGui::MenuItem("Renderer2D"))
 					{
 						m_SelectedEntity->AddComponent<ECS::Renderer2DComponent>();
+					}
+
+					if (!m_SelectedEntity->HasComponent<ECS::Renderer3DComponent>() && m_Project->GetCurrentScene()->GetProperties().SceneType == SceneProperties::Type::_3D && ImGui::MenuItem("Renderer3D"))
+					{
+						m_SelectedEntity->AddComponent<ECS::Renderer3DComponent>();
 					}
 
 					if (!m_SelectedEntity->HasComponent<ECS::ColliderComponent>() && ImGui::MenuItem("Collider"))
@@ -163,6 +168,45 @@ namespace Crystal
 
 				}
 				HandleComponentOptions<ECS::Renderer2DComponent>(co, m_SelectedEntity->GetUUID());
+			}
+
+			if (m_SelectedEntity->HasComponent<ECS::Renderer3DComponent>())
+			{
+				auto& r3d = m_SelectedEntity->GetComponent<ECS::Renderer3DComponent>();
+				UI::ComponentOptions co;
+				if (UI::BeginECSComponent("Renderer3DComponent", co, s_Icons[(int)Icon::Renderer2D])) // TODO(Jorben): Add right click enabled/disabled functionality && make Icon 3D
+				{
+					//ImGui::Checkbox("Enabled", &r2d->Enable);
+					TexturePanel("Texture", r3d.Texture, &r3d.UseTexture);
+
+					ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.f);
+
+					ImGui::SameLine();
+					ImGui::Dummy(ImVec2(50.0f, 0.0f));
+					ImGui::SameLine();
+
+					UI::Tools::SetContextFontSize(2.f);
+					ImGui::ColorEdit4("Colour", r3d.Colour.GetData(), ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_NoOptions | ImGuiColorEditFlags_NoPicker | ImGuiColorEditFlags_NoTooltip);
+					UI::Tools::SetContextFontSize(0.0f);
+
+					if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+					{
+						ImGui::OpenPopup("ColorPickerPopup");
+					}
+
+					if (ImGui::BeginPopup("ColorPickerPopup"))
+					{
+						ImGui::ColorPicker4("ColorPicker", r3d.Colour.GetData());
+						ImGui::EndPopup();
+					}
+
+					ImGui::PopStyleVar(1);
+
+					ImGui::SameLine();
+					ImGui::Checkbox("Use", &r3d.UseColour);
+
+				}
+				HandleComponentOptions<ECS::Renderer3DComponent>(co, m_SelectedEntity->GetUUID());
 			}
 
 			if (m_SelectedEntity->HasComponent<ECS::ColliderComponent>())

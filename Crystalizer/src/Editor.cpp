@@ -42,7 +42,6 @@ void EditorLayer::OnAttach()
 		serializer.Deserialize(m_Path);
 	}
 	
-	
 	const char* settings = R"(
 [Window][DockSpaceViewport_11111111]
 Pos=0,19
@@ -147,7 +146,7 @@ void EditorLayer::OnUpdate(Timestep& ts)
 
 	m_Project->SetState((m_Running ? Project::State::Runtime : Project::State::Editor));
 	m_Project->OnUpdate(ts);
-	if (!m_Running) m_SelectionManager.OnUpdate(ts);
+	//if (!m_Running) m_SelectionManager.OnUpdate(ts);
 
 	// AutoSave
 	if (!m_Running)
@@ -185,7 +184,7 @@ void EditorLayer::OnRender()
 	m_Project->OnRender();
 	
 	//Renderer2D::DrawQuad({ 100.0f, 100.0f }, { 512.f, 512.f }, m_Texture, false, m_Project->GetCurrentScene()->GetEditorCamera()->GetCamera());
-	if (!m_Running) m_SelectionManager.OnRender();
+	//if (!m_Running) m_SelectionManager.OnRender();
 
 	m_FrameBuffer->Unbind();
 }
@@ -214,7 +213,7 @@ void EditorLayer::OnEvent(Event& e)
 	handler.Handle<WindowCloseEvent>(CR_BIND_EVENT_FN(EditorLayer::WindowClose));
 	
 	m_Project->OnEvent(e);
-	if (!m_Running) m_SelectionManager.OnEvent(e);
+	//if (!m_Running) m_SelectionManager.OnEvent(e);
 }
 
 bool EditorLayer::InWindow(ImVec2 windowPos, ImVec2 windowSize, MousePosition mousePosition)

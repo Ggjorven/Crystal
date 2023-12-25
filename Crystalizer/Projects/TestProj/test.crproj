@@ -12,3 +12,7 @@ Scenes:
       Name: New
       Path: New.crscene
       Type: 2D
+  - Scene:
+      Name: New3D
+      Path: New3D.crscene
+      Type: 3D

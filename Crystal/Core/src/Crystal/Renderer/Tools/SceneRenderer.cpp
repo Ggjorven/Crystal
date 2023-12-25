@@ -21,7 +21,7 @@ namespace Crystal
 		for (auto& r2dC : m_Storage.GetComponentsMap<ECS::Renderer2DComponent>())
 		{
 			CR_UUID uuid = r2dC.first;
-			if (m_Storage.HasComponent<ECS::TransformComponent>(uuid)) // Note(Jorben): Remove r2d.Enable maybe put it back sometime
+			if (m_Storage.HasComponent<ECS::TransformComponent>(uuid)) // Note(Jorben): Removed r2d.Enable maybe put it back sometime
 			{
 				auto& r2d = m_Storage.GetComponent<ECS::Renderer2DComponent>(uuid);
 				auto& transform = m_Storage.GetComponent<ECS::TransformComponent>(uuid);
@@ -41,7 +41,7 @@ namespace Crystal
 		for (auto& r2dC : m_Storage.GetComponentsMap<ECS::Renderer2DComponent>())
 		{
 			CR_UUID uuid = r2dC.first;
-			if (m_Storage.HasComponent<ECS::TransformComponent>(uuid)) // Note(Jorben): Remove r2d.Enable maybe put it back sometime
+			if (m_Storage.HasComponent<ECS::TransformComponent>(uuid)) // Note(Jorben): Removed r2d.Enable maybe put it back sometime
 			{
 				auto& r2d = m_Storage.GetComponent<ECS::Renderer2DComponent>(uuid);
 				auto& transform = m_Storage.GetComponent<ECS::TransformComponent>(uuid);
@@ -61,7 +61,7 @@ namespace Crystal
 		for (auto& r2dC : storage.GetComponentsMap<ECS::Renderer2DComponent>())
 		{
 			CR_UUID uuid = r2dC.first;
-			if (storage.HasComponent<ECS::TransformComponent>(uuid)) // Note(Jorben): Remove r2d.Enable maybe put it back sometime
+			if (storage.HasComponent<ECS::TransformComponent>(uuid)) // Note(Jorben): Removed r2d.Enable maybe put it back sometime
 			{
 				auto& r2d = storage.GetComponent<ECS::Renderer2DComponent>(uuid);
 				auto& transform = storage.GetComponent<ECS::TransformComponent>(uuid);
@@ -72,6 +72,80 @@ namespace Crystal
 					Renderer2D::DrawQuad(Vec2<float>(transform.Position.x, transform.Position.y), Vec2<float>(transform.Size.x, transform.Size.y), Vec2<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f), r2d.Colour, false, camera);
 				else
 					Renderer2D::DrawQuad(Vec2<float>(transform.Position.x, transform.Position.y), Vec2<float>(transform.Size.x, transform.Size.y), Vec2<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f), Vec4<float>(1.0f, 1.0f, 1.0f, 1.0f), false, camera);
+			}
+		}
+	}
+
+	SceneRenderer3D::SceneRenderer3D(ECS::Storage& storage)
+		: m_Storage(storage)
+	{
+	}
+
+	SceneRenderer3D::SceneRenderer3D(ECS::Storage& storage, Ref<PerspectiveCamera>& camera)
+		: m_Storage(storage), m_Camera(camera)
+	{
+	}
+
+	SceneRenderer3D::~SceneRenderer3D()
+	{
+	}
+
+	void SceneRenderer3D::RenderScene() // TODO(Jorben): Add a way to also render 2D elements
+	{
+		for (auto& r3dC : m_Storage.GetComponentsMap<ECS::Renderer3DComponent>())
+		{
+			CR_UUID uuid = r3dC.first;
+			if (m_Storage.HasComponent<ECS::TransformComponent>(uuid)) // Note(Jorben): Removed r3d.Enable maybe put it back sometime
+			{
+				auto& r3d = m_Storage.GetComponent<ECS::Renderer3DComponent>(uuid);
+				auto& transform = m_Storage.GetComponent<ECS::TransformComponent>(uuid);
+
+				if (r3d.Texture && r3d.UseTexture) // TODO(Jorben): Add textured cubes and more
+					Renderer3D::DrawCube(transform.Position, transform.Size, Vec3<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f, transform.Size.z / 2.0f), r3d.Colour, false, m_Camera);
+				else if (r3d.UseColour)
+					Renderer3D::DrawCube(transform.Position, transform.Size, Vec3<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f, transform.Size.z / 2.0f), r3d.Colour, false, m_Camera);
+				else
+					Renderer3D::DrawCube(transform.Position, transform.Size, Vec3<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f, transform.Size.z / 2.0f), Vec4<float>(1.0f, 1.0f, 1.0f, 1.0f), false, m_Camera);
+			}
+		}
+	}
+
+	void SceneRenderer3D::RenderScene(Ref<PerspectiveCamera>& camera)
+	{
+		for (auto& r3dC : m_Storage.GetComponentsMap<ECS::Renderer3DComponent>())
+		{
+			CR_UUID uuid = r3dC.first;
+			if (m_Storage.HasComponent<ECS::TransformComponent>(uuid)) // Note(Jorben): Removed r3d.Enable maybe put it back sometime
+			{
+				auto& r3d = m_Storage.GetComponent<ECS::Renderer3DComponent>(uuid);
+				auto& transform = m_Storage.GetComponent<ECS::TransformComponent>(uuid);
+
+				if (r3d.Texture && r3d.UseTexture) // TODO(Jorben): Add textured cubes and more
+					Renderer3D::DrawCube(transform.Position, transform.Size, Vec3<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f, transform.Size.z / 2.0f), r3d.Colour, false, camera);
+				else if (r3d.UseColour)
+					Renderer3D::DrawCube(transform.Position, transform.Size, Vec3<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f, transform.Size.z / 2.0f), r3d.Colour, false, camera);
+				else
+					Renderer3D::DrawCube(transform.Position, transform.Size, Vec3<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f, transform.Size.z / 2.0f), Vec4<float>(1.0f, 1.0f, 1.0f, 1.0f), false, camera);
+			}
+		}
+	}
+
+	void SceneRenderer3D::RenderScene(ECS::Storage& storage, Ref<PerspectiveCamera>& camera)
+	{
+		for (auto& r3dC : storage.GetComponentsMap<ECS::Renderer3DComponent>())
+		{
+			CR_UUID uuid = r3dC.first;
+			if (storage.HasComponent<ECS::TransformComponent>(uuid)) // Note(Jorben): Removed r3d.Enable maybe put it back sometime
+			{
+				auto& r3d = storage.GetComponent<ECS::Renderer3DComponent>(uuid);
+				auto& transform = storage.GetComponent<ECS::TransformComponent>(uuid);
+
+				if (r3d.Texture && r3d.UseTexture) // TODO(Jorben): Add textured cubes and more
+					Renderer3D::DrawCube(transform.Position, transform.Size, Vec3<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f, transform.Size.z / 2.0f), r3d.Colour, false, camera);
+				else if (r3d.UseColour)
+					Renderer3D::DrawCube(transform.Position, transform.Size, Vec3<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f, transform.Size.z / 2.0f), r3d.Colour, false, camera);
+				else
+					Renderer3D::DrawCube(transform.Position, transform.Size, Vec3<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f, transform.Size.z / 2.0f), Vec4<float>(1.0f, 1.0f, 1.0f, 1.0f), false, camera);
 			}
 		}
 	}

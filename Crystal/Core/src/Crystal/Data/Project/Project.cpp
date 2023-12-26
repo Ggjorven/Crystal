@@ -96,9 +96,8 @@ namespace Crystal
 		serializer.Deserialize(m_ProjectDir / m_SceneDir / properties.Path);
 	}
 
-	void Project::LoadScene3D(const SceneProperties& properties) // TODO
+	void Project::LoadScene3D(const SceneProperties& properties)
 	{
-		//CR_CORE_ASSERT(false, "Not supported.")
 		m_ActiveScene = CreateRef<Scene3D>();
 		m_ActiveScene->SetProperties(properties);
 

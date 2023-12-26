@@ -115,10 +115,8 @@ namespace Crystal
                 moveDirection += area.Right;
 
             // Calculate up/down movement.
-            /*
             if (Input::IsKeyPressed(CR_KEY_SPACE))
                 moveDirection += area.Up;
-            */
             if (Input::IsKeyPressed(CR_KEY_LEFT_SHIFT))
                 moveDirection -= area.Up;
 

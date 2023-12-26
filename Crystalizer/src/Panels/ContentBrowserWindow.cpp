@@ -20,15 +20,11 @@ namespace Crystal
 			{
 				m_Project->SaveScene();
 				m_StartUp = true;
+
+				m_SelectedEntity = nullptr;
 				SelectionManager::Get()->ResetSelected();
 
-				CR_CORE_TRACE("Loading scene: {0}", scene.Path.string());
-
 				m_Project->SetScene(scene);
-				CR_CORE_TRACE("--Scene--");
-				CR_CORE_TRACE("Name: {0}", scene.Name);
-				CR_CORE_TRACE("Path: {0}", scene.Path.string());
-				CR_CORE_TRACE("Type: {0}", (int)scene.SceneType);
 			}
 			ImGui::SameLine();
 		}

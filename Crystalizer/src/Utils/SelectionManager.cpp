@@ -26,13 +26,24 @@ namespace Crystal
 
 	void SelectionManager::OnRender()
 	{
-		if (!m_Selected) return;
-
-		if (m_Selected->HasComponent<ECS::TransformComponent>())
+		if (m_Selected == nullptr)
+		{
+			return;
+		}
+		else if (m_Selected->HasComponent<ECS::TransformComponent>())
 		{
 			ECS::TransformComponent& transform = m_Selected->GetComponent<ECS::TransformComponent>();
+			
+			switch (Project::GetCurrentProject()->GetCurrentScene()->GetProperties().SceneType)
+			{
+			case SceneProperties::Type::_2D:
+				DrawSelectedSquare(Vec2<float>(transform.Position.x, transform.Position.y), Vec2<float>(transform.Size.x, transform.Size.y), Vec2<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f), SelectionState::Transform);
+				break;
 
-			DrawSelectedSquare(Vec2<float>(transform.Position.x, transform.Position.y), Vec2<float>(transform.Size.x, transform.Size.y), Vec2<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f), SelectionState::Transform);
+			case SceneProperties::Type::_3D: // TODO
+				//DrawSelectedSquare(Vec2<float>(transform.Position.x, transform.Position.y), Vec2<float>(transform.Size.x, transform.Size.y), Vec2<float>(transform.Size.x / 2.0f, transform.Size.y / 2.0f), SelectionState::Transform);
+				break;
+			}
 		}
 	}
 

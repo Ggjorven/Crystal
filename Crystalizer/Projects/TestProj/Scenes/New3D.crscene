@@ -13,7 +13,7 @@ Entities:
     Renderer3DComponent:
       Enable: true
       Texture: ..\..\..\assets\textures\Mario.png
-      Colour: [0.75, 0.19972828, 0.19972828, 1]
+      Colour: [0.442875713, 0.621676505, 0.684782624, 1]
       UseTexture: false
       UseColour: true
   - Entity: 7312158401741766665

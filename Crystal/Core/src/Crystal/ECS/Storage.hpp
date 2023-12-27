@@ -100,6 +100,7 @@ namespace Crystal::ECS
         void ReloadAssemblies();
 
         void DestroyObjects();
+        void DeleteEntity(CR_UUID uuid);
 
         template<typename ComponentType>
         std::unordered_map<CR_UUID, std::any>& GetComponentsMap()

@@ -13,6 +13,7 @@ namespace Crystal
 	class SceneRenderer2D
 	{
 	public:
+		SceneRenderer2D(ECS::Storage& storage);
 		SceneRenderer2D(ECS::Storage& storage, Ref<OrthoGraphicCamera>& camera);
 		virtual ~SceneRenderer2D();
 
@@ -25,10 +26,10 @@ namespace Crystal
 
 	private:
 		ECS::Storage& m_Storage;
-		Ref<OrthoGraphicCamera>& m_Camera;
+		Ref<OrthoGraphicCamera> m_Camera;
 	};
 
-	class SceneRenderer3D // TODO
+	class SceneRenderer3D
 	{
 	public:
 		SceneRenderer3D(ECS::Storage& storage);

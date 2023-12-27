@@ -1,6 +1,8 @@
 #include "crpch.h"
 #include "Component.hpp"
 
+#include  "Crystal/Core/Application.hpp"
+
 namespace Crystal::ECS
 {
 
@@ -99,4 +101,27 @@ namespace Crystal::ECS
 	ScriptComponent::ScriptComponent(const ScriptComponent& other) = default;
 
 	ScriptComponent::~ScriptComponent() { }
+
+
+	CameraComponent2D::CameraComponent2D()
+	{
+		const Window& window = Application::Get().GetWindow();
+
+		Camera = CreateRef<OrthoGraphicCamera>((float)window.GetViewportWidth() / 2.0f * -1, (float)window.GetViewportWidth() / 2.0f,
+			(float)window.GetViewportHeight() / 2.0f * -1, (float)window.GetViewportHeight() / 2.0f);
+	}
+
+	CameraComponent2D::CameraComponent2D(const CameraComponent2D& other) = default;
+
+
+	CameraComponent3D::CameraComponent3D()
+	{
+		const Window& window = Application::Get().GetWindow();
+		
+		Camera = CreateRef<PerspectiveCamera>((float)window.GetViewportWidth(), (float)window.GetViewportHeight());
+		Camera->UpdateArea();
+	}
+
+	CameraComponent3D::CameraComponent3D(const CameraComponent3D& other) = default;
+
 }

@@ -26,3 +26,6 @@ Entities:
       Colour: [1, 1, 1, 1]
       UseTexture: false
       UseColour: true
+  - Entity: 6272749393226466936
+    TagComponent:
+      Tag: Perspective-Camera

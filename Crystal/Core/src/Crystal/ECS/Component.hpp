@@ -6,6 +6,9 @@
 #include "Crystal/Scripting/EntityScript.hpp"
 #include "Crystal/ECS/ColliderComponents.hpp"
 
+#include "Crystal/Renderer/2D/OrthoGraphicCamera.hpp"
+#include "Crystal/Renderer/3D/PerspectiveCamera.hpp"
+
 #include <glm/glm.hpp>
 
 #include <memory>
@@ -113,18 +116,32 @@ namespace Crystal::ECS
 		virtual ~ScriptComponent();
 	};
 
-	/*
-	struct CameraComponent
+	struct CameraComponent2D : public Component
 	{
-		SceneCamera Camera;
+		Ref<OrthoGraphicCamera> Camera = nullptr;
+
+		Vec2<float> Position = { 0.0f, 0.0f };
+		float Zoom = 1.0f;
+		float Rotation = 0.0f;
+
 		bool Primary = true;
 
-		CameraComponent() = default;
-		CameraComponent(const CameraComponent& other) = default;
-
-		operator SceneCamera& () { return Camera; }
-		operator const SceneCamera& () const { return Camera; }
+		CameraComponent2D();
+		CameraComponent2D(const CameraComponent2D& other);
 	};
-	*/
+
+	struct CameraComponent3D : public Component
+	{
+		Ref<PerspectiveCamera> Camera = nullptr;
+
+		Vec3<float> Position = { 0.0f, 0.0f, 0.0f };
+		float Zoom = 1.0f;
+		float Rotation = 0.0f;
+
+		bool Primary = true;
+
+		CameraComponent3D();
+		CameraComponent3D(const CameraComponent3D& other);
+	};
 
 }

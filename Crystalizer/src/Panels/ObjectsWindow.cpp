@@ -59,7 +59,11 @@ namespace Crystal
 			}
 
 			//Create a selectable entity
-			if (ImGui::Selectable(name.c_str(), false, ImGuiSelectableFlags_SpanAllColumns)) // TODO(Jorben): Make it so you can see that it's selected so replace 'false'
+			bool selected = false;
+			if (m_SelectedEntity)
+				selected = (entity->GetUUID() == m_SelectedEntity->GetUUID());
+
+			if (ImGui::Selectable(name.c_str(), selected, ImGuiSelectableFlags_SpanAllColumns))
 			{
 				m_SelectedEntity = entity;
 			}
@@ -87,9 +91,34 @@ namespace Crystal
 					m_SelectedEntity = e;
 				}
 
-				if (ImGui::MenuItem("Camera")) // TODO(Jorben): Actually create a camera
+				if (ImGui::BeginMenu("Camera")) // TODO(Jorben): Actually create a camera
 				{
-					CR_CORE_TRACE("TODO");
+					if (ImGui::MenuItem("Orthographic"))
+					{
+						Ref<ECS::Entity> e = ECS::Entity::Create(m_Project->GetCurrentScene()->GetStorage(), "New");
+
+						auto& tag = e->AddComponent<ECS::TagComponent>();
+						tag.Tag = "OrthoGraphic-Camera";
+
+						e->AddComponent<ECS::CameraComponent2D>();
+
+						m_Project->GetCurrentScene()->AddEntity(e);
+						m_SelectedEntity = e;
+					}
+
+					if (ImGui::MenuItem("Perspective"))
+					{
+						Ref<ECS::Entity> e = ECS::Entity::Create(m_Project->GetCurrentScene()->GetStorage(), "New");
+
+						auto& tag = e->AddComponent<ECS::TagComponent>();
+						tag.Tag = "Perspective-Camera";
+
+						e->AddComponent<ECS::CameraComponent3D>();
+
+						m_Project->GetCurrentScene()->AddEntity(e);
+						m_SelectedEntity = e;
+					}
+					ImGui::EndMenu();
 				}
 				ImGui::EndMenu();
 			}
@@ -103,6 +132,12 @@ namespace Crystal
 					if (entities[i]->GetUUID() == deleteUUID)
 					{
 						entities.erase(entities.begin() + i);
+						
+						if (entities.size() > 0)
+							m_SelectedEntity = entities[i - 1];
+						else
+							m_SelectedEntity = nullptr;
+
 						break;
 					}
 				}

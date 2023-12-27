@@ -7,6 +7,11 @@
 namespace Crystal
 {
 
+	SceneRenderer2D::SceneRenderer2D(ECS::Storage& storage)
+		: m_Storage(storage)
+	{
+	}
+
 	SceneRenderer2D::SceneRenderer2D(ECS::Storage& storage, Ref<OrthoGraphicCamera>& camera)
 		: m_Storage(storage), m_Camera(camera)
 	{

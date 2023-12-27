@@ -199,10 +199,7 @@ void EditorLayer::OnImGuiRender()
 	ViewPort();
 	m_Panels->ObjectsWindow();
 	m_Panels->ObjectPropertiesWindow();
-	// TODO(Jorben): Add Assets/Scenes/etc browser
 	m_Panels->ContentBrowserWindow();
-
-	//ImGui::ShowStyleEditor();
 }
 
 void EditorLayer::OnEvent(Event& e)

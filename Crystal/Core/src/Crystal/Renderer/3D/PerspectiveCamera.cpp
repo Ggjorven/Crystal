@@ -24,7 +24,7 @@ namespace Crystal
 	{
 		EventHandler handler(e);
 
-		handler.Handle<WindowResizeEvent>(CR_BIND_EVENT_FN(PerspectiveCamera::OnWindowResize));
+		//handler.Handle<WindowResizeEvent>(CR_BIND_EVENT_FN(PerspectiveCamera::OnWindowResize));
 	}
 
 	void PerspectiveCamera::UpdateArea()

@@ -129,4 +129,17 @@ namespace Crystal::ECS
         }
     }
 
+    void Storage::DeleteEntity(CR_UUID uuid)
+    {
+        // Remove all components
+		RemoveComponent<ECS::TagComponent>(uuid);
+		RemoveComponent<ECS::TransformComponent>(uuid);
+		RemoveComponent<ECS::Renderer2DComponent>(uuid);
+		RemoveComponent<ECS::Renderer3DComponent>(uuid);
+		RemoveComponent<ECS::ScriptComponent>(uuid);
+		RemoveComponent<ECS::ColliderComponent>(uuid);
+		RemoveComponent<ECS::CameraComponent2D>(uuid);
+		RemoveComponent<ECS::CameraComponent3D>(uuid);
+    }
+
 }

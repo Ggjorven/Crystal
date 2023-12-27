@@ -244,8 +244,19 @@ namespace Crystal
 
 	void Scene2D::OnRenderRuntime()
 	{
-		// TODO(Jorben): Add runtime kind of camera
-		m_Renderer.RenderScene(m_EditorCamera2D->GetCamera());
+		Ref<OrthoGraphicCamera> camera = m_EditorCamera2D->GetCamera();
+
+		// TODO(Jorben): Make this loop only run once? and check for updates of camera another way?
+		for (auto& camC : m_Storage.GetComponentsMap<ECS::CameraComponent2D>())
+		{
+			auto& cam = m_Storage.GetComponent<ECS::CameraComponent2D>(camC.first);
+
+			// TODO(Jorben): Update the camera
+			if (cam.Primary)
+				camera = cam.Camera;
+		}
+
+		m_Renderer.RenderScene(camera);
 	}
 
 	Scene3D::Scene3D(const std::string& debugName) // TODO(Jorben): Add Renderer2D too
@@ -288,7 +299,7 @@ namespace Crystal
 			Scene::UpdateCollisions();
 
 			m_FirstUpdate = false;
-			m_EditorCamera3D->OnUpdate(ts); // TODO(Jorben): Remove and replace with runtime camera
+			m_EditorCamera2D->OnUpdate(ts); // TODO(Jorben): Remove and replace with runtime camera
 			m_EditorCamera3D->OnUpdate(ts); // TODO(Jorben): Remove and replace with runtime camera
 			break;
 		}
@@ -330,8 +341,19 @@ namespace Crystal
 
 	void Scene3D::OnRenderRuntime()
 	{
-		// TODO(Jorben): Add runtime kind of camera
-		m_Renderer.RenderScene(m_EditorCamera3D->GetCamera());
+		Ref<PerspectiveCamera> camera = m_EditorCamera3D->GetCamera();
+
+		// TODO(Jorben): Make this loop only run once? and check for updates of camera another way?
+		for (auto& camC : m_Storage.GetComponentsMap<ECS::CameraComponent3D>())
+		{
+			auto& cam = m_Storage.GetComponent<ECS::CameraComponent3D>(camC.first);
+
+			// TODO(Jorben): Update the camera
+			if (cam.Primary)
+				camera = cam.Camera;
+		}
+
+		m_Renderer.RenderScene(camera);
 	}
 
 }

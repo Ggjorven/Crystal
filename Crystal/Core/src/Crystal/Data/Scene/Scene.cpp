@@ -253,7 +253,12 @@ namespace Crystal
 
 			// TODO(Jorben): Update the camera
 			if (cam.Primary)
+			{
 				camera = cam.Camera;
+
+				camera->SetPosition(Vec3<float>(cam.Position.x, cam.Position.y, 0.0f));
+				//camera->SetProjection(); // TODO, zoom with width and heigth
+			}
 		}
 
 		m_Renderer.RenderScene(camera);
@@ -350,7 +355,12 @@ namespace Crystal
 
 			// TODO(Jorben): Update the camera
 			if (cam.Primary)
+			{
 				camera = cam.Camera;
+
+				camera->UpdateArea();
+				camera->UpdateMatrices();
+			}
 		}
 
 		m_Renderer.RenderScene(camera);

@@ -277,6 +277,40 @@ namespace Crystal
 				}
 				HandleComponentOptions<ECS::ScriptComponent>(co, m_SelectedEntity->GetUUID());
 			}
+
+			if (m_SelectedEntity->HasComponent<ECS::CameraComponent2D>())
+			{
+				auto& cc = m_SelectedEntity->GetComponent<ECS::CameraComponent2D>();
+
+				UI::ComponentOptions co;								// TODO(Jorben): Add proper icon
+				if (UI::BeginECSComponent("Camera Settings", co, s_Icons[(int)Icon::Script])) // TODO(Jorben): Add right click enabled/disabled functionality
+				{
+					// TODO(Jorben): Make this use a vec2
+					Vec3<float> temp(cc.Position.x, cc.Position.y, 0.0f);
+					UI::Vector3("Position##2D", temp, Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
+					ImGui::DragFloat("Zoom", &cc.Zoom);
+					ImGui::DragFloat("Rotation", &cc.Rotation);
+					ImGui::Checkbox("Primary", &cc.Primary);
+
+					cc.Position = Vec2<float>(temp.x, temp.y);
+				}
+				HandleComponentOptions<ECS::CameraComponent2D>(co, m_SelectedEntity->GetUUID());
+			}
+
+			if (m_SelectedEntity->HasComponent<ECS::CameraComponent3D>())
+			{
+				auto& cc = m_SelectedEntity->GetComponent<ECS::CameraComponent3D>();
+
+				UI::ComponentOptions co;								// TODO(Jorben): Add proper icon
+				if (UI::BeginECSComponent("Camera Settings", co, s_Icons[(int)Icon::Script])) // TODO(Jorben): Add right click enabled/disabled functionality
+				{
+					UI::Vector3("Position##3D", cc.Position, Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
+					ImGui::DragFloat("Zoom", &cc.Zoom);
+					ImGui::DragFloat("Rotation", &cc.Rotation);
+					ImGui::Checkbox("Primary", &cc.Primary);
+				}
+				HandleComponentOptions<ECS::CameraComponent2D>(co, m_SelectedEntity->GetUUID());
+			}
 		}
 
 		Panels::EndColours();

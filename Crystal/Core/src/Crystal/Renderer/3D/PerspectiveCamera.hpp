@@ -42,11 +42,13 @@ namespace Crystal
         PerspectiveCamera(float width, float height);
         virtual ~PerspectiveCamera();
 
-        void OnUpdate(Timestep& ts);
         void OnEvent(Event& e);
 
+        void UpdateAll() { UpdateMatrices(); UpdateArea(); }
+        void UpdateMatrices();
         void UpdateArea();
 
+        void SetPosition(Vec3<float> position) { m_Position = position; UpdateAll(); }
         Vec3<float>& GetPosition() { return m_Position; }
         
         MovementArea& GetArea() { return m_Area; }
@@ -56,9 +58,9 @@ namespace Crystal
         glm::mat4 GetProjectionMatrix() const { return m_ViewMatrix; }
         glm::mat4 GetViewProjectionMatrix() const { return m_ProjectionMatrix * m_ViewMatrix; }
 
-        void SetViewMatrix(const glm::mat4& view) { m_ViewMatrix = view; m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix; }
-        void SetProjectionMatrix(const glm::mat4& projection) { m_ProjectionMatrix = projection; m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix; }
-        void SetViewProjectionMatrix(const glm::mat4& viewProjectionMatrix) { m_ViewProjectionMatrix = viewProjectionMatrix; }
+        void SetViewMatrix(const glm::mat4& view) { m_ViewMatrix = view; m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix; UpdateAll(); }
+        void SetProjectionMatrix(const glm::mat4& projection) { m_ProjectionMatrix = projection; m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix; UpdateAll(); }
+        void SetViewProjectionMatrix(const glm::mat4& viewProjectionMatrix) { m_ViewProjectionMatrix = viewProjectionMatrix; UpdateAll(); }
 
     private:
         bool OnWindowResize(WindowResizeEvent& e);
@@ -66,9 +68,9 @@ namespace Crystal
     private:
         Vec3<float> m_Position = { 0.0f, 0.0f, 0.0f };
 
-        glm::mat4 m_ViewMatrix;
-        glm::mat4 m_ProjectionMatrix;
-        glm::mat4 m_ViewProjectionMatrix;
+        glm::mat4 m_ViewMatrix = { };
+        glm::mat4 m_ProjectionMatrix = { };
+        glm::mat4 m_ViewProjectionMatrix = { };
 
         MovementArea m_Area;
         CameraSettings m_Properties;

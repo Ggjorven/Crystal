@@ -230,11 +230,39 @@ namespace Crystal
 		{
 			auto& sc = entity->GetComponent<ECS::ScriptComponent>();
 			emitter << YAML::Key << "ScriptComponent";
-			emitter << YAML::BeginMap; // Renderer2DComponent
+			emitter << YAML::BeginMap; // ScriptComponent
 
 			emitter << YAML::Key << "Class" << sc.Script->GetClass();
 
-			emitter << YAML::EndMap; // Renderer2DComponent
+			emitter << YAML::EndMap; // ScriptComponent
+		}
+
+		if (entity->HasComponent<ECS::CameraComponent2D>())
+		{
+			auto& cc = entity->GetComponent<ECS::CameraComponent2D>();
+			emitter << YAML::Key << "CameraComponent2D";
+			emitter << YAML::BeginMap; // CameraComponent2D
+
+			emitter << YAML::Key << "Position" << glm::vec2(cc.Position);
+			emitter << YAML::Key << "Zoom" << cc.Zoom;
+			emitter << YAML::Key << "Rotation" << cc.Rotation;
+			emitter << YAML::Key << "Primary" << cc.Primary;
+
+			emitter << YAML::EndMap; // CameraComponent2D
+		}
+
+		if (entity->HasComponent<ECS::CameraComponent3D>())
+		{
+			auto& cc = entity->GetComponent<ECS::CameraComponent3D>();
+			emitter << YAML::Key << "CameraComponent3D";
+			emitter << YAML::BeginMap; // CameraComponent3D
+
+			emitter << YAML::Key << "Position" << glm::vec3(cc.Position);
+			emitter << YAML::Key << "Zoom" << cc.Zoom;
+			emitter << YAML::Key << "Rotation" << cc.Rotation;
+			emitter << YAML::Key << "Primary" << cc.Primary;
+
+			emitter << YAML::EndMap; // CameraComponent3D
 		}
 
 		emitter << YAML::EndMap; //Entity
@@ -344,6 +372,30 @@ namespace Crystal
 
 			sc.Script->SetUUID(entity->GetUUID());
 			sc.Script->SetClass(scriptComponent["Class"].as<std::string>());
+		}
+
+		//CameraComponent2D
+		auto cameraComponent2D = node["CameraComponent2D"];
+		if (cameraComponent2D)
+		{
+			ECS::CameraComponent2D& cc = entity->AddComponent<ECS::CameraComponent2D>();
+
+			cc.Position = node["Position"].as<glm::vec2>();
+			cc.Zoom = node["Zoom"].as<float>();
+			cc.Rotation = node["Rotation"].as<float>();
+			cc.Primary = node["Primary"].as<bool>();
+		}
+
+		//CameraComponent3D
+		auto cameraComponent3D = node["CameraComponent3D"];
+		if (cameraComponent3D)
+		{
+			ECS::CameraComponent3D& cc = entity->AddComponent<ECS::CameraComponent3D>();
+
+			cc.Position = node["Position"].as<glm::vec3>();
+			cc.Zoom = node["Zoom"].as<float>();
+			cc.Rotation = node["Rotation"].as<float>();
+			cc.Primary = node["Primary"].as<bool>();
 		}
 	}
 

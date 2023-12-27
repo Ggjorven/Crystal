@@ -94,7 +94,7 @@ namespace Crystal
     {
         const Window& window = Application::Get().GetWindow();
 
-        m_Camera->OnUpdate(ts);
+        m_Camera->UpdateMatrices();
         m_Camera->SetProjectionMatrix(glm::perspective(glm::radians(m_Camera->GetSettings().FOV), (float)window.GetViewportWidth() / (float)window.GetViewportHeight(), 0.1f, 100.0f));
 
         if (Input::IsKeyPressed(CR_KEY_LEFT_ALT))

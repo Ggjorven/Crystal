@@ -36,6 +36,8 @@ namespace Crystal
 		void SetStartUp(bool enabled) { m_StartUp = enabled; }
 		void SetSelectedEntity(Ref<ECS::Entity> entity) { m_SelectedEntity = entity; }
 
+		void CleanSelected();
+
 		static Panels* Get() { return s_Instance; }
 
 	public:

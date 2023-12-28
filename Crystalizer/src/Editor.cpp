@@ -416,6 +416,8 @@ void EditorLayer::ViewPort()
 			if (startScene != m_Project->GetCurrentScene()->GetProperties())
 			{
 				m_Panels->SetStartUp(true);
+				//m_Panels->CleanSelected();
+
 				m_Project->SetScene(startScene);
 			}
 		}
@@ -423,6 +425,7 @@ void EditorLayer::ViewPort()
 		{
 			startScene = m_Project->GetCurrentScene()->GetProperties();
 
+			m_Panels->CleanSelected();
 			m_Project->GetCurrentScene()->GetStorage().ReloadAssemblies();
 			m_Project->GetCurrentScene()->CopyStorage();
 		}

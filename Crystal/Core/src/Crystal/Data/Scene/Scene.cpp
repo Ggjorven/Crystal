@@ -265,7 +265,7 @@ namespace Crystal
 		for (auto& camC : m_Storage.GetComponentsMap<ECS::CameraComponent2D>())
 		{
 			auto& cam = m_Storage.GetComponent<ECS::CameraComponent2D>(camC.first);
-
+			//CR_CORE_TRACE("{0} Primary: {1}", camC.first, cam.Primary);
 			if (cam.Primary)
 			{
 				camera = cam.Camera;

@@ -75,8 +75,10 @@ namespace Crystal
 				deleteUUID = entity->GetUUID();
 			}
 		}
-		// TODO(Jorben) Add a better way to set the selected entity
-		SelectionManager::Get()->SetSelected(m_SelectedEntity);
+		// TODO(Jorben): Add a better way to set the selected entity
+		// TODO(Jorben): Fix selectionmanager crash
+		//if (s_ButtonState == ButtonState::Play) // Note(Jorben): The button shows play when not running
+			//SelectionManager::Get()->SetSelected(m_SelectedEntity);
 
 		//Actual pop-up
 		if (ImGui::BeginPopupContextItem("New Object"))
@@ -131,6 +133,7 @@ namespace Crystal
 				{
 					if (entities[i]->GetUUID() == deleteUUID)
 					{
+						m_Project->GetCurrentScene()->GetStorage().DeleteEntity(entities[i]->GetUUID());
 						entities.erase(entities.begin() + i);
 						
 						if (entities.size() > 0)

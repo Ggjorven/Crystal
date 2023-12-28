@@ -45,7 +45,7 @@ Entities:
     TagComponent:
       Tag: Mario
     TransformComponent:
-      Position: [921.981567, 64, 0]
+      Position: [31, 64, 0]
       Size: [64, 64, 0]
       Rotation: 0
     Renderer2DComponent:
@@ -58,7 +58,7 @@ Entities:
       AABB:
         Position-Link: true
         Size-Link: true
-        Position: [480.843292, 64, 0]
+        Position: [222.405823, 64, 0]
         Size: [64, 64, 0]
     ScriptComponent:
       Class: Test
@@ -154,7 +154,7 @@ Entities:
         Size-Link: true
         Position: [1055, 387, 0]
         Size: [64, 64, 0]
-  - Entity: 9602812538777132795
+  - Entity: 11263162384353422577
     TagComponent:
       Tag: OrthoGraphic-Camera
     ScriptComponent:

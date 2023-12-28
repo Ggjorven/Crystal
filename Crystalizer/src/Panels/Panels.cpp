@@ -213,6 +213,12 @@ namespace Crystal
 		
 	}
 
+	void Panels::CleanSelected()
+	{
+		m_SelectedEntity = nullptr; 
+		SelectionManager::Get()->ResetSelected();
+	}
+
 	void Panels::SwitchButtons()
 	{
 		if (s_ButtonState == ButtonState::Play)

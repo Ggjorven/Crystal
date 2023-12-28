@@ -12,7 +12,7 @@ namespace Crystal::ECS
 
     Entity::~Entity()
     {
-		m_Storage.DeleteEntity(m_UUID);
+		//m_Storage.DeleteEntity(m_UUID);
     }
 
     Ref<Entity> Entity::Create(ECS::Storage& storage, const std::string& name)

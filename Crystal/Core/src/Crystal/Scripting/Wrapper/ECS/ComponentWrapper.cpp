@@ -372,4 +372,350 @@ namespace Crystal::Wrapper
 	}
 
 
+	/*
+		CameraComponent2D
+	*/
+	void Component::CameraComponent2D_SetPositionX(uint64_t uuid, float x)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::CameraComponent2D>(uuid))
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent2D>(uuid);
+
+			cc.Position.x = x;
+		}
+		else
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::CameraComponent2D>(uuid);
+
+			cc.Position.x = x;
+		}
+	}
+
+	void Component::CameraComponent2D_SetPositionY(uint64_t uuid, float y)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::CameraComponent2D>(uuid))
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent2D>(uuid);
+
+			cc.Position.y = y;
+		}
+		else
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::CameraComponent2D>(uuid);
+
+			cc.Position.y = y;
+		}
+	}
+
+	void Component::CameraComponent2D_SetSizeX(uint64_t uuid, float size)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::CameraComponent2D>(uuid))
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent2D>(uuid);
+			
+			cc.Size.x = size;
+		}
+		else
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::CameraComponent2D>(uuid);
+
+			cc.Size.x = size;
+		}
+	}
+
+	void Component::CameraComponent2D_SetSizeY(uint64_t uuid, float size)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::CameraComponent2D>(uuid))
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent2D>(uuid);
+
+			cc.Size.y = size;
+		}
+		else
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::CameraComponent2D>(uuid);
+
+			cc.Size.y = size;
+		}
+	}
+
+	void Component::CameraComponent2D_SetZoom(uint64_t uuid, float zoom)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::CameraComponent2D>(uuid))
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent2D>(uuid);
+
+			cc.Zoom = zoom;
+		}
+		else
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::CameraComponent2D>(uuid);
+
+			cc.Zoom = zoom;
+		}
+	}
+
+	void Component::CameraComponent2D_SetRotation(uint64_t uuid, float rotation)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::CameraComponent2D>(uuid))
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent2D>(uuid);
+
+			cc.Rotation = rotation;
+		}
+		else
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::CameraComponent2D>(uuid);
+
+			cc.Rotation = rotation;
+		}
+	}
+
+	void Component::CameraComponent2D_SetPrimary(uint64_t uuid, bool primary)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::CameraComponent2D>(uuid))
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent2D>(uuid);
+
+			cc.Primary = primary;
+		}
+		else
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::CameraComponent2D>(uuid);
+
+			cc.Primary = primary;
+		}
+	}
+
+	float Component::CameraComponent2D_GetPositionX(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent2D>(uuid).Position.x;
+	}
+
+	float Component::CameraComponent2D_GetPositionY(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent2D>(uuid).Position.y;
+	}
+
+	float Component::CameraComponent2D_GetSizeX(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent2D>(uuid).Size.x;
+	}
+
+	float Component::CameraComponent2D_GetSizeY(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent2D>(uuid).Size.y;
+	}
+
+	float Component::CameraComponent2D_GetZoom(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent2D>(uuid).Zoom;
+	}
+
+	float Component::CameraComponent2D_GetRotation(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent2D>(uuid).Rotation;
+	}
+
+	bool Component::CameraComponent2D_GetPrimary(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent2D>(uuid).Primary;
+	}
+
+
+
+	/*
+		CameraComponent3D
+	*/
+	void Component::CameraComponent3D_SetPositionX(uint64_t uuid, float x)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::CameraComponent3D>(uuid))
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Position.x = x;
+		}
+		else
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Position.x = x;
+		}
+	}
+
+	void Component::CameraComponent3D_SetPositionY(uint64_t uuid, float y)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::CameraComponent3D>(uuid))
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Position.y = y;
+		}
+		else
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Position.y = y;
+		}
+	}
+
+	void Component::CameraComponent3D_SetPositionZ(uint64_t uuid, float z)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::CameraComponent3D>(uuid))
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Position.z = z;
+		}
+		else
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Position.z = z;
+		}
+	}
+
+	void Component::CameraComponent3D_SetSizeX(uint64_t uuid, float size)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::CameraComponent3D>(uuid))
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Size.x = size;
+		}
+		else
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Size.x = size;
+		}
+	}
+
+	void Component::CameraComponent3D_SetSizeY(uint64_t uuid, float size)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::CameraComponent3D>(uuid))
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Size.y = size;
+		}
+		else
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Size.y = size;
+		}
+	}
+
+	void Component::CameraComponent3D_SetZoom(uint64_t uuid, float zoom)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::CameraComponent3D>(uuid))
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Zoom = zoom;
+		}
+		else
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Zoom = zoom;
+		}
+	}
+
+	void Component::CameraComponent3D_SetRotation(uint64_t uuid, float rotation)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::CameraComponent3D>(uuid))
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Rotation = rotation;
+		}
+		else
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Rotation = rotation;
+		}
+	}
+
+	void Component::CameraComponent3D_SetPrimary(uint64_t uuid, bool primary)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::CameraComponent3D>(uuid))
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Primary = primary;
+		}
+		else
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Primary = primary;
+		}
+	}
+
+	void Component::CameraComponent3D_SetFOV(uint64_t uuid, float fov)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::CameraComponent3D>(uuid))
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.FOV = fov;
+		}
+		else
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.FOV = fov;
+		}
+	}
+
+	float Component::CameraComponent3D_GetPositionX(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid).Position.x;
+	}
+
+	float Component::CameraComponent3D_GetPositionY(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid).Position.y;
+	}
+
+	float Component::CameraComponent3D_GetPositionZ(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid).Position.z;
+	}
+
+	float Component::CameraComponent3D_GetSizeX(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid).Size.x;
+	}
+
+	float Component::CameraComponent3D_GetSizeY(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid).Size.y;
+	}
+
+	float Component::CameraComponent3D_GetZoom(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid).Zoom;
+	}
+
+	float Component::CameraComponent3D_GetRotation(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid).Rotation;
+	}
+
+	bool Component::CameraComponent3D_GetPrimary(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid).Primary;
+	}
+
+	float Component::CameraComponent3D_GetFOV(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid).FOV;
+	}
+
+
+
 }

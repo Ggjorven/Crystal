@@ -48,6 +48,7 @@ namespace Crystal
         void UpdateMatrices();
         void UpdateArea();
 
+        void SetAspectRatio(float width, float height) { m_AspectRatio = width / height; }
         void SetPosition(Vec3<float> position) { m_Position = position; UpdateAll(); }
         Vec3<float>& GetPosition() { return m_Position; }
         

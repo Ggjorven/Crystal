@@ -202,9 +202,24 @@ namespace Crystal
 			}
 
 			Scene::UpdateCollisions();
-
 			m_FirstUpdate = false;
-			m_EditorCamera2D->OnUpdate(ts); // TODO(Jorben): Remove and replace with runtime camera
+
+			// Update primary camera
+			for (auto& camC : m_Storage.GetComponentsMap<ECS::CameraComponent2D>())
+			{
+				auto& cam = m_Storage.GetComponent<ECS::CameraComponent2D>(camC.first);
+
+				if (cam.Primary)
+				{
+					auto& camera = cam.Camera;
+
+					camera->SetPosition(Vec3<float>(cam.Position.x, cam.Position.y, 0.0f));
+					camera->SetProjection(cam.Size.x / 2.0f * -1 * cam.Zoom, cam.Size.x / 2.0f * cam.Zoom,
+						cam.Size.y / 2.0f * -1 * cam.Zoom, cam.Size.y / 2.0f * cam.Zoom);
+					camera->SetRotation(cam.Rotation);
+					break;
+				}
+			}
 			break;
 		}
 
@@ -251,13 +266,10 @@ namespace Crystal
 		{
 			auto& cam = m_Storage.GetComponent<ECS::CameraComponent2D>(camC.first);
 
-			// TODO(Jorben): Update the camera
 			if (cam.Primary)
 			{
 				camera = cam.Camera;
-
-				camera->SetPosition(Vec3<float>(cam.Position.x, cam.Position.y, 0.0f));
-				//camera->SetProjection(); // TODO, zoom with width and heigth
+				break;
 			}
 		}
 
@@ -304,8 +316,24 @@ namespace Crystal
 			Scene::UpdateCollisions();
 
 			m_FirstUpdate = false;
-			m_EditorCamera2D->OnUpdate(ts); // TODO(Jorben): Remove and replace with runtime camera
-			m_EditorCamera3D->OnUpdate(ts); // TODO(Jorben): Remove and replace with runtime camera
+
+			// Update primary camera
+			for (auto& camC : m_Storage.GetComponentsMap<ECS::CameraComponent3D>())
+			{
+				auto& cam = m_Storage.GetComponent<ECS::CameraComponent3D>(camC.first);
+
+				if (cam.Primary)
+				{
+					auto& camera = cam.Camera;
+
+					camera->SetPosition(cam.Position);
+					camera->SetAspectRatio(cam.Size.x, cam.Size.y);
+					camera->GetSettings().FOV = cam.FOV;
+
+					camera->UpdateAll();
+					break;
+				}
+			}
 			break;
 		}
 
@@ -353,13 +381,10 @@ namespace Crystal
 		{
 			auto& cam = m_Storage.GetComponent<ECS::CameraComponent3D>(camC.first);
 
-			// TODO(Jorben): Update the camera
 			if (cam.Primary)
 			{
 				camera = cam.Camera;
-
-				camera->UpdateArea();
-				camera->UpdateMatrices();
+				break;
 			}
 		}
 

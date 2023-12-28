@@ -244,8 +244,10 @@ namespace Crystal
 			emitter << YAML::BeginMap; // CameraComponent2D
 
 			emitter << YAML::Key << "Position" << glm::vec2(cc.Position);
+			emitter << YAML::Key << "Size" << cc.Size;
 			emitter << YAML::Key << "Zoom" << cc.Zoom;
 			emitter << YAML::Key << "Rotation" << cc.Rotation;
+
 			emitter << YAML::Key << "Primary" << cc.Primary;
 
 			emitter << YAML::EndMap; // CameraComponent2D
@@ -258,9 +260,13 @@ namespace Crystal
 			emitter << YAML::BeginMap; // CameraComponent3D
 
 			emitter << YAML::Key << "Position" << glm::vec3(cc.Position);
+			emitter << YAML::Key << "Size" << cc.Size;
 			emitter << YAML::Key << "Zoom" << cc.Zoom;
 			emitter << YAML::Key << "Rotation" << cc.Rotation;
+
 			emitter << YAML::Key << "Primary" << cc.Primary;
+
+			emitter << YAML::Key << "FOV" << cc.FOV;
 
 			emitter << YAML::EndMap; // CameraComponent3D
 		}
@@ -380,10 +386,12 @@ namespace Crystal
 		{
 			ECS::CameraComponent2D& cc = entity->AddComponent<ECS::CameraComponent2D>();
 
-			cc.Position = node["Position"].as<glm::vec2>();
-			cc.Zoom = node["Zoom"].as<float>();
-			cc.Rotation = node["Rotation"].as<float>();
-			cc.Primary = node["Primary"].as<bool>();
+			cc.Position = cameraComponent2D["Position"].as<glm::vec2>();
+			cc.Size = cameraComponent2D["Size"].as<glm::vec2>();
+			cc.Zoom = cameraComponent2D["Zoom"].as<float>();
+			cc.Rotation = cameraComponent2D["Rotation"].as<float>();
+
+			cc.Primary = cameraComponent2D["Primary"].as<bool>();
 		}
 
 		//CameraComponent3D
@@ -392,10 +400,14 @@ namespace Crystal
 		{
 			ECS::CameraComponent3D& cc = entity->AddComponent<ECS::CameraComponent3D>();
 
-			cc.Position = node["Position"].as<glm::vec3>();
-			cc.Zoom = node["Zoom"].as<float>();
-			cc.Rotation = node["Rotation"].as<float>();
-			cc.Primary = node["Primary"].as<bool>();
+			cc.Position = cameraComponent3D["Position"].as<glm::vec3>();
+			cc.Size = cameraComponent3D["Size"].as<glm::vec2>();
+			cc.Zoom = cameraComponent3D["Zoom"].as<float>();
+			cc.Rotation = cameraComponent3D["Rotation"].as<float>();
+
+			cc.FOV = cameraComponent3D["FOV"].as<float>();
+
+			cc.Primary = cameraComponent3D["Primary"].as<bool>();
 		}
 	}
 

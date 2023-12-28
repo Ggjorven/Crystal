@@ -14,6 +14,9 @@ namespace Crystal
         // ---Core---
         internal static unsafe delegate*<int, bool> Input_IsKeyPressed;
 
+        internal static unsafe delegate*<uint> Window_GetWindowWidth;
+        internal static unsafe delegate*<uint> Window_GetWindowHeight;
+
         // ---Scene---
         internal static unsafe delegate*<NativeString, ulong> GetUUIDByTag;
         internal static unsafe delegate*<NativeString, void> SetSceneByName;
@@ -79,6 +82,54 @@ namespace Crystal
         internal static unsafe delegate*<ulong, NativeString, char, void> ScriptComponent_AddValueField_Char;
         internal static unsafe delegate*<ulong, NativeString, bool, void> ScriptComponent_AddValueField_Bool;
         internal static unsafe delegate*<ulong, NativeString, NativeString, void> ScriptComponent_AddValueField_String;
+
+        // CameraComponent2D
+        internal static unsafe delegate*<ulong, float, void> CameraComponent2D_SetPositionX;
+        internal static unsafe delegate*<ulong, float, void> CameraComponent2D_SetPositionY;
+
+        internal static unsafe delegate*<ulong, float, void> CameraComponent2D_SetSizeX;
+        internal static unsafe delegate*<ulong, float, void> CameraComponent2D_SetSizeY;
+
+        internal static unsafe delegate*<ulong, float, void> CameraComponent2D_SetZoom;
+        internal static unsafe delegate*<ulong, float, void> CameraComponent2D_SetRotation;
+        internal static unsafe delegate*<ulong, bool, void> CameraComponent2D_SetPrimary;
+
+        internal static unsafe delegate*<ulong, float> CameraComponent2D_GetPositionX;
+        internal static unsafe delegate*<ulong, float> CameraComponent2D_GetPositionY;
+
+        internal static unsafe delegate*<ulong, float> CameraComponent2D_GetSizeX;
+        internal static unsafe delegate*<ulong, float> CameraComponent2D_GetSizeY;
+
+        internal static unsafe delegate*<ulong, float> CameraComponent2D_GetZoom;
+        internal static unsafe delegate*<ulong, float> CameraComponent2D_GetRotation;
+        internal static unsafe delegate*<ulong, bool> CameraComponent2D_GetPrimary;
+
+        // CameraComponent3D
+        internal static unsafe delegate*<ulong, float, void> CameraComponent3D_SetPositionX;
+        internal static unsafe delegate*<ulong, float, void> CameraComponent3D_SetPositionY;
+        internal static unsafe delegate*<ulong, float, void> CameraComponent3D_SetPositionZ;
+
+        internal static unsafe delegate*<ulong, float, void> CameraComponent3D_SetSizeX;
+        internal static unsafe delegate*<ulong, float, void> CameraComponent3D_SetSizeY;
+
+        internal static unsafe delegate*<ulong, float, void> CameraComponent3D_SetZoom;
+        internal static unsafe delegate*<ulong, float, void> CameraComponent3D_SetRotation;
+        internal static unsafe delegate*<ulong, bool, void> CameraComponent3D_SetPrimary;
+
+        internal static unsafe delegate*<ulong, float, void> CameraComponent3D_SetFOV;
+
+        internal static unsafe delegate*<ulong, float> CameraComponent3D_GetPositionX;
+        internal static unsafe delegate*<ulong, float> CameraComponent3D_GetPositionY;
+        internal static unsafe delegate*<ulong, float> CameraComponent3D_GetPositionZ;
+
+        internal static unsafe delegate*<ulong, float> CameraComponent3D_GetSizeX;
+        internal static unsafe delegate*<ulong, float> CameraComponent3D_GetSizeY;
+
+        internal static unsafe delegate*<ulong, float> CameraComponent3D_GetZoom;
+        internal static unsafe delegate*<ulong, float> CameraComponent3D_GetRotation;
+        internal static unsafe delegate*<ulong, bool> CameraComponent3D_GetPrimary;
+
+        internal static unsafe delegate*<ulong, float> CameraComponent3D_GetFOV;
 
         /// Entity functions
         internal static unsafe delegate*<ulong, bool> HasComponent_TagComponent;

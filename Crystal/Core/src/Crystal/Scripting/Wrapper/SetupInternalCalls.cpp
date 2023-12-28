@@ -2,6 +2,7 @@
 #include "SetupInternalCalls.hpp"
 
 #include "Crystal/Core/Events/Input/Input.hpp"
+#include "Crystal/Scripting/Wrapper/Core/WindowWrapper.hpp"
 
 #include "Crystal/Scripting/Wrapper/ECS/EntityWrapper.hpp"
 #include "Crystal/Scripting/Wrapper/ECS/ComponentWrapper.hpp"
@@ -18,6 +19,9 @@ namespace Crystal::Wrapper
 	{
 		// ---Core---
 		CR_ADD_INTERNAL("Input_IsKeyPressed", &Input::IsKeyPressed);
+
+		CR_ADD_INTERNAL("Window_GetWindowWidth", &Window::Window_GetWindowWidth);
+		CR_ADD_INTERNAL("Window_GetWindowHeight", &Window::Window_GetWindowHeight);
 
 		// ---Scene---
 		CR_ADD_INTERNAL("GetUUIDByTag", &Scene::GetUUIDByTag);
@@ -91,6 +95,58 @@ namespace Crystal::Wrapper
 		CR_ADD_INTERNAL("ScriptComponent_AddValueField_Char", &Component::ScriptComponent_AddValueField_Char);
 		CR_ADD_INTERNAL("ScriptComponent_AddValueField_Bool", &Component::ScriptComponent_AddValueField_Bool);
 		CR_ADD_INTERNAL("ScriptComponent_AddValueField_String", &Component::ScriptComponent_AddValueField_String);
+
+		// CameraComponent2D
+		/// Setters
+		CR_ADD_INTERNAL("CameraComponent2D_SetPositionX", &Component::CameraComponent2D_SetPositionX);
+		CR_ADD_INTERNAL("CameraComponent2D_SetPositionY", &Component::CameraComponent2D_SetPositionY);
+
+		CR_ADD_INTERNAL("CameraComponent2D_SetSizeX", &Component::CameraComponent2D_SetSizeX);
+		CR_ADD_INTERNAL("CameraComponent2D_SetSizeY", &Component::CameraComponent2D_SetSizeY);
+
+		CR_ADD_INTERNAL("CameraComponent2D_SetZoom", &Component::CameraComponent2D_SetZoom);
+		CR_ADD_INTERNAL("CameraComponent2D_SetRotation", &Component::CameraComponent2D_SetRotation);
+		CR_ADD_INTERNAL("CameraComponent2D_SetPrimary", &Component::CameraComponent2D_SetPrimary);
+
+		/// Getters
+		CR_ADD_INTERNAL("CameraComponent2D_GetPositionX", &Component::CameraComponent2D_GetPositionX);
+		CR_ADD_INTERNAL("CameraComponent2D_GetPositionY", &Component::CameraComponent2D_GetPositionY);
+
+		CR_ADD_INTERNAL("CameraComponent2D_GetSizeX", &Component::CameraComponent2D_GetSizeX);
+		CR_ADD_INTERNAL("CameraComponent2D_GetSizeY", &Component::CameraComponent2D_GetSizeY);
+
+		CR_ADD_INTERNAL("CameraComponent2D_GetZoom", &Component::CameraComponent2D_GetZoom);
+		CR_ADD_INTERNAL("CameraComponent2D_GetRotation", &Component::CameraComponent2D_GetRotation);
+		CR_ADD_INTERNAL("CameraComponent2D_GetPrimary", &Component::CameraComponent2D_GetPrimary);
+
+		// CameraComponent3D
+		/// Setters
+		CR_ADD_INTERNAL("CameraComponent3D_SetPositionX", &Component::CameraComponent3D_SetPositionX);
+		CR_ADD_INTERNAL("CameraComponent3D_SetPositionY", &Component::CameraComponent3D_SetPositionY);
+		CR_ADD_INTERNAL("CameraComponent3D_SetPositionZ", &Component::CameraComponent3D_SetPositionZ);
+
+		CR_ADD_INTERNAL("CameraComponent3D_SetSizeX", &Component::CameraComponent3D_SetSizeX);
+		CR_ADD_INTERNAL("CameraComponent3D_SetSizeY", &Component::CameraComponent3D_SetSizeY);
+
+		CR_ADD_INTERNAL("CameraComponent3D_SetZoom", &Component::CameraComponent3D_SetZoom);
+		CR_ADD_INTERNAL("CameraComponent3D_SetRotation", &Component::CameraComponent3D_SetRotation);
+		CR_ADD_INTERNAL("CameraComponent3D_SetPrimary", &Component::CameraComponent3D_SetPrimary);
+
+		CR_ADD_INTERNAL("CameraComponent3D_SetFOV", &Component::CameraComponent3D_SetFOV);
+
+		/// Getters
+		CR_ADD_INTERNAL("CameraComponent3D_GetPositionX", &Component::CameraComponent3D_GetPositionX);
+		CR_ADD_INTERNAL("CameraComponent3D_GetPositionY", &Component::CameraComponent3D_GetPositionY);
+		CR_ADD_INTERNAL("CameraComponent3D_GetPositionZ", &Component::CameraComponent3D_GetPositionZ);
+
+		CR_ADD_INTERNAL("CameraComponent3D_GetSizeX", &Component::CameraComponent3D_GetSizeX);
+		CR_ADD_INTERNAL("CameraComponent3D_GetSizeY", &Component::CameraComponent3D_GetSizeY);
+
+		CR_ADD_INTERNAL("CameraComponent3D_GetZoom", &Component::CameraComponent3D_GetZoom);
+		CR_ADD_INTERNAL("CameraComponent3D_GetRotation", &Component::CameraComponent3D_GetRotation);
+		CR_ADD_INTERNAL("CameraComponent3D_GetPrimary", &Component::CameraComponent3D_GetPrimary);
+
+		CR_ADD_INTERNAL("CameraComponent3D_GetFOV", &Component::CameraComponent3D_GetFOV);
 
 		/// Entity
 		CR_ADD_INTERNAL("HasComponent_TagComponent", &Entity::HasComponent_TagComponent);

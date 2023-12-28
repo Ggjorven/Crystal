@@ -51,6 +51,7 @@
     <Reference Include="Coral.Managed" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\MarioCamera.cs" />
     <Compile Include="src\Spider.cs" />
     <Compile Include="src\Test.cs" />
     <Compile Include="src\Test2.cs" />

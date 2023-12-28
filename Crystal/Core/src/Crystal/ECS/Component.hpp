@@ -121,6 +121,7 @@ namespace Crystal::ECS
 		Ref<OrthoGraphicCamera> Camera = nullptr;
 
 		Vec2<float> Position = { 0.0f, 0.0f };
+		Vec2<float> Size = { 1280.0f, 720.0f }; // This is not the actual size of the camera, the size gets set in the constructor
 		float Zoom = 1.0f;
 		float Rotation = 0.0f;
 
@@ -135,8 +136,11 @@ namespace Crystal::ECS
 		Ref<PerspectiveCamera> Camera = nullptr;
 
 		Vec3<float> Position = { 0.0f, 0.0f, 0.0f };
+		Vec2<float> Size = { 1280.0f, 720.0f }; // This is not the actual size of the camera, the size gets set in the constructor
 		float Zoom = 1.0f;
 		float Rotation = 0.0f;
+
+		float FOV = 45.f;
 
 		bool Primary = true;
 

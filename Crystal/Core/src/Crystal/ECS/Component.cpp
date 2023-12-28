@@ -107,6 +107,8 @@ namespace Crystal::ECS
 	{
 		const Window& window = Application::Get().GetWindow();
 
+		Size = Vec2<float>((float)window.GetViewportWidth(), (float)window.GetViewportHeight());
+
 		Camera = CreateRef<OrthoGraphicCamera>((float)window.GetViewportWidth() / 2.0f * -1, (float)window.GetViewportWidth() / 2.0f,
 			(float)window.GetViewportHeight() / 2.0f * -1, (float)window.GetViewportHeight() / 2.0f);
 	}
@@ -118,8 +120,10 @@ namespace Crystal::ECS
 	{
 		const Window& window = Application::Get().GetWindow();
 		
+		Size = Vec2<float>((float)window.GetViewportWidth(), (float)window.GetViewportHeight());
+
 		Camera = CreateRef<PerspectiveCamera>((float)window.GetViewportWidth(), (float)window.GetViewportHeight());
-		Camera->UpdateArea();
+		Camera->UpdateAll();
 	}
 
 	CameraComponent3D::CameraComponent3D(const CameraComponent3D& other) = default;

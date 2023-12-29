@@ -17,6 +17,8 @@
 
 namespace Crystal
 {
+    class Project;
+
     class Scene;
     class SceneSerializer;
     class Scene2D;
@@ -97,6 +99,15 @@ namespace Crystal::ECS
         void LoadAssembly(std::filesystem::path path);
         void ReloadAssemblies();
 
+        void DestroyObjects();
+        void DeleteEntity(CR_UUID uuid);
+
+        template<typename ComponentType>
+        std::unordered_map<CR_UUID, std::any>& GetComponentsMap()
+        {
+            return m_ComponentMaps[typeid(ComponentType)];
+        }
+
     public:
         static Coral::HostInstance s_Host;
         static Coral::AssemblyLoadContext s_LoadContext;
@@ -104,18 +115,13 @@ namespace Crystal::ECS
         static std::vector<std::filesystem::path> s_AssemblyPaths;
 
     private:
-        template<typename ComponentType>
-        std::unordered_map<CR_UUID, std::any>& GetComponentsMap()
-        {
-            return m_ComponentMaps[typeid(ComponentType)];
-        }
-
-    private:
         std::unordered_map<std::type_index, std::unordered_map<CR_UUID, std::any>> m_ComponentMaps;
 
         static uint32_t s_StorageCount;
         static Coral::AssemblyLoadContext s_Context;
         static Coral::ManagedAssembly s_Assembly;
+
+        friend class Project;
 
         friend class Scene;
         friend class Scene2D;

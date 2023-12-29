@@ -63,7 +63,7 @@ namespace Crystal
 
 		if (file.good())
 		{
-			CR_CORE_TRACE("Adding data to file {0}: \n{1}", path.string(), data.c_str());
+			//CR_CORE_TRACE("Adding data to file {0}: \n{1}", path.string(), data.c_str());
 			file << data.c_str();
 			file.close();
 		}
@@ -88,15 +88,15 @@ namespace Crystal
 		catch (YAML::BadFile e)
 		{
 			CR_CORE_ERROR("Failed to load {0}\n\t{1}", path.string(), e.what());
-			return;
+			//return;
 		}
 
 		//Set scene name
-		scene->m_Properties.Path = path;
+		//scene->m_Properties.Path = path;
 		if (data["Scene"])
 		{
 			scene->m_DebugName = data["Scene"].as<std::string>();
-			scene->m_Properties.Name = data["Scene"].as<std::string>();
+			//scene->m_Properties.Name = data["Scene"].as<std::string>();
 		}
 		else
 			CR_CORE_WARN("No \"Scene:\" tab found in {0}\n\tNot critical, just no data loaded and starting as a blank scene.", path.string());
@@ -116,6 +116,11 @@ namespace Crystal
 		if (data["ClearColour"])
 		{
 			scene->m_ClearColour = data["ClearColour"].as<glm::vec4>();
+			RendererCommand::SetClearColour(scene->m_ClearColour);
+		}
+		else
+		{
+			scene->m_ClearColour = { 0.0f, 0.0f, 0.0f, 1.0f };
 			RendererCommand::SetClearColour(scene->m_ClearColour);
 		}
 
@@ -183,6 +188,22 @@ namespace Crystal
 			emitter << YAML::EndMap; // Renderer2DComponent
 		}
 
+		if (entity->HasComponent<ECS::Renderer3DComponent>())
+		{
+			auto& r2d = entity->GetComponent<ECS::Renderer3DComponent>();
+			emitter << YAML::Key << "Renderer3DComponent";
+			emitter << YAML::BeginMap; // Renderer3DComponent
+
+			emitter << YAML::Key << "Enable" << r2d.Enable;
+			if (r2d.Texture)
+				emitter << YAML::Key << "Texture" << r2d.Texture->GetProjectRelativePath();
+			emitter << YAML::Key << "Colour" << r2d.Colour;
+			emitter << YAML::Key << "UseTexture" << r2d.UseTexture;
+			emitter << YAML::Key << "UseColour" << r2d.UseColour;
+
+			emitter << YAML::EndMap; // Renderer3DComponent
+		}
+
 		if (entity->HasComponent<ECS::ColliderComponent>())
 		{
 			auto& cc = entity->GetComponent<ECS::ColliderComponent>();
@@ -209,11 +230,45 @@ namespace Crystal
 		{
 			auto& sc = entity->GetComponent<ECS::ScriptComponent>();
 			emitter << YAML::Key << "ScriptComponent";
-			emitter << YAML::BeginMap; // Renderer2DComponent
+			emitter << YAML::BeginMap; // ScriptComponent
 
 			emitter << YAML::Key << "Class" << sc.Script->GetClass();
 
-			emitter << YAML::EndMap; // Renderer2DComponent
+			emitter << YAML::EndMap; // ScriptComponent
+		}
+
+		if (entity->HasComponent<ECS::CameraComponent2D>())
+		{
+			auto& cc = entity->GetComponent<ECS::CameraComponent2D>();
+			emitter << YAML::Key << "CameraComponent2D";
+			emitter << YAML::BeginMap; // CameraComponent2D
+
+			emitter << YAML::Key << "Position" << glm::vec2(cc.Position);
+			emitter << YAML::Key << "Size" << cc.Size;
+			emitter << YAML::Key << "Zoom" << cc.Zoom;
+			emitter << YAML::Key << "Rotation" << cc.Rotation;
+
+			emitter << YAML::Key << "Primary" << cc.Primary;
+
+			emitter << YAML::EndMap; // CameraComponent2D
+		}
+
+		if (entity->HasComponent<ECS::CameraComponent3D>())
+		{
+			auto& cc = entity->GetComponent<ECS::CameraComponent3D>();
+			emitter << YAML::Key << "CameraComponent3D";
+			emitter << YAML::BeginMap; // CameraComponent3D
+
+			emitter << YAML::Key << "Position" << glm::vec3(cc.Position);
+			emitter << YAML::Key << "Size" << cc.Size;
+			emitter << YAML::Key << "Zoom" << cc.Zoom;
+			emitter << YAML::Key << "Rotation" << cc.Rotation;
+
+			emitter << YAML::Key << "Primary" << cc.Primary;
+
+			emitter << YAML::Key << "FOV" << cc.FOV;
+
+			emitter << YAML::EndMap; // CameraComponent3D
 		}
 
 		emitter << YAML::EndMap; //Entity
@@ -275,6 +330,28 @@ namespace Crystal
 			r2d.UseColour = renderer2DComponent["UseColour"].as<bool>();
 		}
 
+		//Renderer3DComponent
+		auto renderer3DComponent = node["Renderer3DComponent"];
+		if (renderer3DComponent)
+		{
+			ECS::Renderer3DComponent& r3d = entity->AddComponent<ECS::Renderer3DComponent>();
+
+			r3d.Enable = renderer3DComponent["Enable"].as<bool>();
+			if (renderer3DComponent["Texture"] && !renderer3DComponent["Texture"].as<std::string>().empty())
+			{
+				std::filesystem::path projDir = Project::GetCurrentProject()->GetProjectDir();
+				std::filesystem::path assetDir = Project::GetCurrentProject()->GetAssetDir();
+
+				r3d.Texture = Texture2D::Create((projDir / assetDir / std::filesystem::path(renderer3DComponent["Texture"].as<std::string>())).string());
+			}
+			else
+				r3d.Texture = nullptr;
+
+			r3d.Colour = renderer3DComponent["Colour"].as<glm::vec4>();
+			r3d.UseTexture = renderer3DComponent["UseTexture"].as<bool>();
+			r3d.UseColour = renderer3DComponent["UseColour"].as<bool>();
+		}
+
 		//ColliderComponent
 		auto colliderComponent = node["ColliderComponent"];
 		if (colliderComponent)
@@ -301,6 +378,36 @@ namespace Crystal
 
 			sc.Script->SetUUID(entity->GetUUID());
 			sc.Script->SetClass(scriptComponent["Class"].as<std::string>());
+		}
+
+		//CameraComponent2D
+		auto cameraComponent2D = node["CameraComponent2D"];
+		if (cameraComponent2D)
+		{
+			ECS::CameraComponent2D& cc = entity->AddComponent<ECS::CameraComponent2D>();
+
+			cc.Position = cameraComponent2D["Position"].as<glm::vec2>();
+			cc.Size = cameraComponent2D["Size"].as<glm::vec2>();
+			cc.Zoom = cameraComponent2D["Zoom"].as<float>();
+			cc.Rotation = cameraComponent2D["Rotation"].as<float>();
+
+			cc.Primary = cameraComponent2D["Primary"].as<bool>();
+		}
+
+		//CameraComponent3D
+		auto cameraComponent3D = node["CameraComponent3D"];
+		if (cameraComponent3D)
+		{
+			ECS::CameraComponent3D& cc = entity->AddComponent<ECS::CameraComponent3D>();
+
+			cc.Position = cameraComponent3D["Position"].as<glm::vec3>();
+			cc.Size = cameraComponent3D["Size"].as<glm::vec2>();
+			cc.Zoom = cameraComponent3D["Zoom"].as<float>();
+			cc.Rotation = cameraComponent3D["Rotation"].as<float>();
+
+			cc.FOV = cameraComponent3D["FOV"].as<float>();
+
+			cc.Primary = cameraComponent3D["Primary"].as<bool>();
 		}
 	}
 

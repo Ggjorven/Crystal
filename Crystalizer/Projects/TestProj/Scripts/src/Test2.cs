@@ -35,11 +35,51 @@ public class Test2 : Entity // "Red"
                 position.X -= Speed * deltaTime;
 
             if (Input.IsKeyPressed(KeyCode.Escape))
-                Console.WriteLine("ESCAPED");
+                Scene.SetSceneByName("Mario");
 
             //Update position
             transform.SetPosition(position);
         }
 
+    }
+
+    public override void OnCollision(Entity other)
+    {
+        if (HasComponent<TransformComponent>() && other.HasComponent<TransformComponent>())
+        {
+            TransformComponent myTC = GetComponent<TransformComponent>();
+            TransformComponent otherTC = other.GetComponent<TransformComponent>();
+
+            var myProps = GetCollisionProperties();
+            var otherProps = other.GetCollisionProperties();
+
+            switch (myProps.Side)
+            {
+                case CollisionProperties.CollisionSide.Right:
+                    Vec3<float> newPos = myTC.GetPosition();
+                    newPos.X = otherTC.GetPosition().X - myTC.GetSize().X;
+                    myTC.SetPosition(newPos);
+                    break;
+
+                case CollisionProperties.CollisionSide.Left:
+                    newPos = myTC.GetPosition();
+                    newPos.X = otherTC.GetPosition().X + otherTC.GetSize().X;
+                    myTC.SetPosition(newPos);
+                    break;
+
+                case CollisionProperties.CollisionSide.Top:
+                    newPos = myTC.GetPosition();
+                    newPos.Y = otherTC.GetPosition().Y - myTC.GetSize().Y;
+
+                    myTC.SetPosition(newPos);
+                    break;
+
+                case CollisionProperties.CollisionSide.Bottom:
+                    newPos = myTC.GetPosition();
+                    newPos.Y = otherTC.GetPosition().Y + otherTC.GetSize().Y;
+                    myTC.SetPosition(newPos);
+                    break;
+            }
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace Crystal::Wrapper
 	{
 	public:
 		static uint64_t GetUUIDByTag(Coral::NativeString tag);
+		static void SetSceneByName(Coral::NativeString name);
 
 	private:
 		static std::unordered_map<SceneID, std::unordered_map<std::string, CR_UUID>> s_UUIDCache;

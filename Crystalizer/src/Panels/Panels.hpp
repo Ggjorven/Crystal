@@ -21,6 +21,8 @@ namespace Crystal
 
 		void ObjectsWindow();
 		void ObjectPropertiesWindow();
+		void ContentBrowserWindow();
+
 		void ProjectSettingsWindow(bool* projOpen);
 		void SceneSettingsWindow(bool* sceneOpen);
 
@@ -31,10 +33,19 @@ namespace Crystal
 		static void BeginColours();
 		static void EndColours();
 
+		void SetStartUp(bool enabled) { m_StartUp = enabled; }
+		void SetSelectedEntity(Ref<ECS::Entity> entity) { m_SelectedEntity = entity; }
+
+		void CleanSelected();
+
+		static Panels* Get() { return s_Instance; }
+
 	public:
 		static Ref<Texture2D> s_ButtonTex;
 
 	private:
+		static Panels* s_Instance;
+
 		enum class ButtonState
 		{
 			None = 0, Play, Pause

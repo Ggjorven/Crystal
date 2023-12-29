@@ -1,0 +1,10 @@
+Project: Empty
+Directories:
+  - Assets: Assets
+  - Scenes: Scenes
+  - Scripts: Scripts
+Scenes:
+  - Scene:
+      Name: None
+      Path: New.crscene
+      Type: ""

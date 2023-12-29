@@ -31,15 +31,17 @@ namespace Crystal
 
 	void Panels::ObjectPropertiesWindow()
 	{
-		if (m_StartUp)
-		{
-			if (m_Project->GetCurrentScene()->GetEntities().size() > 0) 
-				m_SelectedEntity = m_Project->GetCurrentScene()->GetEntities()[0];
-			m_StartUp = false;
-		}
-
 		Panels::BeginColours();
 		ImGui::Begin("Properties", (bool*)0, ImGuiWindowFlags_NoScrollbar);
+
+		if (m_StartUp)
+		{
+			if (m_Project->GetCurrentScene()->GetEntities().size() > 0)
+				m_SelectedEntity = m_Project->GetCurrentScene()->GetEntities()[0];
+			else
+				m_SelectedEntity = nullptr;
+			m_StartUp = false;
+		}
 
 		if (m_SelectedEntity)
 		{
@@ -68,9 +70,14 @@ namespace Crystal
 						m_SelectedEntity->AddComponent<ECS::TransformComponent>();
 					}
 
-					if (!m_SelectedEntity->HasComponent<ECS::Renderer2DComponent>() && ImGui::MenuItem("Renderer2D"))
+					if (!m_SelectedEntity->HasComponent<ECS::Renderer2DComponent>() && m_Project->GetCurrentScene()->GetProperties().SceneType == SceneProperties::Type::_2D && ImGui::MenuItem("Renderer2D"))
 					{
 						m_SelectedEntity->AddComponent<ECS::Renderer2DComponent>();
+					}
+
+					if (!m_SelectedEntity->HasComponent<ECS::Renderer3DComponent>() && m_Project->GetCurrentScene()->GetProperties().SceneType == SceneProperties::Type::_3D && ImGui::MenuItem("Renderer3D"))
+					{
+						m_SelectedEntity->AddComponent<ECS::Renderer3DComponent>();
 					}
 
 					if (!m_SelectedEntity->HasComponent<ECS::ColliderComponent>() && ImGui::MenuItem("Collider"))
@@ -104,6 +111,48 @@ namespace Crystal
 						tag.Tag = buffer;
 				}
 				HandleComponentOptions<ECS::TagComponent>(co, m_SelectedEntity->GetUUID()); 
+			}
+
+			if (m_SelectedEntity->HasComponent<ECS::CameraComponent2D>())
+			{
+				auto& cc = m_SelectedEntity->GetComponent<ECS::CameraComponent2D>();
+
+				UI::ComponentOptions co;								// TODO(Jorben): Add proper icon
+				if (UI::BeginECSComponent("Camera Settings", co, s_Icons[(int)Icon::Script])) // TODO(Jorben): Add right click enabled/disabled functionality
+				{
+					// TODO(Jorben): Make this use a vec2
+					Vec3<float> temp(cc.Position.x, cc.Position.y, 0.0f);
+					UI::Vector3("Position##2D", temp, Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
+					ImGui::DragFloat2("Size", &cc.Size.x);
+					ImGui::DragFloat("Zoom", &cc.Zoom);
+					ImGui::DragFloat("Rotation", &cc.Rotation);
+
+					ImGui::Checkbox("Primary", &cc.Primary);
+
+					cc.Position = Vec2<float>(temp.x, temp.y);
+				}
+				HandleComponentOptions<ECS::CameraComponent2D>(co, m_SelectedEntity->GetUUID());
+			}
+
+			if (m_SelectedEntity->HasComponent<ECS::CameraComponent3D>())
+			{
+				auto& cc = m_SelectedEntity->GetComponent<ECS::CameraComponent3D>();
+
+				UI::ComponentOptions co;								// TODO(Jorben): Add proper icon
+				if (UI::BeginECSComponent("Camera Settings", co, s_Icons[(int)Icon::Script])) // TODO(Jorben): Add right click enabled/disabled functionality
+				{
+					UI::Vector3("Position##3D", cc.Position, Vec4<float>(1.0f, 0.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 1.0f, 0.0f, 1.0f), Vec4<float>(0.0f, 0.0f, 1.0f, 1.0f));
+					ImGui::DragFloat2("Size", &cc.Size.x);
+					ImGui::DragFloat("Zoom", &cc.Zoom);
+					ImGui::DragFloat("Rotation", &cc.Rotation);
+
+					ImGui::DragFloat("FOV", &cc.FOV);
+					ImGui::DragFloat("Yaw", &cc.Yaw);
+					ImGui::DragFloat("Pitch", &cc.Pitch);
+
+					ImGui::Checkbox("Primary", &cc.Primary);
+				}
+				HandleComponentOptions<ECS::CameraComponent2D>(co, m_SelectedEntity->GetUUID());
 			}
 
 			if (m_SelectedEntity->HasComponent<ECS::TransformComponent>())
@@ -161,6 +210,45 @@ namespace Crystal
 
 				}
 				HandleComponentOptions<ECS::Renderer2DComponent>(co, m_SelectedEntity->GetUUID());
+			}
+
+			if (m_SelectedEntity->HasComponent<ECS::Renderer3DComponent>())
+			{
+				auto& r3d = m_SelectedEntity->GetComponent<ECS::Renderer3DComponent>();
+				UI::ComponentOptions co;
+				if (UI::BeginECSComponent("Renderer3DComponent", co, s_Icons[(int)Icon::Renderer2D])) // TODO(Jorben): Add right click enabled/disabled functionality && make Icon 3D
+				{
+					//ImGui::Checkbox("Enabled", &r2d->Enable);
+					TexturePanel("Texture", r3d.Texture, &r3d.UseTexture);
+
+					ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.f);
+
+					ImGui::SameLine();
+					ImGui::Dummy(ImVec2(50.0f, 0.0f));
+					ImGui::SameLine();
+
+					UI::Tools::SetContextFontSize(2.f);
+					ImGui::ColorEdit4("Colour", r3d.Colour.GetData(), ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_NoOptions | ImGuiColorEditFlags_NoPicker | ImGuiColorEditFlags_NoTooltip);
+					UI::Tools::SetContextFontSize(0.0f);
+
+					if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+					{
+						ImGui::OpenPopup("ColorPickerPopup");
+					}
+
+					if (ImGui::BeginPopup("ColorPickerPopup"))
+					{
+						ImGui::ColorPicker4("ColorPicker", r3d.Colour.GetData());
+						ImGui::EndPopup();
+					}
+
+					ImGui::PopStyleVar(1);
+
+					ImGui::SameLine();
+					ImGui::Checkbox("Use", &r3d.UseColour);
+
+				}
+				HandleComponentOptions<ECS::Renderer3DComponent>(co, m_SelectedEntity->GetUUID());
 			}
 
 			if (m_SelectedEntity->HasComponent<ECS::ColliderComponent>())

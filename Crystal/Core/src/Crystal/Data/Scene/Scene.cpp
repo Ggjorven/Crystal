@@ -1,8 +1,13 @@
 #include "crpch.h"
 #include "Scene.hpp"
 
-#include "SceneSerializer.hpp"
-#include "Scene.hpp"
+#include "Crystal/Data/Scene/SceneSerializer.hpp"
+#include "Crystal/Data/Scene/Scene.hpp"
+
+#include "Crystal/Data/Project/Project.hpp"
+
+#include <psapi.h>
+#include <iostream>
 
 namespace Crystal
 {
@@ -10,12 +15,18 @@ namespace Crystal
 	Scene::Scene(const std::string& debugName) 
 		: m_DebugName(debugName), m_SceneID(UUIDGenerator::GenerateUUID())
 	{
-		m_EditorCamera = CreateRef<EditorCamera>();
+		//CR_CORE_TRACE("Scene");
+		m_EditorCamera2D = CreateRef<EditorCamera2D>();
+	}
+
+	Scene::~Scene()
+	{
+		//CR_CORE_TRACE("~Scene");
 	}
 
 	void Scene::UpdateCollisions()
 	{
-		// TODO(Jorben): Make collisions more efficient
+		// Note(Jorben): Probably not the most efficient way to check collisions
 		std::vector<std::pair<CR_UUID, CR_UUID>> checked = { };
 
 		for (auto& coll1 : m_Storage.GetComponentsMap<ECS::ColliderComponent>())
@@ -156,7 +167,7 @@ namespace Crystal
 
 
 	Scene2D::Scene2D(const std::string& debugName)
-		: Scene(debugName), m_Renderer(m_Storage, m_EditorCamera->GetCamera())
+		: Scene(debugName), m_Renderer(m_Storage, m_EditorCamera2D->GetCamera())
 	{
 	}
 
@@ -172,7 +183,7 @@ namespace Crystal
 
 		case SceneState::Editor:
 		{
-			m_EditorCamera->OnUpdate(ts);
+			m_EditorCamera2D->OnUpdate(ts);
 			m_FirstUpdate = true;
 			break;
 		}
@@ -191,9 +202,29 @@ namespace Crystal
 			}
 
 			Scene::UpdateCollisions();
-
 			m_FirstUpdate = false;
-			m_EditorCamera->OnUpdate(ts); // TODO(Jorben): Remove and replace with runtime camera
+
+			// Update primary camera
+			auto& camera = m_EditorCamera2D->GetCamera();
+
+			for (auto& camC : m_Storage.GetComponentsMap<ECS::CameraComponent2D>())
+			{
+				auto& cam = m_Storage.GetComponent<ECS::CameraComponent2D>(camC.first);
+
+				if (cam.Primary)
+				{
+					camera = cam.Camera;
+
+					camera->SetPosition(Vec3<float>(cam.Position.x, cam.Position.y, 0.0f));
+					camera->SetProjection(cam.Size.x / 2.0f * -1 * cam.Zoom, cam.Size.x / 2.0f * cam.Zoom,
+						cam.Size.y / 2.0f * -1 * cam.Zoom, cam.Size.y / 2.0f * cam.Zoom);
+					camera->SetRotation(cam.Rotation);
+					break;
+				}
+			}
+			// TODO(Jorben): Update editorcamera if no camera is selected
+			//m_EditorCamera2D->OnUpdate(ts);
+
 			break;
 		}
 
@@ -215,13 +246,15 @@ namespace Crystal
 
 	void Scene2D::OnEvent(Event& e)
 	{
-		m_EditorCamera->OnEvent(e);
+		m_EditorCamera2D->OnEvent(e);
 	}
 
 	void Scene2D::SaveScene()
 	{
+		auto proj = Project::GetCurrentProject();
+
 		SceneSerializer serializer((Scene*)this);
-		serializer.Serialize(m_Properties.Path);
+		serializer.Serialize(proj->GetProjectDir() / proj->GetSceneDir() / m_Properties.Path);
 	}
 
 	void Scene2D::OnRenderEditor()
@@ -231,8 +264,142 @@ namespace Crystal
 
 	void Scene2D::OnRenderRuntime()
 	{
-		// TODO(Jorben): Add runtime kind of camera
-		m_Renderer.RenderScene(m_EditorCamera->GetCamera());
+		Ref<OrthoGraphicCamera> camera = m_EditorCamera2D->GetCamera();
+
+		// TODO(Jorben): Make this loop only run once? and check for updates of camera another way?
+		for (auto& camC : m_Storage.GetComponentsMap<ECS::CameraComponent2D>())
+		{
+			auto& cam = m_Storage.GetComponent<ECS::CameraComponent2D>(camC.first);
+			//CR_CORE_TRACE("{0} Primary: {1}", camC.first, cam.Primary);
+			if (cam.Primary)
+			{
+				camera = cam.Camera;
+				break;
+			}
+		}
+
+		m_Renderer.RenderScene(camera);
+	}
+
+	Scene3D::Scene3D(const std::string& debugName) // TODO(Jorben): Add Renderer2D too
+		: Scene(debugName), m_EditorCamera3D(CreateRef<EditorCamera3D>()), m_Renderer(m_Storage)
+	{
+		m_Renderer.SetCamera(m_EditorCamera3D->GetCamera());
+	}
+
+	Scene3D::~Scene3D()
+	{
+	}
+
+	void Scene3D::OnUpdate(Timestep& ts)
+	{
+		// TODO(Jorben): Add runtime camera
+		switch (m_State)
+		{
+
+		case SceneState::Editor:
+		{
+			m_EditorCamera2D->OnUpdate(ts);
+			m_EditorCamera3D->OnUpdate(ts);
+			m_FirstUpdate = true;
+			break;
+		}
+
+		case SceneState::Runtime:
+		{
+			for (auto& sc : m_Storage.GetComponentsMap<ECS::ScriptComponent>())
+			{
+				auto& scC = m_Storage.GetComponent<ECS::ScriptComponent>(sc.first);
+				if (m_FirstUpdate)
+				{
+					scC.Script->UpdateValueFieldsValues();
+					scC.Script->OnCreate();
+				}
+				scC.Script->OnUpdate(ts);
+			}
+
+			Scene::UpdateCollisions();
+
+			m_FirstUpdate = false;
+
+			// Update primary camera
+			auto& camera = m_EditorCamera3D->GetCamera();
+			for (auto& camC : m_Storage.GetComponentsMap<ECS::CameraComponent3D>())
+			{
+				auto& cam = m_Storage.GetComponent<ECS::CameraComponent3D>(camC.first);
+
+				if (cam.Primary)
+				{
+					camera = cam.Camera;
+
+					camera->SetPosition(cam.Position);
+					camera->SetAspectRatio(cam.Size.x, cam.Size.y);
+					// TODO(Jorben): Make this different, 'cause I'm storing the data basically twice now
+					camera->GetSettings().FOV = cam.FOV;
+					camera->GetSettings().Yaw = cam.Yaw;
+					camera->GetSettings().Pitch = cam.Pitch;
+
+					camera->UpdateAll();
+					break;
+				}
+			}
+			// TODO(Jorben): Update editorcamera if no camera is selected
+
+			break;
+		}
+
+		}
+	}
+
+	void Scene3D::OnRender()
+	{
+		switch (m_State)
+		{
+		case SceneState::Editor:
+			OnRenderEditor();
+			break;
+		case SceneState::Runtime:
+			OnRenderRuntime();
+			break;
+		}
+	}
+
+	void Scene3D::OnEvent(Event& e)
+	{
+		m_EditorCamera2D->OnEvent(e);
+		m_EditorCamera3D->OnEvent(e);
+	}
+
+	void Scene3D::SaveScene()
+	{
+		auto proj = Project::GetCurrentProject();
+
+		SceneSerializer serializer((Scene*)this);
+		serializer.Serialize(proj->GetProjectDir() / proj->GetSceneDir() / m_Properties.Path);
+	}
+
+	void Scene3D::OnRenderEditor()
+	{
+		m_Renderer.RenderScene();
+	}
+
+	void Scene3D::OnRenderRuntime()
+	{
+		Ref<PerspectiveCamera> camera = m_EditorCamera3D->GetCamera();
+
+		// TODO(Jorben): Make this loop only run once? and check for updates of camera another way?
+		for (auto& camC : m_Storage.GetComponentsMap<ECS::CameraComponent3D>())
+		{
+			auto& cam = m_Storage.GetComponent<ECS::CameraComponent3D>(camC.first);
+
+			if (cam.Primary)
+			{
+				camera = cam.Camera;
+				break;
+			}
+		}
+
+		m_Renderer.RenderScene(camera);
 	}
 
 }

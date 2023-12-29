@@ -19,7 +19,7 @@ namespace Crystal::Wrapper
 		ECS::Storage& storage = Project::GetCurrentProject()->GetCurrentScene()->GetStorage();
 		
 		// Check if it exists
-		for (auto tagMapItem : storage.GetComponentsMap<ECS::TagComponent>())
+		for (auto& tagMapItem : storage.GetComponentsMap<ECS::TagComponent>())
 		{
 			auto& tc = storage.GetComponent<ECS::TagComponent>(tagMapItem.first);
 
@@ -33,6 +33,11 @@ namespace Crystal::Wrapper
 		}
 
 		return 0u;
+	}
+
+	void Scene::SetSceneByName(Coral::NativeString name)
+	{
+		Project::GetCurrentProject()->SetSceneBasedOnName(std::string(name));
 	}
 
 }

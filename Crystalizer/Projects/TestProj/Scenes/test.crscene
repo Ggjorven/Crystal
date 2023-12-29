@@ -1,4 +1,4 @@
-Scene: New
+Scene: Mario
 Assemblies:
   - bin\Release\Script.dll
 ClearColour: [0.14308092, 0.719987035, 0.769911528, 1]
@@ -13,7 +13,7 @@ Entities:
     Renderer2DComponent:
       Enable: true
       Texture: Mario.png
-      Colour: [0.581521749, 0.142426103, 0.0568879843, 1]
+      Colour: [0.581521749, 0.227964193, 0.0568879843, 1]
       UseTexture: false
       UseColour: true
     ColliderComponent:
@@ -45,7 +45,7 @@ Entities:
     TagComponent:
       Tag: Mario
     TransformComponent:
-      Position: [64, 64, 0]
+      Position: [31, 64, 0]
       Size: [64, 64, 0]
       Rotation: 0
     Renderer2DComponent:
@@ -58,11 +58,13 @@ Entities:
       AABB:
         Position-Link: true
         Size-Link: true
-        Position: [526.892212, 384, 0]
+        Position: [950.514954, 64, 0]
         Size: [64, 64, 0]
     ScriptComponent:
       Class: Test
   - Entity: 10619718177593762474
+    TagComponent:
+      Tag: Block
     TransformComponent:
       Position: [323, 256, 0]
       Size: [128, 64, 0]
@@ -78,8 +80,6 @@ Entities:
         Size-Link: true
         Position: [323, 256, 0]
         Size: [128, 64, 0]
-    ScriptComponent:
-      Class: Test2
   - Entity: 16473418162316240639
     TagComponent:
       Tag: Spider
@@ -89,7 +89,7 @@ Entities:
       Rotation: 0
     Renderer2DComponent:
       Enable: true
-      Colour: [0.853260875, 0.0602847449, 0.0602847449, 1]
+      Colour: [0.482630789, 0.853260875, 0.0602847449, 1]
       UseTexture: false
       UseColour: true
     ColliderComponent:
@@ -100,3 +100,68 @@ Entities:
         Size: [85, 42, 0]
     ScriptComponent:
       Class: Spider
+  - Entity: 1274940641989774339
+    TagComponent:
+      Tag: Block Uno
+    TransformComponent:
+      Position: [991, 323, 0]
+      Size: [64, 64, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Colour: [1, 1, 1, 1]
+      UseTexture: false
+      UseColour: true
+    ColliderComponent:
+      AABB:
+        Position-Link: true
+        Size-Link: true
+        Position: [991, 323, 0]
+        Size: [64, 64, 0]
+  - Entity: 3497717989552599625
+    TagComponent:
+      Tag: Block Dos
+    TransformComponent:
+      Position: [1055, 323, 0]
+      Size: [64, 64, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Colour: [0.688234627, 0.788043499, 0.214142248, 1]
+      UseTexture: false
+      UseColour: true
+    ColliderComponent:
+      AABB:
+        Position-Link: true
+        Size-Link: true
+        Position: [1055, 323, 0]
+        Size: [64, 64, 0]
+  - Entity: 14792056956162892602
+    TagComponent:
+      Tag: Block Tres
+    TransformComponent:
+      Position: [1055, 387, 0]
+      Size: [64, 64, 0]
+      Rotation: 0
+    Renderer2DComponent:
+      Enable: true
+      Colour: [0.158553883, 0.334028602, 0.663043499, 1]
+      UseTexture: false
+      UseColour: true
+    ColliderComponent:
+      AABB:
+        Position-Link: true
+        Size-Link: true
+        Position: [1055, 387, 0]
+        Size: [64, 64, 0]
+  - Entity: 11263162384353422577
+    TagComponent:
+      Tag: OrthoGraphic-Camera
+    ScriptComponent:
+      Class: MarioCamera
+    CameraComponent2D:
+      Position: [0, 0]
+      Size: [947, 541]
+      Zoom: 1
+      Rotation: 0
+      Primary: true

@@ -31,6 +31,11 @@ namespace Crystal
 			None = 0, _2D = 2, _3D = 3
 		};
 
+		bool operator!=(const SceneProperties& properties) const
+		{
+			return (Name != properties.Name || Path != properties.Path || SceneType != properties.SceneType);
+		}
+
 	public:
 		std::string Name = "None";
 		std::filesystem::path Path = "None";
@@ -42,7 +47,7 @@ namespace Crystal
 	{
 	public:
 		Scene(const std::string& debugName = "");
-		virtual ~Scene() = default;
+		virtual ~Scene();
 
 		virtual void OnUpdate(Timestep& ts) = 0;
 		virtual void OnRender() = 0;
@@ -57,9 +62,8 @@ namespace Crystal
 		ECS::Storage& GetStorage() { return m_Storage; }
 		std::string& GetName() { return m_DebugName; }
 		const SceneProperties& GetProperties() { return m_Properties; }
-
 		CR_UUID GetSceneID() const { return m_SceneID; }
-
+		Ref<EditorCamera2D> GetEditorCamera2D() { return m_EditorCamera2D; }
 		Vec4<float>& GetClearColour() { return m_ClearColour; }
 
 		void SetProperties(const SceneProperties& properties) { m_Properties = properties; }
@@ -76,6 +80,7 @@ namespace Crystal
 	protected:
 		CR_UUID m_SceneID;
 		std::string m_DebugName;
+
 		SceneState m_State = SceneState::None;
 		SceneProperties m_Properties;
 
@@ -84,7 +89,7 @@ namespace Crystal
 
 		std::vector<Ref<ECS::Entity>> m_Entities = { };
 
-		Ref<EditorCamera> m_EditorCamera;
+		Ref<EditorCamera2D> m_EditorCamera2D;
 		
 		bool m_FirstUpdate = true;
 
@@ -119,5 +124,21 @@ namespace Crystal
 	class Scene3D : public Scene // TODO
 	{
 	public:
+		Scene3D(const std::string& debugName = "");
+		virtual ~Scene3D();
+
+		void OnUpdate(Timestep& ts) override;
+		void OnRender() override;
+		void OnEvent(Event& e) override;
+
+		void SaveScene() override;
+
+	private:
+		void OnRenderEditor();
+		void OnRenderRuntime();
+
+	private:
+		SceneRenderer3D m_Renderer;
+		Ref<EditorCamera3D> m_EditorCamera3D;
 	};
 }

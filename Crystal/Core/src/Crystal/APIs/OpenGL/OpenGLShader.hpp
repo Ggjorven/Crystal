@@ -16,11 +16,13 @@ namespace Crystal
 	public:
 		OpenGLShader(std::filesystem::path path);
 		OpenGLShader(const std::string& name, const std::string& vertexSource, const std::string fragmentSource);
+		virtual ~OpenGLShader();
 
 		void Bind() const override;
 		void UnBind() const override;
 
 		void SetUniformInt1(const std::string& name, int value) override;
+		void SetUniformFloat(const std::string& name, float value) override;
 		void SetUniformFloat2(const std::string& name, const Vec2<float>& value) override;
 		void SetUniformFloat3(const std::string& name, const Vec3<float>& value) override;
 		void SetUniformFloat4(const std::string& name, const Vec4<float>& value) override;

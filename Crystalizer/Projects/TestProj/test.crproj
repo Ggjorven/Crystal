@@ -1,7 +1,18 @@
-Project: New
+Project: ""
 Directories:
   - Assets: Assets
   - Scenes: Scenes
   - Scripts: Scripts
 Scenes:
-  - Scene: test.crscene
+  - Scene:
+      Name: Mario
+      Path: test.crscene
+      Type: 2D
+  - Scene:
+      Name: New
+      Path: New.crscene
+      Type: 2D
+  - Scene:
+      Name: New3D
+      Path: New3D.crscene
+      Type: 3D

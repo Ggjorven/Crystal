@@ -32,9 +32,10 @@ namespace Crystal
 		ImGuiWindowFlags flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking;
 		ImGui::Begin("Scene Settings", sceneOpen, flags);
 
-		auto scene = Project::GetCurrentProject()->GetCurrentScene();
+		auto& scene = Project::GetCurrentProject()->GetCurrentScene();
 
 		ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_FramePadding | ImGuiTreeNodeFlags_DefaultOpen;
+
 		// C# Assemblies
 		if (ImGui::TreeNodeEx("Assemblies", treeNodeFlags))
 		{

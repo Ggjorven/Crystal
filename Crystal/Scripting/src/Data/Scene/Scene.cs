@@ -21,6 +21,11 @@ namespace Crystal
 
             return e;
         }
+
+        unsafe public static void SetSceneByName(string name)
+        {
+            InternalCalls.SetSceneByName(name);
+        }
     }
 
 }

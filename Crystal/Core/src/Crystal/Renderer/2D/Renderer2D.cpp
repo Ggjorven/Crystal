@@ -45,7 +45,7 @@ namespace Crystal
 		VertexBuffer->SetLayout({
 			Crystal::BufferElement(Crystal::ShaderDataType::Float3, "a_Position", false),
 			Crystal::BufferElement(Crystal::ShaderDataType::Float2, "a_TexCoord", false)
-			});
+		});
 
 		Crystal::Ref<Crystal::IndexBuffer> IndexBuffer = Crystal::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 
@@ -66,7 +66,7 @@ namespace Crystal
 		ShaderSource shaderSource = ShaderLib::GetShaderSource(ShaderLib::Type::Textured_Coloured_Transform_ViewProj_TexCoord);
 		s_QuadData->TextureShader = Shader::Create("TexturedShader", shaderSource.VertexSource, shaderSource.FragmentSource);
 
-		s_QuadData->TextureShader->SetUniformInt1("u_Texture", 0);
+		s_QuadData->TextureShader->SetUniformInt1("u_Texture", 0); // Set the texture slot to 0
 	}
 
 	void Renderer2D::Shutdown()
@@ -107,7 +107,7 @@ namespace Crystal
 			s_QuadData->TextureShader->SetUniformMat4("u_ViewProj", glm::mat4(1.0f));
 
 
-		s_QuadData->WhiteTexture->Bind();
+		s_QuadData->WhiteTexture->Bind(0); // Bind the white texture to texture slot 0 since that's where it's specified in the shader uniform
 		RendererCommand::DrawIndexed(s_QuadData->QuadVertexArray, s_QuadData->TextureShader);
 	}
 
@@ -149,7 +149,7 @@ namespace Crystal
 			s_QuadData->TextureShader->SetUniformMat4("u_ViewProj", glm::mat4(1.0f));
 
 
-		texture->Bind();
+		texture->Bind(0); // Bind the white texture to texture slot 0 since that's where it's specified in the shader uniform
 		RendererCommand::DrawIndexed(s_QuadData->QuadVertexArray, s_QuadData->TextureShader);
 	}
 

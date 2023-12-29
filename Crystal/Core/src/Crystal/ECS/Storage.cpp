@@ -49,12 +49,17 @@ namespace Crystal::ECS
             s_Host = Coral::HostInstance();
             s_Host.Initialize(settings);
 
-            s_Context = s_Host.CreateAssemblyLoadContext("Crystal-" + std::to_string(UUIDGenerator::GenerateUUID()));
-            s_LoadContext = s_Host.CreateAssemblyLoadContext("Crystal-" + std::to_string(UUIDGenerator::GenerateUUID()));
+            s_Context = s_Host.CreateAssemblyLoadContext("Crystal-Engine");
+            s_LoadContext = s_Host.CreateAssemblyLoadContext("Crystal-Assemblies");
 
             s_Assembly = s_Context.LoadAssembly((Application::GetWorkingDirectory().string() + "\\Scripting-Engine.dll"));
 
             Wrapper::Setup::Run(s_Assembly);
+        }
+        else
+        {
+            s_Host.UnloadAssemblyLoadContext(s_LoadContext);
+            s_LoadContext = s_Host.CreateAssemblyLoadContext("Crystal-Assemblies");
         }
         ++s_StorageCount;
     }
@@ -64,8 +69,15 @@ namespace Crystal::ECS
         //CR_CORE_TRACE("~Storage");
         --s_StorageCount;
 
+        s_Assemblies.clear();
+        s_AssemblyPaths.clear();
+
+        m_ComponentMaps.clear();
+
         if (s_StorageCount == 0u)
         {
+            //CR_CORE_TRACE("~Storage - Shutdown");
+            s_Host.UnloadAssemblyLoadContext(s_LoadContext);
             s_Host.UnloadAssemblyLoadContext(s_Context);
             s_Host.Shutdown();
         }
@@ -91,7 +103,7 @@ namespace Crystal::ECS
 
         // Reload context
         s_Host.UnloadAssemblyLoadContext(s_LoadContext);
-        s_LoadContext = s_Host.CreateAssemblyLoadContext("Crystal-" + std::to_string(UUIDGenerator::GenerateUUID()));
+        s_LoadContext = s_Host.CreateAssemblyLoadContext("Crystal-Assemblies");
 
         for (auto& path : copy)
         {
@@ -106,6 +118,28 @@ namespace Crystal::ECS
             auto& scriptC = GetComponent<ECS::ScriptComponent>(script.first);
             scriptC.Script->Reload();
         }
+    }
+
+    void Storage::DestroyObjects()
+    {
+        for (auto& script : GetComponentsMap<ECS::ScriptComponent>())
+        {
+            auto& scriptC = GetComponent<ECS::ScriptComponent>(script.first);
+            scriptC.Script->DestroyObject();
+        }
+    }
+
+    void Storage::DeleteEntity(CR_UUID uuid)
+    {
+        // Remove all components
+		RemoveComponent<ECS::TagComponent>(uuid);
+		RemoveComponent<ECS::TransformComponent>(uuid);
+		RemoveComponent<ECS::Renderer2DComponent>(uuid);
+		RemoveComponent<ECS::Renderer3DComponent>(uuid);
+		RemoveComponent<ECS::ScriptComponent>(uuid);
+		RemoveComponent<ECS::ColliderComponent>(uuid);
+		RemoveComponent<ECS::CameraComponent2D>(uuid);
+		RemoveComponent<ECS::CameraComponent3D>(uuid);
     }
 
 }

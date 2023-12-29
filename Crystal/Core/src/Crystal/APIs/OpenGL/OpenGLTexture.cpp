@@ -30,7 +30,8 @@ namespace Crystal
 		stbi_set_flip_vertically_on_load(1);
 
 		m_Data = stbi_load(path.c_str(), &width, &height, &channels, 0);
-		CR_CORE_ASSERT(m_Data, "Failed to load image!");
+		// Note(Jorben): When this issue arises make sure CRYSTAL_DIR is set.
+		CR_CORE_ASSERT(m_Data, "Failed to load image: {0}", path);
 		m_Width = width;
 		m_Height = height;
 
@@ -67,7 +68,7 @@ namespace Crystal
 
 	OpenGLTexture2D::~OpenGLTexture2D()
 	{
-		//delete m_Data;
+		if (m_Data) stbi_image_free((void*)m_Data);
 		glDeleteTextures(1, &m_RendererID);
 	}
 
@@ -87,8 +88,19 @@ namespace Crystal
 		CR_CORE_ASSERT(size == m_Width * m_Height * bpp, "Data must be entire texture!");
 
 		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
-
+		//m_Data = (unsigned char*)data;
 		//glGenerateMipmap(GL_TEXTURE_2D);
+	}
+
+	void OpenGLTexture2D::SetData(const std::vector<glm::vec4>& data)
+	{
+		glBindTexture(GL_TEXTURE_2D, m_RendererID);
+
+		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_FLOAT, data.data());
+
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
 	void OpenGLTexture2D::UpdateSubTexture(int x, int y, int width, int height)
@@ -100,5 +112,58 @@ namespace Crystal
 	void OpenGLTexture2D::Bind(uint32_t slot) const
 	{
 		glBindTextureUnit(slot, m_RendererID);
+	}
+
+	void OpenGLTexture2D::BindToImageUnit(uint32_t unit, Texture::ManipMode mode) const
+	{
+		GLenum glMode = 0;
+		
+		switch (mode)
+		{
+		case ManipMode::Read:
+			glMode = GL_READ_ONLY;
+			break;
+
+		case ManipMode::Write:
+			glMode = GL_WRITE_ONLY;
+			break;
+
+		case ManipMode::ReadWrite:
+			glMode = GL_READ_WRITE;
+			break;
+
+		default:
+			CR_CORE_WARN("Invalid Manipulation Mode selected!");
+			glMode = GL_READ_WRITE;
+			break;
+		}
+
+		glBindImageTexture(unit, m_RendererID, 0, GL_FALSE, 0, glMode, m_InternalFormat);
+	}
+	void OpenGLTexture2D::UnBindFromImageUnit(uint32_t unit, Texture::ManipMode mode) const
+	{
+		GLenum glMode = 0;
+
+		switch (mode)
+		{
+		case ManipMode::Read:
+			glMode = GL_READ_ONLY;
+			break;
+
+		case ManipMode::Write:
+			glMode = GL_WRITE_ONLY;
+			break;
+
+		case ManipMode::ReadWrite:
+			glMode = GL_READ_WRITE;
+			break;
+
+		default:
+			CR_CORE_WARN("Invalid Manipulation Mode selected!");
+			glMode = GL_READ_WRITE;
+			break;
+		}
+
+		glBindImageTexture(unit, 0, 0, GL_FALSE, 0, glMode, m_InternalFormat);
 	}
 }

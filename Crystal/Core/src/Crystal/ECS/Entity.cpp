@@ -12,10 +12,7 @@ namespace Crystal::ECS
 
     Entity::~Entity()
     {
-        //m_Storage.RemoveComponent<ECS::TagComponent>(m_UUID);
-        //m_Storage.RemoveComponent<ECS::TransformComponent>(m_UUID);
-        //m_Storage.RemoveComponent<ECS::Renderer2DComponent>(m_UUID);
-        //m_Storage.RemoveComponent<ECS::ScriptComponent>(m_UUID);
+		//m_Storage.DeleteEntity(m_UUID);
     }
 
     Ref<Entity> Entity::Create(ECS::Storage& storage, const std::string& name)

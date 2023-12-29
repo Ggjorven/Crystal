@@ -15,18 +15,30 @@ namespace Crystal
 	Project::Project(const std::string& debugName)
 		: m_DebugName(debugName)
 	{
+		//CR_CORE_TRACE("Project");
 		Project::SetCurrentProject(this);
 	}
 
 	Project::~Project()
 	{
-
+		m_ActiveScene.reset();
+		//CR_CORE_TRACE("~Project");
 	}
 
 	void Project::OnUpdate(Timestep& ts)
 	{
-		m_ActiveScene->SetState((int)m_State);
+		if (m_SetNewScene)
+		{
+			SetScene(m_NewSceneProperties);
+			m_SetNewScene = false;
 
+			if (m_State == State::Runtime)
+			{
+				m_ActiveScene->CopyStorage();
+			}
+		}
+
+		m_ActiveScene->SetState((int)m_State);
 		m_ActiveScene->OnUpdate(ts);
 	}
 
@@ -40,13 +52,39 @@ namespace Crystal
 		m_ActiveScene->OnEvent(e);
 	}
 
-	void Project::AddScene(const SceneProperties& properties)
+	void Project::SetScene(SceneProperties& props)
 	{
-		//CR_CORE_TRACE("AddScene");
+		if (m_ActiveScene) 
+			m_ActiveScene->GetStorage().DestroyObjects();
 
-		// TODO(Jorben): Add a way to check which type of Scene it is (2D or 3D)
-		// ^ TODO(Jorben): Implement using properties.SceneType _2D or _3D
-		LoadScene2D(properties);
+		switch (props.SceneType)
+		{
+		case SceneProperties::Type::_2D:
+			LoadScene2D(props);
+			break;
+
+		case SceneProperties::Type::_3D:
+			LoadScene3D(props);
+			break;
+
+		default:
+			CR_CORE_WARN("No scene type selected, {0}\n\tLoading the scene as a 2D scene.", props.Path.string());
+			props.SceneType = SceneProperties::Type::_2D;
+			LoadScene2D(props);
+			break;
+		}
+	}
+
+	void Project::SetSceneBasedOnName(const std::string& name)
+	{
+		for (auto& props : m_Scenes)
+		{
+			if (props.Name == name)
+			{
+				m_SetNewScene = true;
+				m_NewSceneProperties = props;
+			}
+		}
 	}
 
 	void Project::LoadScene2D(const SceneProperties& properties)
@@ -58,13 +96,13 @@ namespace Crystal
 		serializer.Deserialize(m_ProjectDir / m_SceneDir / properties.Path);
 	}
 
-	void Project::LoadScene3D(const SceneProperties& properties) // TODO
+	void Project::LoadScene3D(const SceneProperties& properties)
 	{
-		CR_CORE_ASSERT(false, "Not supported.")
-		//m_ActiveScene = CreateRef<Scene3D>();
+		m_ActiveScene = CreateRef<Scene3D>();
+		m_ActiveScene->SetProperties(properties);
 
 		SceneSerializer serializer(m_ActiveScene);
-		serializer.Deserialize(properties.Path);
+		serializer.Deserialize(m_ProjectDir / m_SceneDir / properties.Path);
 	}
 
 }

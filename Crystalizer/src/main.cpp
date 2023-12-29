@@ -2,6 +2,7 @@
 #include <Crystal/Core/AppEntrypoint.hpp>
 
 #include "Editor.hpp"
+#include "Custom.hpp"
 
 class Crystalizer : public Crystal::Application
 {
@@ -10,10 +11,7 @@ public:
 		: Application(appInfo)
 	{
 		AddLayer(new EditorLayer(appInfo));
-		//AddLayer(new Layer2D());
-		//AddLayer(new Layer3D());
-		//AddLayer(new ECSLayer());
-		//AddLayer(new CoralLayer(appInfo));
+		AddLayer(new CustomLayer(appInfo));
 	}
 
 	virtual ~Crystalizer() {}

@@ -26,7 +26,7 @@ namespace Crystal
 
 	void Camera3D::OnUpdate(Timestep& ts)
 	{
-        m_Camera->OnUpdate(ts);
+        m_Camera->UpdateMatrices();
 
         //Key presses
         if (!m_Escaped)

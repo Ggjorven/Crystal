@@ -68,6 +68,59 @@ namespace Crystal::Wrapper
 		static void ScriptComponent_AddValueField_Char(uint64_t uuid, Coral::NativeString name, char charVar);
 		static void ScriptComponent_AddValueField_Bool(uint64_t uuid, Coral::NativeString name, bool boolVar);
 		static void ScriptComponent_AddValueField_String(uint64_t uuid, Coral::NativeString name, Coral::NativeString stringVar);
+
+		// CameraComponent2D
+		static void CameraComponent2D_SetPositionX(uint64_t uuid, float x);
+		static void CameraComponent2D_SetPositionY(uint64_t uuid, float y);
+
+		static void CameraComponent2D_SetSizeX(uint64_t uuid, float size);
+		static void CameraComponent2D_SetSizeY(uint64_t uuid, float size);
+
+		static void CameraComponent2D_SetZoom(uint64_t uuid, float zoom);
+		static void CameraComponent2D_SetRotation(uint64_t uuid, float rotation);
+		static void CameraComponent2D_SetPrimary(uint64_t uuid, bool primary);
+
+		static float CameraComponent2D_GetPositionX(uint64_t uuid);
+		static float CameraComponent2D_GetPositionY(uint64_t uuid);
+
+		static float CameraComponent2D_GetSizeX(uint64_t uuid);
+		static float CameraComponent2D_GetSizeY(uint64_t uuid);
+
+		static float CameraComponent2D_GetZoom(uint64_t uuid);
+		static float CameraComponent2D_GetRotation(uint64_t uuid);
+		static bool CameraComponent2D_GetPrimary(uint64_t uuid);
+
+		// CameraComponent3D
+		static void CameraComponent3D_SetPositionX(uint64_t uuid, float x);
+		static void CameraComponent3D_SetPositionY(uint64_t uuid, float y);
+		static void CameraComponent3D_SetPositionZ(uint64_t uuid, float z);
+
+		static void CameraComponent3D_SetSizeX(uint64_t uuid, float size);
+		static void CameraComponent3D_SetSizeY(uint64_t uuid, float size);
+
+		static void CameraComponent3D_SetZoom(uint64_t uuid, float zoom);
+		static void CameraComponent3D_SetRotation(uint64_t uuid, float rotation);
+		static void CameraComponent3D_SetPrimary(uint64_t uuid, bool primary);
+
+		static void CameraComponent3D_SetFOV(uint64_t uuid, float fov);
+		static void CameraComponent3D_SetYaw(uint64_t uuid, float yaw);
+		static void CameraComponent3D_SetPitch(uint64_t uuid, float pitch);
+
+		static float CameraComponent3D_GetPositionX(uint64_t uuid);
+		static float CameraComponent3D_GetPositionY(uint64_t uuid);
+		static float CameraComponent3D_GetPositionZ(uint64_t uuid);
+
+		static float CameraComponent3D_GetSizeX(uint64_t uuid);
+		static float CameraComponent3D_GetSizeY(uint64_t uuid);
+
+		static float CameraComponent3D_GetZoom(uint64_t uuid);
+		static float CameraComponent3D_GetRotation(uint64_t uuid);
+		static bool CameraComponent3D_GetPrimary(uint64_t uuid);
+
+		static float CameraComponent3D_GetFOV(uint64_t uuid);
+		static float CameraComponent3D_GetYaw(uint64_t uuid);
+		static float CameraComponent3D_GetPitch(uint64_t uuid);
+
 	};
 
 }

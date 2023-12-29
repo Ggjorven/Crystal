@@ -30,4 +30,5 @@ namespace Crystal
 	private:
 		GLuint m_UnusedIds = 0;
 	};
+
 }

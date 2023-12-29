@@ -18,6 +18,15 @@ namespace Crystal
         GLFWwindow* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 
         int state = glfwGetKey(window, keycode);
+
+        // Note(Jorben): This is needed for some reason to stop false triggers?
+        if ((state == GLFW_PRESS || state == GLFW_REPEAT))
+        {
+            std::stringstream ss;
+			ss << "KeyPressedEvent: " << keycode << " (" << state << ")";
+            std::string str = ss.str();
+        }
+
         return state == GLFW_PRESS || state == GLFW_REPEAT;
     }
 

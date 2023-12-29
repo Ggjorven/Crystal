@@ -7,6 +7,7 @@
 #include <imgui.h>
 
 #include "Panels/Panels.hpp"
+#include "Utils/SelectionManager.hpp"
 
 // In seconds
 #define CR_AUTOSAVE_INTERVAL 30.0f
@@ -52,4 +53,9 @@ private:
 	Ref<FrameBuffer> m_FrameBuffer = nullptr;
 
 	Ref<Panels> m_Panels = nullptr;
+	SelectionManager m_SelectionManager;
+
+	// Test space
+	Ref<Texture2D> m_Texture = nullptr;
+	Ref<ComputeShader<float, float>> m_ComputeShader = nullptr;
 };

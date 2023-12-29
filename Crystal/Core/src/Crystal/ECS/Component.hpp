@@ -142,6 +142,9 @@ namespace Crystal::ECS
 
 		float FOV = 45.f;
 
+		float Yaw = 0.0f;
+		float Pitch = 0.0f;
+
 		bool Primary = true;
 
 		CameraComponent3D();

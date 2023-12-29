@@ -147,6 +147,8 @@ namespace Crystal
 					ImGui::DragFloat("Rotation", &cc.Rotation);
 
 					ImGui::DragFloat("FOV", &cc.FOV);
+					ImGui::DragFloat("Yaw", &cc.Yaw);
+					ImGui::DragFloat("Pitch", &cc.Pitch);
 
 					ImGui::Checkbox("Primary", &cc.Primary);
 				}

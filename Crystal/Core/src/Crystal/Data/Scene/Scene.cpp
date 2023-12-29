@@ -205,13 +205,15 @@ namespace Crystal
 			m_FirstUpdate = false;
 
 			// Update primary camera
+			auto& camera = m_EditorCamera2D->GetCamera();
+
 			for (auto& camC : m_Storage.GetComponentsMap<ECS::CameraComponent2D>())
 			{
 				auto& cam = m_Storage.GetComponent<ECS::CameraComponent2D>(camC.first);
 
 				if (cam.Primary)
 				{
-					auto& camera = cam.Camera;
+					camera = cam.Camera;
 
 					camera->SetPosition(Vec3<float>(cam.Position.x, cam.Position.y, 0.0f));
 					camera->SetProjection(cam.Size.x / 2.0f * -1 * cam.Zoom, cam.Size.x / 2.0f * cam.Zoom,
@@ -220,6 +222,9 @@ namespace Crystal
 					break;
 				}
 			}
+			// TODO(Jorben): Update editorcamera if no camera is selected
+			//m_EditorCamera2D->OnUpdate(ts);
+
 			break;
 		}
 
@@ -318,22 +323,28 @@ namespace Crystal
 			m_FirstUpdate = false;
 
 			// Update primary camera
+			auto& camera = m_EditorCamera3D->GetCamera();
 			for (auto& camC : m_Storage.GetComponentsMap<ECS::CameraComponent3D>())
 			{
 				auto& cam = m_Storage.GetComponent<ECS::CameraComponent3D>(camC.first);
 
 				if (cam.Primary)
 				{
-					auto& camera = cam.Camera;
+					camera = cam.Camera;
 
 					camera->SetPosition(cam.Position);
 					camera->SetAspectRatio(cam.Size.x, cam.Size.y);
+					// TODO(Jorben): Make this different, 'cause I'm storing the data basically twice now
 					camera->GetSettings().FOV = cam.FOV;
+					camera->GetSettings().Yaw = cam.Yaw;
+					camera->GetSettings().Pitch = cam.Pitch;
 
 					camera->UpdateAll();
 					break;
 				}
 			}
+			// TODO(Jorben): Update editorcamera if no camera is selected
+
 			break;
 		}
 

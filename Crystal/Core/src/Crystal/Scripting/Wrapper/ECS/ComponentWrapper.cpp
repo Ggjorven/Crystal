@@ -671,6 +671,38 @@ namespace Crystal::Wrapper
 		}
 	}
 
+	void Component::CameraComponent3D_SetYaw(uint64_t uuid, float yaw)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::CameraComponent3D>(uuid))
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Yaw = yaw;
+		}
+		else
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Yaw = yaw;
+		}
+	}
+
+	void Component::CameraComponent3D_SetPitch(uint64_t uuid, float pitch)
+	{
+		if (Project::GetCurrentProject()->GetCurrentScene()->GetStorage().HasComponent<ECS::CameraComponent3D>(uuid))
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Pitch = pitch;
+		}
+		else
+		{
+			auto& cc = Project::GetCurrentProject()->GetCurrentScene()->GetStorage().AddComponent<ECS::CameraComponent3D>(uuid);
+
+			cc.Pitch = pitch;
+		}
+	}
+
 	float Component::CameraComponent3D_GetPositionX(uint64_t uuid)
 	{
 		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid).Position.x;
@@ -714,6 +746,16 @@ namespace Crystal::Wrapper
 	float Component::CameraComponent3D_GetFOV(uint64_t uuid)
 	{
 		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid).FOV;
+	}
+
+	float Component::CameraComponent3D_GetYaw(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid).Yaw;
+	}
+
+	float Component::CameraComponent3D_GetPitch(uint64_t uuid)
+	{
+		return Project::GetCurrentProject()->GetCurrentScene()->GetStorage().GetComponent<ECS::CameraComponent3D>(uuid).Pitch;
 	}
 
 

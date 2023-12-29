@@ -103,6 +103,8 @@ namespace Crystal::Wrapper
 		static void CameraComponent3D_SetPrimary(uint64_t uuid, bool primary);
 
 		static void CameraComponent3D_SetFOV(uint64_t uuid, float fov);
+		static void CameraComponent3D_SetYaw(uint64_t uuid, float yaw);
+		static void CameraComponent3D_SetPitch(uint64_t uuid, float pitch);
 
 		static float CameraComponent3D_GetPositionX(uint64_t uuid);
 		static float CameraComponent3D_GetPositionY(uint64_t uuid);
@@ -116,6 +118,8 @@ namespace Crystal::Wrapper
 		static bool CameraComponent3D_GetPrimary(uint64_t uuid);
 
 		static float CameraComponent3D_GetFOV(uint64_t uuid);
+		static float CameraComponent3D_GetYaw(uint64_t uuid);
+		static float CameraComponent3D_GetPitch(uint64_t uuid);
 
 	};
 

@@ -117,6 +117,8 @@ namespace Crystal
         internal static unsafe delegate*<ulong, bool, void> CameraComponent3D_SetPrimary;
 
         internal static unsafe delegate*<ulong, float, void> CameraComponent3D_SetFOV;
+        internal static unsafe delegate*<ulong, float, void> CameraComponent3D_SetYaw;
+        internal static unsafe delegate*<ulong, float, void> CameraComponent3D_SetPitch;
 
         internal static unsafe delegate*<ulong, float> CameraComponent3D_GetPositionX;
         internal static unsafe delegate*<ulong, float> CameraComponent3D_GetPositionY;
@@ -130,6 +132,8 @@ namespace Crystal
         internal static unsafe delegate*<ulong, bool> CameraComponent3D_GetPrimary;
 
         internal static unsafe delegate*<ulong, float> CameraComponent3D_GetFOV;
+        internal static unsafe delegate*<ulong, float> CameraComponent3D_GetYaw;
+        internal static unsafe delegate*<ulong, float> CameraComponent3D_GetPitch;
 
         /// Entity functions
         internal static unsafe delegate*<ulong, bool> HasComponent_TagComponent;

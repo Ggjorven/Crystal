@@ -133,6 +133,8 @@ namespace Crystal::Wrapper
 		CR_ADD_INTERNAL("CameraComponent3D_SetPrimary", &Component::CameraComponent3D_SetPrimary);
 
 		CR_ADD_INTERNAL("CameraComponent3D_SetFOV", &Component::CameraComponent3D_SetFOV);
+		CR_ADD_INTERNAL("CameraComponent3D_SetYaw", &Component::CameraComponent3D_SetYaw);
+		CR_ADD_INTERNAL("CameraComponent3D_SetPitch", &Component::CameraComponent3D_SetPitch);
 
 		/// Getters
 		CR_ADD_INTERNAL("CameraComponent3D_GetPositionX", &Component::CameraComponent3D_GetPositionX);
@@ -147,6 +149,8 @@ namespace Crystal::Wrapper
 		CR_ADD_INTERNAL("CameraComponent3D_GetPrimary", &Component::CameraComponent3D_GetPrimary);
 
 		CR_ADD_INTERNAL("CameraComponent3D_GetFOV", &Component::CameraComponent3D_GetFOV);
+		CR_ADD_INTERNAL("CameraComponent3D_GetYaw", &Component::CameraComponent3D_GetYaw);
+		CR_ADD_INTERNAL("CameraComponent3D_GetPitch", &Component::CameraComponent3D_GetPitch);
 
 		/// Entity
 		CR_ADD_INTERNAL("HasComponent_TagComponent", &Entity::HasComponent_TagComponent);

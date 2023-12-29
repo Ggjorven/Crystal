@@ -161,5 +161,25 @@ namespace Crystal
             return InternalCalls.CameraComponent3D_GetFOV(ID);
         }
 
+        public void SetYaw(float yaw)
+        {
+            InternalCalls.CameraComponent3D_SetYaw(ID, yaw);
+        }
+
+        public float GetYaw()
+        {
+            return InternalCalls.CameraComponent3D_GetYaw(ID);
+        }
+
+        public void SetPitch(float pitch)
+        {
+            InternalCalls.CameraComponent3D_SetPitch(ID, pitch);
+        }
+
+        public float GetPitch()
+        {
+            return InternalCalls.CameraComponent3D_GetPitch(ID);
+        }
+
     }
 }

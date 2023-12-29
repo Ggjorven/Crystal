@@ -1,6 +1,6 @@
 Scene: ""
 Assemblies:
-  []
+  - bin\Release\Script.dll
 ClearColour: [0, 0, 0, 1]
 Entities:
   - Entity: 7294843200858172364
@@ -26,3 +26,15 @@ Entities:
       Colour: [1, 1, 1, 1]
       UseTexture: false
       UseColour: true
+  - Entity: 14308364624407778376
+    TagComponent:
+      Tag: Perspective-Camera
+    ScriptComponent:
+      Class: NewCam
+    CameraComponent3D:
+      Position: [0, 0, 0]
+      Size: [947, 541]
+      Zoom: 1
+      Rotation: 4
+      Primary: true
+      FOV: 99

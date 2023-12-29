@@ -41,3 +41,12 @@ Entities:
         Size-Link: true
         Position: [343, 146, 0]
         Size: [64, 64, 0]
+  - Entity: 4223919606237170479
+    TagComponent:
+      Tag: OrthoGraphic-Camera
+    CameraComponent2D:
+      Position: [0, 0]
+      Size: [947, 541]
+      Zoom: 1
+      Rotation: 0
+      Primary: true

@@ -7,6 +7,10 @@
 #include <imgui.h>
 
 #include "Panels/Panels.hpp"
+#include "Utils/SelectionManager.hpp"
+
+// In seconds
+#define CR_AUTOSAVE_INTERVAL 30.0f
 
 using namespace Crystal;
 
@@ -30,19 +34,28 @@ public:
 
 private:
 	void CreateNewProject();
+	void OpenProject(std::filesystem::path path);
 	void SaveProject();
 
 	void MenuBar();
 	void ViewPort();
 
 	bool KeyEvent(KeyPressedEvent& e);
+	bool WindowClose(WindowCloseEvent& e);
 
 private:
-	std::filesystem::path m_Path = Utils::GetEnviromentVariable("CRYSTAL_DIR") + "/Crystalizer/Projects/TestProj/test.crproj";
+	std::filesystem::path m_Path = Utils::GetEnviromentVariable("CRYSTAL_DIR") + "\\Crystalizer\\Projects\\TestProj\\test.crproj";
 	bool m_Running = false;
+
+	Timestep m_AutoSaveTimer = 0.0f;
 
 	Ref<Project> m_Project = nullptr;
 	Ref<FrameBuffer> m_FrameBuffer = nullptr;
 
 	Ref<Panels> m_Panels = nullptr;
+	SelectionManager m_SelectionManager;
+
+	// Test space
+	Ref<Texture2D> m_Texture = nullptr;
+	Ref<ComputeShader<float, float>> m_ComputeShader = nullptr;
 };

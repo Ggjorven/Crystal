@@ -11,67 +11,132 @@ namespace Crystal
 
     public class Component
     {
-        unsafe public ulong ID;
-        unsafe protected Component(ulong entityID) { ID = entityID; }
+        public ulong ID;
+        protected Component(ulong entityID) { ID = entityID; }
     }
 
     public class TagComponent : Component
     {
         public TagComponent() : base(0) { }
-        unsafe public TagComponent(ulong entityID) : base(entityID) { }
+        public TagComponent(ulong entityID) : base(entityID) { }
 
         unsafe public string Tag
         {
-            get => InternalCalls.TagComponent_GetTag(ID);
+            get => InternalCalls.TagComponent_GetTag(ID)!;
             set => InternalCalls.TagComponent_SetTag(ID, value);
         }
     }
 
-    public class TransformComponent : Component // TODO(Jorben): Fix, maybe create a transform struct with Vec3's and set the get and sets there
+    public class TransformComponent : Component
     {
         public TransformComponent() : base(0) { }
-        unsafe public TransformComponent(ulong entityID) : base(entityID) { }
 
-        unsafe public float PosX
+        public TransformComponent(ulong entityID) : base(entityID) { }
+
+        // Provides a copy of the position
+        unsafe public Vec3<float> GetPosition()
         {
-            get => InternalCalls.TransformComponent_GetPositionX(ID);
-            set => InternalCalls.TransformComponent_SetPositionX(ID, value);
+            Vec3<float> pos = new Vec3<float>(0.0f, 0.0f, 0.0f);
+            pos.X = InternalCalls.TransformComponent_GetPositionX(ID);
+            pos.Y = InternalCalls.TransformComponent_GetPositionY(ID);
+            pos.Z = InternalCalls.TransformComponent_GetPositionZ(ID);
+
+            return pos;
+        }
+        unsafe public void SetPosition(Vec3<float> position)
+        {
+            InternalCalls.TransformComponent_SetPositionX(ID, position.X);
+            InternalCalls.TransformComponent_SetPositionY(ID, position.Y);
+            InternalCalls.TransformComponent_SetPositionZ(ID, position.Z);
         }
 
-        unsafe public float PosY
+        // Provides a copy of the size
+        unsafe public Vec3<float> GetSize()
         {
-            get => InternalCalls.TransformComponent_GetPositionY(ID);
-            set => InternalCalls.TransformComponent_SetPositionY(ID, value);
+            Vec3<float> pos = new Vec3<float>(0.0f, 0.0f, 0.0f);
+            pos.X = InternalCalls.TransformComponent_GetSizeX(ID);
+            pos.Y = InternalCalls.TransformComponent_GetSizeY(ID);
+            pos.Z = InternalCalls.TransformComponent_GetSizeZ(ID);
+
+            return pos;
+        }
+        unsafe public void SetSize(Vec3<float> size)
+        {
+            InternalCalls.TransformComponent_SetSizeX(ID, size.X);
+            InternalCalls.TransformComponent_SetSizeY(ID, size.Y);
+            InternalCalls.TransformComponent_SetSizeZ(ID, size.Z);
         }
 
-        unsafe public float PosZ
+        // Provides a copy of the rotation
+        unsafe public float GetRotation()
         {
-            get => InternalCalls.TransformComponent_GetPositionZ(ID);
-            set => InternalCalls.TransformComponent_SetPositionZ(ID, value);
+            return InternalCalls.TransformComponent_GetRotation(ID);
+        }
+        unsafe public void SetRotation(float rotation)
+        {
+            InternalCalls.TransformComponent_SetRotation(ID, rotation);
+        }
+    }
+
+    public class Renderer2DComponent : Component
+    {
+        public Renderer2DComponent() : base(0) { }
+        public Renderer2DComponent(ulong entityID) : base(entityID) { }
+
+        unsafe public Texture2D GetTexture()
+        {
+            Texture2D texture = new Texture2D("");
+            texture.Path = InternalCalls.Renderer2DComponent_GetTexturePath(ID)!;
+
+            return texture;
+        }
+        unsafe public void SetTexture(Texture2D texture)
+        {
+            InternalCalls.Renderer2DComponent_SetTexturePath(ID, texture.Path);
         }
 
-        unsafe public float SizeX
+        unsafe public bool GetUseTexture()
         {
-            get => InternalCalls.TransformComponent_GetSizeX(ID);
-            set => InternalCalls.TransformComponent_SetSizeX(ID, value);
+            return InternalCalls.Renderer2DComponent_GetUseTexture(ID);
+        }
+        unsafe public void SetUseTexture(bool enabled)
+        {
+            InternalCalls.Renderer2DComponent_SetUseTexture(ID, enabled);
         }
 
-        unsafe public float SizeY
+        unsafe public bool GetUseColour()
         {
-            get => InternalCalls.TransformComponent_GetSizeY(ID);
-            set => InternalCalls.TransformComponent_SetSizeY(ID, value);
+            return InternalCalls.Renderer2DComponent_GetUseColour(ID);
+        }
+        unsafe public void SetUseColour(bool enabled)
+        {
+            InternalCalls.Renderer2DComponent_SetUseColour(ID, enabled);
         }
 
-        unsafe public float SizeZ
+        unsafe public Vec4<float> GetColour()
         {
-            get => InternalCalls.TransformComponent_GetSizeZ(ID);
-            set => InternalCalls.TransformComponent_SetSizeZ(ID, value);
-        }
+            Vec4<float> colour = new Vec4<float>(0.0f, 0.0f, 0.0f, 0.0f);
+            colour.R = InternalCalls.Renderer2DComponent_GetColourR(ID);
+            colour.G = InternalCalls.Renderer2DComponent_GetColourG(ID);
+            colour.B = InternalCalls.Renderer2DComponent_GetColourB(ID);
+            colour.A = InternalCalls.Renderer2DComponent_GetColourA(ID);
 
-        unsafe public float Rotation
-        {
-            get => InternalCalls.TransformComponent_GetRotation(ID);
-            set => InternalCalls.TransformComponent_SetRotation(ID, value);
+            return colour;
         }
+        unsafe public void SetColour(Vec4<float> colour)
+        {
+            InternalCalls.Renderer2DComponent_SetColourR(ID, colour.R);
+            InternalCalls.Renderer2DComponent_SetColourG(ID, colour.G);
+            InternalCalls.Renderer2DComponent_SetColourB(ID, colour.B);
+            InternalCalls.Renderer2DComponent_SetColourA(ID, colour.A);
+        }
+    }
+
+    public class ColliderComponent : Component
+    {
+        public ColliderComponent() : base(0) { }
+        public ColliderComponent(ulong entityID) : base(entityID) { }
+
+        // TODO
     }
 }

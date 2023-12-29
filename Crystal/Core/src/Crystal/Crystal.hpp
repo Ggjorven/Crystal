@@ -57,6 +57,7 @@
 #include "Crystal/Renderer/RendererCommand.hpp"
 #include "Crystal/Renderer/RenderingAPI.hpp"
 #include "Crystal/Renderer/Shader.hpp"
+#include "Crystal/Renderer/ComputeShader.hpp"
 #include "Crystal/Renderer/Texture.hpp"
 #include "Crystal/Renderer/VertexArray.hpp"
 	//2D folder
@@ -67,10 +68,13 @@
 	#include "Crystal/Renderer/3D/PerspectiveCamera.hpp"
 	#include "Crystal/Renderer/3D/Renderer3D.hpp"
 
+	//Tools
+	#include "Crystal/Renderer/Tools/Commands.hpp"
+	#include "Crystal/Renderer/Tools/EditorCamera.hpp"
+	#include "Crystal/Renderer/Tools/SceneRenderer.hpp"
+
 //Scripting folder
 #include "Crystal/Scripting/EntityScript.hpp"
-	//Wrapper
-	#include "Crystal/Scripting/Wrapper/ECS/Component.hpp"
 
 //UI folder
 #include "Crystal/UI/UICore.hpp"

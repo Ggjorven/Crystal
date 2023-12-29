@@ -1,6 +1,11 @@
 #include "crpch.h"
 #include "OpenGLRenderingAPI.hpp"
 
+#include "Crystal/Core/Application.hpp"
+#include "Crystal/Core/Window.hpp"
+
+#include "Crystal/Renderer/2D/Renderer2D.hpp"
+
 namespace Crystal
 {
 
@@ -21,12 +26,12 @@ namespace Crystal
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_ALWAYS);
+		glDepthFunc(GL_LESS);
 	}
 
 	void OpenGLRenderingAPI::Clear()
 	{
-		glClear(GL_COLOR_BUFFER_BIT  | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	void OpenGLRenderingAPI::SetClearColour(const Vec4<float>& colour)
@@ -45,6 +50,24 @@ namespace Crystal
 			glEnable(GL_DEPTH_TEST);
 		else
 			glDisable(GL_DEPTH_TEST);
+	}
+
+	void OpenGLRenderingAPI::EnableWireFrame(bool enabled)
+	{
+		if (enabled)
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		else
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+
+	void OpenGLRenderingAPI::ReplaceFramebuffer(Ref<FrameBuffer>& framebuffer)
+	{
+		const Window& window = Application::Get().GetWindow();
+
+		glBlitNamedFramebuffer(framebuffer->GetRendererID(), 0,
+			0, 0, framebuffer->GetWidth(), framebuffer->GetHeight(),
+			0, 0, window.GetWidth(), window.GetHeight(),
+			GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 	}
 
 	void OpenGLRenderingAPI::DrawIndexed(const Ref<VertexArray>& vertexArray)

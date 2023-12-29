@@ -103,7 +103,7 @@ namespace Crystal
 		delete s_CubeData;
 	}
 
-	void Renderer3D::OnDrawCall()
+	void Renderer3D::OnDrawCall() // TODO(Jorben): Call this once when creating a renderer queue
 	{
 		RendererCommand::EnableDepth(true);
 	}

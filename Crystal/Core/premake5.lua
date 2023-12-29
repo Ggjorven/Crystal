@@ -51,7 +51,8 @@ project "Core"
 
 	disablewarnings
 	{
-		"4312"
+		"4312",
+		"4996"
 	}
 
     libdirs { "%{wks.location}/vendor/NetCore/7.0.7/" }

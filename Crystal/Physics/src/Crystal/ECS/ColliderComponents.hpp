@@ -6,6 +6,24 @@
 namespace Crystal
 {
 
+	struct CollisionProperties
+	{
+	public:
+		enum class CollisionType
+		{
+			None = 0, AABB
+		};
+
+		enum class CollisionSide
+		{
+			None = 0, Right, Left, Top, Bottom
+		};
+	public:
+		CollisionType Type = CollisionType::None;
+		CollisionSide Side = CollisionSide::None;
+
+	};
+
 	class AABBCollider
 	{
 	public:
@@ -18,8 +36,11 @@ namespace Crystal
 		Vec3<float>& GetPosition() { return m_Position; }
 		void SetPosition(const Vec3<float>& position) { m_Position = position; }
 
-		bool LinkedPosition() const { return m_PosLinked; }
-		bool LinkedSize() const { return m_SizeLinked; }
+		bool& LinkedPosition() { return m_PosLinked; }
+		bool& LinkedSize() { return m_SizeLinked; }
+
+		void SetPostionLinked(bool enabled) { m_PosLinked = enabled; }
+		void SetSizeLinked(bool enabled) { m_SizeLinked = enabled; }
 
 	private:
 		Vec3<float> m_Position = { 0.0f, 0.0f, 0.0f };

@@ -1,38 +1,56 @@
 #pragma once
 
+#pragma warning(push)
+#pragma warning(disable : 4172) // For the temp variable in GetComponent
+
 #include "Crystal/Core/Core.hpp"
 #include "Crystal/Utils/Utils.hpp"
-
 #include "Crystal/Core/UUID.hpp"
-
-#include <Coral/HostInstance.hpp>
-#include <Coral/GC.hpp>
-#include <Coral/NativeArray.hpp>
-#include <Coral/Attribute.hpp>
+#include "Crystal/ECS/Component.hpp"
 
 #include <any>
 #include <unordered_map>
-#include <map>
-#include <vector>
 #include <typeindex>
 #include <typeinfo>
-#include <type_traits>
-#include <functional>
+#include <memory>
 #include <optional>
 
-#include "Component.hpp"
+namespace Crystal
+{
+    class Project;
+
+    class Scene;
+    class SceneSerializer;
+    class Scene2D;
+    class Scene3D;
+    class SceneRenderer2D;
+    class SceneRenderer3D;
+
+    namespace Wrapper
+    {
+        class Scene;
+    }
+}
 
 namespace Crystal::ECS
 {
-
     class Storage
     {
     public:
         Storage();
         virtual ~Storage();
 
+        template <typename ComponentType>
+        bool HasComponent(CR_UUID uuid)
+        {
+            static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be a subclass of Component");
+
+            auto& componentMap = GetComponentsMap<ComponentType>();
+            return componentMap.find(uuid) != componentMap.end();
+        }
+
         template<typename ComponentType>
-        Ref<ComponentType> GetComponent(CR_UUID uuid)
+        ComponentType& GetComponent(CR_UUID uuid)
         {
             static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be a subclass of Component");
 
@@ -41,7 +59,7 @@ namespace Crystal::ECS
             {
                 try
                 {
-                    return std::static_pointer_cast<ComponentType>(componentMap[uuid]);
+                    return std::any_cast<ComponentType&>(componentMap[uuid]);
                 }
                 catch (const std::bad_any_cast e)
                 {
@@ -49,16 +67,20 @@ namespace Crystal::ECS
                 }
             }
 
-            return nullptr;
+            // Note(Jorben): You should never use this...
+            ComponentType temp = ComponentType();
+            return temp;
         }
 
         template<typename ComponentType>
-        void AddComponent(CR_UUID uuid, Ref<ComponentType>& component)
+        ComponentType& AddComponent(CR_UUID uuid, const ComponentType& component = ComponentType())
         {
             static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be a subclass of Component");
 
             auto& componentMap = GetComponentsMap<ComponentType>();
             componentMap[uuid] = component;
+
+            return GetComponent<ComponentType>(uuid);
         }
 
         template<typename ComponentType>
@@ -66,33 +88,51 @@ namespace Crystal::ECS
         {
             static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be a subclass of Component");
 
-            //CR_CORE_TRACE("Remove");
             auto& componentMap = GetComponentsMap<ComponentType>();
 
             auto it = componentMap.find(uuid);
             if (it != componentMap.end())
-            {
-                GetComponent<ComponentType>(uuid).reset();
                 componentMap.erase(it);
-            }
         }
 
-    public:
-        static Coral::HostInstance s_Host;
-        //static Coral::AssemblyLoadContext s_Context;
+        void AddPath(std::filesystem::path path) { s_AssemblyPaths.emplace_back(path); }
+        void LoadAssembly(std::filesystem::path path);
+        void ReloadAssemblies();
 
-    private:
+        void DestroyObjects();
+        void DeleteEntity(CR_UUID uuid);
+
         template<typename ComponentType>
-        std::unordered_map<CR_UUID, Ref<Component>>& GetComponentsMap()
+        std::unordered_map<CR_UUID, std::any>& GetComponentsMap()
         {
             return m_ComponentMaps[typeid(ComponentType)];
         }
 
+    public:
+        static Coral::HostInstance s_Host;
+        static Coral::AssemblyLoadContext s_LoadContext;
+        static std::vector<Coral::ManagedAssembly> s_Assemblies;
+        static std::vector<std::filesystem::path> s_AssemblyPaths;
+
     private:
-        std::unordered_map<std::type_index, std::unordered_map<CR_UUID, Ref<Component>>> m_ComponentMaps;
+        std::unordered_map<std::type_index, std::unordered_map<CR_UUID, std::any>> m_ComponentMaps;
 
-        Coral::AssemblyLoadContext m_Context;
-        Coral::ManagedAssembly m_Assembly;
+        static uint32_t s_StorageCount;
+        static Coral::AssemblyLoadContext s_Context;
+        static Coral::ManagedAssembly s_Assembly;
+
+        friend class Project;
+
+        friend class Scene;
+        friend class Scene2D;
+        friend class Scene3D;
+        friend class SceneRenderer2D;
+        friend class SceneRenderer3D;
+
+        friend class SceneSerializer;
+
+        friend class Crystal::Wrapper::Scene;
     };
-
 }
+
+#pragma warning(pop)

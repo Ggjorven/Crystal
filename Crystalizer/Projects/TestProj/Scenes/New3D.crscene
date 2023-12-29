@@ -1,0 +1,40 @@
+Scene: ""
+Assemblies:
+  - bin\Release\Script.dll
+ClearColour: [0, 0, 0, 1]
+Entities:
+  - Entity: 7294843200858172364
+    TagComponent:
+      Tag: ""
+    TransformComponent:
+      Position: [0, 0, 0]
+      Size: [2, 2, 2]
+      Rotation: 0
+    Renderer3DComponent:
+      Enable: true
+      Texture: ..\..\..\assets\textures\Mario.png
+      Colour: [0.442875713, 0.621676505, 0.684782624, 1]
+      UseTexture: false
+      UseColour: true
+  - Entity: 7312158401741766665
+    TransformComponent:
+      Position: [2, 0, 2]
+      Size: [1, 1, 1]
+      Rotation: 0
+    Renderer3DComponent:
+      Enable: true
+      Colour: [1, 1, 1, 1]
+      UseTexture: false
+      UseColour: true
+  - Entity: 14308364624407778376
+    TagComponent:
+      Tag: Perspective-Camera
+    ScriptComponent:
+      Class: NewCam
+    CameraComponent3D:
+      Position: [0, 0, 0]
+      Size: [947, 541]
+      Zoom: 1
+      Rotation: 4
+      Primary: true
+      FOV: 99

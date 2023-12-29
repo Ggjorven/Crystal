@@ -40,7 +40,8 @@ project "Launcher"
 
 	disablewarnings
 	{
-		"4312"
+		"4312",
+		"4996"
 	}
 
 	links

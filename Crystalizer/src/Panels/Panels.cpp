@@ -15,6 +15,8 @@
 namespace Crystal
 {
 
+	Panels* Panels::s_Instance = nullptr;
+
 	Ref<Texture2D> Panels::s_ButtonTex = nullptr;
 
 	Panels::ButtonState Panels::s_ButtonState = Panels::ButtonState::Play;
@@ -25,6 +27,8 @@ namespace Crystal
 	Panels::Panels(Ref<Project>& project)
 		: m_Project(project), m_SelectedEntity(nullptr)
 	{
+		s_Instance = this;
+
 		std::string path = Utils::GetEnviromentVariable("CRYSTAL_DIR");
 		m_CheckerboardTex = Texture2D::Create(path + "\\Crystalizer\\assets\\textures\\Checkerboard.tga");
 
@@ -41,13 +45,14 @@ namespace Crystal
 
 	Panels::~Panels()
 	{
+		s_Instance = nullptr;
 	}
 
 	void Panels::TexturePanel(const std::string_view& name, Ref<Texture2D>& changeAbleTexture, bool* useTexture)
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10, 10));
 		ImGui::Image(changeAbleTexture ? reinterpret_cast<void*>(changeAbleTexture->GetRendererID()) : reinterpret_cast<void*>(m_CheckerboardTex->GetRendererID()), ImVec2(32, 32), { 0, 1 }, { 1, 0 });
-		ImGui::PopStyleVar();
+		ImGui::PopStyleVar(1);
 
 		if (ImGui::IsItemHovered())
 		{
@@ -65,11 +70,11 @@ namespace Crystal
 
 			if (ImGui::IsItemClicked()) //Open a new file/texture
 			{
-				std::string filename = Utils::OpenFile("");
+				std::filesystem::path filename = std::filesystem::path(Utils::OpenFile("", Project::GetCurrentProject()->GetProjectDir().string().c_str()));
 
 				if (!filename.empty())
 				{
-					changeAbleTexture.reset(); changeAbleTexture = Texture2D::Create(filename);
+					changeAbleTexture.reset(); changeAbleTexture = Texture2D::Create(filename.string());
 				}
 			}
 		}
@@ -206,6 +211,12 @@ namespace Crystal
 		ImGui::GetStyle().WindowMenuButtonPosition = ImGuiDir_Right;
 		ImGui::GetStyle().ColorButtonPosition = ImGuiDir_Right;
 		
+	}
+
+	void Panels::CleanSelected()
+	{
+		m_SelectedEntity = nullptr; 
+		SelectionManager::Get()->ResetSelected();
 	}
 
 	void Panels::SwitchButtons()

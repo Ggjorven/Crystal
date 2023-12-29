@@ -21,6 +21,7 @@ namespace Crystal
 		uint32_t Height;
 
 		bool Decoration = true;
+		bool VSync = true;
 
 		bool CustomPos = false;
 		uint32_t X;
@@ -97,6 +98,8 @@ namespace Crystal
 			Adds a bit of padding (in non-Dist builds)...
 		*/
 		virtual bool InView(MousePosition position) const = 0;
+
+		virtual float GetFPS() const = 0;
 
 		// Extra
 		virtual void SetVSync(bool enabled) = 0;

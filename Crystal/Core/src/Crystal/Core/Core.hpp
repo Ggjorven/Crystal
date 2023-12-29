@@ -72,13 +72,14 @@ namespace Crystal
 	};
 
 	//Core logging macros
-	#ifndef CR_DIST //Distribution version
+	//#ifndef CR_DIST //Distribution version
 	#define CR_CORE_TRACE(...)			Crystal::Log::GetCoreLogger()->trace(__VA_ARGS__)
 	#define CR_CORE_INFO(...)			Crystal::Log::GetCoreLogger()->info(__VA_ARGS__)
 	#define CR_CORE_WARN(...)			Crystal::Log::GetCoreLogger()->warn(__VA_ARGS__)
 	#define CR_CORE_ERROR(...)			Crystal::Log::GetCoreLogger()->error(__VA_ARGS__)
 	#define CR_CORE_CRITICAL(...)		Crystal::Log::GetCoreLogger()->critical(__VA_ARGS__)
 
+	/*
 	#else
 	#define CR_CORE_TRACE(...)			
 	#define CR_CORE_INFO(...)			
@@ -87,6 +88,7 @@ namespace Crystal
 	#define CR_CORE_CRITICAL(...)		
 
 	#endif
+	*/
 
 	//Client logging macros
 	#define CR_TRACE(...)			Crystal::Log::GetClientLogger()->trace(__VA_ARGS__)

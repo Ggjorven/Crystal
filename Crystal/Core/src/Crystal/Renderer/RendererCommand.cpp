@@ -32,6 +32,16 @@ namespace Crystal
 		s_RenderingAPI->EnableDepth(enabled);
 	}
 
+	void RendererCommand::EnableWireFrame(bool enabled)
+	{
+		s_RenderingAPI->EnableWireFrame(enabled);
+	}
+
+	void RendererCommand::ReplaceFramebuffer(Ref<FrameBuffer>& framebuffer)
+	{
+		s_RenderingAPI->ReplaceFramebuffer(framebuffer);
+	}
+
 	void RendererCommand::DrawIndexed(const Ref<VertexArray>& vertexArray)
 	{
 		s_RenderingAPI->DrawIndexed(vertexArray);

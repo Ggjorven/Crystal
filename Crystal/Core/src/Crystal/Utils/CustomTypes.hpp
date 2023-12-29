@@ -29,6 +29,11 @@ namespace Crystal
 		{
 		}
 
+		Vec2(T* arr)
+			: X(arr[0]), Y(arr[1])
+		{
+		}
+
 		T* GetData()
 		{
 			return &X;
@@ -120,6 +125,11 @@ namespace Crystal
 		}
 		Vec3(const glm::vec3& vec)
 			: X(vec.x), Y(vec.y), Z(vec.z)
+		{
+		}
+
+		Vec3(T* arr)
+			: X(arr[0]), Y(arr[1]), Z(arr[2])
 		{
 		}
 
@@ -215,6 +225,11 @@ namespace Crystal
 		}
 		Vec4(const glm::vec4& vec)
 			: X(vec.x), Y(vec.y), Z(vec.z), W(vec.w)
+		{
+		}
+
+		Vec4(T* arr)
+			: X(arr[0]), Y(arr[1]), Z(arr[2]), W(arr[3])
 		{
 		}
 

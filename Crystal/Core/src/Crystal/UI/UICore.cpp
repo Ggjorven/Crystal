@@ -1,6 +1,7 @@
 #include "crpch.h"
 #include "UICore.hpp"
 
+#include "Crystal/Core/UUID.hpp"
 #include "Crystal/Utils/Utils.hpp"
 
 #include <imgui.h>
@@ -34,7 +35,7 @@ namespace Crystal::UI
 			ImGui::SetCursorPos(ImVec2(startCursorPos.x + ImGui::GetCurrentWindow()->Size.x - 40, startCursorPos.y + ImGui::GetStyle().FramePadding.y / 2.0f));
 			if (ImGui::Button(std::string(std::string("##") + std::string(label)).c_str(), iconSize))
 			{
-				CR_CORE_TRACE("AA");
+				ImGui::OpenPopup((std::string("Options") + std::string(label)).c_str());
 			}
 			ImGui::SetCursorPos(startCursorPos);
 
@@ -66,9 +67,21 @@ namespace Crystal::UI
 		ImGui::SetCursorPos(ImVec2(startCursorPos.x, startCursorPos.y + (ImGui::GetStyle().FramePadding.y * 6.25f)));
 
 		ImGui::PopStyleVar(2);
+
+		if (ImGui::BeginPopup((std::string("Options") + std::string(label)).c_str()))
+		{
+			if (ImGui::MenuItem("Remove"))
+			{
+				componentOptions.Remove = true;
+			}
+
+			ImGui::EndPopup();
+		}
+
 		return open;
 	}
 
+	// TODO(Jorben): Fix the slider bugs with Transform/Collider Size/Position sliders
 	void Vector3(const char* label, Vec3<float>& value, const Vec4<float>& colourX, const Vec4<float>& colourY, const Vec4<float>& colourZ)
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(1.0f, 4.f));
@@ -122,7 +135,7 @@ namespace Crystal::UI
 		ImGui::DragFloat((std::string("##Z") + std::string(label)).c_str(), &value.z, dragSpeed, 0.0f, 0.0f, "%.1f", ImGuiSliderFlags_None);
 
 		ImGui::SameLine();
-		ImGui::Text((std::string("<- ") + std::string(label)).c_str());
+		ImGui::Text((std::string("<- ") + std::string(label).erase(std::string(label).find("##"))).c_str());
 
 		ImGui::PopStyleColor(3);
 

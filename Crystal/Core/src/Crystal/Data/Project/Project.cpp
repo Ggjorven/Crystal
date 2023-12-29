@@ -1,7 +1,11 @@
 #include "crpch.h"
 #include "Project.hpp"
 
+#include "Crystal/Core/Application.hpp"
+
 #include "Crystal/Renderer/2D/Renderer2D.hpp"
+
+#include "Crystal/Data/Scene/SceneSerializer.hpp"
 
 namespace Crystal
 {
@@ -11,126 +15,94 @@ namespace Crystal
 	Project::Project(const std::string& debugName)
 		: m_DebugName(debugName)
 	{
-		m_EditorCamera = CreateRef<EditorCamera>();
-		s_CurrentProject = this;
+		//CR_CORE_TRACE("Project");
+		Project::SetCurrentProject(this);
 	}
 
 	Project::~Project()
 	{
-		CR_CORE_TRACE("CCC");
-		for (Ref<ECS::Entity> entity : m_Entities)
-		{
-			//CR_CORE_TRACE("{0} has Script: {1}", entity->GetUUID(), (entity->GetComponent<ECS::ScriptComponent>() ? true : false));
-			//entity->GetComponent<ECS::TagComponent>().reset();
-			entity->RemoveComponent<ECS::TagComponent>();
-
-			//entity->GetComponent<ECS::TransformComponent>().reset();
-			entity->RemoveComponent<ECS::TransformComponent>();
-
-			//entity->GetComponent<ECS::Renderer2DComponent>().reset();
-			entity->RemoveComponent<ECS::Renderer2DComponent>();
-
-			//entity->GetComponent<ECS::ColliderComponent>().reset();
-			entity->RemoveComponent<ECS::ColliderComponent>();
-
-			//entity->GetComponent<ECS::ScriptComponent>().reset();
-			entity->RemoveComponent<ECS::ScriptComponent>();
-		}
-
-		//m_Storage.~Storage();
+		m_ActiveScene.reset();
+		//CR_CORE_TRACE("~Project");
 	}
 
 	void Project::OnUpdate(Timestep& ts)
 	{
-		// TODO(Jorben): Add runtime camera
-		if (m_State == State::Editor)
+		if (m_SetNewScene)
 		{
-			m_EditorCamera->OnUpdate(ts);
-			m_FirstUpdate = true;
+			SetScene(m_NewSceneProperties);
+			m_SetNewScene = false;
+
+			if (m_State == State::Runtime)
+			{
+				m_ActiveScene->CopyStorage();
+			}
 		}
 
-		else if (m_State == State::Runtime)
-		{
-			for (Ref<ECS::Entity>& entity : m_Entities)
-			{
-				if (Ref<ECS::ScriptComponent> sc = entity->GetComponent<ECS::ScriptComponent>())
-				{
-					if (m_FirstUpdate)
-					{
-						sc->Script->UpdateValueFieldsValues();
-						sc->Script->OnCreate();
-						m_FirstUpdate = false;
-					}
-					sc->Script->OnUpdate(ts);
-				}
-			}
-			m_EditorCamera->OnUpdate(ts); // TODO(Jorben): Remove and replace with runtime camera
-		}
+		m_ActiveScene->SetState((int)m_State);
+		m_ActiveScene->OnUpdate(ts);
 	}
 
 	void Project::OnRender()
 	{
-		if (m_State == State::Editor)
-			OnRenderEditor();
-		if (m_State == State::Runtime)
-			OnRenderRuntime();
+		m_ActiveScene->OnRender();
 	}
 
 	void Project::OnEvent(Event& e)
 	{
-		if (m_State == State::Editor)
-			m_EditorCamera->OnEvent(e);
-		else if (m_State == State::Runtime)
-			m_EditorCamera->OnEvent(e); // TODO(Jorben): Replace editorcamera with runtime camera
+		m_ActiveScene->OnEvent(e);
 	}
 
-	Ref<ECS::Entity> Project::GetEntityByUUID(uint64_t uuid)
+	void Project::SetScene(SceneProperties& props)
 	{
-		for (Ref<ECS::Entity>& entity : m_Entities)
+		if (m_ActiveScene) 
+			m_ActiveScene->GetStorage().DestroyObjects();
+
+		switch (props.SceneType)
 		{
-			if (entity->GetUUID() == uuid)
-				return entity;
+		case SceneProperties::Type::_2D:
+			LoadScene2D(props);
+			break;
+
+		case SceneProperties::Type::_3D:
+			LoadScene3D(props);
+			break;
+
+		default:
+			CR_CORE_WARN("No scene type selected, {0}\n\tLoading the scene as a 2D scene.", props.Path.string());
+			props.SceneType = SceneProperties::Type::_2D;
+			LoadScene2D(props);
+			break;
 		}
-		CR_CORE_WARN("No entity with UUID ({0}) found in current project...", uuid);
-		return nullptr;
 	}
 
-	void Project::OnRenderRuntime()
+	void Project::SetSceneBasedOnName(const std::string& name)
 	{
-		// TODO(Jorben): Add runtime camera
-		for (Ref<ECS::Entity> entity : m_Entities)
+		for (auto& props : m_Scenes)
 		{
-			Ref<ECS::Renderer2DComponent> r2d = entity->GetComponent<ECS::Renderer2DComponent>();
-			Ref<ECS::TransformComponent> transform = entity->GetComponent<ECS::TransformComponent>();
-			if (r2d && r2d->Enable && transform)
+			if (props.Name == name)
 			{
-				if (r2d->Texture && r2d->UseTexture)
-					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f), r2d->Texture, false, m_EditorCamera->GetCamera());
-				else if (r2d->UseColour)
-					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f), r2d->Colour, false, m_EditorCamera->GetCamera());
-				else
-					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f), Vec4<float>(1.0f, 1.0f, 1.0f, 1.0f), false, m_EditorCamera->GetCamera());
-
+				m_SetNewScene = true;
+				m_NewSceneProperties = props;
 			}
 		}
 	}
 
-	void Project::OnRenderEditor()
+	void Project::LoadScene2D(const SceneProperties& properties)
 	{
-		for (Ref<ECS::Entity> entity : m_Entities)
-		{
-			Ref<ECS::Renderer2DComponent> r2d = entity->GetComponent<ECS::Renderer2DComponent>();
-			Ref<ECS::TransformComponent> transform = entity->GetComponent<ECS::TransformComponent>();
-			if (r2d && r2d->Enable && transform)
-			{
-				if (r2d->Texture && r2d->UseTexture)
-					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f), r2d->Texture, false, m_EditorCamera->GetCamera());
-				else if (r2d->UseColour)
-					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f), r2d->Colour, false, m_EditorCamera->GetCamera());
-				else
-					Renderer2D::DrawQuad(Vec2<float>(transform->Position.x, transform->Position.y), Vec2<float>(transform->Size.x, transform->Size.y), Vec2<float>(transform->Size.x / 2.0f, transform->Size.y / 2.0f), Vec4<float>(1.0f, 1.0f, 1.0f, 1.0f), false, m_EditorCamera->GetCamera());
-			}
-		}
+		m_ActiveScene = CreateRef<Scene2D>();
+		m_ActiveScene->SetProperties(properties);
+
+		SceneSerializer serializer(m_ActiveScene);
+		serializer.Deserialize(m_ProjectDir / m_SceneDir / properties.Path);
+	}
+
+	void Project::LoadScene3D(const SceneProperties& properties)
+	{
+		m_ActiveScene = CreateRef<Scene3D>();
+		m_ActiveScene->SetProperties(properties);
+
+		SceneSerializer serializer(m_ActiveScene);
+		serializer.Deserialize(m_ProjectDir / m_SceneDir / properties.Path);
 	}
 
 }

@@ -8,6 +8,8 @@
 #include "Crystal/Renderer/VertexArray.hpp"
 #include "Crystal/Renderer/Shader.hpp"
 
+#include "Crystal/Renderer/FrameBuffer.hpp"
+
 namespace Crystal
 {
 
@@ -20,7 +22,11 @@ namespace Crystal
 
 		static void SetClearColour(const Vec4<float>& colour);
 		static void SetViewPort(uint32_t x, uint32_t y, uint32_t width, uint32_t height);
+
 		static void EnableDepth(bool enabled);
+		static void EnableWireFrame(bool enabled);
+
+		static void ReplaceFramebuffer(Ref<FrameBuffer>& framebuffer);
 
 		static void DrawIndexed(const Ref<VertexArray>& vertexArray);
 		static void DrawIndexed(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader);

@@ -3,6 +3,8 @@
 #include "Crystal/Core/Core.hpp"
 #include "Crystal/Core/UUID.hpp"
 
+#include "Crystal/ECS/ColliderComponents.hpp"
+
 #include <Coral/HostInstance.hpp>
 #include <Coral/GC.hpp>
 #include <Coral/NativeArray.hpp>
@@ -15,16 +17,6 @@
 
 namespace Crystal
 {
-
-	struct ComponentList
-	{
-	public:
-		bool TagComponent = false;
-		bool TransformComponent = false;
-
-	public:
-		ComponentList() = default;
-	};
 
 	struct ValueFieldList
 	{
@@ -58,13 +50,14 @@ namespace Crystal
 	{
 	public:
 		EntityScript();
-		EntityScript(std::filesystem::path path);
 		virtual ~EntityScript();
 
 		void Reload();
-		void SetDLL(std::filesystem::path path);
 		void SetClass(const std::string& name);
 		void SetUUID(CR_UUID uuid) { m_UUID = uuid; }
+
+		void CleanValueFields() { m_ValueFields.Clean(); }
+		void DestroyObject();
 
 		template<typename T>
 		void AddValueField(const std::string& name, T value);	
@@ -101,32 +94,21 @@ namespace Crystal
 		void OnCreate();
 		void OnUpdate(Timestep& ts);
 		// TODO(Jorben): Extra functionality (ex. Collision)
+		void OnCollision(CR_UUID target, const CollisionProperties& one, const CollisionProperties& two);
 
 		std::string& GetClass() { return m_Name; }
-		ComponentList& GetComponents() { return m_Components; }
-
-		//Components
-		void AddTagComponent() { m_Components.TagComponent = true; }
-		void AddTransformComponent() { m_Components.TransformComponent = true; }
 
 	private:
-		void Load(std::filesystem::path path);
 		void LoadClass();
 
 	private:
-		std::filesystem::path m_Path;
 		std::string m_Name;
 
 		CR_UUID m_UUID = 0;
 
-		bool m_ContextInitialized = false;
-		Coral::AssemblyLoadContext m_Context;
-		Coral::ManagedAssembly m_Assembly;
-
 		Coral::Type m_Type;
 		Coral::ManagedObject m_Object;
 
-		ComponentList m_Components;
 		ValueFieldList m_ValueFields;
 	};
 

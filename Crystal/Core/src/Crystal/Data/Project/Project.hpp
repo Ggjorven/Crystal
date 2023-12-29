@@ -6,11 +6,13 @@
 #include "Crystal/ECS/Entity.hpp"
 #include "Crystal/ECS/Storage.hpp"
 
+#include "Crystal/Data/Scene/Scene.hpp"
+
 #include "Crystal/Renderer/Tools/EditorCamera.hpp"
 
-#include <vector>
 #include <string>
-
+#include <vector>
+#include <filesystem>
 
 namespace Crystal
 {
@@ -25,40 +27,63 @@ namespace Crystal
 		void OnRender();
 		void OnEvent(Event& e);
 
-		void AddEntity(Ref<ECS::Entity> entity) { m_Entities.emplace_back(entity); }
-		std::vector<Ref<ECS::Entity>>& GetEntities() { return m_Entities; }
-		Ref<ECS::Entity> GetEntityByUUID(uint64_t uuid);
+		void AddScene(const SceneProperties& properties) { m_Scenes.push_back(properties); }
+		void SetScene(SceneProperties& properties);
 
-		ECS::Storage& GetStorage() { return m_Storage; }
-		std::string GetName() { return m_DebugName; }
+		// Mostly used by C# scripting
+		void SetSceneBasedOnName(const std::string& name);
 
+		Ref<Scene>& GetCurrentScene() { return m_ActiveScene; }
+		std::vector<SceneProperties> GetScenes() const { return m_Scenes; }
+
+		static void SetCurrentProject(Project* project) { s_CurrentProject = project; }
 		static Project* GetCurrentProject() { return s_CurrentProject; }
 
+		std::string GetName() { return m_DebugName; }
+		
 		enum class State
 		{
 			None = 0, Editor, Runtime
 		};
+		
+		void SetState(State state) { m_State = state; m_ActiveScene->SetState((int)state); }
 
-		void SetState(State state) { m_State = state; }
+		void SaveScene() { m_ActiveScene->SaveScene(); }
 
-	protected:
-		void OnRenderRuntime();
-		void OnRenderEditor();
+		std::filesystem::path GetProjectDir() const { return m_ProjectDir; }
+		std::filesystem::path GetAssetDir() const { return m_AssetDir; }
+		std::filesystem::path GetSceneDir() const { return m_SceneDir; }
+		std::filesystem::path GetScriptsDir() const { return m_ScriptsDir; }
 
-	protected:
+		void SetAssetDir(const std::filesystem::path& path) { m_AssetDir = path; }
+		void SetSceneDir(const std::filesystem::path& path) { m_SceneDir = path; }
+		void SetScriptsDir(const std::filesystem::path& path) { m_ScriptsDir = path; }
+
+		bool SettingNewScene() const { return m_SetNewScene; }
+
+	private:
+		void LoadScene2D(const SceneProperties& properties);
+		void LoadScene3D(const SceneProperties& properties);
+
+	private:
 		std::string m_DebugName;
-
-		ECS::Storage m_Storage;
-		std::vector<Ref<ECS::Entity>> m_Entities;
-
-		Ref<EditorCamera> m_EditorCamera;
-
+		
 		static Project* s_CurrentProject;
 
-		bool m_FirstUpdate = true;
+		std::vector<SceneProperties> m_Scenes;
+		Ref<Scene> m_ActiveScene;
+
+		bool m_SetNewScene = false;
+		SceneProperties m_NewSceneProperties = { };
+
+		// Dirs
+		std::filesystem::path m_ProjectDir;
+		std::filesystem::path m_AssetDir;
+		std::filesystem::path m_SceneDir;
+		std::filesystem::path m_ScriptsDir;
+
 		State m_State = State::None;
 
-		//Friend classes to be able to use some private members/functions
 		friend class ProjectSerializer;
 	};
 

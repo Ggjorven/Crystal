@@ -2,6 +2,7 @@
 #include <Crystal/Core/AppEntrypoint.hpp>
 
 #include "Editor.hpp"
+#include "Custom.hpp"
 
 class Crystalizer : public Crystal::Application
 {
@@ -10,10 +11,7 @@ public:
 		: Application(appInfo)
 	{
 		AddLayer(new EditorLayer(appInfo));
-		//AddLayer(new Layer2D());
-		//AddLayer(new Layer3D());
-		//AddLayer(new ECSLayer());
-		//AddLayer(new CoralLayer(appInfo));
+		AddLayer(new CustomLayer(appInfo));
 	}
 
 	virtual ~Crystalizer() {}
@@ -30,6 +28,7 @@ Crystal::Application* Crystal::CreateApplication(int argc, char* argv[])
 	appInfo.WindowProperties.Name = "Window";
 	appInfo.WindowProperties.Width = 1280;
 	appInfo.WindowProperties.Height = 720;
+	appInfo.WindowProperties.VSync = false;
 
 	appInfo.ArgCount = argc;
 	appInfo.Args = argv;
@@ -37,7 +36,3 @@ Crystal::Application* Crystal::CreateApplication(int argc, char* argv[])
 	return new Crystalizer(appInfo);
 }
 //=========================================
-
-/* Note(Jorben): Use this sometime.
-To draw your triangles in wireframe mode, you can configure how OpenGL draws its primitives via glPolygonMode(GL_FRONT_AND_BACK, GL_LINE). The first argument says we want to apply it to the front and back of all triangles and the second line tells us to draw them as lines. Any subsequent drawing calls will render the triangles in wireframe mode until we set it back to its default using glPolygonMode(GL_FRONT_AND_BACK, GL_FILL).
-*/

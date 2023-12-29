@@ -13,23 +13,23 @@ namespace Crystal
 	{
 	}
 
-	void PerspectiveCamera::OnUpdate(Timestep& ts)
+	void PerspectiveCamera::OnEvent(Event& e)
+	{
+		EventHandler handler(e);
+
+		//handler.Handle<WindowResizeEvent>(CR_BIND_EVENT_FN(PerspectiveCamera::OnWindowResize));
+	}
+
+	void PerspectiveCamera::UpdateMatrices()
 	{
 		m_ViewMatrix = glm::lookAt(Convert(m_Position), Convert(m_Position + m_Area.Front), Convert(m_Area.Up));
 		m_ProjectionMatrix = glm::perspective(glm::radians(m_Properties.FOV), m_AspectRatio, 0.1f, 100.0f);
 		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewProjectionMatrix;
 	}
 
-	void PerspectiveCamera::OnEvent(Event& e)
-	{
-		EventHandler handler(e);
-
-		handler.Handle<WindowResizeEvent>(CR_BIND_EVENT_FN(PerspectiveCamera::OnWindowResize));
-	}
-
 	void PerspectiveCamera::UpdateArea()
 	{
-		glm::vec3 newFront;
+		glm::vec3 newFront(1.0f);
 
 		newFront.x = cos(glm::radians(m_Properties.Yaw)) * cos(glm::radians(m_Properties.Pitch));
 		newFront.y = sin(glm::radians(m_Properties.Pitch));

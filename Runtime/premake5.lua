@@ -38,7 +38,8 @@ project "Runtime"
 
 	disablewarnings
 	{
-		"4312"
+		"4312",
+		"4996"
 	}
 
 	links
@@ -52,7 +53,7 @@ project "Runtime"
         '{COPYFILE} "%{wks.location}/vendor/Coral/Coral.Managed/Coral.Managed.runtimeconfig.json" "%{cfg.targetdir}"',
 
         '{COPYFILE} "%{wks.location}/bin/Release-%{cfg.system}-/Coral.Managed/Coral.Managed.dll" "%{cfg.targetdir}"',
-        '{COPYFILE} "%{wks.location}/bin/Release-%{cfg.system}-/Scripting-Engine/Scripting-Engine.dll" "%{cfg.targetdir}"'
+        '{COPYFILE} "%{wks.location}/bin/Release-%{cfg.system}-/Scripting-Engine/net7.0/Scripting-Engine.dll" "%{cfg.targetdir}"'
     }
 
 	filter "system:windows"

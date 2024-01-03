@@ -489,6 +489,44 @@ namespace Crystal
 		//dist = clamp(dist, 0.0f, 1.0f);
 		//dist = sqrt(dist);
 	*/
+
+	// TODO(Jorben): Add a lot more capability
+	static const ShaderSource BatchQuad = {
+	R"(
+	#version 430 core
+
+	layout(location = 0) in vec2 a_Position;
+	// layout(location = 1) in vec2 a_Size;
+	layout(location = 1) in vec4 a_Colour;
+
+	out vec4 v_Colour;
+
+	void main()
+	{
+		// Calculate the final position of the vertex
+		//vec2 pos = a_Position + (gl_VertexID % 2) * vec2(a_Size.x, 0.0) + (gl_VertexID / 2) * vec2(0.0, a_Size.y);
+		//gl_Position = vec4(pos, 0.0, 1.0);
+		gl_Position = vec4(-0.5 + gl_VertexID * 0.5, 0.0, 0.0, 1.0);
+		//gl_Position = vec4(a_Position, 0.0, 1.0);
+		
+
+		//v_Colour = a_Colour;
+		v_Colour = vec4(1.0, 0.0, 0.0, 1.0);
+	}
+)",
+	R"(
+	#version 430 core
+
+	layout(location = 0) out vec4 Colour;
+	
+	in vec4 v_Colour;
+
+	void main()
+	{
+		Colour = v_Colour;
+	}
+)"
+	};
 	
 	ShaderSource OpenGLShaderLib::GetShaderSourceImplementation(ShaderLib::Type type)
 	{
@@ -506,10 +544,12 @@ namespace Crystal
 		case ShaderLib::Type::Textured_Transform_ViewProj: return TextureTVP;
 		case ShaderLib::Type::Textured_Coloured_Transform_ViewProj: return TextureColourTVP;
 		case ShaderLib::Type::Textured_Coloured_Transform_ViewProj_TexCoord: return TextureColourTVPT;
+
+		case ShaderLib::Type::Batch_Quad: return BatchQuad;
 		}
 
 		CR_CORE_ASSERT(false, "Unable to recognize shader type.");
-		return ShaderSource("", "", "");
+		return ShaderSource("", "");
 	}
 
 }

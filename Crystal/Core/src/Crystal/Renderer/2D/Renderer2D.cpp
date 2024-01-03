@@ -7,6 +7,8 @@
 
 #include "Crystal/Core/Application.hpp"
 
+#include "Crystal/Renderer/2D/BatchRenderer2D.hpp"
+
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace Crystal
@@ -67,6 +69,9 @@ namespace Crystal
 		s_QuadData->TextureShader = Shader::Create("TexturedShader", shaderSource.VertexSource, shaderSource.FragmentSource);
 
 		s_QuadData->TextureShader->SetUniformInt1("u_Texture", 0); // Set the texture slot to 0
+
+		// TODO(Jorben): Only use this?
+		BatchRenderer2D::Init();
 	}
 
 	void Renderer2D::Shutdown()

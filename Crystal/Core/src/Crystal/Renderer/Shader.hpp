@@ -61,7 +61,9 @@ namespace Crystal
 
 			Coloured, Textured, Textured_Coloured,
 			Coloured_Transform, Textured_Transform, Textured_Coloured_Transform,
-			Coloured_Transform_ViewProj, Textured_Transform_ViewProj, Textured_Coloured_Transform_ViewProj, Textured_Coloured_Transform_ViewProj_TexCoord
+			Coloured_Transform_ViewProj, Textured_Transform_ViewProj, Textured_Coloured_Transform_ViewProj, Textured_Coloured_Transform_ViewProj_TexCoord,
+
+			Batch_Quad
 		};
 
 	public:

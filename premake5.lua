@@ -43,3 +43,7 @@ group "Tools"
 	include "Crystalizer"
 	include "Runtime"
 group ""
+
+group "Sandbox"
+	include "Sandbox"
+group ""

@@ -63,6 +63,7 @@
 	//2D folder
 	#include "Crystal/Renderer/2D/OrthoGraphicCamera.hpp"
 	#include "Crystal/Renderer/2D/Renderer2D.hpp"
+	#include "Crystal/Renderer/2D/BatchRenderer2D.hpp"
 
 	//3D folder
 	#include "Crystal/Renderer/3D/PerspectiveCamera.hpp"

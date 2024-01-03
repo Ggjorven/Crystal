@@ -83,17 +83,20 @@ namespace Crystal
 	bool WindowsWindow::Init(WindowProperties properties)
 	{
 		//Setup
-		int succes = glfwInit();
-		if (!succes)
+		if (!s_GLFWinitialized)
 		{
-			CR_CORE_CRITICAL("Failed to initialize GLFW.");
-			return 0;
+			int succes = glfwInit();
+			if (!succes)
+			{
+				CR_CORE_CRITICAL("Failed to initialize GLFW.");
+				return 0;
+			}
+			s_GLFWinitialized = true;
 		}
-		s_GLFWinitialized = true;
 		glfwSetErrorCallback(ErrorCallBack);
 
 		//Window creation
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE); //change back to core
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);  // This line is important for macOS

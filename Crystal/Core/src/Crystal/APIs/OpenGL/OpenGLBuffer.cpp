@@ -53,6 +53,7 @@ namespace Crystal
 	}
 
 	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count, OpenGLBufferUsage usage)
+		: m_RendererID(0), m_Count(count)
 	{
 		glGenBuffers(1, &m_RendererID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);

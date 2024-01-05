@@ -507,11 +507,11 @@ namespace Crystal
 		//vec2 pos = a_Position + (gl_VertexID % 2) * vec2(a_Size.x, 0.0) + (gl_VertexID / 2) * vec2(0.0, a_Size.y);
 		//gl_Position = vec4(pos, 0.0, 1.0);
 		gl_Position = vec4(-0.5 + gl_VertexID * 0.5, 0.0, 0.0, 1.0);
-		//gl_Position = vec4(a_Position, 0.0, 1.0);
+		gl_Position = vec4(a_Position, 0.0, 1.0);
 		
 
-		//v_Colour = a_Colour;
-		v_Colour = vec4(1.0, 0.0, 0.0, 1.0);
+		v_Colour = a_Colour;
+		//v_Colour = vec4(1.0, 0.0, 0.0, 1.0);
 	}
 )",
 	R"(

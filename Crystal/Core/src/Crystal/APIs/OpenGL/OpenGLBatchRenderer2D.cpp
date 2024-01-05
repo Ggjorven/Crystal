@@ -8,132 +8,95 @@ namespace Crystal
 
 	void OpenGLBatchRenderer2D::InitImplementation()
 	{
-		std::vector<uint32_t> indices = { };
-		// Note(Jorben): * 6 for the 6 incices per quad
-		indices.reserve(m_MaxQuads * 6);
-		for (uint32_t i = 0; i < m_MaxQuads; i++)
+		m_Vertices.reserve(m_MaxQuads * 4);
+		m_Indices.reserve(m_MaxQuads * 6);
+
+		glGenVertexArrays(1, &m_VAO);
+		glBindVertexArray(m_VAO);
+
+		glGenBuffers(1, &m_VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(BatchRenderer2D::QuadVertexData) * m_MaxQuads * 4, nullptr, GL_DYNAMIC_DRAW);
+
+		glGenBuffers(1, &m_IBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
+
+		for (unsigned int i = 0, offset = 0; i < m_MaxQuads * 6; i += 6, offset += 4)
 		{
-			indices.push_back(i * 4 + 0);
-			indices.push_back(i * 4 + 1);
-			indices.push_back(i * 4 + 2);
-			indices.push_back(i * 4 + 2);
-			indices.push_back(i * 4 + 3);
-			indices.push_back(i * 4 + 0);
+			m_Indices.push_back(offset + 0);
+			m_Indices.push_back(offset + 1);
+			m_Indices.push_back(offset + 2);
+
+			m_Indices.push_back(offset + 2);
+			m_Indices.push_back(offset + 3);
+			m_Indices.push_back(offset + 0);
 		}
 
-		// Note(Jorben): * 4 for the 4 vertices per quad
-		m_Vertices.reserve(m_MaxQuads * 4);
-		
-		m_VAO = CreateRef<OpenGLVertexArray>();
-		m_VAO->Bind();
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Indices.size() * sizeof(unsigned int), m_Indices.data(), GL_STATIC_DRAW);
 
-		// TODO(Jorben): Set the actual layout
-		m_VBO = CreateRef<OpenGLVertexBuffer>(nullptr, (uint32_t)sizeof(BatchRenderer2D::QuadVertexData) * m_MaxQuads, OpenGLBufferUsage::DYNAMIC_DRAW);
-		m_VBO->SetLayout({
-			Crystal::BufferElement(Crystal::ShaderDataType::Float2, "a_Position", false),
-			//Crystal::BufferElement(Crystal::ShaderDataType::Float2, "a_TexCoord", false),
-			//Crystal::BufferElement(Crystal::ShaderDataType::Float2, "a_Size", false),
-			Crystal::BufferElement(Crystal::ShaderDataType::Float4, "a_Colour", false)
-		});
-		
-		// Note(Jorben): * 6 for the 6 indices per quad
-		m_IBO = CreateRef<OpenGLIndexBuffer>(indices.data(), m_MaxQuads * 6, OpenGLBufferUsage::STATIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(BatchRenderer2D::QuadVertexData), (void*)offsetof(BatchRenderer2D::QuadVertexData, Position));
 
-		m_VAO->AddVertexBuffer(m_VBO);
-		m_VAO->AddIndexBuffer(m_IBO);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(BatchRenderer2D::QuadVertexData), (void*)offsetof(BatchRenderer2D::QuadVertexData, Colour));
 
-		//m_VBO->UnBind(); // It gets bound in the constructor
-		m_VAO->UnBind();
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
 
-		// Create Shader // TODO(Jorben): Rewrite the shader
-		m_Shader = CreateRef<OpenGLShader>("Batch", ShaderLib::GetShaderSource(ShaderLib::Type::Batch_Quad).VertexSource, ShaderLib::GetShaderSource(ShaderLib::Type::Batch_Quad).FragmentSource);
+		// TODO(Jorben): Rewrite the shader
+		ShaderSource src = ShaderLib::GetShaderSource(ShaderLib::Type::Batch_Quad);
+		m_Shader = CreateRef<OpenGLShader>("Batch", src.VertexSource, src.FragmentSource);
 	}
 
 	void OpenGLBatchRenderer2D::ShutdownImplementation()
 	{
+		glDeleteBuffers(1, &m_IBO);
+		glDeleteBuffers(1, &m_VBO);
+		glDeleteVertexArrays(1, &m_VAO);
 	}
 
 	void OpenGLBatchRenderer2D::BeginBatchImplementation()
 	{
-		//m_QuadQueue.clear();
-		//m_QuadVertices.clear();
-		//m_Vertices.clear();
+		m_QuadCount = 0u;
+		m_Vertices.clear();
 	}
 
 	void OpenGLBatchRenderer2D::EndBatchImplementation()
 	{
-		m_VBO->Bind();
-		m_VBO->SetSubData(0, m_Vertices.data(), (int)m_QuadQueue.size() * sizeof(float) * 6 * 4);
-		m_VBO->UnBind();
+		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, m_Vertices.size() * sizeof(BatchRenderer2D::QuadVertexData), m_Vertices.data());
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
 	void OpenGLBatchRenderer2D::FlushBatchImplementation()
 	{
-		//CR_CORE_TRACE("Pos: {0} {1}", m_QuadQueue[0].Position.x, m_QuadQueue[0].Position.y);
-		//CR_CORE_TRACE("Size: {0} {1}", m_QuadQueue[0].Size.x, m_QuadQueue[0].Size.y);
-		//CR_CORE_TRACE("Colour: {0} {1} {2} {3}", m_QuadQueue[0].Colour.r, m_QuadQueue[0].Colour.g, m_QuadQueue[0].Colour.b, m_QuadQueue[0].Colour.a);
-
 		m_Shader->Bind();
-		m_VAO->Bind();
-		//glDrawArrays(GL_TRIANGLES, 0, (int)m_QuadQueue.size() * 6);
-		glDrawElements(GL_TRIANGLES, (int)m_QuadQueue.size() * 6, GL_UNSIGNED_INT, nullptr);
-		m_VAO->UnBind();
+		glBindVertexArray(m_VAO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
+		glDrawElements(GL_TRIANGLES, m_QuadCount * 6, GL_UNSIGNED_INT, nullptr);
+		glBindVertexArray(0);
 		m_Shader->UnBind();
-
-		//CR_CORE_TRACE("______________");
-		//for (auto& i : m_Vertices)
-		//{
-		//	CR_CORE_TRACE("{0}", i);
-		//}
-		//CR_CORE_TRACE("______________");
 	}
 
 	void OpenGLBatchRenderer2D::AddQuadImplementation(const BatchRenderer2D::Quad& quad)
 	{
+		if (m_QuadCount >= m_MaxQuads)
+		{
+			EndBatchImplementation();
+			FlushBatchImplementation();
+			BeginBatchImplementation();
+		}
+
 		glm::vec2 p0 = quad.Position;
 		glm::vec2 p1 = glm::vec2(quad.Position.x + quad.Size.x, quad.Position.y);
 		glm::vec2 p2 = glm::vec2(quad.Position.x + quad.Size.x, quad.Position.y + quad.Size.y);
 		glm::vec2 p3 = glm::vec2(quad.Position.x, quad.Position.y + quad.Size.y);
 
-		// First triangle
-		m_QuadVertices.push_back({ p0, glm::vec4(quad.Colour) });
-		m_QuadVertices.push_back({ p1, glm::vec4(quad.Colour) });
-		m_QuadVertices.push_back({ p2, glm::vec4(quad.Colour) });
+		m_Vertices.push_back({ p0, quad.Colour });
+		m_Vertices.push_back({ p1, quad.Colour });
+		m_Vertices.push_back({ p2, quad.Colour });
+		m_Vertices.push_back({ p3, quad.Colour });
 
-		// Second triangle
-		m_QuadVertices.push_back({ p0, glm::vec4(quad.Colour) });
-		m_QuadVertices.push_back({ p2, glm::vec4(quad.Colour) });
-		m_QuadVertices.push_back({ p3, glm::vec4(quad.Colour) });
-
-		m_Vertices.push_back(p0.x);
-		m_Vertices.push_back(p0.y);
-		m_Vertices.push_back(quad.Colour.r);
-		m_Vertices.push_back(quad.Colour.g);
-		m_Vertices.push_back(quad.Colour.b);
-		m_Vertices.push_back(quad.Colour.a);
-
-		m_Vertices.push_back(p1.x);
-		m_Vertices.push_back(p1.y);
-		m_Vertices.push_back(quad.Colour.r);
-		m_Vertices.push_back(quad.Colour.g);
-		m_Vertices.push_back(quad.Colour.b);
-		m_Vertices.push_back(quad.Colour.a);
-
-		m_Vertices.push_back(p2.x);
-		m_Vertices.push_back(p2.y);
-		m_Vertices.push_back(quad.Colour.r);
-		m_Vertices.push_back(quad.Colour.g);
-		m_Vertices.push_back(quad.Colour.b);
-		m_Vertices.push_back(quad.Colour.a);
-
-		m_Vertices.push_back(p3.x);
-		m_Vertices.push_back(p3.y);
-		m_Vertices.push_back(quad.Colour.r);
-		m_Vertices.push_back(quad.Colour.g);
-		m_Vertices.push_back(quad.Colour.b);
-		m_Vertices.push_back(quad.Colour.a);
-
-		// remove
-		m_QuadQueue.push_back(quad);
+		m_QuadCount++;
 	}
 }

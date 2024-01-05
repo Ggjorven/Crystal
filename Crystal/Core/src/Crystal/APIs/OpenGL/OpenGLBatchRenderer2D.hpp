@@ -24,17 +24,14 @@ namespace Crystal
 		virtual void AddQuadImplementation(const BatchRenderer2D::Quad& quad) override;
 
 	private:
-		Ref<OpenGLVertexBuffer> m_VBO = nullptr;
-		Ref<OpenGLIndexBuffer> m_IBO = nullptr;
-		Ref<OpenGLVertexArray> m_VAO = nullptr;
+		std::vector<BatchRenderer2D::QuadVertexData> m_Vertices;
+		std::vector<unsigned int> m_Indices;
+		unsigned int m_VAO, m_VBO, m_IBO;
+
+		unsigned int m_MaxQuads = 1000u;
+		unsigned int m_QuadCount = 0u;
 
 		Ref<OpenGLShader> m_Shader = nullptr;
-
-		std::vector<BatchRenderer2D::Quad> m_QuadQueue = { }; // TODO(Jorben): Remove?
-		std::vector<BatchRenderer2D::QuadVertexData> m_QuadVertices = { };
-		std::vector<float> m_Vertices = { };
-		//std::vector<BatchRenderer2D::Quad> m_QuadQueue = { };
-		//uint32_t m_QuadCount = 0u;
 	};
 
 }

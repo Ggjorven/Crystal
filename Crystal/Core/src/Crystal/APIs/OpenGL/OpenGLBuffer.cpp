@@ -37,7 +37,7 @@ namespace Crystal
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	void OpenGLVertexBuffer::SetSubData(uint32_t offset, float* data, uint32_t size)
+	void OpenGLVertexBuffer::SetSubData(uint32_t offset, void* data, uint32_t size)
 	{
     	glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
 	}

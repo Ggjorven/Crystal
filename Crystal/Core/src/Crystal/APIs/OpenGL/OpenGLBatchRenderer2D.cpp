@@ -14,9 +14,7 @@ namespace Crystal
 		glGenVertexArrays(1, &m_VAO);
 		glBindVertexArray(m_VAO);
 
-		glGenBuffers(1, &m_VBO);
-		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(BatchRenderer2D::QuadVertexData) * m_MaxQuads * 4, nullptr, GL_DYNAMIC_DRAW);
+		m_VBO = CreateRef<OpenGLVertexBuffer>(nullptr, sizeof(BatchRenderer2D::QuadVertexData) * m_MaxQuads * 4, OpenGLBufferUsage::DYNAMIC_DRAW);
 
 		glGenBuffers(1, &m_IBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
@@ -51,7 +49,6 @@ namespace Crystal
 	void OpenGLBatchRenderer2D::ShutdownImplementation()
 	{
 		glDeleteBuffers(1, &m_IBO);
-		glDeleteBuffers(1, &m_VBO);
 		glDeleteVertexArrays(1, &m_VAO);
 	}
 
@@ -63,9 +60,9 @@ namespace Crystal
 
 	void OpenGLBatchRenderer2D::EndBatchImplementation()
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, m_Vertices.size() * sizeof(BatchRenderer2D::QuadVertexData), m_Vertices.data());
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		m_VBO->Bind();
+		m_VBO->SetSubData(0, (void*)m_Vertices.data(), m_Vertices.size() * sizeof(BatchRenderer2D::QuadVertexData));
+		m_VBO->UnBind();
 	}
 
 	void OpenGLBatchRenderer2D::FlushBatchImplementation()

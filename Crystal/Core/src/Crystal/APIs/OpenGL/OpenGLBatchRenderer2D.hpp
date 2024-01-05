@@ -25,8 +25,11 @@ namespace Crystal
 
 	private:
 		std::vector<BatchRenderer2D::QuadVertexData> m_Vertices;
-		std::vector<unsigned int> m_Indices;
-		unsigned int m_VAO, m_VBO, m_IBO;
+		std::vector<uint32_t> m_Indices;
+
+		unsigned int m_VAO, m_IBO;
+
+		Ref<OpenGLVertexBuffer> m_VBO = nullptr;
 
 		unsigned int m_MaxQuads = 1000u;
 		unsigned int m_QuadCount = 0u;

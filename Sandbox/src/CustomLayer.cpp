@@ -32,12 +32,18 @@ void CustomLayer::OnRender()
 
 	BatchRenderer2D::BeginBatch();
 
-	BatchRenderer2D::Quad quad;
-	quad.Position = { 0.0f, 0.0f };
-	quad.Size = { 1.0f, 1.0f };
-	quad.Colour = { 0.8f, 0.5f, 0.3f, 1.0f };
+	BatchRenderer2D::Quad quad1;
+	quad1.Position = { 0.5f, 0.0f };
+	quad1.Size = { 0.8f, 0.8f };
+	quad1.Colour = { 0.8f, 0.5f, 0.3f, 1.0f };
 
-	BatchRenderer2D::AddQuad(quad);
+	BatchRenderer2D::Quad quad2;
+	quad2.Position = { -0.5f, -0.5f };
+	quad2.Size = { 0.5f, 0.5f };
+	quad2.Colour = { 0.4f, 1.0f, 0.0f, 1.0f };
+
+	BatchRenderer2D::AddQuad(quad1);
+	BatchRenderer2D::AddQuad(quad2);
 
 	BatchRenderer2D::EndBatch();
 

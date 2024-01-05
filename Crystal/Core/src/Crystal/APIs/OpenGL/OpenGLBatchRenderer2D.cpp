@@ -16,9 +16,6 @@ namespace Crystal
 
 		m_VBO = CreateRef<OpenGLVertexBuffer>(nullptr, sizeof(BatchRenderer2D::QuadVertexData) * m_MaxQuads * 4, OpenGLBufferUsage::DYNAMIC_DRAW);
 
-		glGenBuffers(1, &m_IBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
-
 		for (unsigned int i = 0, offset = 0; i < m_MaxQuads * 6; i += 6, offset += 4)
 		{
 			m_Indices.push_back(offset + 0);
@@ -30,7 +27,7 @@ namespace Crystal
 			m_Indices.push_back(offset + 0);
 		}
 
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Indices.size() * sizeof(unsigned int), m_Indices.data(), GL_STATIC_DRAW);
+		m_IBO = CreateRef<OpenGLIndexBuffer>(m_Indices.data(), m_Indices.size(), OpenGLBufferUsage::STATIC_DRAW);
 
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(BatchRenderer2D::QuadVertexData), (void*)offsetof(BatchRenderer2D::QuadVertexData, Position));
@@ -38,7 +35,7 @@ namespace Crystal
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(BatchRenderer2D::QuadVertexData), (void*)offsetof(BatchRenderer2D::QuadVertexData, Colour));
 
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		m_VBO->UnBind();
 		glBindVertexArray(0);
 
 		// TODO(Jorben): Rewrite the shader
@@ -48,7 +45,6 @@ namespace Crystal
 
 	void OpenGLBatchRenderer2D::ShutdownImplementation()
 	{
-		glDeleteBuffers(1, &m_IBO);
 		glDeleteVertexArrays(1, &m_VAO);
 	}
 
@@ -69,7 +65,7 @@ namespace Crystal
 	{
 		m_Shader->Bind();
 		glBindVertexArray(m_VAO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
+		m_IBO->Bind();
 		glDrawElements(GL_TRIANGLES, m_QuadCount * 6, GL_UNSIGNED_INT, nullptr);
 		glBindVertexArray(0);
 		m_Shader->UnBind();

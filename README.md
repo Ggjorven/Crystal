@@ -1,3 +1,9 @@
+---
+title: Main page
+layout: template
+filename: README.md
+--- 
+
 # Crystal Game Engine
 
 Crystal is an ambitious game engine that combines the power of OpenGL and Vulkan to provide a versatile platform for game development. It is currently in its early stages of development and is considered very bare-bones. However, it holds great promise and is under constant, heavy development, making it an exciting project for game developers looking to shape its future.

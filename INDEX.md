@@ -1,5 +1,7 @@
 ---
 title: Main page
 layout: template
-filename: docs/README.md
+filename: INDEX.md
 --- 
+
+### Main page

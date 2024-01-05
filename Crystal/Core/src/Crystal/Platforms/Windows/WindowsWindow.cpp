@@ -96,10 +96,10 @@ namespace Crystal
 		glfwSetErrorCallback(ErrorCallBack);
 
 		//Window creation
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE); //change back to core
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);  // This line is important for macOS
+		//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);  // This line is important for macOS, but this is a WindowsWindow // TODO
 		if (!properties.Decoration) glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
 
 		m_Window = glfwCreateWindow((int)properties.Width, (int)properties.Height, properties.Name.c_str(), nullptr, nullptr);

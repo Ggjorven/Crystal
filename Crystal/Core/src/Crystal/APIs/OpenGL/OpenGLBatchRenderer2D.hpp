@@ -27,8 +27,7 @@ namespace Crystal
 		std::vector<BatchRenderer2D::QuadVertexData> m_Vertices;
 		std::vector<uint32_t> m_Indices;
 
-		unsigned int m_VAO;
-
+		Ref<OpenGLVertexArray> m_VAO = nullptr;
 		Ref<OpenGLVertexBuffer> m_VBO = nullptr;
 		Ref<OpenGLIndexBuffer> m_IBO = nullptr;
 

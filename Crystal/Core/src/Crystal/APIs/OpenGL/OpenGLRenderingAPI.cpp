@@ -73,6 +73,7 @@ namespace Crystal
 	void OpenGLRenderingAPI::DrawIndexed(const Ref<VertexArray>& vertexArray)
 	{
 		vertexArray->Bind();
+		vertexArray->GetIndexBuffer()->Bind();
 
 		glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 		glBindTexture(GL_TEXTURE_2D, 0);
@@ -84,6 +85,7 @@ namespace Crystal
 	{
 		shader->Bind();
 		vertexArray->Bind();
+		vertexArray->GetIndexBuffer()->Bind();
 
 		glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 		glBindTexture(GL_TEXTURE_2D, 0);

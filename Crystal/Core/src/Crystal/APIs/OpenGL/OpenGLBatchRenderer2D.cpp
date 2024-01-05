@@ -10,12 +10,6 @@ namespace Crystal
 	{
 		m_Vertices.reserve(m_MaxQuads * 4);
 		m_Indices.reserve(m_MaxQuads * 6);
-
-		glGenVertexArrays(1, &m_VAO);
-		glBindVertexArray(m_VAO);
-
-		m_VBO = CreateRef<OpenGLVertexBuffer>(nullptr, sizeof(BatchRenderer2D::QuadVertexData) * m_MaxQuads * 4, OpenGLBufferUsage::DYNAMIC_DRAW);
-
 		for (unsigned int i = 0, offset = 0; i < m_MaxQuads * 6; i += 6, offset += 4)
 		{
 			m_Indices.push_back(offset + 0);
@@ -27,16 +21,24 @@ namespace Crystal
 			m_Indices.push_back(offset + 0);
 		}
 
+		m_VAO = CreateRef<OpenGLVertexArray>();
+		m_VAO->Bind();
+
+		m_VBO = CreateRef<OpenGLVertexBuffer>(nullptr, sizeof(BatchRenderer2D::QuadVertexData) * m_MaxQuads * 4, OpenGLBufferUsage::DYNAMIC_DRAW);
 		m_IBO = CreateRef<OpenGLIndexBuffer>(m_Indices.data(), m_Indices.size(), OpenGLBufferUsage::STATIC_DRAW);
 
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(BatchRenderer2D::QuadVertexData), (void*)offsetof(BatchRenderer2D::QuadVertexData, Position));
+		m_VBO->SetLayout(
+			{
+				BufferElement(ShaderDataType::Float2, "a_Position", false),
+				BufferElement(ShaderDataType::Float4, "a_Colour", false),
+			}
+		);
 
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(BatchRenderer2D::QuadVertexData), (void*)offsetof(BatchRenderer2D::QuadVertexData, Colour));
+		m_VAO->AddVertexBuffer(m_VBO);
+		m_VAO->AddIndexBuffer(m_IBO);
 
 		m_VBO->UnBind();
-		glBindVertexArray(0);
+		m_VAO->UnBind();
 
 		// TODO(Jorben): Rewrite the shader
 		ShaderSource src = ShaderLib::GetShaderSource(ShaderLib::Type::Batch_Quad);
@@ -45,7 +47,6 @@ namespace Crystal
 
 	void OpenGLBatchRenderer2D::ShutdownImplementation()
 	{
-		glDeleteVertexArrays(1, &m_VAO);
 	}
 
 	void OpenGLBatchRenderer2D::BeginBatchImplementation()
@@ -64,10 +65,15 @@ namespace Crystal
 	void OpenGLBatchRenderer2D::FlushBatchImplementation()
 	{
 		m_Shader->Bind();
-		glBindVertexArray(m_VAO);
+
+		m_VAO->Bind();
 		m_IBO->Bind();
+
 		glDrawElements(GL_TRIANGLES, m_QuadCount * 6, GL_UNSIGNED_INT, nullptr);
-		glBindVertexArray(0);
+
+		m_IBO->Unbind();
+		m_VAO->UnBind();
+
 		m_Shader->UnBind();
 	}
 

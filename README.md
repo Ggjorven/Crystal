@@ -1,8 +1,8 @@
 # Crystal Game Engine
-- [Werkplan](Werkplan)
-- [Verslag](Verslag)
+- [Werkplan](#werkplan)
+- [Verslag](#verslag)
 
-## Werkplan
+## <a id="werkplan"></a>Werkplan
 ### Omschrijving
 Tot nu toe is “Crystal” een simpele 2D game engine geschreven in C++. Graphics worden gedaan door mijn eigen abstractielaag rondom OpenGL. De engine is opgesplits in een “Core” met alle Renderer2D/Vertexbuffer/Vertexarray functionaliteit. En een “Physics” gedeelte met een start van een Entity Component System om componenten van “Entity’s” goed in memory op te slaan zodat je niet memory hoeft te kopieeren als je een entity aan een functie doorgeeft bijvoorbeeld. En een “Editor” project waarin de Engine word gebruikt en dingen laat zien aan het scherm bijvoorbeeld een 2D textured quad.
 
@@ -17,7 +17,7 @@ Tot nu toe is “Crystal” een simpele 2D game engine geschreven in C++. Graphi
 
   
 
-## Verslag
+## <a id="verslag"></a>Verslag
 
 ### Crystal Game Engine
 ![](images/editor.png?raw=true)
@@ -27,20 +27,20 @@ Klas: H4F\
 Datum: 06-01-24
 
 ### Inhoud
-- [Inleiding](Inleiding)
-- [Materiaal/methode](Materiaal/methode)
-- [Logboek](Logboek)
-- [Resultaten](Resultaten)
-- [Discussie](Discussie)
+- [Inleiding](#inleiding)
+- [Materiaal/methode](#materiaal/methode)
+- [Logboek](#logboek)
+- [Resultaten](#resultaten)
+- [Discussie](#discussie)
 
-### Inleiding
+### <a id="inleiding"></a>Inleiding
 Ik heb gekozen om een game engine te ontwerpen en te bouwen. Ik heb hiervoor gekozen om meerdere redenen. De eerste reden is dat ik al games aan het maken was in C++ zonder game engine. Het probleem hiermee is alleen dat je als je een game maakt steeds dezelfde stappen opnieuw moet maken/coderen. Een game engine doet dat voor je en geeft je 'tools' om het creëren van een game makkelijker te maken. Ik heb het maken van een game engine op dat moment toch uitgesteld, want ik had verwacht dat dit een veelste groot en ingewikkeld project zou worden. Later zag ik een man op YouTube die ook zijn eigen game engine maakte. Dit gaf mij genoeg inspiratie om dit zelf ook te doen. Vandaar nu dit project.
 
-### Materiaal/methode
+### <a id="materiaal/methode"></a>Materiaal/methode
 Ik heb alles gecodeerd op een Windows machine in C++. Ik heb dit gedaan omdat ik al C++ kende en ik weet dat C++ de snelste object georiënteerde taal is. Ik heb gebruikt gemaakt Microsoft Visual Studio vanwege de goeie support van C++. Om grafisch iets te laten zien om een scherm heb ik gebruik gemaakt van de rendering API: "OpenGL". Ik heb deze keuze gemaakt omdat de YouTube vanwaar ik inspiratie kreeg dit ook gebruikte en omdat hij hier een tutorial serie van 30+ afleveringen over heeft gemaakt. Bij de start van dit project wist ik nog helemaal niks over OpenGL. Ik ging OpenGL leren door middel van deze [tutorial serie](https://youtube.com/playlist?list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2&si=yUkb6EtndogkLLVr) en door [learnopengl](https://learnopengl.com/). Om meer te leren over hoe een game engine in elkaar zit qua architectuur heb ik nog diverse tutorials over game engine architectuur gekeken.
 Om het scripten van een game engine op te zetten heb ik veel C# gebruikt. Lua heb ik ook gebruikt om de Microsoft Visual Studio project bestanden met elkaar te linken.
 
-### Logboek
+### <a id="logboek"></a>Logboek
 #### In hoofdlijnen heb ik mijn engine zo gebouwd:
 - Een window creëren
 - OpenGL toevoegen aan het project
@@ -55,10 +55,10 @@ Om het scripten van een game engine op te zetten heb ik veel C# gebruikt. Lua he
 
 Om dieper in alle stappen te gaan kunt u mijn github commits bekijken:
 - De link voor het eerste gedeelte van het logboek staat hier: [Commits 1](https://github.com/Ggjorven/Express-Engine/commits/master/)
-- Het tweede gedeelte staat hier: [Commits 2](https://github.com/Ggjorven/Crystal/commits/master/)
+- Het tweede gedeelte staat hier: [Commits 2](https://github.com/Ggjorven/Crystal/commits/master/)\
 Op deze twee sites kunt u onder aan de pagina door gaan naar de volgende commits.
 
-### Resultaten
+### <a id="resultaten"></a>Resultaten
 Het begon allemaal met een simpele driehoek:
 ![](images/triangle.png?raw=true)
 
@@ -68,7 +68,7 @@ Maar inmiddels ziet het er zo uit:
 Het resultaat is dus nu een goedwerkende game engine waarmee je vooral 2D games kunt maken. De engine zorgt ervoor dat je alleen nog maar entities hoeft aan te maken en zelf een script te schrijven in C# en voila je hebt een game die je kan shippen via de Crystal Runtime.
 
 
-### Discussie
+### <a id="discussie"></a>Discussie
 Ik heb tijdens dit project veel geleerd. Ik snap C++ veel beter dan toen ik begon met dit project. Toen ik starte codeerde ik op een python manier in C++, dit is niet optimaal. Na veel te coderen in C++ snap ik meer hoe de compiler naar de code kijkt en hoe ik de code op laag niveau kan optimaliseren. Voor dit project had ik geen enkele kennis van C# en Lua. Maar om dit project te bouwen heb ik beide tot een bepaald niveau moeten leren. Ook heb ik geleerd hoe de graphische pijplijn werkt en hoe de videokaart kijkt naar data. Dit allemaal met OpenGL.
 Alleen niet alles ging natuurlijk soepel. Ik heb veel memory leaks gehad die ik heb moeten fixen, beide op de CPU en GPU. Ik heb [Stackoverflow](https://stackoverflow.com/) en [GPT-4](https://chat.openai.com/) gebruikt om deze problemen op te lossen. Ik heb ook naar oplossing gezocht door iets aan te passen en te proberen en aan te passen en weer te proberen tot dat het werkt. Ik heb geleerd dat je moet oppassen met heap memory en je zo veel mogelijk memory op de stack wilt hebben (zie Probleem 2).
 

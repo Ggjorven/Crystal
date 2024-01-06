@@ -44,7 +44,7 @@ Om het scripten van een game engine op te zetten heb ik veel C# gebruikt. Lua he
 #### In hoofdlijnen heb ik mijn engine zo gebouwd:
 - Een window creëren
 - OpenGL toevoegen aan het project
-- Een 2D renderer makne
+- Een 2D renderer maken
 - Cameras toevoegen
 - Een [Entity Component System](https://en.wikipedia.org/wiki/Entity_component_system) maken met mijn eigen storage.
 - Eigen project bestanden (.crproj) & (.crscene)

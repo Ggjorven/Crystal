@@ -76,11 +76,31 @@ Alleen niet alles ging natuurlijk soepel. Ik heb veel memory leaks gehad die ik 
 #### Probleem 1:
 Als ik binnen in mijn editor tussen mijn scene's binnen in mijn game switch zie ik dat de memory wel omhoog gaat maar niet meer naar beneden. Oftewel een memory leak. Maar waar?
 Om dit probleem op te lossen ben ik op elk punt van mijn code gaan kijken hoe hoog de memory usage was en dan te kijken wanneer gaat het omhoog. Leuk en aardig, maar eigenlijk wil ik weten waarom het niet weer naar beneden gaat. Wat ik ook heb geprobeerd is een [deleaker](https://www.deleaker.com/) software te gebruiken. Het probleem was dat ik hier niks van snapte. Ik heb over dit probleem lang na gedacht en ik dacht misschien kan de Visual Studio Performance profiler mij helpen. Ik heb 2 snapshots gemaakt van de memory, 1 voor dat het omhoog gaat en 1 daarna. Daarna heb ik ze vergeleken en zag ik waar de memory vandaan kwam en niet werd opgeruimd. Gefixt.
+```cpp
+OpenGLTexture2D::~OpenGLTexture2D()
+	{
+		if (m_Data) stbi_image_free((void*)m_Data); // Deze line was ik vergeten.
+		glDeleteTextures(1, &m_RendererID);
+	}
+ ```
 
 #### Probleem 2:
 Ik wilde graag dat als ik mijn runde dat hij na dat ik de game stopte weer terug ging naar de originele staat. Simpel genoeg dacht ik. Ik dacht ik kopieer gewoon mijn eigen Storage class waar alle informatie over alles in de scene in staat en sla die kopie gewoon op.
 Zo simpel was het echter niet. In mijn storage class gebruikte ik het 'new' keyword wat memory op de heap aanmaakt. Dit betekent dat mijn Storage de memory eigenlijk niet 'ownt'. Hier kwam het probleem vandaan. Ik probeerde memory te kopieren dat niet van 'mij' was. Dit kan niet en zorgde ervoor dat mijn engine crashte.\
 Om dit op te lossen heb ik het 'new' keyword weg gehaald en alle memory op de stack aan te maken direct in mijn Storage class. Dit betekent dat ik alles kan met alle memory wat ik maar wil. Ik wist dat ik dit zo moest oplossen omdat ik zelf al verstand heb van de heap en de stack en dus door te kijken naar hoe de memory in mijn class werkte dacht ik meteen het probleem te zien. En mijn vermoedens waren correct.
+```cpp
+// Notitie: Dit is niet code die word gebruikt in mijn engine, maar om te laten zien wat ik bedoel.
+Foo::Foo()
+{
+    m_Component = new Component(NULL);
+    delete m_Component; // Deze word gecalled in de destructor
+    // verandert naar
+    m_Component = Component(NULL);
+}
+```
 
 ### Dingen die ik anders zou doen
 - Een uitgebreider werkplan maken, met als doel dat het stappenplan helder is van tevoren.
+- Al mijn stappen duidelijk noteren in mijn logboek.
+
+### Bekijk mijn project op [github](https://github.com/Ggjorven/Crystal/tree/master)

@@ -72,16 +72,22 @@ Het resultaat is dus nu een goedwerkende game engine waarmee je vooral 2D games 
 Ik heb tijdens dit project veel geleerd. Ik snap C++ veel beter dan toen ik begon met dit project. Toen ik starte codeerde ik op een python manier in C++, dit is niet optimaal. Na veel te coderen in C++ snap ik meer hoe de compiler naar de code kijkt en hoe ik de code op laag niveau kan optimaliseren. Voor dit project had ik geen enkele kennis van C# en Lua. Maar om dit project te bouwen heb ik beide tot een bepaald niveau moeten leren. Ook heb ik geleerd hoe de graphische pijplijn werkt en hoe de videokaart kijkt naar data. Dit allemaal met OpenGL.
 Alleen niet alles ging natuurlijk soepel. Ik heb veel memory leaks gehad die ik heb moeten fixen, beide op de CPU en GPU. Ik heb [Stackoverflow](https://stackoverflow.com/) en [GPT-4](https://chat.openai.com/) gebruikt om deze problemen op te lossen. Ik heb ook naar oplossing gezocht door iets aan te passen en te proberen en aan te passen en weer te proberen tot dat het werkt. Ik heb geleerd dat je moet oppassen met heap memory en je zo veel mogelijk memory op de stack wilt hebben (zie Probleem 2).
 
+### Grootste lessons learned
+- Ik heb geleerd hoe de GPU werkt. En hoe de GPU data verwerkt. Niet 1 voor 1 als de CPU maar allemaal in parallel.
+- Ik heb veel concepten over hoe memory intern eigenlijk werkt geleerd. Dit heb ik ook toegepast in mijn ECS.
+- Ik heb veel geleerd over polymorphism en hoe je classes in C++ mooi met elkaar kan laten functioneren.\
+Al deze lessons ga ik veel gebruiken in mijn toekomstige graphische en C++ projecten.
+
 ### Voorbeelden
 #### Probleem 1:
 Als ik binnen in mijn editor tussen mijn scene's binnen in mijn game switch zie ik dat de memory wel omhoog gaat maar niet meer naar beneden. Oftewel een memory leak. Maar waar?
 Om dit probleem op te lossen ben ik op elk punt van mijn code gaan kijken hoe hoog de memory usage was en dan te kijken wanneer gaat het omhoog. Leuk en aardig, maar eigenlijk wil ik weten waarom het niet weer naar beneden gaat. Wat ik ook heb geprobeerd is een [deleaker](https://www.deleaker.com/) software te gebruiken. Het probleem was dat ik hier niks van snapte. Ik heb over dit probleem lang na gedacht en ik dacht misschien kan de Visual Studio Performance profiler mij helpen. Ik heb 2 snapshots gemaakt van de memory, 1 voor dat het omhoog gaat en 1 daarna. Daarna heb ik ze vergeleken en zag ik waar de memory vandaan kwam en niet werd opgeruimd. Gefixt.
 ```cpp
 OpenGLTexture2D::~OpenGLTexture2D()
-	{
-		if (m_Data) stbi_image_free((void*)m_Data); // Deze line was ik vergeten.
-		glDeleteTextures(1, &m_RendererID);
-	}
+{
+	if (m_Data) stbi_image_free((void*)m_Data); // Deze line was ik vergeten.
+	glDeleteTextures(1, &m_RendererID);
+}
  ```
 
 #### Probleem 2:

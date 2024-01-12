@@ -65,7 +65,7 @@ Het begon allemaal met een simpele driehoek:
 Maar inmiddels ziet het er zo uit:
 ![](images/editor.png?raw=true)
 
-Het resultaat is dus nu een goedwerkende game engine waarmee je vooral 2D games kunt maken. De engine zorgt ervoor dat je alleen nog maar entities hoeft aan te maken en zelf een script te schrijven in C# en voila je hebt een game die je kan shippen via de Crystal Runtime.
+Het resultaat is dus nu een goedwerkende game engine waarmee je vooral 2D games kunt maken. De engine zorgt ervoor dat je alleen nog maar entities hoeft aan te maken en zelf een script te schrijven in C# en voila je hebt een game die je kan shippen via de Crystal Runtime. De engine bestaat uit meerdere versies de editor en de runtime. Deze 2 samen vormen 9000+ regels aan code in zowel C++ als C#.
 
 
 ### <a id="discussie"></a>Discussie
@@ -102,5 +102,6 @@ Foo::Foo()
 ### Dingen die ik anders zou doen
 - Een uitgebreider werkplan maken, met als doel dat het stappenplan helder is van tevoren.
 - Al mijn stappen duidelijk noteren in mijn logboek.
+- Een minder groot project kiezen.
 
 ### Bekijk mijn project op [github](https://github.com/Ggjorven/Crystal/tree/master)
